@@ -1,0 +1,53 @@
+<div class="tools">
+  <div id="win-container" class="tools-content table-container" ng-show="toolsMain.connected">
+    <div class="tr" style="height:32px;">
+      <div class="navbar unselectable">
+        <div class="navbar-inner">
+          <div class="container-fluid">
+            <ul class="nav">
+              <li>
+                <div class="mist-icon"></div>
+              </li>
+              <li>
+                <span>Data Source: </span>
+                <sourceswitcher source="source"></sourceswitcher>
+                <span> <i class="fa fa-warning orange-icon" title="Selection was changed due to a layer being hidden or removed." ng-show="srcSwitch.enableWarning" ng-mouseout="srcSwitch.clearWarning()"/></span>
+              </li>
+              <li>
+                <label class="checkbox inline"
+                    title="If checked, displayed data will not be filtered by the current timeline window. This only applies to data sources included in the timeline and does nothing if the timeline is not currently open.">
+                  <input type="checkbox" style="margin-left:-17px;" name="allTime" ng-model="toolsMain.allTime"
+                      ng-change="toolsMain.onAllTimeChange()">
+                  Show data for all time
+                </label>
+              </li>
+            </ul>
+            <ul class="nav pull-right">
+              <li>
+                <button class="btn btn-default layout-btn" ng-click="toolsMain.openContextMenu()"
+                    title="Modify the contents of this window">
+                  <i class="fa fa-cogs"></i>
+                  Layout
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tr" style="height:100%;">
+      <div class="tools-main" autoheight>
+        <div gridster="toolsMain.gridsterOptions">
+          <sourcewidget ng-repeat="w in toolsMain.widgets track by w.id" source="source" config="w.config"
+              id="{{w.id}}" template="{{w.template}}" label="{{w.label}}" icon="{{w.icon}}" item-options="w.itemOptions">
+          </sourcewidget>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-show="!toolsMain.connected" class="tools-error">
+    Could not connect to the main application! Did you launch this window from there?
+  </div>
+  <alert-popup ng-if="toolsMain.isExternal"></alert-popup>
+  <global-menu id="globalMenu"></global-menu>
+</div>
