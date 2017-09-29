@@ -28,6 +28,7 @@
     "gcc": {
       "entry_point": [
         "goog:plugin.tools.ToolsPlugin",
+        "goog:omar",
         "goog:tools"
       ],
       "define": [
@@ -46,7 +47,8 @@
         "../mist/src/plugin/mist/analyzebutton.js",
         "../mist/src/plugin/mist/defines.js",
         "../mist/src/plugin/file/kml/kmlpluginext.js",
-        "../mist/src/plugin/featureaction/**.js"
+        "../mist/src/plugin/featureaction/**.js",
+        "../mist/src/plugin/omar/**.js"
       ]
     }
   },

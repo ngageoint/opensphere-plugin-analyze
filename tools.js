@@ -46,6 +46,11 @@ const sharedResources = require(appPath).sharedResources;
  */
 const toolsResources = sharedResources.concat([
   {
+    source: path.join('..', 'mist', 'views', 'plugin'),
+    target: path.join('views', 'plugin'),
+    files: ['omar']
+  },
+  {
     source: path.join('..', 'mist', 'views', 'tools'),
     target: path.join('views', 'tools'),
     files: [
