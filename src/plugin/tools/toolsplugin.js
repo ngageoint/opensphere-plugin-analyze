@@ -1,18 +1,17 @@
 goog.provide('plugin.tools.ToolsPlugin');
 
-goog.require('mist.action.analyze');
 goog.require('mist.action.chart');
 goog.require('mist.action.countBy');
 goog.require('mist.action.layer');
 goog.require('mist.action.list');
 goog.require('mist.action.tools');
 goog.require('mist.ui.widget');
-goog.require('mist.ui.widget.WidgetType');
+goog.require('mist.ui.widget.WidgetManager');
 goog.require('os');
 goog.require('os.plugin.AbstractPlugin');
-goog.require('os.ui.widget.WidgetManager');
 goog.require('os.ui.window');
-goog.require('plugin.mist.analyzeButtonDirective');
+goog.require('plugin.mist.analyze.buttonDirective');
+goog.require('plugin.mist.analyze.menu');
 goog.require('plugin.mist.defines');
 
 
@@ -31,12 +30,6 @@ goog.addSingletonGetter(plugin.tools.ToolsPlugin);
 /**
  * @define {string} The path to the tools page
  */
-goog.define('plugin.mist.TOOLS_PATH', mist.ROOT);
-
-
-/**
- * @define {string} The path to the tools page
- */
 goog.define('plugin.tools.TOOLS_PATH', '../opensphere-plugin-analyze/');
 
 
@@ -45,14 +38,16 @@ goog.define('plugin.tools.TOOLS_PATH', '../opensphere-plugin-analyze/');
  */
 plugin.tools.ToolsPlugin.prototype.init = function() {
   // set up analyze widgets
-  var widgetManager = os.ui.widget.WidgetManager.getInstance();
-  widgetManager.registerWidget(mist.ui.widget.WidgetType.LIST, mist.ui.widget.LIST);
-  widgetManager.registerWidget(mist.ui.widget.WidgetType.COUNT_BY, mist.ui.widget.COUNT_BY);
-  widgetManager.registerWidget(mist.ui.widget.WidgetType.CHART, mist.ui.widget.CHART);
-  goog.exportSymbol('exports.widgetManager', os.ui.widget.WidgetManager.getInstance());
+  var widgetManager = mist.ui.widget.WidgetManager.getInstance();
+  widgetManager.registerWidget(mist.ui.widget.Type.LIST, mist.ui.widget.LIST);
+  widgetManager.registerWidget(mist.ui.widget.Type.COUNT_BY, mist.ui.widget.COUNT_BY);
+  widgetManager.registerWidget(mist.ui.widget.Type.CHART, mist.ui.widget.CHART);
+  goog.exportSymbol('exports.widgetManager', mist.ui.widget.WidgetManager.getInstance());
 
   mist.action.layer.setup();
-  mist.action.analyze.setup();
+
+  plugin.mist.analyze.MENU.listen(mist.action.EventType.TOOLS_EXTERNAL, plugin.tools.openExternal);
+  plugin.mist.analyze.MENU.listen(mist.action.EventType.TOOLS_INTERNAL, plugin.tools.openInternal);
 
   // events forwarded from within an iframe
   os.dispatcher.listen(os.action.EventType.EXPORT, mist.action.list.handleListEvent);
@@ -62,10 +57,6 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
   mist.action.list.setupInternal();
   mist.action.countBy.setupInternal();
   mist.action.chart.setupInternal();
-  mist.ui.widget.actionSetup();
-
-  mist.action.analyze.manager.listen(mist.action.EventType.TOOLS_EXTERNAL, plugin.tools.openExternal);
-  mist.action.analyze.manager.listen(mist.action.EventType.TOOLS_INTERNAL, plugin.tools.openInternal);
 
   os.ui.action.windows.addWindow('analyze', {
     'icon': 'fa fa-list-alt lt-blue-icon',
@@ -90,7 +81,7 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
 plugin.tools.openExternal = function() {
   window.open(plugin.tools.TOOLS_PATH + 'tools.html', '_blank');
 };
-goog.exportProperty(plugin.mist.AnalyzeButtonCtrl.prototype, 'open', plugin.tools.openExternal);
+goog.exportProperty(plugin.mist.analyze.ButtonCtrl.prototype, 'open', plugin.tools.openExternal);
 
 
 /**
@@ -112,7 +103,6 @@ plugin.tools.openInternal = function() {
     os.ui.window.launch(html);
   }
 };
-
 
 (function() {
   if (!(os.inIframe() || os.isExternal(window))) {
