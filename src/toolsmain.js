@@ -12,9 +12,11 @@ goog.require('mist.action.countBy');
 goog.require('mist.action.list');
 goog.require('mist.chart');
 goog.require('mist.mixin.action.buffer');
+goog.require('mist.ui.menu.widget');
 goog.require('mist.ui.widget');
-goog.require('mist.ui.widget.WidgetEvent');
-goog.require('mist.ui.widget.WidgetType');
+goog.require('mist.ui.widget.Event');
+goog.require('mist.ui.widget.EventType');
+goog.require('mist.ui.widget.WidgetManager');
 goog.require('mist.ui.widget.sourceWidgetDirective');
 goog.require('mistdefines');
 goog.require('ol.events');
@@ -45,8 +47,6 @@ goog.require('os.ui.im.ImportManager');
 goog.require('os.ui.ngRightClickDirective');
 goog.require('os.ui.slick.column');
 goog.require('os.ui.util.autoHeightDirective');
-goog.require('os.ui.widget.WidgetEventType');
-goog.require('os.ui.widget.WidgetManager');
 goog.require('plugin.chart.scatter.ScatterChartPlugin');
 goog.require('plugin.file.kml.KMLPluginExt');
 goog.require('plugin.im.action.feature.PluginExt');
@@ -178,7 +178,7 @@ tools.ToolsMainCtrl = function($scope, $element, $compile, $timeout, $injector) 
   });
 
   /**
-   * @type {Array<os.ui.widget.WidgetConfig>}
+   * @type {Array<mist.ui.widget.WidgetConfig>}
    */
   this['widgets'] = [];
 
@@ -292,9 +292,9 @@ tools.ToolsMainCtrl.prototype.initInstances = function() {
         return /** @type {!os.ui.config.SettingsManager} */ (exports['settingsManager']);
       }});
 
-    goog.object.extend(os.ui.widget.WidgetManager, {
+    goog.object.extend(mist.ui.widget.WidgetManager, {
       getInstance: function() {
-        return /** @type {!os.ui.widget.WidgetManager} */ (exports['widgetManager']);
+        return /** @type {!mist.ui.widget.WidgetManager} */ (exports['widgetManager']);
       }});
 
     goog.object.extend(os.alert.AlertManager, {
@@ -432,7 +432,7 @@ tools.ToolsMainCtrl.prototype.onPluginsLoaded = function(event) {
 
   if (this.scope) {
     // register widget listeners
-    this.scope.$on(os.ui.widget.WidgetEventType.CLOSE, goog.bind(this.onCloseWidget_, this));
+    this.scope.$on(mist.ui.widget.EventType.CLOSE_ALL, goog.bind(this.onCloseWidget_, this));
 
     // internal and external will be restored separately, since they typically have very different screen real
     // estate available.
@@ -464,10 +464,11 @@ tools.ToolsMainCtrl.prototype.initActions_ = function() {
   mist.action.chart.setup();
   mist.mixin.action.buffer.listSetup();
 
-  mist.ui.widget.actionSetup();
-  mist.ui.widget.action.listen(os.ui.widget.WidgetEventType.LAUNCH, this.onWidgetChoice_, false, this);
-  mist.ui.widget.action.listen(mist.ui.widget.WidgetEvent.CLOSE_ALL, this.onWidgetCloseAll_, false, this);
-  mist.ui.widget.action.listen(mist.ui.widget.WidgetEvent.RESET, this.onWidgetReset_, false, this);
+  mist.ui.menu.widget.setup();
+
+  mist.ui.menu.WIDGET.listen(mist.ui.widget.EventType.LAUNCH, this.onWidgetChoice_, false, this);
+  mist.ui.menu.WIDGET.listen(mist.ui.widget.EventType.CLOSE_ALL, this.onWidgetCloseAll_, false, this);
+  mist.ui.menu.WIDGET.listen(mist.ui.widget.EventType.RESET, this.onWidgetReset_, false, this);
 };
 
 
@@ -476,7 +477,7 @@ tools.ToolsMainCtrl.prototype.initActions_ = function() {
  * @private
  */
 tools.ToolsMainCtrl.prototype.disposeActions_ = function() {
-  mist.ui.widget.actionDispose();
+  mist.ui.menu.widget.dispose();
 
   mist.mixin.action.buffer.listDispose();
   mist.action.list.dispose();
@@ -539,11 +540,18 @@ tools.ToolsMainCtrl.prototype.openContextMenu = function(opt_event) {
     opt_event.preventDefault();
     opt_event.stopPropagation();
 
-    os.ui.openMenu(mist.ui.widget.action, {x: opt_event.clientX, y: opt_event.clientY});
+    mist.ui.menu.WIDGET.open(undefined, {
+      my: 'left top',
+      at: 'left+' + opt_event.clientX + ' top+' + opt_event.clientY,
+      of: '#win-container'
+    });
   } else {
     var target = this.element_.find('.layout-btn');
-    var offset = target.offset();
-    os.ui.openMenu(mist.ui.widget.action, {x: offset.left, y: offset.top + target.outerHeight() + 4});
+    mist.ui.menu.WIDGET.open(undefined, {
+      my: 'right top',
+      at: 'right bottom+4',
+      of: target
+    });
   }
 };
 goog.exportProperty(tools.ToolsMainCtrl.prototype, 'openContextMenu', tools.ToolsMainCtrl.prototype.openContextMenu);
@@ -551,7 +559,7 @@ goog.exportProperty(tools.ToolsMainCtrl.prototype, 'openContextMenu', tools.Tool
 
 /**
  * Handles a widget selection
- * @param {!os.ui.widget.WidgetEvent} event
+ * @param {!mist.ui.widget.Event} event
  * @private
  */
 tools.ToolsMainCtrl.prototype.onWidgetChoice_ = function(event) {
@@ -593,7 +601,7 @@ tools.ToolsMainCtrl.prototype.onWidgetReset_ = function(event) {
 
 /**
  * Adds the default widgets to the list tool, sized based on the container size.
- * @return {Array<os.ui.widget.WidgetConfig>}
+ * @return {Array<mist.ui.widget.WidgetConfig>}
  * @private
  */
 tools.ToolsMainCtrl.prototype.createDefaultWidgets_ = function() {
@@ -604,22 +612,22 @@ tools.ToolsMainCtrl.prototype.createDefaultWidgets_ = function() {
     var numRows = Math.floor(this.element_.find('.tools-main').height() / gridster['curColWidth']);
     var numColumns = tools.ToolsMainCtrl.GRID_COLUMNS_;
 
-    var wm = os.ui.widget.WidgetManager.getInstance();
+    var wm = mist.ui.widget.WidgetManager.getInstance();
 
     // set Count By to full height
-    var countByWidget = wm.createWidget(mist.ui.widget.WidgetType.COUNT_BY);
+    var countByWidget = wm.createWidget(mist.ui.widget.Type.COUNT_BY);
     countByWidget['itemOptions']['sizeY'] = numRows;
     this.setMinSize_(countByWidget);
 
     // set List to the remaining columns wide
-    var listWidget = wm.createWidget(mist.ui.widget.WidgetType.LIST);
+    var listWidget = wm.createWidget(mist.ui.widget.Type.LIST);
     listWidget['itemOptions']['col'] = countByWidget['itemOptions']['sizeX'];
     listWidget['itemOptions']['sizeX'] = numColumns - countByWidget['itemOptions']['sizeX'];
     this.setMinSize_(listWidget);
 
     // create and size the charts
-    var pieChart = wm.createWidget(mist.ui.widget.WidgetType.CHART);
-    var barChart = wm.createWidget(mist.ui.widget.WidgetType.CHART);
+    var pieChart = wm.createWidget(mist.ui.widget.Type.CHART);
+    var barChart = wm.createWidget(mist.ui.widget.Type.CHART);
     this.setMinSize_(pieChart);
     this.setMinSize_(barChart);
 
@@ -647,7 +655,7 @@ tools.ToolsMainCtrl.prototype.createDefaultWidgets_ = function() {
 
 /**
  * Set the minimum pixel size for a widget. Uses the current grid cell size to determine row/column size.
- * @param {?os.ui.widget.WidgetConfig} config The gridster item config
+ * @param {?mist.ui.widget.WidgetConfig} config The gridster item config
  * @private
  */
 tools.ToolsMainCtrl.prototype.setMinSize_ = function(config) {
@@ -718,7 +726,7 @@ tools.ToolsMainCtrl.prototype.restore = function(config) {
     }
   }
 
-  var widgets = /** @type {Array<os.ui.widget.WidgetConfig>} */ (config['widgets']);
+  var widgets = /** @type {Array<mist.ui.widget.WidgetConfig>} */ (config['widgets']);
   if (widgets && widgets.length > 0) {
     this.cleanWidgets_(widgets);
   } else {
@@ -733,13 +741,13 @@ tools.ToolsMainCtrl.prototype.restore = function(config) {
 
 /**
  * Comb through saved widget configurations and make sure they're up to date.
- * @param {Array<os.ui.widget.WidgetConfig>} widgets The widget configurations
+ * @param {Array<mist.ui.widget.WidgetConfig>} widgets The widget configurations
  * @private
  */
 tools.ToolsMainCtrl.prototype.cleanWidgets_ = function(widgets) {
   for (var i = 0; i < widgets.length; i++) {
     var widget = widgets[i];
-    if (goog.string.startsWith(widget['id'], mist.ui.widget.WidgetType.COUNT_BY)) {
+    if (goog.string.startsWith(widget['id'], mist.ui.widget.Type.COUNT_BY)) {
       widget['template'] = mist.ui.widget.COUNTBY_TEMPLATE;
     }
   }
