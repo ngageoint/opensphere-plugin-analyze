@@ -5,14 +5,16 @@ goog.require('mist.action.countBy');
 goog.require('mist.action.layer');
 goog.require('mist.action.list');
 goog.require('mist.action.tools');
+goog.require('mist.analyze.buttonDirective');
+goog.require('mist.analyze.menu');
 goog.require('mist.ui.widget');
 goog.require('mist.ui.widget.WidgetManager');
 goog.require('os');
 goog.require('os.plugin.AbstractPlugin');
 goog.require('os.ui.window');
-goog.require('plugin.mist.analyze.buttonDirective');
-goog.require('plugin.mist.analyze.menu');
+goog.require('plugin.im.action.feature.PluginExt');
 goog.require('plugin.mist.defines');
+goog.require('plugin.places.PluginExt');
 
 
 /**
@@ -42,12 +44,11 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
   widgetManager.registerWidget(mist.ui.widget.Type.LIST, mist.ui.widget.LIST);
   widgetManager.registerWidget(mist.ui.widget.Type.COUNT_BY, mist.ui.widget.COUNT_BY);
   widgetManager.registerWidget(mist.ui.widget.Type.CHART, mist.ui.widget.CHART);
-  goog.exportSymbol('exports.widgetManager', mist.ui.widget.WidgetManager.getInstance());
 
   mist.action.layer.setup();
 
-  plugin.mist.analyze.MENU.listen(mist.action.EventType.TOOLS_EXTERNAL, plugin.tools.openExternal);
-  plugin.mist.analyze.MENU.listen(mist.action.EventType.TOOLS_INTERNAL, plugin.tools.openInternal);
+  mist.analyze.MENU.listen(mist.action.EventType.TOOLS_EXTERNAL, plugin.tools.openExternal);
+  mist.analyze.MENU.listen(mist.action.EventType.TOOLS_INTERNAL, plugin.tools.openInternal);
 
   // events forwarded from within an iframe
   os.dispatcher.listen(os.action.EventType.EXPORT, mist.action.list.handleListEvent);
@@ -72,6 +73,12 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
 
   // add Analyze to top left
   os.ui.list.add(os.ui.nav.Location.TOP_LEFT, '<analyze-button show-label="!punyWindow"></analyze-button>', 250);
+
+  // export properties for external windows
+  mist.analyze.initializeExports();
+
+  // close external windows when this window is closed
+  window.addEventListener(goog.events.EventType.BEFOREUNLOAD, mist.analyze.closeExternal);
 };
 
 
@@ -81,7 +88,7 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
 plugin.tools.openExternal = function() {
   window.open(plugin.tools.TOOLS_PATH + 'tools.html', '_blank');
 };
-goog.exportProperty(plugin.mist.analyze.ButtonCtrl.prototype, 'open', plugin.tools.openExternal);
+goog.exportProperty(mist.analyze.ButtonCtrl.prototype, 'open', plugin.tools.openExternal);
 
 
 /**
@@ -105,7 +112,12 @@ plugin.tools.openInternal = function() {
 };
 
 (function() {
-  if (!(os.inIframe() || os.isExternal(window))) {
-    os.plugin.PluginManager.getInstance().addPlugin(plugin.tools.ToolsPlugin.getInstance());
+  if (!(os.inIframe() || mist.analyze.isExternal(window))) {
+    var pm = os.plugin.PluginManager.getInstance();
+    pm.addPlugin(plugin.tools.ToolsPlugin.getInstance());
+
+    // plugins that add exports for Analyze
+    pm.addPlugin(plugin.im.action.feature.PluginExt.getInstance());
+    pm.addPlugin(plugin.places.PluginExt.getInstance());
   }
 })();

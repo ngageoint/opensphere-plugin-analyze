@@ -1,7 +1,7 @@
-goog.provide('tools');
-goog.provide('tools.Module');
-goog.provide('tools.ToolsMainCtrl');
-goog.provide('tools.toolsMainDirective');
+goog.provide('gv.tools');
+goog.provide('gv.tools.Module');
+goog.provide('gv.tools.ToolsMainCtrl');
+goog.provide('gv.tools.toolsMainDirective');
 
 goog.require('goog.events.EventType');
 goog.require('goog.log');
@@ -10,6 +10,8 @@ goog.require('goog.object');
 goog.require('mist.action.chart');
 goog.require('mist.action.countBy');
 goog.require('mist.action.list');
+goog.require('mist.analyze');
+goog.require('mist.analyze.debug');
 goog.require('mist.chart');
 goog.require('mist.mixin.action.buffer');
 goog.require('mist.ui.menu.widget');
@@ -26,7 +28,6 @@ goog.require('os.MapContainer');
 goog.require('os.action.buffer');
 goog.require('os.command.CommandProcessor');
 goog.require('os.data.DataManager');
-goog.require('os.debug');
 goog.require('os.debug.FancierWindow');
 goog.require('os.events');
 goog.require('os.file.persist.FilePersistence');
@@ -50,6 +51,7 @@ goog.require('os.ui.util.autoHeightDirective');
 goog.require('plugin.chart.scatter.ScatterChartPlugin');
 goog.require('plugin.file.kml.KMLPluginExt');
 goog.require('plugin.im.action.feature.PluginExt');
+goog.require('plugin.places.PluginExt');
 goog.require('tools.ui.Module');
 goog.require('tools.ui.chartToolDirective');
 goog.require('tools.ui.countByContainerDirective');
@@ -67,7 +69,7 @@ goog.define('tools.ROOT', '../opensphere-plugin-analyze/');
  * Angular module 'tools'
  * @type {angular.Module}
  */
-tools.Module = angular.module('tools', [
+gv.tools.Module = angular.module('tools', [
   'ngSanitize',
   'os.ui',
   'tools.ui']);
@@ -77,19 +79,19 @@ tools.Module = angular.module('tools', [
  * The tools-main directive
  * @return {angular.Directive}
  */
-tools.toolsMainDirective = function() {
+gv.tools.toolsMainDirective = function() {
   return {
     restrict: 'E',
     replace: true,
     scope: true,
     templateUrl: tools.ROOT + 'views/toolsmain.html',
-    controller: tools.ToolsMainCtrl,
+    controller: gv.tools.ToolsMainCtrl,
     controllerAs: 'toolsMain'
   };
 };
 
 
-tools.Module.directive('toolsMain', [tools.toolsMainDirective]);
+gv.tools.Module.directive('toolsMain', [gv.tools.toolsMainDirective]);
 
 
 
@@ -105,11 +107,11 @@ tools.Module.directive('toolsMain', [tools.toolsMainDirective]);
  * @ngInject
  * @extends {os.ui.AbstractMainCtrl}
  */
-tools.ToolsMainCtrl = function($scope, $element, $compile, $timeout, $injector) {
-  goog.log.info(tools.ToolsMainCtrl.LOGGER_, 'Starting up Tools Main - Main window logger has been substituted.');
+gv.tools.ToolsMainCtrl = function($scope, $element, $compile, $timeout, $injector) {
+  goog.log.info(gv.tools.ToolsMainCtrl.LOGGER_, 'Starting up Tools Main - Main window logger has been substituted.');
 
   // Call the abstract constructor.
-  tools.ToolsMainCtrl.base(this, 'constructor', $scope, $injector, plugin.mist.ROOT, 'Tools');
+  gv.tools.ToolsMainCtrl.base(this, 'constructor', $scope, $injector, plugin.mist.ROOT, 'Tools');
 
   // prevent all browser context menu events before they bubble back out to the browser
   os.events.preventBrowserContextMenu();
@@ -155,7 +157,7 @@ tools.ToolsMainCtrl = function($scope, $element, $compile, $timeout, $injector) 
    * @type {Object<string, *>}
    */
   this['gridsterOptions'] = /** @type {gridster.Options} */ ({
-    columns: tools.ToolsMainCtrl.GRID_COLUMNS_,
+    columns: gv.tools.ToolsMainCtrl.GRID_COLUMNS_,
     colWidth: 'auto',
     defaultSizeX: 8,
     defaultSizeY: 8,
@@ -193,7 +195,7 @@ tools.ToolsMainCtrl = function($scope, $element, $compile, $timeout, $injector) 
   this.initialize();
   this.initPlugins();
 };
-goog.inherits(tools.ToolsMainCtrl, os.ui.AbstractMainCtrl);
+goog.inherits(gv.tools.ToolsMainCtrl, os.ui.AbstractMainCtrl);
 
 
 /**
@@ -202,7 +204,7 @@ goog.inherits(tools.ToolsMainCtrl, os.ui.AbstractMainCtrl);
  * @private
  * @const
  */
-tools.ToolsMainCtrl.GRID_COLUMNS_ = 40;
+gv.tools.ToolsMainCtrl.GRID_COLUMNS_ = 40;
 
 
 /**
@@ -211,14 +213,14 @@ tools.ToolsMainCtrl.GRID_COLUMNS_ = 40;
  * @private
  * @const
  */
-tools.ToolsMainCtrl.LOGGER_ = goog.log.getLogger('tools.ToolsMainCtrl');
+gv.tools.ToolsMainCtrl.LOGGER_ = goog.log.getLogger('gv.tools.ToolsMainCtrl');
 
 
 /**
  * @inheritDoc
  */
-tools.ToolsMainCtrl.prototype.destroy = function() {
-  tools.ToolsMainCtrl.base(this, 'destroy');
+gv.tools.ToolsMainCtrl.prototype.destroy = function() {
+  gv.tools.ToolsMainCtrl.base(this, 'destroy');
 
   this.disposeActions_();
   goog.dispose(os.ui.pluginManager);
@@ -234,13 +236,13 @@ tools.ToolsMainCtrl.prototype.destroy = function() {
  * to something that isn't in the list, add it to {@link mist.MainCtrl#initializeExports_} or you'll have a bad time.
  * @inheritDoc
  */
-tools.ToolsMainCtrl.prototype.initInstances = function() {
+gv.tools.ToolsMainCtrl.prototype.initInstances = function() {
   // Tools has its own plugin manager
   os.ui.pluginManager = os.plugin.PluginManager.getInstance();
   os.ui.pluginManager.listenOnce(goog.events.EventType.LOAD, this.onPluginsLoaded, false, this);
 
   // find the main application
-  var exports = os.getExports();
+  var exports = mist.analyze.getExports();
   if (exports) {
     /** @type {Function} */ (exports['registerExternal'])(window);
 
@@ -320,13 +322,13 @@ tools.ToolsMainCtrl.prototype.initInstances = function() {
 /**
  * @inheritDoc
  */
-tools.ToolsMainCtrl.prototype.initialize = function() {
-  tools.ToolsMainCtrl.base(this, 'initialize');
+gv.tools.ToolsMainCtrl.prototype.initialize = function() {
+  gv.tools.ToolsMainCtrl.base(this, 'initialize');
 
   os.time.initOffset();
 
   // find the main mist application
-  var exports = os.getExports();
+  var exports = mist.analyze.getExports();
   if (exports) {
     if (os.inIframe()) {
       // internal tools should reuse the main export manager so dialogs are launched in the main window
@@ -368,13 +370,13 @@ tools.ToolsMainCtrl.prototype.initialize = function() {
 /**
  * @inheritDoc
  */
-tools.ToolsMainCtrl.prototype.onClose = function() {
+gv.tools.ToolsMainCtrl.prototype.onClose = function() {
   window.removeEventListener(goog.events.EventType.UNLOAD, this.onClose.bind(this), true);
   os.settings.set(this.getConfigKeys_(), this.persist());
   os.time.disposeOffset();
 
   // unregister with the main application
-  var exports = os.getExports();
+  var exports = mist.analyze.getExports();
   /** @type {Function} */ (exports['unregisterExternal'])(window);
 
   // Destroy the root scope
@@ -388,7 +390,7 @@ tools.ToolsMainCtrl.prototype.onClose = function() {
 /**
  * @inheritDoc
  */
-tools.ToolsMainCtrl.prototype.registerListeners = function() {
+gv.tools.ToolsMainCtrl.prototype.registerListeners = function() {
   goog.events.listen(this.element_.find('.tools-main')[0], goog.events.EventType.CONTEXTMENU,
       this.openContextMenu, false, this);
 };
@@ -397,7 +399,7 @@ tools.ToolsMainCtrl.prototype.registerListeners = function() {
 /**
  * @inheritDoc
  */
-tools.ToolsMainCtrl.prototype.removeListeners = function() {
+gv.tools.ToolsMainCtrl.prototype.removeListeners = function() {
   goog.events.unlisten(this.element_.find('.tools-main')[0], goog.events.EventType.CONTEXTMENU,
       this.openContextMenu, false, this);
 
@@ -410,7 +412,7 @@ tools.ToolsMainCtrl.prototype.removeListeners = function() {
  * @inheritDoc
  * @suppress {accessControls}
  */
-tools.ToolsMainCtrl.prototype.addPlugins = function() {
+gv.tools.ToolsMainCtrl.prototype.addPlugins = function() {
   // set up plugins
 
   // TODO: Due to the new way we load plugins, plugins for the main application
@@ -421,14 +423,15 @@ tools.ToolsMainCtrl.prototype.addPlugins = function() {
   os.ui.pluginManager.addPlugin(new plugin.file.kml.KMLPluginExt());
   os.ui.pluginManager.addPlugin(plugin.chart.scatter.ScatterChartPlugin.getInstance());
   os.ui.pluginManager.addPlugin(plugin.im.action.feature.PluginExt.getInstance());
+  os.ui.pluginManager.addPlugin(plugin.places.PluginExt.getInstance());
 };
 
 
 /**
  * @inheritDoc
  */
-tools.ToolsMainCtrl.prototype.onPluginsLoaded = function(event) {
-  tools.ToolsMainCtrl.base(this, 'onPluginsLoaded', event);
+gv.tools.ToolsMainCtrl.prototype.onPluginsLoaded = function(event) {
+  gv.tools.ToolsMainCtrl.base(this, 'onPluginsLoaded', event);
 
   if (this.scope) {
     // register widget listeners
@@ -458,7 +461,7 @@ tools.ToolsMainCtrl.prototype.onPluginsLoaded = function(event) {
  * Initializes all action managers for the analyze window.
  * @private
  */
-tools.ToolsMainCtrl.prototype.initActions_ = function() {
+gv.tools.ToolsMainCtrl.prototype.initActions_ = function() {
   mist.action.list.setup();
   mist.action.countBy.setup();
   mist.action.chart.setup();
@@ -476,7 +479,7 @@ tools.ToolsMainCtrl.prototype.initActions_ = function() {
  * Initializes all action managers for the analyze window.
  * @private
  */
-tools.ToolsMainCtrl.prototype.disposeActions_ = function() {
+gv.tools.ToolsMainCtrl.prototype.disposeActions_ = function() {
   mist.ui.menu.widget.dispose();
 
   mist.mixin.action.buffer.listDispose();
@@ -491,7 +494,7 @@ tools.ToolsMainCtrl.prototype.disposeActions_ = function() {
  * @return {Object}
  * @private
  */
-tools.ToolsMainCtrl.prototype.getGridster_ = function() {
+gv.tools.ToolsMainCtrl.prototype.getGridster_ = function() {
   if (!this.gridster_) {
     var gridsterScope = this.element_.find('.gridster').scope();
     if (gridsterScope && gridsterScope['gridster']) {
@@ -509,7 +512,7 @@ tools.ToolsMainCtrl.prototype.getGridster_ = function() {
  * @return {!Array<string>}
  * @private
  */
-tools.ToolsMainCtrl.prototype.getConfigKeys_ = function() {
+gv.tools.ToolsMainCtrl.prototype.getConfigKeys_ = function() {
   return ['toolsWindow', (os.inIframe() ? 'internal' : 'external')];
 };
 
@@ -520,7 +523,7 @@ tools.ToolsMainCtrl.prototype.getConfigKeys_ = function() {
  * @param {string} id
  * @private
  */
-tools.ToolsMainCtrl.prototype.onCloseWidget_ = function(event, id) {
+gv.tools.ToolsMainCtrl.prototype.onCloseWidget_ = function(event, id) {
   for (var i = 0, n = this['widgets'].length; i < n; i++) {
     var widget = this['widgets'][i];
     if (widget['id'] == id) {
@@ -535,7 +538,7 @@ tools.ToolsMainCtrl.prototype.onCloseWidget_ = function(event, id) {
  * Opens the context menu at the mouse position if an event was provided, or the menu button if not provided.
  * @param {goog.events.BrowserEvent=} opt_event
  */
-tools.ToolsMainCtrl.prototype.openContextMenu = function(opt_event) {
+gv.tools.ToolsMainCtrl.prototype.openContextMenu = function(opt_event) {
   if (opt_event) {
     opt_event.preventDefault();
     opt_event.stopPropagation();
@@ -554,7 +557,7 @@ tools.ToolsMainCtrl.prototype.openContextMenu = function(opt_event) {
     });
   }
 };
-goog.exportProperty(tools.ToolsMainCtrl.prototype, 'openContextMenu', tools.ToolsMainCtrl.prototype.openContextMenu);
+goog.exportProperty(gv.tools.ToolsMainCtrl.prototype, 'openContextMenu', gv.tools.ToolsMainCtrl.prototype.openContextMenu);
 
 
 /**
@@ -562,7 +565,7 @@ goog.exportProperty(tools.ToolsMainCtrl.prototype, 'openContextMenu', tools.Tool
  * @param {!mist.ui.widget.Event} event
  * @private
  */
-tools.ToolsMainCtrl.prototype.onWidgetChoice_ = function(event) {
+gv.tools.ToolsMainCtrl.prototype.onWidgetChoice_ = function(event) {
   if (goog.isDefAndNotNull(event.config)) {
     var widget = event.config;
     this.setMinSize_(widget);
@@ -584,7 +587,7 @@ tools.ToolsMainCtrl.prototype.onWidgetChoice_ = function(event) {
  * @param {os.ui.action.ActionEvent} event
  * @private
  */
-tools.ToolsMainCtrl.prototype.onWidgetCloseAll_ = function(event) {
+gv.tools.ToolsMainCtrl.prototype.onWidgetCloseAll_ = function(event) {
   this['widgets'] = [];
 };
 
@@ -594,7 +597,7 @@ tools.ToolsMainCtrl.prototype.onWidgetCloseAll_ = function(event) {
  * @param {os.ui.action.ActionEvent} event
  * @private
  */
-tools.ToolsMainCtrl.prototype.onWidgetReset_ = function(event) {
+gv.tools.ToolsMainCtrl.prototype.onWidgetReset_ = function(event) {
   this['widgets'] = this.createDefaultWidgets_();
 };
 
@@ -604,13 +607,13 @@ tools.ToolsMainCtrl.prototype.onWidgetReset_ = function(event) {
  * @return {Array<mist.ui.widget.WidgetConfig>}
  * @private
  */
-tools.ToolsMainCtrl.prototype.createDefaultWidgets_ = function() {
+gv.tools.ToolsMainCtrl.prototype.createDefaultWidgets_ = function() {
   var widgets = [];
 
   var gridster = this.getGridster_();
   if (gridster) {
     var numRows = Math.floor(this.element_.find('.tools-main').height() / gridster['curColWidth']);
-    var numColumns = tools.ToolsMainCtrl.GRID_COLUMNS_;
+    var numColumns = gv.tools.ToolsMainCtrl.GRID_COLUMNS_;
 
     var wm = mist.ui.widget.WidgetManager.getInstance();
 
@@ -658,7 +661,7 @@ tools.ToolsMainCtrl.prototype.createDefaultWidgets_ = function() {
  * @param {?mist.ui.widget.WidgetConfig} config The gridster item config
  * @private
  */
-tools.ToolsMainCtrl.prototype.setMinSize_ = function(config) {
+gv.tools.ToolsMainCtrl.prototype.setMinSize_ = function(config) {
   var gridster = this.getGridster_();
   if (config && gridster && goog.isNumber(gridster['curColWidth']) && gridster['curColWidth'] > 0) {
     var colWidth = /** @type {number} */ (gridster['curColWidth']);
@@ -675,10 +678,10 @@ tools.ToolsMainCtrl.prototype.setMinSize_ = function(config) {
 /**
  * Update the allTime value in settings.
  */
-tools.ToolsMainCtrl.prototype.onAllTimeChange = function() {
+gv.tools.ToolsMainCtrl.prototype.onAllTimeChange = function() {
   os.data.DataManager.getInstance().setTimeFilterEnabled(!this['allTime']);
 };
-goog.exportProperty(tools.ToolsMainCtrl.prototype, 'onAllTimeChange', tools.ToolsMainCtrl.prototype.onAllTimeChange);
+goog.exportProperty(gv.tools.ToolsMainCtrl.prototype, 'onAllTimeChange', gv.tools.ToolsMainCtrl.prototype.onAllTimeChange);
 
 
 /**
@@ -686,7 +689,7 @@ goog.exportProperty(tools.ToolsMainCtrl.prototype, 'onAllTimeChange', tools.Tool
  * @param {os.events.PropertyChangeEvent} event The change event
  * @private
  */
-tools.ToolsMainCtrl.prototype.onDataManagerChange_ = function(event) {
+gv.tools.ToolsMainCtrl.prototype.onDataManagerChange_ = function(event) {
   var p = event.getProperty();
   if (p === os.data.PropertyChange.TIME_FILTER_ENABLED) {
     this['allTime'] = !os.data.DataManager.getInstance().getTimeFilterEnabled();
@@ -697,7 +700,7 @@ tools.ToolsMainCtrl.prototype.onDataManagerChange_ = function(event) {
 /**
  * @inheritDoc
  */
-tools.ToolsMainCtrl.prototype.persist = function(opt_to) {
+gv.tools.ToolsMainCtrl.prototype.persist = function(opt_to) {
   if (!opt_to) {
     opt_to = {};
   }
@@ -716,7 +719,7 @@ tools.ToolsMainCtrl.prototype.persist = function(opt_to) {
 /**
  * @inheritDoc
  */
-tools.ToolsMainCtrl.prototype.restore = function(config) {
+gv.tools.ToolsMainCtrl.prototype.restore = function(config) {
   if (config['source']) {
     var source = os.data.DataManager.getInstance().getSource(/** @type {string} */ (config['source']));
     if (source && source.getVisible() && source.getFeatureCount() > 0) {
@@ -744,7 +747,7 @@ tools.ToolsMainCtrl.prototype.restore = function(config) {
  * @param {Array<mist.ui.widget.WidgetConfig>} widgets The widget configurations
  * @private
  */
-tools.ToolsMainCtrl.prototype.cleanWidgets_ = function(widgets) {
+gv.tools.ToolsMainCtrl.prototype.cleanWidgets_ = function(widgets) {
   for (var i = 0; i < widgets.length; i++) {
     var widget = widgets[i];
     if (goog.string.startsWith(widget['id'], mist.ui.widget.Type.COUNT_BY)) {
@@ -757,4 +760,4 @@ tools.ToolsMainCtrl.prototype.cleanWidgets_ = function(widgets) {
 /**
  * @inheritDoc
  */
-tools.ToolsMainCtrl.prototype.doCertNazi = goog.nullFunction;
+gv.tools.ToolsMainCtrl.prototype.doCertNazi = goog.nullFunction;
