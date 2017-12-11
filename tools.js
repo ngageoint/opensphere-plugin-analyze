@@ -46,27 +46,13 @@ const sharedResources = require(appPath).sharedResources;
  */
 const toolsResources = sharedResources.concat([
   {
-    source: path.join('..', 'mist', 'views', 'plugin'),
-    target: path.join('views', 'plugin'),
-    files: ['omar']
-  },
-  {
-    source: path.join('..', 'mist', 'views', 'tools'),
-    target: path.join('views', 'tools'),
+    source: path.join('..', 'mist', 'views'),
+    target: path.join('views'),
     files: [
-      'charttool.html',
-      'countby.html',
-      'countbycontainer.html',
-      'dedupedialog.html',
-      'listtool.html'
-    ]
-  },
-  {
-    source: path.join('..', 'mist', 'views', 'data'),
-    target: path.join('views', 'data'),
-    files: [
-      'datebin.html',
-      'numericbin.html'
+      'data',
+      'plugin/omar',
+      'tools',
+      'toolsmain.html'
     ]
   },
   {
@@ -81,7 +67,7 @@ const toolsResources = sharedResources.concat([
     scripts: ['angular-gridster.min.js']
   },
   {
-    source: path.join('..', 'mist', 'node_modules', 'zingchart', 'client'),
+    source: path.join(modulesPath, 'zingchart', 'client'),
     target: 'vendor/zingchart',
     scripts: [
       'zingchart.min.js',

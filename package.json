@@ -9,8 +9,7 @@
   "directories": {
     "src": "src",
     "test": "test",
-    "scss": ["../bits-internal/scss", "../mist/scss"],
-    "views": "views"
+    "scss": ["../bits-internal/scss", "../mist/scss"]
   },
   "build": {
     "type": "plugin",
@@ -18,21 +17,17 @@
     "scss": "scss/tools.scss",
     "defineRoots": {
       "mist.ROOT": "../mist/",
-      "plugin.mist.ROOT": "../mist/",
       "bits.ROOT": "../bits-internal/"
     },
     "ignoreUncompiled": {
-      "plugin.mist.TOOLS_PATH": true,
       "plugin.tools.TOOLS_PATH": true
     },
     "gcc": {
       "entry_point": [
         "goog:plugin.tools.ToolsPlugin",
-        "goog:omar",
-        "goog:gv.tools"
+        "goog:omar"
       ],
       "define": [
-        "plugin.mist.TOOLS_PATH=''",
         "plugin.tools.TOOLS_PATH=''"
       ],
       "externs": [
@@ -46,6 +41,7 @@
     }
   },
   "dependencies": {
-    "opensphere": "^0.5.0"
+    "opensphere": "^1.0.0",
+    "zingchart": "=2.6.1"
   }
 }
