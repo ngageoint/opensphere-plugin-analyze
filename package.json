@@ -29,7 +29,7 @@
       "entry_point": [
         "goog:plugin.tools.ToolsPlugin",
         "goog:omar",
-        "goog:tools"
+        "goog:gv.tools"
       ],
       "define": [
         "plugin.mist.TOOLS_PATH=''",
@@ -41,14 +41,7 @@
       ],
       "js": [
         "../bits-internal/src/**.js",
-        "../mist/src/mist/**.js",
-        "../mist/src/tools/**.js",
-        "../mist/src/plugin/chart/scatter/**.js",
-        "../mist/src/plugin/mist/analyze*.js",
-        "../mist/src/plugin/mist/defines.js",
-        "../mist/src/plugin/file/kml/kmlpluginext.js",
-        "../mist/src/plugin/featureaction/**.js",
-        "../mist/src/plugin/omar/**.js"
+        "../mist/src/**.js"
       ]
     }
   },
