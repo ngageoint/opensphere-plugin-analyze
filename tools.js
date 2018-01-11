@@ -30,8 +30,7 @@ const versionFile = path.join(buildPath, 'version');
  */
 const version = fs.readFileSync(versionFile, 'utf8').trim().replace(/.*\//, '');
 
-// this is done this way so that we don't require node_modules/opensphere to be linked to ../opensphere
-const appPath = path.join(__dirname, '..', 'opensphere');
+const appPath = resolver.resolveModulePath('opensphere');
 const sharedResources = require(appPath).sharedResources;
 
 /**
@@ -40,7 +39,7 @@ const sharedResources = require(appPath).sharedResources;
  */
 const toolsResources = sharedResources.concat([
   {
-    source: path.join('..', 'mist', 'views'),
+    source: resolver.resolveModulePath('opensphere-plugin-mist/views'),
     target: path.join('views'),
     files: [
       'data',
@@ -50,12 +49,12 @@ const toolsResources = sharedResources.concat([
     ]
   },
   {
-    source: path.join('..', 'bits-internal', 'views'),
+    source: resolver.resolveModulePath('bits-internal/views'),
     target: 'views',
     files: ['chart']
   },
   {
-    source: path.join('..', 'bits-internal', 'vendor', 'gridster'),
+    source: resolver.resolveModulePath('bits-internal/vendor/gridster'),
     target: 'vendor/gridster',
     css: ['angular-gridster.min.css'],
     scripts: ['angular-gridster.min.js']
