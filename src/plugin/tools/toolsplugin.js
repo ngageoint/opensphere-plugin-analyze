@@ -4,7 +4,6 @@ goog.require('gv.tools.toolsMainDirective');
 goog.require('mist');
 goog.require('mist.action.chart');
 goog.require('mist.action.countBy');
-goog.require('mist.action.layer');
 goog.require('mist.action.list');
 goog.require('mist.action.tools');
 goog.require('mist.analyze');
@@ -48,8 +47,6 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
   widgetManager.registerWidget(mist.ui.widget.Type.COUNT_BY, mist.ui.widget.COUNT_BY);
   widgetManager.registerWidget(mist.ui.widget.Type.CHART, mist.ui.widget.CHART);
 
-  mist.action.layer.setup();
-
   mist.analyze.MENU.listen(mist.action.EventType.TOOLS_EXTERNAL, mist.analyze.openExternal);
   mist.analyze.MENU.listen(mist.action.EventType.TOOLS_INTERNAL, mist.analyze.openInternal);
 
@@ -62,13 +59,13 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
   mist.action.countBy.setupInternal();
   mist.action.chart.setupInternal();
 
-  os.ui.action.windows.addWindow('analyze', {
+  os.ui.menu.windows.addWindow('analyze', {
     'icon': 'fa fa-list-alt lt-blue-icon',
     'label': 'Analyze',
     'description': 'List tool, count by, and other tools for analysis'
   }, true, mist.analyze.openExternal);
 
-  os.ui.action.windows.addWindow('analyze-int', {
+  os.ui.menu.windows.addWindow('analyze-int', {
     'icon': 'fa fa-list-alt lt-blue-icon',
     'label': 'Analyze (Internal)',
     'description': 'List tool, count by, and other tools for analysis'
