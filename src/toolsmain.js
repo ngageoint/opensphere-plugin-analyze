@@ -11,6 +11,7 @@ goog.require('os.ui.util.autoHeightDirective');
 goog.require('plugin.chart.scatter.ScatterChartPlugin');
 goog.require('plugin.file.kml.KMLPluginExt');
 goog.require('plugin.im.action.feature.PluginExt');
+goog.require('plugin.mist.track.TrackPlugin');
 goog.require('plugin.places.PluginExt');
 goog.require('tools.ui.AbstractToolsMainCtrl');
 
@@ -77,4 +78,5 @@ gv.tools.ToolsMainCtrl.prototype.addPlugins = function() {
   os.ui.pluginManager.addPlugin(plugin.chart.scatter.ScatterChartPlugin.getInstance());
   os.ui.pluginManager.addPlugin(plugin.im.action.feature.PluginExt.getInstance());
   os.ui.pluginManager.addPlugin(plugin.places.PluginExt.getInstance());
+  os.ui.pluginManager.addPlugin(plugin.mist.track.TrackPlugin.getInstance());
 };
