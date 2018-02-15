@@ -16,6 +16,7 @@ goog.require('os.plugin.AbstractPlugin');
 goog.require('os.plugin.PluginManager');
 goog.require('os.ui.window');
 goog.require('plugin.im.action.feature.PluginExt');
+goog.require('plugin.mist.track.TrackPlugin');
 goog.require('plugin.places.PluginExt');
 
 
@@ -92,5 +93,6 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
     // plugins that add exports for Analyze
     pm.addPlugin(plugin.im.action.feature.PluginExt.getInstance());
     pm.addPlugin(plugin.places.PluginExt.getInstance());
+    pm.addPlugin(plugin.mist.track.TrackPlugin.getInstance());
   }
 })();
