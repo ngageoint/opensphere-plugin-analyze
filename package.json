@@ -25,6 +25,8 @@
     "gcc": {
       "entry_point": [
         "goog:plugin.tools.ToolsPlugin",
+        "goog:benum",
+        "goog:metacarta",
         "goog:omar"
       ],
       "define": [
