@@ -26,6 +26,7 @@
       "entry_point": [
         "goog:plugin.tools.ToolsPlugin",
         "goog:benum",
+        "goog:imagery",
         "goog:metacarta",
         "goog:omar"
       ],
