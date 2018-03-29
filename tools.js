@@ -44,6 +44,8 @@ const toolsResources = sharedResources.concat([
     files: [
       'data',
       'plugin/omar',
+      'plugin/benum',
+      'plugin/metacarta',
       'tools',
       'toolsmain.html'
     ]
