@@ -3,9 +3,9 @@ goog.provide('gv.tools.toolsMainDirective');
 
 goog.require('goog.log');
 goog.require('goog.log.Logger');
-goog.require('gv.tools.Module');
 goog.require('mistdefines');
 goog.require('os');
+goog.require('os.ui');
 goog.require('os.ui.ngRightClickDirective');
 goog.require('os.ui.util.autoHeightDirective');
 goog.require('plugin.chart.scatter.ScatterChartPlugin');
@@ -14,6 +14,7 @@ goog.require('plugin.im.action.feature.PluginExt');
 goog.require('plugin.mist.track.TrackPlugin');
 goog.require('plugin.places.PluginExt');
 goog.require('tools.ui.AbstractToolsMainCtrl');
+goog.require('tools.ui.Module');
 
 
 /**
@@ -32,22 +33,22 @@ gv.tools.toolsMainDirective = function() {
 };
 
 
-gv.tools.Module.directive('toolsMain', [gv.tools.toolsMainDirective]);
-
+os.ui.replaceDirective('toolsMain', tools.ui.Module, gv.tools.toolsMainDirective);
 
 
 /**
  * Controller function for the Tools Main directive
- * @param {!angular.Scope} $scope
- * @param {!angular.JQLite} $element
- * @param {!angular.$timeout} $timeout
- * @param {!angular.$injector} $injector
+ * @param {!angular.Scope} $scope The Angular scope.
+ * @param {!angular.JQLite} $element The root DOM element.
+ * @param {!angular.$compile} $compile The Angular $compile service.
+ * @param {!angular.$timeout} $timeout The Angular $timeout service.
+ * @param {!angular.$injector} $injector The Angular injector.
  * @extends {tools.ui.AbstractToolsMainCtrl}
  * @constructor
  * @ngInject
  */
-gv.tools.ToolsMainCtrl = function($scope, $element, $timeout, $injector) {
-  gv.tools.ToolsMainCtrl.base(this, 'constructor', $scope, $element, $timeout, $injector);
+gv.tools.ToolsMainCtrl = function($scope, $element, $compile, $timeout, $injector) {
+  gv.tools.ToolsMainCtrl.base(this, 'constructor', $scope, $element, $compile, $timeout, $injector);
   this.log = gv.tools.ToolsMainCtrl.LOGGER_;
 };
 goog.inherits(gv.tools.ToolsMainCtrl, tools.ui.AbstractToolsMainCtrl);

@@ -60,18 +60,6 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
   mist.action.countBy.setupInternal();
   mist.action.chart.setupInternal();
 
-  os.ui.menu.windows.addWindow('analyze', {
-    'icon': 'fa fa-list-alt lt-blue-icon',
-    'label': 'Analyze',
-    'description': 'List tool, count by, and other tools for analysis'
-  }, true, mist.analyze.openExternal);
-
-  os.ui.menu.windows.addWindow('analyze-int', {
-    'icon': 'fa fa-list-alt lt-blue-icon',
-    'label': 'Analyze (Internal)',
-    'description': 'List tool, count by, and other tools for analysis'
-  }, true, mist.analyze.openInternal);
-
   // add Analyze to top left
   os.ui.list.add(os.ui.nav.Location.TOP_LEFT, '<analyze-button show-label="!punyWindow"></analyze-button>', 250);
 

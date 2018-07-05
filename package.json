@@ -9,7 +9,10 @@
   "directories": {
     "src": "src",
     "test": "test",
-    "scss": ["../bits-internal/scss", "../mist/scss"]
+    "scss": [
+      "../bits-internal/scss",
+      "../mist/scss"
+    ]
   },
   "build": {
     "type": "plugin",
@@ -44,7 +47,8 @@
     }
   },
   "dependencies": {
+    "golden-layout": "^1.5.9",
     "opensphere": "^1.0.0",
-    "zingchart": "=2.6.1"
+    "zingchart": "2.6.1"
   }
 }

@@ -56,10 +56,19 @@ const toolsResources = sharedResources.concat([
     files: ['chart']
   },
   {
-    source: resolver.resolveModulePath('bits-internal/vendor/gridster'),
-    target: 'vendor/gridster',
-    css: ['angular-gridster.min.css'],
-    scripts: ['angular-gridster.min.js']
+    source: resolver.resolveModulePath('golden-layout/dist', __dirname),
+    target: 'vendor/golden-layout',
+    scripts: [
+      'goldenlayout.min.js'
+    ]
+  },
+  {
+    source: resolver.resolveModulePath('golden-layout/src/css', __dirname),
+    target: 'vendor/golden-layout',
+    css: [
+      'goldenlayout-base.css',
+      'goldenlayout-dark-theme.css'
+    ]
   },
   {
     source: resolver.resolveModulePath('zingchart/client'),
@@ -81,7 +90,7 @@ module.exports = {
     file: 'tools-template.html',
     resources: toolsResources
   }],
-  debugCss: path.relative(__dirname, path.join(buildPath, 'combined.css')),
-  compiledCss: path.join(version, 'styles', 'opensphere.min.css'),
+  debugCss: path.relative(__dirname, path.join(buildPath, 'themes', 'default.combined.css')),
+  compiledCss: path.join(version, 'styles', 'themes', 'default.min.css'),
   compiledJs: path.join(version, 'opensphere.min.js')
 };
