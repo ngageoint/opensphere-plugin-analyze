@@ -16,6 +16,9 @@
   },
   "build": {
     "type": "plugin",
+    "config": [
+      "../mist/config/analyze-layout.json"
+    ],
     "index": "tools.js",
     "scss": "scss/tools.scss",
     "defineRoots": {
