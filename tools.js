@@ -53,7 +53,7 @@ const toolsResources = sharedResources.concat([
   {
     source: resolver.resolveModulePath('bits-internal/views'),
     target: 'views',
-    files: ['chart']
+    files: ['chart', 'layout']
   },
   {
     source: resolver.resolveModulePath('golden-layout/dist', __dirname),
