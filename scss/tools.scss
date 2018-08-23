@@ -1,4 +1,9 @@
-@import 'coreui/partials/coreui/chart/chart';
-@import 'coreui/partials/coreui/nav/navbar';
-@import 'mist/partials/countby';
-@import 'mist/partials/tools';
+@import 'bits/dragcomponent';
+@import 'bits/histochartoptions';
+@import 'bits/overrides_goldenlayout';
+
+@import 'tools/toolsmain';
+@import 'tools/charttool';
+@import 'tools/countby';
+@import 'tools/listtool';
+@import 'tools/toolsmain';

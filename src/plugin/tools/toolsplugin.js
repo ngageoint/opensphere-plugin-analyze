@@ -1,5 +1,6 @@
 goog.provide('plugin.tools.ToolsPlugin');
 
+goog.require('coreui.layout.ComponentMananger');
 goog.require('gv.tools.toolsMainDirective');
 goog.require('mist');
 goog.require('mist.action.chart');
@@ -10,7 +11,6 @@ goog.require('mist.analyze');
 goog.require('mist.analyze.buttonDirective');
 goog.require('mist.analyze.menu');
 goog.require('mist.ui.widget');
-goog.require('mist.ui.widget.WidgetManager');
 goog.require('os');
 goog.require('os.plugin.AbstractPlugin');
 goog.require('os.plugin.PluginManager');
@@ -43,10 +43,10 @@ goog.define('plugin.tools.TOOLS_PATH', '../opensphere-plugin-analyze/');
  */
 plugin.tools.ToolsPlugin.prototype.init = function() {
   // set up analyze widgets
-  var widgetManager = mist.ui.widget.WidgetManager.getInstance();
-  widgetManager.registerWidget(mist.ui.widget.Type.LIST, mist.ui.widget.LIST);
-  widgetManager.registerWidget(mist.ui.widget.Type.COUNT_BY, mist.ui.widget.COUNT_BY);
-  widgetManager.registerWidget(mist.ui.widget.Type.CHART, mist.ui.widget.CHART);
+  var cm = coreui.layout.ComponentMananger.getInstance();
+  cm.registerComponent(mist.ui.widget.Type.LIST, mist.ui.widget.LIST);
+  cm.registerComponent(mist.ui.widget.Type.COUNT_BY, mist.ui.widget.COUNT_BY);
+  cm.registerComponent(mist.ui.widget.Type.CHART, mist.ui.widget.CHART);
 
   mist.analyze.MENU.listen(mist.action.EventType.TOOLS_EXTERNAL, mist.analyze.openExternal);
   mist.analyze.MENU.listen(mist.action.EventType.TOOLS_INTERNAL, mist.analyze.openInternal);
@@ -59,18 +59,6 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
   mist.action.list.setupInternal();
   mist.action.countBy.setupInternal();
   mist.action.chart.setupInternal();
-
-  os.ui.menu.windows.addWindow('analyze', {
-    'icon': 'fa fa-list-alt lt-blue-icon',
-    'label': 'Analyze',
-    'description': 'List tool, count by, and other tools for analysis'
-  }, true, mist.analyze.openExternal);
-
-  os.ui.menu.windows.addWindow('analyze-int', {
-    'icon': 'fa fa-list-alt lt-blue-icon',
-    'label': 'Analyze (Internal)',
-    'description': 'List tool, count by, and other tools for analysis'
-  }, true, mist.analyze.openInternal);
 
   // add Analyze to top left
   os.ui.list.add(os.ui.nav.Location.TOP_LEFT, '<analyze-button show-label="!punyWindow"></analyze-button>', 250);
