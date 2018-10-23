@@ -42,6 +42,7 @@
       "externs": [
         "../bits-internal/externs/bits-internal.externs.js",
         "../bits-internal/externs/goldenlayout.externs.js",
+        "../bits-internal/externs/vega.externs.js",
         "../bits-internal/externs/zingchart.externs.js"
       ],
       "js": [

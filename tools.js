@@ -77,6 +77,16 @@ const toolsResources = sharedResources.concat([
       'zingchart.min.js',
       'modules/zingchart-selection-tool.min.js'
     ]
+  },
+  {
+    source: resolver.resolveModulePath('vega-lib/build', __dirname),
+    target: 'vendor/vega',
+    scripts: [
+      'vega.js'
+    ],
+    files: [
+      'vega-schema.json'
+    ]
   }
 ]);
 
