@@ -43,6 +43,7 @@ const toolsResources = sharedResources.concat([
     target: path.join('views'),
     files: [
       'data',
+      'plugin/chart/scatter',
       'plugin/omar',
       'plugin/benum',
       'plugin/metacarta',
