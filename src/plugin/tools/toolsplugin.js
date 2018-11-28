@@ -3,13 +3,13 @@ goog.provide('plugin.tools.ToolsPlugin');
 goog.require('coreui.layout.ComponentMananger');
 goog.require('gv.tools.toolsMainDirective');
 goog.require('mist');
-goog.require('mist.action.chart');
-goog.require('mist.action.countBy');
-goog.require('mist.action.list');
-goog.require('mist.action.tools');
 goog.require('mist.analyze');
 goog.require('mist.analyze.buttonDirective');
 goog.require('mist.analyze.menu');
+goog.require('mist.menu.chart');
+goog.require('mist.menu.countBy');
+goog.require('mist.menu.list');
+goog.require('mist.menu.tools');
 goog.require('mist.ui.widget');
 goog.require('os');
 goog.require('os.plugin.AbstractPlugin');
@@ -52,13 +52,13 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
   mist.analyze.MENU.listen(mist.action.EventType.TOOLS_INTERNAL, mist.analyze.openInternal);
 
   // events forwarded from within an iframe
-  os.dispatcher.listen(os.action.EventType.EXPORT, mist.action.list.handleListEvent);
-  os.dispatcher.listen(mist.action.EventType.ADDCOLUMN, mist.action.tools.handleAddColumn);
+  os.dispatcher.listen(os.action.EventType.EXPORT, mist.menu.list.handleListEvent);
+  os.dispatcher.listen(mist.action.EventType.ADDCOLUMN, mist.menu.tools.handleAddColumn);
 
   // add listeners for action events that must be handled in the main window context
-  mist.action.list.setupInternal();
-  mist.action.countBy.setupInternal();
-  mist.action.chart.setupInternal();
+  mist.menu.list.setupInternal();
+  mist.menu.countBy.setupInternal();
+  mist.menu.chart.setupInternal();
 
   // add Analyze to top left
   os.ui.list.add(os.ui.nav.Location.TOP_LEFT, '<analyze-button show-label="!punyWindow"></analyze-button>', 250);
