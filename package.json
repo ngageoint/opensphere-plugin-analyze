@@ -35,7 +35,11 @@
         "goog:omar"
       ],
       "define": [
-        "plugin.tools.TOOLS_PATH=''"
+        "plugin.tools.TOOLS_PATH=''",
+        "os.SETTINGS_DB_NAME='opensphere.settings'",
+        "os.FILE_STORE_NAME='files'",
+        "os.SHARED_DB_NAME='opensphere.shared'",
+        "os.SHARED_STORE_NAME='shared'"
       ],
       "js": [
         "../mist/src/**.js"
