@@ -91,6 +91,19 @@ const toolsResources = sharedResources.concat([
   }
 ]);
 
+
+/**
+ * Resources for `opensphere-build-index` to include in `video.html`.
+ * @type {Array<Object>}
+ */
+const videoResources = sharedResources.concat([
+  {
+    source: resolver.resolveModulePath('hls.js/dist', __dirname),
+    target: 'vendor/hls.js',
+    scripts: ['hls.light.min.js']
+  }
+]);
+
 module.exports = {
   appVersion: version,
   basePath: __dirname,
@@ -100,6 +113,10 @@ module.exports = {
     id: 'tools',
     file: 'tools-template.html',
     resources: toolsResources
+  }, {
+    id: 'video',
+    file: 'video-template.html',
+    resources: videoResources
   }],
   debugCss: path.relative(__dirname, path.join(buildPath, 'themes', 'default.combined.css')),
   compiledCss: path.join(version, 'styles', 'themes', 'default.min.css'),

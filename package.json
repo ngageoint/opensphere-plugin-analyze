@@ -24,18 +24,21 @@
       "mist.ROOT": "../mist/"
     },
     "ignoreUncompiled": {
-      "plugin.tools.TOOLS_PATH": true
+      "plugin.tools.TOOLS_PATH": true,
+      "mist.video.VIDEO_EXT_PATH": true
     },
     "gcc": {
       "entry_point": [
         "goog:plugin.tools.ToolsPlugin",
+        "goog:mist.video.ext",
         "goog:benum",
         "goog:imagery",
         "goog:metacarta",
         "goog:omar"
       ],
       "define": [
-        "plugin.tools.TOOLS_PATH=''"
+        "plugin.tools.TOOLS_PATH=''",
+        "mist.video.VIDEO_EXT_PATH=''"
       ],
       "js": [
         "../mist/src/**.js"

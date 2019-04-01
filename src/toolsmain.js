@@ -3,6 +3,8 @@ goog.provide('gv.tools.toolsMainDirective');
 
 goog.require('goog.log');
 goog.require('goog.log.Logger');
+goog.require('mist.analyze');
+goog.require('mist.analyze.SettingsInitializer');
 goog.require('mistdefines');
 goog.require('os');
 goog.require('os.ui');
@@ -81,3 +83,15 @@ gv.tools.ToolsMainCtrl.prototype.addPlugins = function() {
   os.ui.pluginManager.addPlugin(plugin.places.PluginExt.getInstance());
   os.ui.pluginManager.addPlugin(plugin.mist.track.TrackPlugin.getInstance());
 };
+
+
+/**
+ * If loaded in the Analyze window, assign settings object from the main window.
+ */
+(function() {
+  if (mist.analyze.isAnalyze()) {
+    // initialize settings for this app
+    var settingsInitializer = new mist.analyze.SettingsInitializer();
+    settingsInitializer.init();
+  }
+})();
