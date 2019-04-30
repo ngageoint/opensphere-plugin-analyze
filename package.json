@@ -34,7 +34,8 @@
         "goog:benum",
         "goog:imagery",
         "goog:metacarta",
-        "goog:omar"
+        "goog:omar",
+        "goog:voyager"
       ],
       "define": [
         "plugin.tools.TOOLS_PATH=''"
