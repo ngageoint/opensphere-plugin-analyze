@@ -14,6 +14,7 @@ goog.require('mist.ui.widget');
 goog.require('os');
 goog.require('os.plugin.AbstractPlugin');
 goog.require('os.plugin.PluginManager');
+goog.require('os.ui.menu.list');
 goog.require('os.ui.window');
 goog.require('plugin.im.action.feature.PluginExt');
 goog.require('plugin.mist.track.TrackPlugin');
@@ -52,7 +53,7 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
   mist.analyze.MENU.listen(mist.action.EventType.TOOLS_INTERNAL, mist.analyze.openInternal);
 
   // events forwarded from within an iframe
-  os.dispatcher.listen(os.action.EventType.EXPORT, mist.menu.list.handleListEvent);
+  os.dispatcher.listen(os.action.EventType.EXPORT, os.ui.menu.list.onExport);
   os.dispatcher.listen(mist.action.EventType.ADDCOLUMN, mist.menu.tools.handleAddColumn);
 
   // add listeners for action events that must be handled in the main window context
