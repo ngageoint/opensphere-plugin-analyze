@@ -1,5 +1,6 @@
 goog.provide('plugin.tools.ToolsPlugin');
 
+goog.require('coreui.chart.vega.base.vegaChartDirective');
 goog.require('coreui.layout.ComponentManager');
 goog.require('gv.tools.toolsMainDirective');
 goog.require('mist');
@@ -48,6 +49,7 @@ plugin.tools.ToolsPlugin.prototype.init = function() {
   cm.registerComponent(mist.ui.widget.Type.LIST, mist.ui.widget.LIST);
   cm.registerComponent(mist.ui.widget.Type.COUNT_BY, mist.ui.widget.COUNT_BY);
   cm.registerComponent(mist.ui.widget.Type.CHART, mist.ui.widget.CHART);
+  cm.registerComponent(mist.ui.widget.Type.VEGA, mist.ui.widget.VEGA);
 
   mist.analyze.MENU.listen(mist.action.EventType.TOOLS_EXTERNAL, mist.analyze.openExternal);
   mist.analyze.MENU.listen(mist.action.EventType.TOOLS_INTERNAL, mist.analyze.openInternal);

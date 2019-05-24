@@ -80,10 +80,10 @@ const toolsResources = sharedResources.concat([
     ]
   },
   {
-    source: resolver.resolveModulePath('vega-lib/build', __dirname),
+    source: resolver.resolveModulePath('vega/build', __dirname),
     target: 'vendor/vega',
     scripts: [
-      'vega.js'
+      'vega.min.js'
     ],
     files: [
       'vega-schema.json'
