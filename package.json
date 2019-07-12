@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "golden-layout": "^1.5.9",
-    "opensphere": "^1.0.0",
+    "opensphere": "0.0.0-development",
     "zingchart": "2.6.1"
   }
 }
