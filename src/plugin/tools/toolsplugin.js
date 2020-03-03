@@ -37,7 +37,7 @@ goog.addSingletonGetter(plugin.tools.ToolsPlugin);
 /**
  * @define {string} The base path to tools.html.
  */
-goog.define('plugin.tools.TOOLS_PATH', '../opensphere-plugin-analyze/');
+plugin.tools.TOOLS_PATH = goog.define('plugin.tools.TOOLS_PATH', '../opensphere-plugin-analyze/');
 
 
 /**
