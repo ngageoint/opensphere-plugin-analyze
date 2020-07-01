@@ -1,5 +1,9 @@
 goog.provide('plugin.tools.ToolsPlugin');
 
+goog.require('core.brand');
+goog.require('core.brand.BrandOverrides');
+goog.require('core.brand.FadeAppSuite');
+goog.require('core.fade');
 goog.require('coreui.chart.vega.base.vegaChartDirective');
 goog.require('coreui.layout.ComponentManager');
 goog.require('gv.tools.toolsMainDirective');
@@ -44,6 +48,9 @@ plugin.tools.TOOLS_PATH = goog.define('plugin.tools.TOOLS_PATH', '../opensphere-
  * @inheritDoc
  */
 plugin.tools.ToolsPlugin.prototype.init = function() {
+  os.ui.injector.get('$rootScope')['appSuite'] = core.appsuite;
+  core.brand.APP = core.fade.suite.MIST;
+
   // set up analyze widgets
   var cm = coreui.layout.ComponentManager.getInstance();
   cm.registerComponent(mist.ui.widget.Type.LIST, mist.ui.widget.LIST);

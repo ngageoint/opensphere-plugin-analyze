@@ -10,7 +10,6 @@
     "src": "src",
     "test": "test",
     "scss": [
-      "../bits-internal/scss",
       "../mist/scss"
     ]
   },
@@ -22,8 +21,7 @@
     "index": "tools.js",
     "scss": "scss/tools.scss",
     "defineRoots": {
-      "mist.ROOT": "../mist/",
-      "bits.ROOT": "../bits-internal/"
+      "mist.ROOT": "../mist/"
     },
     "ignoreUncompiled": {
       "plugin.tools.TOOLS_PATH": true
@@ -38,17 +36,17 @@
         "goog:voyager"
       ],
       "define": [
+        "os.SETTINGS_DB_NAME='opensphere.settings'",
+        "os.FILE_DB_VERSION=2",
+        "os.FILE_STORE_NAME='files'",
+        "os.SHARED_DB_NAME='opensphere.shared'",
+        "os.SHARED_STORE_NAME='shared'",
         "plugin.tools.TOOLS_PATH=''"
       ],
       "externs": [
-        "../bits-internal/externs/bits-internal.externs.js",
-        "../bits-internal/externs/goldenlayout.externs.js",
-        "../bits-internal/externs/vega.externs.js",
-        "../bits-internal/externs/zingchart.externs.js",
         "../mist/externs/mist.externs.js"
       ],
       "js": [
-        "../bits-internal/src/**.js",
         "../mist/src/**.js"
       ]
     }
@@ -57,13 +55,11 @@
     "lint": "eslint --cache 'src/**/*.js'"
   },
   "devDependencies": {
-    "eslint": "^3.19.0",
-    "eslint-config-google": "^0.7.0",
-    "eslint-config-opensphere": "^3.0.0",
-    "eslint-plugin-google-camelcase": "^0.0.2",
-    "eslint-plugin-opensphere": "^2.0.0"
+    "eslint": "^6.0.0",
+    "eslint-config-opensphere": "^4.0.0"
   },
   "dependencies": {
+    "bits-internal": "^0.0.1",
     "golden-layout": "^1.5.9",
     "opensphere": "0.0.0-development",
     "zingchart": "2.6.1"
