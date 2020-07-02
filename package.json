@@ -1,8 +1,7 @@
 {
   "name": "opensphere-plugin-analyze",
   "version": "1.0.0",
-  "description": "Analyze window and tools for Open Sphere",
-  "main": "index.js",
+  "description": "Analyze window and tools for OpenSphere",
   "keywords": [],
   "author": "William Wall",
   "license": "ISC",
@@ -55,13 +54,21 @@
     "lint": "eslint --cache 'src/**/*.js'"
   },
   "devDependencies": {
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "@commitlint/travis-cli": "^9.0.1",
     "eslint": "^6.0.0",
-    "eslint-config-opensphere": "^4.0.0"
+    "eslint-config-opensphere": "^4.0.0",
+    "husky": "^3.0.1"
   },
   "dependencies": {
     "bits-internal": "^0.0.1",
     "golden-layout": "^1.5.9",
-    "opensphere": "0.0.0-development",
-    "zingchart": "2.6.1"
+    "opensphere": "0.0.0-development"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
