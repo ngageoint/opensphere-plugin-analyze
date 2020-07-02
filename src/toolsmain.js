@@ -1,96 +1,91 @@
-goog.provide('gv.tools.ToolsMainCtrl');
-goog.provide('gv.tools.toolsMainDirective');
+goog.module('gv.tools.ToolsMainUI');
 
-goog.require('goog.log');
-goog.require('goog.log.Logger');
-goog.require('mist.analyze.SettingsInitializer');
 goog.require('mistdefines');
 goog.require('os');
-goog.require('os.ui');
 goog.require('os.ui.ngRightClickDirective');
 goog.require('os.ui.util.autoHeightDirective');
-goog.require('plugin.chart.scatter.ScatterChartPlugin');
-goog.require('plugin.file.kml.KMLPluginExt');
-goog.require('plugin.im.action.feature.PluginExt');
-goog.require('plugin.mist.track.TrackPlugin');
-goog.require('plugin.places.PluginExt');
-goog.require('tools.ui.AbstractToolsMainCtrl');
-goog.require('tools.ui.Module');
+
+const log = goog.require('goog.log');
+const SettingsInitializer = goog.require('mist.analyze.SettingsInitializer');
+const ui = goog.require('os.ui');
+const ScatterChartPlugin = goog.require('plugin.chart.scatter.ScatterChartPlugin');
+const KMLPluginExt = goog.require('plugin.file.kml.KMLPluginExt');
+const pluginImActionFeaturePluginExt = goog.require('plugin.im.action.feature.PluginExt');
+const TrackPlugin = goog.require('plugin.mist.track.TrackPlugin');
+const PluginExt = goog.require('plugin.places.PluginExt');
+const AbstractToolsMainCtrl = goog.require('tools.ui.AbstractToolsMainCtrl');
+const Module = goog.require('tools.ui.Module');
+const Logger = goog.requireType('goog.log.Logger');
+
+
+/**
+ * Logger
+ * @type {Logger}
+ */
+const LOGGER = log.getLogger('gv.tools.ToolsMainCtrl');
 
 
 /**
  * The tools-main directive
  * @return {angular.Directive}
  */
-gv.tools.toolsMainDirective = function() {
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: true,
-    templateUrl: mist.ROOT + 'views/toolsmain.html',
-    controller: gv.tools.ToolsMainCtrl,
-    controllerAs: 'toolsMain'
-  };
-};
-
-
-os.ui.replaceDirective('toolsMain', tools.ui.Module, gv.tools.toolsMainDirective);
+const directive = () => ({
+  restrict: 'E',
+  replace: true,
+  scope: true,
+  templateUrl: mist.ROOT + 'views/toolsmain.html',
+  controller: Controller,
+  controllerAs: 'toolsMain'
+});
+ui.replaceDirective('toolsMain', Module, directive);
 
 
 /**
  * Controller function for the Tools Main directive
- * @param {!angular.Scope} $scope The Angular scope.
- * @param {!angular.JQLite} $element The root DOM element.
- * @param {!angular.$compile} $compile The Angular $compile service.
- * @param {!angular.$timeout} $timeout The Angular $timeout service.
- * @param {!angular.$injector} $injector The Angular injector.
- * @extends {tools.ui.AbstractToolsMainCtrl}
- * @constructor
- * @ngInject
+ * @unrestricted
  */
-gv.tools.ToolsMainCtrl = function($scope, $element, $compile, $timeout, $injector) {
-  gv.tools.ToolsMainCtrl.base(this, 'constructor', $scope, $element, $compile, $timeout, $injector);
-  this.log = gv.tools.ToolsMainCtrl.LOGGER_;
-};
-goog.inherits(gv.tools.ToolsMainCtrl, tools.ui.AbstractToolsMainCtrl);
-
-
-/**
- * Logger
- * @type {goog.log.Logger}
- * @private
- * @const
- */
-gv.tools.ToolsMainCtrl.LOGGER_ = goog.log.getLogger('gv.tools.ToolsMainCtrl');
-
-
-/**
- * @inheritDoc
- * @suppress {accessControls}
- */
-gv.tools.ToolsMainCtrl.prototype.addPlugins = function() {
-  gv.tools.ToolsMainCtrl.base(this, 'addPlugins');
-
-  // TODO: Due to the new way we load plugins, plugins for the main application
-  // will attempt to load themselves into the Analyze window. This is a quick
-  // way to get what we want, but we should look into a better way to do this.
-  os.ui.pluginManager.plugins_.length = 0;
-
-  os.ui.pluginManager.addPlugin(new plugin.file.kml.KMLPluginExt());
-  os.ui.pluginManager.addPlugin(plugin.chart.scatter.ScatterChartPlugin.getInstance());
-  os.ui.pluginManager.addPlugin(plugin.im.action.feature.PluginExt.getInstance());
-  os.ui.pluginManager.addPlugin(plugin.places.PluginExt.getInstance());
-  os.ui.pluginManager.addPlugin(plugin.mist.track.TrackPlugin.getInstance());
-};
-
-
-/**
- * If loaded in the Analyze window, assign settings object from the main window.
- */
-(function() {
-  if (mist.analyze.isAnalyze()) {
-    // initialize settings for this app
-    var settingsInitializer = new mist.analyze.SettingsInitializer();
-    settingsInitializer.init();
+class Controller extends AbstractToolsMainCtrl {
+  /**
+   * Constructor.
+   * @param {!angular.Scope} $scope The Angular scope.
+   * @param {!angular.JQLite} $element The root DOM element.
+   * @param {!angular.$compile} $compile The Angular $compile service.
+   * @param {!angular.$timeout} $timeout The Angular $timeout service.
+   * @param {!angular.$injector} $injector The Angular injector.
+   * @ngInject
+   */
+  constructor($scope, $element, $compile, $timeout, $injector) {
+    super($scope, $element, $compile, $timeout, $injector);
+    this.log = LOGGER;
   }
-})();
+
+  /**
+   * @inheritDoc
+   * @suppress {accessControls}
+   */
+  addPlugins() {
+    super.addPlugins();
+
+    // TODO: Due to the new way we load plugins, plugins for the main application
+    // will attempt to load themselves into the Analyze window. This is a quick
+    // way to get what we want, but we should look into a better way to do this.
+    ui.pluginManager.plugins_.length = 0;
+
+    ui.pluginManager.addPlugin(new KMLPluginExt());
+    ui.pluginManager.addPlugin(ScatterChartPlugin.getInstance());
+    ui.pluginManager.addPlugin(pluginImActionFeaturePluginExt.getInstance());
+    ui.pluginManager.addPlugin(PluginExt.getInstance());
+    ui.pluginManager.addPlugin(TrackPlugin.getInstance());
+  }
+}
+
+if (mist.analyze.isAnalyze()) {
+  // Initialize settings for this app
+  var settingsInitializer = new SettingsInitializer();
+  settingsInitializer.init();
+}
+
+exports = {
+  Controller,
+  directive
+};

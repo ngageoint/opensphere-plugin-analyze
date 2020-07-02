@@ -1,6 +1,4 @@
-goog.provide('metacarta');
-goog.require('plugin.metacarta.MetacartaPlugin');
+goog.module('metacarta');
 
-(function() {
-  os.plugin.PluginManager.getInstance().addPlugin(plugin.metacarta.MetacartaPlugin.getInstance());
-})();
+const MetacartaPlugin = goog.require('plugin.metacarta.MetacartaPlugin');
+os.plugin.PluginManager.getInstance().addPlugin(MetacartaPlugin.getInstance());

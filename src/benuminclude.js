@@ -1,6 +1,4 @@
-goog.provide('benum');
-goog.require('plugin.benum.BEPlugin');
+goog.module('benum');
 
-(function() {
-  os.plugin.PluginManager.getInstance().addPlugin(plugin.benum.BEPlugin.getInstance());
-})();
+const BEPlugin = goog.require('plugin.benum.BEPlugin');
+os.plugin.PluginManager.getInstance().addPlugin(BEPlugin.getInstance());

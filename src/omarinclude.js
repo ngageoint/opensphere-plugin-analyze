@@ -1,6 +1,4 @@
-goog.provide('omar');
-goog.require('plugin.omar.OMARPlugin');
+goog.module('omar');
 
-(function() {
-  os.plugin.PluginManager.getInstance().addPlugin(plugin.omar.OMARPlugin.getInstance());
-})();
+const OMARPlugin = goog.require('plugin.omar.OMARPlugin');
+os.plugin.PluginManager.getInstance().addPlugin(OMARPlugin.getInstance());

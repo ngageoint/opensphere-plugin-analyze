@@ -1,8 +1,16 @@
 @import 'bits/dragcomponent';
 @import 'bits/overrides_goldenlayout';
+@import 'bits/vegaoptions';
 
-@import 'tools/toolsmain';
+@import 'mist/videocontainer';
+@import 'mist/videoprogress';
+@import 'mist/videotab';
+
+@import 'tools/bullseye';
 @import 'tools/charttool';
 @import 'tools/countby';
+@import 'tools/infinity';
+@import 'tools/layouttabs';
 @import 'tools/listtool';
+@import 'tools/sourceswitcher';
 @import 'tools/toolsmain';

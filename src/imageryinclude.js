@@ -1,6 +1,4 @@
-goog.provide('imagery');
-goog.require('plugin.imagery.ImageryPlugin');
+goog.module('imagery');
 
-(function() {
-  os.plugin.PluginManager.getInstance().addPlugin(plugin.imagery.ImageryPlugin.getInstance());
-})();
+const ImageryPlugin = goog.require('plugin.imagery.ImageryPlugin');
+os.plugin.PluginManager.getInstance().addPlugin(ImageryPlugin.getInstance());
