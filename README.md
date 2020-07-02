@@ -1,4 +1,4 @@
-# Analyze Tools for GEOINT Viewer
+# Analyze Tools for OpenSphere
 
 This is a wrapper project that contains modified `plugin.mist.MISTPlugin` and `toolsmain.js`
 files (`toolsplugin.js` and `toolsmain.js`). The goal here is to produce a plugin that only
