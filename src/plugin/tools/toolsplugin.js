@@ -12,7 +12,6 @@ const fade = goog.require('core.fade');
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
 const mist = goog.require('mist');
 const analyze = goog.require('mist.analyze');
-const chart = goog.require('mist.menu.chart');
 const countBy = goog.require('mist.menu.countBy');
 const mistMenuList = goog.require('mist.menu.list');
 const tools = goog.require('mist.menu.tools');
@@ -62,7 +61,6 @@ class ToolsPlugin extends AbstractPlugin {
     // add listeners for action events that must be handled in the main window context
     mistMenuList.setupInternal();
     countBy.setupInternal();
-    chart.setupInternal();
 
     // add Analyze to top left
     os.ui.list.add(os.ui.nav.Location.TOP_LEFT, '<analyze-button show-label="!punyWindow"></analyze-button>', 250);

@@ -8,7 +8,6 @@ goog.require('os.ui.util.autoHeightDirective');
 const log = goog.require('goog.log');
 const SettingsInitializer = goog.require('mist.analyze.SettingsInitializer');
 const ui = goog.require('os.ui');
-const ScatterChartPlugin = goog.require('plugin.chart.scatter.ScatterChartPlugin');
 const KMLPluginExt = goog.require('plugin.file.kml.KMLPluginExt');
 const pluginImActionFeaturePluginExt = goog.require('plugin.im.action.feature.PluginExt');
 const ImageryPlugin = goog.require('plugin.imagery.ImageryPlugin');
@@ -74,7 +73,6 @@ class Controller extends AbstractToolsMainCtrl {
     ui.pluginManager.plugins_.length = 0;
 
     ui.pluginManager.addPlugin(new KMLPluginExt());
-    ui.pluginManager.addPlugin(ScatterChartPlugin.getInstance());
     ui.pluginManager.addPlugin(pluginImActionFeaturePluginExt.getInstance());
     ui.pluginManager.addPlugin(PluginExt.getInstance());
     ui.pluginManager.addPlugin(TrackPlugin.getInstance());
