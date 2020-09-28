@@ -48,7 +48,6 @@ class ToolsPlugin extends AbstractPlugin {
     var cm = ComponentManager.getInstance();
     cm.registerComponent(widget.Type.LIST, widget.LIST);
     cm.registerComponent(widget.Type.COUNT_BY, widget.COUNT_BY);
-    cm.registerComponent(widget.Type.CHART, widget.CHART);
     cm.registerComponent(widget.Type.VEGA, widget.VEGA);
 
     analyze.MENU.listen(mist.action.EventType.TOOLS_EXTERNAL, analyze.openExternal);
