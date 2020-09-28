@@ -103,6 +103,6 @@ module.exports = {
   }],
   debugCss: path.relative(__dirname, path.join(buildPath, 'themes', 'default.combined.css')),
   compiledCss: path.join(version, 'styles', 'themes', 'default.min.css'),
-  debugJs: path.join(buildPath, 'opensphere.js'),
+  debugJs: path.relative(__dirname, path.join(buildPath, 'opensphere.js')),
   compiledJs: path.join(version, 'opensphere.min.js')
 };
