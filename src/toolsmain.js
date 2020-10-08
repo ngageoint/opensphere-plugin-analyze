@@ -1,10 +1,11 @@
 goog.module('gv.tools.ToolsMainUI');
 
-goog.require('mistdefines');
+goog.require('bits');
 goog.require('os');
 goog.require('os.ui.ngRightClickDirective');
 goog.require('os.ui.util.autoHeightDirective');
 
+const {ROOT: mistROOT} = goog.require('mist');
 const log = goog.require('goog.log');
 const SettingsInitializer = goog.require('mist.analyze.SettingsInitializer');
 const ui = goog.require('os.ui');
@@ -34,7 +35,7 @@ const directive = () => ({
   restrict: 'E',
   replace: true,
   scope: true,
-  templateUrl: mist.ROOT + 'views/toolsmain.html',
+  templateUrl: mistROOT + 'views/toolsmain.html',
   controller: Controller,
   controllerAs: 'toolsMain'
 });
@@ -83,7 +84,7 @@ class Controller extends AbstractToolsMainCtrl {
 
 if (mist.analyze.isAnalyze()) {
   // Initialize settings for this app
-  var settingsInitializer = new SettingsInitializer();
+  const settingsInitializer = new SettingsInitializer();
   settingsInitializer.init();
 }
 
