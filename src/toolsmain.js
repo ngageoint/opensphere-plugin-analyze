@@ -11,7 +11,6 @@ const SettingsInitializer = goog.require('mist.analyze.SettingsInitializer');
 const ui = goog.require('os.ui');
 const KMLPluginExt = goog.require('plugin.file.kml.KMLPluginExt');
 const pluginImActionFeaturePluginExt = goog.require('plugin.im.action.feature.PluginExt');
-const ImageryPlugin = goog.require('plugin.imagery.ImageryPlugin');
 const TrackPlugin = goog.require('plugin.mist.track.TrackPlugin');
 const PiwikPlugin = goog.require('plugin.piwik.PiwikPlugin');
 const PluginExt = goog.require('plugin.places.PluginExt');
@@ -77,7 +76,6 @@ class Controller extends AbstractToolsMainCtrl {
     ui.pluginManager.addPlugin(pluginImActionFeaturePluginExt.getInstance());
     ui.pluginManager.addPlugin(PluginExt.getInstance());
     ui.pluginManager.addPlugin(TrackPlugin.getInstance());
-    ui.pluginManager.addPlugin(ImageryPlugin.getInstance());
     ui.pluginManager.addPlugin(new PiwikPlugin());
   }
 }
