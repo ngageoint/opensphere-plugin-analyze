@@ -43,10 +43,6 @@ const toolsResources = sharedResources.concat([
     target: path.join('views'),
     files: [
       'data',
-      'plugin/chart/scatter',
-      'plugin/omar',
-      'plugin/benum',
-      'plugin/metacarta',
       'tools',
       'toolsmain.html'
     ]
@@ -69,14 +65,6 @@ const toolsResources = sharedResources.concat([
     css: [
       'goldenlayout-base.css',
       'goldenlayout-dark-theme.css'
-    ]
-  },
-  {
-    source: resolver.resolveModulePath('zingchart/client'),
-    target: 'vendor/zingchart',
-    scripts: [
-      'zingchart.min.js',
-      'modules/zingchart-selection-tool.min.js'
     ]
   },
   {

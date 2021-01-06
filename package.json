@@ -27,12 +27,7 @@
     },
     "gcc": {
       "entry_point": [
-        "goog:plugin.tools.ToolsPlugin",
-        "goog:benum",
-        "goog:imagery",
-        "goog:metacarta",
-        "goog:omar",
-        "goog:voyager"
+        "goog:plugin.tools.ToolsPlugin"
       ],
       "define": [
         "os.SETTINGS_DB_NAME='opensphere.settings'",
