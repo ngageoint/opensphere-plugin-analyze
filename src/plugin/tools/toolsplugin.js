@@ -4,7 +4,7 @@ goog.require('core.brand.BrandOverrides');
 goog.require('core.brand.FadeAppSuite');
 goog.require('coreui.chart.vega.base.vegaChartDirective');
 goog.require('gv.tools.ToolsMainUI');
-goog.require('mist.analyze.buttonDirective');
+goog.require('mist.analyze.ButtonUI');
 goog.require('mist.analyze.menu');
 
 const brand = goog.require('core.brand');
@@ -71,7 +71,7 @@ class ToolsPlugin extends AbstractPlugin {
     analyze.initializeExports();
 
     // use GV's tools.html
-    analyze.basePath = TOOLS_PATH;
+    analyze.setBasePath(TOOLS_PATH);
   }
 
   /**
