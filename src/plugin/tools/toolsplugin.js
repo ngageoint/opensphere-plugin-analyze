@@ -1,14 +1,10 @@
 goog.module('plugin.tools.ToolsPlugin');
 
-goog.require('core.brand.BrandOverrides');
-goog.require('core.brand.FadeAppSuite');
 goog.require('coreui.chart.vega.base.vegaChartDirective');
 goog.require('gv.tools.ToolsMainUI');
 goog.require('mist.analyze.ButtonUI');
 goog.require('mist.analyze.menu');
 
-const brand = goog.require('core.brand');
-const fade = goog.require('core.fade');
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
 const mist = goog.require('mist');
 const analyze = goog.require('mist.analyze');
@@ -41,9 +37,6 @@ class ToolsPlugin extends AbstractPlugin {
    * @inheritDoc
    */
   init() {
-    os.ui.injector.get('$rootScope')['appSuite'] = core.appsuite;
-    brand.APP = fade.suite.MIST;
-
     // set up analyze widgets
     var cm = ComponentManager.getInstance();
     cm.registerComponent(widget.Type.LIST, widget.LIST);
