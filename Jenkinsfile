@@ -1,61 +1,75 @@
 #!groovy
 
-node('Linux&&!gpu') {
+def err = null
+
+node {
   try {
     def project_dir = 'opensphere-plugin-analyze'
+    def workspace_project = 'opensphere-yarn-workspace'
+    def workspace_dir = "${workspace_project}/workspace"
 
-    initEnvironment()
-    initGV()
-
-    try {
-      beforeCheckout()
-    } catch (NoSuchMethodError e) {
+    stage('init') {
+      initEnvironment()
     }
 
-    stage('scm') {
-      installPlugins('opensphere-yarn-workspace')
+    docker.withRegistry(env.DOCKER_REGISTRY, env.DOCKER_CREDENTIAL) {
+      def dockerImage = docker.image(env.DOCKER_IMAGE)
+      dockerImage.pull()
 
-      dir('workspace') {
-        sh 'rm -rf *'
-        dir(project_dir) {
-          sh "echo 'checking out scm'"
-          checkout scm
-
-          GIT_COMMIT = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+      //
+      // - Disable user namespace for the container so permissions will map properly with the host
+      // - Set HOME to the workspace for .yarn and .cache cache directories
+      //
+      dockerImage.inside("--userns=host -e HOME=${env.WORKSPACE}") {
+        stage('scm') {
+          sh "rm -rf ${workspace_project}"
 
           try {
-            this_version = sh(script: 'git describe --exact-match HEAD', returnStdout: true).trim()
-          } catch (e) {
-            this_version = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+            beforeCheckout()
+          } catch (NoSuchMethodError e) {
           }
-          sh "echo Building: ${this_version}"
+
+          installPlugins(workspace_project)
+
+          dir(workspace_dir) {
+            def projects = [
+              'opensphere',
+              'bits-internal',
+              'mist',
+              'opensphere-nga-brand',
+              project_dir
+            ]
+
+            for (def project in projects) {
+              installPlugins(project)
+            }
+
+            dir(project_dir) {
+              GIT_COMMIT = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+
+              try {
+                this_version = sh(script: 'git describe --exact-match HEAD', returnStdout: true).trim()
+              } catch (e) {
+                this_version = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+              }
+              sh "echo Building: ${this_version}"
+            }
+          }
         }
 
-        def projects = [
-          'opensphere',
-          'bits-internal',
-          'mist'
-        ]
-
-        for (def project in projects) {
-          dir(project) {
-            installPlugins(project)
+        stage('yarn') {
+          dir(workspace_project) {
+            sh 'yarn config list'
+            sh "rm yarn.lock || true"
+            sh "yarn"
           }
         }
-      }
-    }
 
-    stage('yarn') {
-      sh 'npm i -g yarn'
-      sh 'yarn config list'
-      sh 'rm yarn.lock || true'
-      sh "yarn install"
-    }
-
-    stage('build') {
-      dir("workspace/${project_dir}") {
-        sh 'yarn run lint'
-        // sh 'yarn run test'
+        stage('build') {
+          dir("${workspace_dir}/${project_dir}") {
+            sh 'yarn lint'
+          }
+        }
       }
     }
   } catch (e) {
