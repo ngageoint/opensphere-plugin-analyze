@@ -29,7 +29,7 @@ node {
           } catch (NoSuchMethodError e) {
           }
 
-          installPlugins(workspace_project)
+          cloneProject(workspace_project)
 
           dir(workspace_dir) {
             def projects = [
@@ -41,7 +41,7 @@ node {
             ]
 
             for (def project in projects) {
-              installPlugins(project)
+              cloneProject(project)
             }
 
             dir(project_dir) {
