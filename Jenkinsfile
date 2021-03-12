@@ -1,8 +1,8 @@
 #!groovy
 
-def err = null
-
 node {
+  def err = null
+
   try {
     def project_dir = 'opensphere-plugin-analyze'
     def workspace_project = 'opensphere-yarn-workspace'
@@ -42,17 +42,6 @@ node {
 
             for (def project in projects) {
               cloneProject(project)
-            }
-
-            dir(project_dir) {
-              GIT_COMMIT = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-
-              try {
-                this_version = sh(script: 'git describe --exact-match HEAD', returnStdout: true).trim()
-              } catch (e) {
-                this_version = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
-              }
-              sh "echo Building: ${this_version}"
             }
           }
         }
