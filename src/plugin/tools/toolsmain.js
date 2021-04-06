@@ -1,21 +1,20 @@
-goog.module('gv.tools.ToolsMainUI');
+goog.declareModuleId('plugin.tools.ToolsMain');
 
-goog.require('bits');
-goog.require('os');
 goog.require('os.ui.ngRightClickDirective');
 goog.require('os.ui.util.autoHeightDirective');
 
-const {ROOT: mistROOT} = goog.require('mist');
+const {ROOT} = goog.require('mist');
 const log = goog.require('goog.log');
+const {isAnalyze} = goog.require('mist.analyze');
 const SettingsInitializer = goog.require('mist.analyze.SettingsInitializer');
-const ui = goog.require('os.ui');
+const PluginManager = goog.require('os.plugin.PluginManager');
 const KMLPluginExt = goog.require('plugin.file.kml.KMLPluginExt');
-const pluginImActionFeaturePluginExt = goog.require('plugin.im.action.feature.PluginExt');
+const FeatureActionPluginExt = goog.require('plugin.im.action.feature.PluginExt');
 const TrackPlugin = goog.require('plugin.mist.track.TrackPlugin');
 const PiwikPlugin = goog.require('plugin.piwik.PiwikPlugin');
-const PluginExt = goog.require('plugin.places.PluginExt');
+const PlacesPluginExt = goog.require('plugin.places.PluginExt');
 const AbstractToolsMainCtrl = goog.require('tools.ui.AbstractToolsMainCtrl');
-const Module = goog.require('tools.ui.Module');
+
 const Logger = goog.requireType('goog.log.Logger');
 
 
@@ -23,22 +22,28 @@ const Logger = goog.requireType('goog.log.Logger');
  * Logger
  * @type {Logger}
  */
-const LOGGER = log.getLogger('gv.tools.ToolsMainCtrl');
+const LOGGER = log.getLogger('plugin.tools.ToolsMain');
 
 
 /**
  * The tools-main directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
   scope: true,
-  templateUrl: mistROOT + 'views/toolsmain.html',
+  templateUrl: ROOT + 'views/toolsmain.html',
   controller: Controller,
   controllerAs: 'toolsMain'
 });
-ui.replaceDirective('toolsMain', Module, directive);
+
+
+/**
+ * The element tag for the directive.
+ * @type {string}
+ */
+export const directiveTag = 'toolsMain';
 
 
 /**
@@ -70,23 +75,19 @@ class Controller extends AbstractToolsMainCtrl {
     // TODO: Due to the new way we load plugins, plugins for the main application
     // will attempt to load themselves into the Analyze window. This is a quick
     // way to get what we want, but we should look into a better way to do this.
-    ui.pluginManager.plugins_.length = 0;
+    const pm = PluginManager.getInstance();
+    pm.plugins_.length = 0;
 
-    ui.pluginManager.addPlugin(new KMLPluginExt());
-    ui.pluginManager.addPlugin(pluginImActionFeaturePluginExt.getInstance());
-    ui.pluginManager.addPlugin(PluginExt.getInstance());
-    ui.pluginManager.addPlugin(TrackPlugin.getInstance());
-    ui.pluginManager.addPlugin(new PiwikPlugin());
+    pm.addPlugin(new KMLPluginExt());
+    pm.addPlugin(FeatureActionPluginExt.getInstance());
+    pm.addPlugin(PlacesPluginExt.getInstance());
+    pm.addPlugin(TrackPlugin.getInstance());
+    pm.addPlugin(new PiwikPlugin());
   }
 }
 
-if (mist.analyze.isAnalyze()) {
+if (isAnalyze()) {
   // Initialize settings for this app
   const settingsInitializer = new SettingsInitializer();
   settingsInitializer.init();
 }
-
-exports = {
-  Controller,
-  directive
-};
