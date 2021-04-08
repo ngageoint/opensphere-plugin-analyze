@@ -68,6 +68,20 @@ const toolsResources = sharedResources.concat([
     ]
   },
   {
+    source: resolver.resolveModulePath('milsymbol/dist', __dirname),
+    target: 'vendor/milsymbol',
+    scripts: [
+      'milsymbol.js'
+    ]
+  },
+  {
+    source: resolver.resolveModulePath('milstd/', __dirname),
+    target: 'vendor/milstd',
+    scripts: [
+      'milstd.js'
+    ]
+  },
+  {
     source: resolver.resolveModulePath('vega/build', __dirname),
     target: 'vendor/vega',
     scripts: [
@@ -84,11 +98,34 @@ module.exports = {
   basePath: __dirname,
   appPath: appPath,
   distPath: path.join(appPath, 'dist', 'opensphere'),
-  templates: [{
-    id: 'tools',
-    file: 'tools-template.html',
-    resources: toolsResources
-  }],
+  templates: [
+    {
+      // Add resources to the main page.
+      id: 'index',
+      skip: true,
+      resources: [
+        {
+          source: resolver.resolveModulePath('milsymbol/dist', __dirname),
+          target: 'vendor/milsymbol',
+          scripts: [
+            'milsymbol.js'
+          ]
+        },
+        {
+          source: resolver.resolveModulePath('milstd/', __dirname),
+          target: 'vendor/milstd',
+          scripts: [
+            'milstd.js'
+          ]
+        }
+      ]
+    },
+    {
+      id: 'tools',
+      file: 'tools-template.html',
+      resources: toolsResources
+    }
+  ],
   debugCss: path.relative(__dirname, path.join(buildPath, 'themes', 'default.combined.css')),
   compiledCss: path.join(version, 'styles', 'themes', 'default.min.css'),
   debugJs: path.relative(__dirname, path.join(buildPath, 'opensphere.js')),

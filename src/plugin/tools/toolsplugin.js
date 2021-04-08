@@ -33,6 +33,7 @@ const PluginManager = goog.require('os.plugin.PluginManager');
 const menuList = goog.require('os.ui.menu.list');
 
 const pluginImActionFeaturePluginExt = goog.require('plugin.im.action.feature.PluginExt');
+const MilSymPlugin = goog.require('plugin.milsym.MilSymPlugin');
 const TrackPlugin = goog.require('plugin.mist.track.TrackPlugin');
 const PluginExt = goog.require('plugin.places.PluginExt');
 
@@ -114,4 +115,5 @@ if (!(inIframe() || analyze.isExternal(window))) {
   pm.addPlugin(pluginImActionFeaturePluginExt.getInstance());
   pm.addPlugin(PluginExt.getInstance());
   pm.addPlugin(TrackPlugin.getInstance());
+  pm.addPlugin(MilSymPlugin.getInstance());
 }
