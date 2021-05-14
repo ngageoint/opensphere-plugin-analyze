@@ -4,6 +4,7 @@ goog.require('coreui.chart.vega.base.vegaChartDirective');
 goog.require('bits');
 goog.require('mist.analyze.ButtonUI');
 goog.require('mist.analyze.menu');
+goog.require('mist.mixin.places');
 
 import {TOOLS_PATH} from './tools';
 import {
@@ -19,6 +20,7 @@ const analyze = goog.require('mist.analyze');
 const countBy = goog.require('mist.menu.countBy');
 const mistMenuList = goog.require('mist.menu.list');
 const {handleAddColumn} = goog.require('mist.menu.tools');
+const mistLayerMenu = goog.require('mist.ui.menu.layer');
 const widget = goog.require('mist.ui.widget');
 const Module = goog.require('tools.ui.Module');
 
@@ -77,6 +79,9 @@ export default class ToolsPlugin extends AbstractPlugin {
     // add listeners for action events that must be handled in the main window context
     mistMenuList.setupInternal();
     countBy.setupInternal();
+
+    // initialize extra menus provided by MIST
+    mistLayerMenu.setup();
 
     // add Analyze to top left
     osList.add(NavLocation.TOP_LEFT, '<analyze-button show-label="!punyWindow"></analyze-button>', 250);
