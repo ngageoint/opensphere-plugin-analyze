@@ -1,9 +1,7 @@
 goog.declareModuleId('plugin.tools.ToolsPlugin');
 
-goog.require('coreui.chart.vega.base.vegaChartDirective');
 goog.require('bits');
 goog.require('mist.analyze.ButtonUI');
-goog.require('mist.analyze.menu');
 goog.require('mist.mixin.places');
 
 import {TOOLS_PATH} from './tools';
@@ -17,6 +15,7 @@ const GoogEventType = goog.require('goog.events.EventType');
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
 const MistActionEventType = goog.require('mist.action.EventType');
 const analyze = goog.require('mist.analyze');
+const analyzeMenu = goog.require('mist.analyze.menu');
 const countBy = goog.require('mist.menu.countBy');
 const mistMenuList = goog.require('mist.menu.list');
 const {handleAddColumn} = goog.require('mist.menu.tools');
@@ -68,8 +67,8 @@ export default class ToolsPlugin extends AbstractPlugin {
     cm.registerComponent(widget.Type.COUNT_BY, widget.COUNT_BY);
     cm.registerComponent(widget.Type.VEGA, widget.VEGA);
 
-    analyze.MENU.listen(MistActionEventType.TOOLS_EXTERNAL, analyze.openExternal);
-    analyze.MENU.listen(MistActionEventType.TOOLS_INTERNAL, analyze.openInternal);
+    // Set up the Analyze button menu.
+    analyzeMenu.setup();
 
     // events forwarded from within an iframe
     const dispatcher = Dispatcher.getInstance();
