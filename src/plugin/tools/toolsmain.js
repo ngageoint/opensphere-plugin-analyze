@@ -1,7 +1,7 @@
 goog.declareModuleId('plugin.tools.ToolsMain');
 
-goog.require('os.ui.ngRightClickDirective');
-goog.require('os.ui.util.autoHeightDirective');
+goog.require('os.ui.NgRightClickUI');
+goog.require('os.ui.util.AutoHeightUI');
 
 const {ROOT} = goog.require('mist');
 const log = goog.require('goog.log');
