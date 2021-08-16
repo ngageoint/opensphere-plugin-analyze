@@ -10,6 +10,10 @@ import {
   directiveTag as toolsMainTag
 } from './toolsmain.js';
 
+import {inIframe} from 'opensphere/src/os/os.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {replaceDirective} from 'opensphere/src/os/ui/ui.js';
+
 const GoogEventType = goog.require('goog.events.EventType');
 
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
@@ -23,10 +27,7 @@ const mistLayerMenu = goog.require('mist.ui.menu.layer');
 const widget = goog.require('mist.ui.widget');
 const Module = goog.require('tools.ui.Module');
 
-const {inIframe} = goog.require('os');
-const Dispatcher = goog.require('os.Dispatcher');
 const ActionEventType = goog.require('os.action.EventType');
-const {replaceDirective} = goog.require('os.ui');
 const osList = goog.require('os.ui.list');
 const NavLocation = goog.require('os.ui.nav.Location');
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
