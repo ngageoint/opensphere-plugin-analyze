@@ -4,11 +4,11 @@ goog.require('bits');
 goog.require('mist.analyze.ButtonUI');
 goog.require('mist.mixin.places');
 
-import {TOOLS_PATH} from './tools';
+import {TOOLS_PATH} from './tools.js';
 import {
   directive as toolsMainDirective,
   directiveTag as toolsMainTag
-} from './toolsmain';
+} from './toolsmain.js';
 
 const GoogEventType = goog.require('goog.events.EventType');
 
