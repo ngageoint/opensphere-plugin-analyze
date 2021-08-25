@@ -4,11 +4,15 @@ goog.require('bits');
 goog.require('mist.analyze.ButtonUI');
 goog.require('mist.mixin.places');
 
-import {TOOLS_PATH} from './tools';
+import {TOOLS_PATH} from './tools.js';
 import {
   directive as toolsMainDirective,
   directiveTag as toolsMainTag
-} from './toolsmain';
+} from './toolsmain.js';
+
+import {inIframe} from 'opensphere/src/os/os.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {replaceDirective} from 'opensphere/src/os/ui/ui.js';
 
 const GoogEventType = goog.require('goog.events.EventType');
 
@@ -23,10 +27,7 @@ const mistLayerMenu = goog.require('mist.ui.menu.layer');
 const widget = goog.require('mist.ui.widget');
 const Module = goog.require('tools.ui.Module');
 
-const {inIframe} = goog.require('os');
-const Dispatcher = goog.require('os.Dispatcher');
 const ActionEventType = goog.require('os.action.EventType');
-const {replaceDirective} = goog.require('os.ui');
 const osList = goog.require('os.ui.list');
 const NavLocation = goog.require('os.ui.nav.Location');
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');

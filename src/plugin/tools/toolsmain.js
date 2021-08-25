@@ -1,12 +1,13 @@
 goog.declareModuleId('plugin.tools.ToolsMain');
 
-goog.require('os.ui.ngRightClickDirective');
-goog.require('os.ui.util.autoHeightDirective');
+goog.require('os.ui.NgRightClickUI');
+goog.require('os.ui.util.AutoHeightUI');
+
+import SettingsInitializer from './settingsinitializer.js';
 
 const {ROOT} = goog.require('mist');
 const log = goog.require('goog.log');
 const {isAnalyze} = goog.require('mist.analyze');
-const SettingsInitializer = goog.require('mist.analyze.SettingsInitializer');
 const PluginManager = goog.require('os.plugin.PluginManager');
 const KMLPluginExt = goog.require('plugin.file.kml.KMLPluginExt');
 const FeatureActionPluginExt = goog.require('plugin.im.action.feature.PluginExt');
