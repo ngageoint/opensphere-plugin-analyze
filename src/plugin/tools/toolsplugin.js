@@ -49,7 +49,7 @@ let instance;
 
 /**
  */
-export default class ToolsPlugin extends AbstractPlugin {
+export class ToolsPlugin extends AbstractPlugin {
   /**
    * Constructor.
    */

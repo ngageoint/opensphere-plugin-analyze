@@ -8,7 +8,7 @@ const AngularAppSettingsInitializer = goog.require('os.ui.config.AngularAppSetti
 /**
  * Initialize settings for the Analyze window.
  */
-export default class SettingsInitializer extends AngularAppSettingsInitializer {
+export class ToolsSettingsInitializer extends AngularAppSettingsInitializer {
   /**
    * Constructor.
    */
