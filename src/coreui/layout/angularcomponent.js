@@ -11,7 +11,7 @@ const ui = goog.require('os.ui');
 class AngularComponent {
   /**
    * Constructor.
-   * @param {!angular.Scope} scope The Angular scope.
+   * @param {angular.Scope|undefined} scope The Angular scope.
    * @param {!GoldenLayout.Container} container The component container.
    * @param {!Object} state The component state.
    */

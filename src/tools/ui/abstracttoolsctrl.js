@@ -477,7 +477,8 @@ class Controller extends AbstractMainCtrl {
 
       if (!this['layout']) {
         this['layout'] = new GoldenLayout(this.layoutConfig_, layoutContainer);
-        this['layout'].registerComponent('angular', AngularComponent.bind(undefined, this.scope));
+        this['layout'].registerComponent('angular',
+            (container, state) => new AngularComponent(this.scope, container, state));
         this['layout'].on(layout.GoldenLayoutEvent.STATE_CHANGED, function(event) {
           if (this.layoutStateDelay_) {
             this.layoutStateDelay_.start();
