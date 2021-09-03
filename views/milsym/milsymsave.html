@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-header" id="headerThree">
+    <button class="btn btn-secondary btn-block" data-toggle="collapse" data-target="#saveloadinfo" type="button" aria-expanded="false"
+        aria-controls="saveloadinfo">
+    <i class="fa fa-fw"></i> Manage Saved Icons
+    </button>
+  </div>
+  <div class="collapse d-flex flex-fill flex-column" id="saveloadinfo" data-parent="#customizeIcon" aria-labelledby="headerThree">
+    <div class="card-body">Save Current Icon As:
+      <div class="flex row input-group mb-3">
+        <input type="text" class="form-control select2-input flex-fill" autocomplete="off" ng-model="ctrl.saveName">
+        <div class="input-group-append">
+          <button class="btn btn-danger" ng-if="!ctrl.validName" ng-click="ctrl.saveIcon(ctrl.saveName)" title="Overwrite the icon previously saved with the one
+              currently displayed">
+            <i class="text-centered fa fa-edit"></i>
+          </button>
+          <button class="btn btn-primary" ng-disabled="ctrl.saveName == '' || !ctrl.validName" ng-click="ctrl.saveIcon(ctrl.saveName)" title="Saves the current icon">
+            <i class="text-centered fa fa-save"></i>
+          </button>
+        </div>
+      </div>
+      <div class="text-danger" ng-if="!ctrl.checkName(ctrl.saveName)">Icon name already exists!</div>
+      Reload Saved Icon:
+      <div class="flex row input-group mb-3">
+        <generalselector general-options="ctrl.savedIcons" general-value="selectedIcon" key="name" class=".js-selector flex-fill w-75"
+            format-selection="formatSelection" format-result="formatResult"></generalselector>
+        <div class="input-group-append">
+          <button class="btn btn-danger" ng-disabled="!selectedIcon.name" ng-click="ctrl.deleteIcon(selectedIcon.name)" title="Deletes icon">
+            <i class="text-centered fa fa-times"></i>
+          </button>
+          <button class="btn btn-danger" ng-disabled="!selectedIcon.name" ng-click="ctrl.saveIcon(selectedIcon.name)" title="Overwrite the icon previously saved with the one
+              currently displayed">
+            <i class="text-centered fa fa-edit"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

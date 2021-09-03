@@ -8,20 +8,20 @@
   "directories": {
     "src": "src",
     "test": "test",
-    "scss": [
-      "../mist/scss"
-    ]
+    "externs": "externs",
+    "scss": "scss",
+    "views": "views"
   },
   "build": {
     "type": "plugin",
     "config": [
-      "../mist/config/analyze-layout.json"
+      "config/analyze-layout.json"
+    ],
+    "gcc-src": [
+      "src/**.js"
     ],
     "index": "tools.js",
     "scss": "scss/tools.scss",
-    "defineRoots": {
-      "mist.ROOT": "../mist/"
-    },
     "ignoreUncompiled": {
       "plugin.tools.TOOLS_PATH": true
     },
@@ -30,18 +30,7 @@
         "goog:plugin.tools.ToolsPlugin"
       ],
       "define": [
-        "os.SETTINGS_DB_NAME='opensphere.settings'",
-        "os.FILE_DB_VERSION=2",
-        "os.FILE_STORE_NAME='files'",
-        "os.SHARED_DB_NAME='opensphere.shared'",
-        "os.SHARED_STORE_NAME='shared'",
         "plugin.tools.TOOLS_PATH=''"
-      ],
-      "externs": [
-        "../mist/externs/mist.externs.js"
-      ],
-      "js": [
-        "../mist/src/**.js"
       ]
     }
   },
@@ -56,11 +45,11 @@
     "husky": "^3.0.1"
   },
   "dependencies": {
-    "bits-internal": "^0.0.1",
     "golden-layout": "^1.5.9",
     "milstd": "^0.1.6",
     "milsymbol": "^2.0.0",
-    "opensphere": "0.0.0-development"
+    "opensphere": "0.0.0-development",
+    "vega": "=5.19.1"
   },
   "husky": {
     "hooks": {

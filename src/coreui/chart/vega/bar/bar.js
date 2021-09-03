@@ -1,0 +1,157 @@
+goog.declareModuleId('coreui.chart.vega.bar.Bar');
+
+import {default as ChartType} from '../charttype.js';
+import {default as BarSpecHandler} from './barspec.js';
+import {default as AbstractChart} from '../base/abstractchart';
+import {default as SourceModel} from '../data/sourcemodel';
+import {default as BoxSelect} from '../interaction/boxselect';
+import {default as ClickContext} from '../interaction/clickcontext';
+import {default as ClickContextEventType} from '../interaction/clickcontexteventtype';
+import {default as ClickSelect} from '../interaction/clickselect';
+import {default as Hover} from '../interaction/hover';
+const osActionEventType = goog.require('os.action.EventType');
+
+const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+
+
+/**
+ * Vega implementation of a bar chart.
+ */
+class Bar extends AbstractChart {
+  /**
+   * Constructor.
+   * @param {string} id The chart ID.
+   * @param {angular.JQLite} container The container element.
+   * @param {Model} model The data model.
+   */
+  constructor(id, container, model) {
+    super(id, container, model);
+    /**
+     * @type {BarSpecHandler}
+     */
+    this.specHandler = new BarSpecHandler();
+
+    this.init();
+  }
+
+  /**
+   * @inheritDoc
+   */
+  disposeInternal() {
+    super.disposeInternal();
+
+    this.disposeInteractions();
+    this.specHandler = null;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  init(opt_spec) {
+    super.init(opt_spec);
+
+    if (opt_spec) {
+      this.specHandler = new BarSpecHandler(opt_spec);
+    }
+    this.spec = this.specHandler.getSpec();
+
+    this.setSignals();
+  }
+
+  /**
+   * @inheritDoc
+   */
+  createInteractions() {
+    if (this.spec) {
+      this.disposeInteractions();
+
+      // add the following interactions
+      const hover = new Hover(this.model, ChartType.BAR);
+      this.interactions[hover.id] = hover;
+      const click = new ClickSelect(this.model, ChartType.BAR);
+      this.interactions[click.id] = click;
+      const context = new ClickContext(this.model, ChartType.BAR);
+      this.interactions[context.id] = context;
+      const box = new BoxSelect(this.model, ChartType.BAR);
+      this.interactions[box.id] = box;
+    }
+
+    super.createInteractions();
+  }
+
+  /**
+   * @inheritDoc
+   */
+  setupMenuActions() {
+    super.setupMenuActions();
+
+    // this chart coloring by selected bin
+    this.menuActions[osActionEventType.COLOR_SELECTED] = true;
+
+    // this chart doesn't support reset view
+    this.menuActions[ClickContextEventType.RESET_VIEW] = false;
+    this.menuActions[BoxSelect.EventType.RESET_VIEW] = false;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  updateData() {
+    super.updateData();
+
+    if (this.view != null && this.model instanceof SourceModel) {
+      const totalCount = this.model.getTotalCount();
+
+      // set the new total count, used as part of the tooltip display
+      this.updateSpecSignal('totalCount', totalCount);
+
+      const key0 = this.model.seriesKeys[0];
+      const bin0 = this.model.bins[key0];
+
+      if (bin0) {
+        const sortedDomain = bin0.map((item) => item['label']);
+        this.updateSpecSignal('xDomain', sortedDomain);
+      }
+
+      // add in multi color bars
+      const oldData = this.view.data('barColors');
+      const newData = this.model.getColorFolds('label');
+      this.view.change('barColors', vega.changeset().insert(newData).remove(oldData));
+
+      if (newData.length) {
+        this.updateSpecSignal('barColorsActive', true);
+      } else {
+        this.updateSpecSignal('barColorsActive', false);
+      }
+    }
+  }
+
+  /**
+   * Add variables to the spec before the view is created
+   * @protected
+   */
+  setSignals() {
+    const title = this.model instanceof SourceModel && this.model.source && this.model.source.getTitle() ?
+      this.model.source.getTitle() : this.model.source.getId() ||
+      '';
+
+    this.updateSpecSignal('dataSource', title);
+  }
+
+  /**
+   * @inheritDoc
+   */
+  updateScale(xy, type) {
+    this.recreateView = true;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  getMaxBinCount() {
+    // min: 744 -- allow for all of the hours in a month
+    return 1250;
+  }
+}
+
+export default Bar;

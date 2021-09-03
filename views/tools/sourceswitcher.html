@@ -1,0 +1,13 @@
+<div class="input-group">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Data Source</span>
+  </div>
+  <select class="custom-select pl-2 c-source-switcher__select" ng-model="source" ng-click="srcSwitch.clearWarning(true)"
+      ng-options="srcSwitch.getTitle(value) for value in sources" ng-change="srcSwitch.onSourceSelection()"></select>
+  <div class="input-group-append"
+      ng-if="srcSwitch.enableWarning"
+      ng-mouseout="srcSwitch.clearWarning()"
+      title="Selection was changed due to a layer being hidden or removed.">
+    <span class="input-group-text"><i class="fa fa-warning text-warning"></i></span>
+  </div>
+</div>

@@ -1,0 +1,91 @@
+<div class="dropdown m-1 position-absolute w-100 u-zindex-base">
+  <button type="button" class="js-vega-options__button btn btn-primary dropdown-toggle" ng-click="ctrl.toggleOptions()">
+      <i class="fa" ng-class="{'fa-gear': !ctrl.expanded, 'fa-close': ctrl.expanded}"></i>
+    {{ctrl.expanded ? 'Close' : 'Edit'}}
+  </button>
+
+  <div class="js-vega-options__collapse dropdown-menu p-1 c-tools__form-control-label-fixed c-charttool__controls">
+    <div class="card-body" ng-if="availableOptions.length > 1">
+      <div class="btn-group">
+        <button class="btn" ng-repeat="availableOption in availableOptions" ng-class="options.type === availableOption.type ? 'btn-success' : 'btn-secondary'" title="{{availableOption.title}}" ng-click="ctrl.setChart(availableOption)">
+          <i ng-class="availableOption.icon" class="fa fa-fw"></i>
+        </button>
+      </div>
+      <div class="u-btn-separator mx-1"></div>
+      <div class="btn-group">
+        <button class="btn btn-secondary btn-narrow" title="Changes the data y-axis label rotation" ng-click="ctrl.rotateYLabels()" ng-disabled="options.signals.yLabelAngle == null">
+          <sub class="vegaoptions__axis-rotate">Y</sub>
+          <i class="fa fa-fw fa-long-arrow-right" ng-style="{'transform': 'rotate(' + (options.signals.yLabelAngle || 0) + 'deg)'}"></i>
+        </button>
+        <button class="btn btn-secondary btn-narrow" title="Changes the data x-axis label rotation" ng-click="ctrl.rotateXLabels()" ng-disabled="options.signals.xLabelAngle == null">
+          <sub class="vegaoptions__axis-rotate">X</sub>
+          <i class="fa fa-fw fa-long-arrow-right" ng-style="{'transform': 'rotate(' + (options.signals.xLabelAngle || 0) + 'deg)'}"></i>
+        </button>
+        <button class="btn btn-secondary" title="Swaps the X and Y axes" ng-click="ctrl.swapAxes()" ng-disabled="options.signals.isChartRotated == null">
+          <i class="fa fa-fw fa-retweet" ng-style="{'transform': 'rotate(' + (options.signals.isChartRotated ? 90 : 0) + 'deg)'}"></i>
+        </button>
+      </div>
+    </div>
+
+    <div ng-if="options.primaryMethod">
+      <div class="form-group d-flex flex-row" ng-if="!options.hidePrimary">
+        <label class="form-control-label flex-shrink-0 mr-2 my-auto text-right">Column</label>
+        <select class="form-control custom-select col" ng-change="ctrl.updateColumn('primary')" ng-model="options.primary" ng-options="item.name for item in columns">
+          <option value="">{{ctrl.DEFAULT_FIELD}}</option>
+        </select>
+      </div>
+
+      <div class="form-group d-flex flex-row"  ng-if="!options.hidePrimaryType">
+        <label class="form-control-label flex-shrink-0 mr-2 my-auto text-right">Type</label>
+        <select class="form-control custom-select col" ng-model="options.primaryMethodType"
+            ng-options="key as key for (key, value) in ctrl.methods"
+            ng-change="ctrl.updateOptions()"
+            ng-disabled="options.primaryMethodTypeImmutable"></select>
+      </div>
+
+      <uiswitch ng-if="!options.hidePrimaryBin" items="options.primaryMethod" directive-function="ctrl.getMethodUi" options="{'showEmptyBinsOption': (options.type == 'bar')}" always-switch="true"></uiswitch>
+    </div>
+
+    <div ng-if="options.secondaryMethod">
+      <hr>
+      <div class="form-group d-flex" ng-if="!options.hideSecondary">
+        <label class="form-control-label flex-shrink-0 mr-2 my-auto text-right">Column</label>
+        <select class="custom-select" ng-change="ctrl.updateColumn('secondary')" ng-model="options.secondary" ng-options="field.name for field in columns">
+          <option value="">{{ctrl.DEFAULT_FIELD}}</option>
+        </select>
+      </div>
+
+      <div class="form-group d-flex flex-row" ng-if="!options.hideSecondaryType">
+        <label class="form-control-label flex-shrink-0 mr-2 my-auto text-right">Type</label>
+        <select class="form-control custom-select col" ng-model="options.secondaryMethodType"
+            ng-options="key as key for (key, value) in ctrl.methods"
+            ng-change="ctrl.updateOptions()"
+            ng-disabled="options.secondaryMethodTypeImmutable"></select>
+      </div>
+
+      <uiswitch ng-if="!options.hideSecondaryBin" items="options.secondaryMethod" directive-function="ctrl.getMethodUi" always-switch="true"></uiswitch>
+    </div>
+
+    <div class="form-group mt-1">
+      <button type="button" class="btn btn-secondary dropdown-toggle"
+          ng-if="ctrl.binStatMenu"
+          ng-click="ctrl.openMenu($event, ctrl.binStatMenu)"
+          ng-class="{'active': ctrl.isMenuOpen(ctrl.binStatMenu)}">
+        Bin Stats
+      </button>
+      <button type="button" class="btn btn-secondary dropdown-toggle"
+          ng-if="ctrl.dataStatMenu"
+          ng-click="ctrl.openMenu($event, ctrl.dataStatMenu)"
+          ng-class="{'active': ctrl.isMenuOpen(ctrl.dataStatMenu)}">
+        Data Stats
+      </button>
+    </div>
+
+    <div class="d-flex mt-3" ng-if="options.showReset">
+      <button type="button" class="btn btn-secondary" ng-click="ctrl.resetView()" title="Reset the data and apply to chart">
+        <i class="fa fa-fw fa-undo"></i>
+        Reset Data
+      </button>
+    </div>
+  </div>
+</div>

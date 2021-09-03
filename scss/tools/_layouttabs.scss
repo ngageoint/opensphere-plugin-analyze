@@ -1,0 +1,13 @@
+.nav.nav-tabs {
+  .c-layout-tab {
+    margin-bottom: -4px !important;
+    max-width: 10rem;
+    min-width: 6rem;
+  }
+
+  .c-layout-tab-link {
+    margin-bottom: -$navbar-padding-y;
+    padding: $input-btn-padding-y $input-btn-padding-x !important;
+    padding-bottom: ($navbar-padding-y * 2) !important;
+  }
+}

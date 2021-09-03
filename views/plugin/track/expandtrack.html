@@ -1,0 +1,31 @@
+<div class="d-flex flex-column flex-fill">
+  <div class="modal-body">
+    <div class="py-2">
+      <div class="row form-group">
+        <label class="col-2 col-form-label text-right" title="Track starting time">From</label>
+        <div class="col align-items-center justify-content-end">
+          <date-time value="expandtrack.start" hidecontrols="true"></date-time>
+          <div class="invalid-feedback d-inline" ng-show="expandtrack.startInvalid()">Must be earlier than track start of {{expandtrack.prettyDate(expandtrack.min)}}</div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <label class="col-2 col-form-label text-right" title="Track ending time">To</label>
+        <div class="col align-items-center justify-content-end">
+          <date-time value="expandtrack.end" hidecontrols="true"></date-time>
+          <div class="invalid-feedback d-inline" ng-show="expandtrack.endInvalid()">Must be later than track ending of {{expandtrack.prettyDate(expandtrack.max)}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer flex-row">
+    <button class="btn btn-primary" ng-click="expandtrack.accept()" ng-disabled="expandtrack.startInvalid() || expandtrack.endInvalid()">
+      <i class="fa fa-check"></i>
+      OK
+    </button>
+    <button class="btn btn-secondary" ng-click="expandtrack.close()">
+      <i class="fa fa-ban"></i>
+      Close
+    </button>
+  </div>
+</div>

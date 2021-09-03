@@ -1,0 +1,26 @@
+<div id="js-window__container" class="h-100 w-100 position-absolute d-flex">
+  <div class="d-flex flex-column flex-fill w-100" ng-show="toolsMain.connected">
+    <toolsnav
+        all-time="toolsMain.allTime"
+        show-layout-panel="toolsMain.showLayoutPanel"
+        source="source"
+        layout-configs="toolsMain.layoutConfigs">
+    </toolsnav>
+    <div class="d-flex flex-fill">
+      <div id="js-tools-main" class="d-flex flex-row flex-fill">
+        <layout-panel
+          class="c-tools__layout-panel border-left u-bg-flyout animate-slide-w a-transition-duration__200ms w-100"
+          layout="toolsMain.layout"
+          parent="#js-tools-main"
+          ng-show="toolsMain.showLayoutPanel">
+        </layout-panel>
+        <div id="js-tools-layout-container" class="d-flex flex-row flex-fill"></div>
+      </div>
+    </div>
+  </div>
+  <div ng-show="!toolsMain.connected">
+    Could not connect to the main application! Did you launch this window from there?
+  </div>
+  <alert-popup ng-if="toolsMain.isExternal"></alert-popup>
+  <global-menu id="js-global-menu"></global-menu>
+</div>

@@ -1,0 +1,12 @@
+<div>
+  <div class="form-group d-flex flex-row">
+    <label class="form-control-label flex-shrink-0 mr-2 my-auto text-right">Bin</label>
+    <select class="custom-select col" ng-model="type" ng-options="value for value in types"></select>
+  </div>
+  <div class="d-flex flex-row" ng-show="showEmptyBinsOption">
+    <label class="form-control-label flex col">
+      <input class="form-control-input" type="checkbox" ng-model="show" >
+      Show Empty Bins
+    </label>
+  </div>
+</div>
