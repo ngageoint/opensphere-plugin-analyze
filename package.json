@@ -20,17 +20,17 @@
     "gcc-src": [
       "src/**.js"
     ],
+    "ignoreUncompiled": {
+      "mist.analyze.TOOLS_PATH": true
+    },
     "index": "tools.js",
     "scss": "scss/tools.scss",
-    "ignoreUncompiled": {
-      "plugin.tools.TOOLS_PATH": true
-    },
     "gcc": {
       "entry_point": [
         "goog:plugin.tools.ToolsPlugin"
       ],
       "define": [
-        "plugin.tools.TOOLS_PATH=''"
+        "mist.analyze.TOOLS_PATH=''"
       ]
     }
   },

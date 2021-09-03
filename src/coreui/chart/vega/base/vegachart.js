@@ -8,12 +8,11 @@ import {default as ChartManager} from './chartmanager.js';
 import {default as EventType} from './eventtype.js';
 import {default as Model} from '../data/model';
 import {default as SourceModel} from '../data/sourcemodel';
-
+import {ROOT} from '../../../../tools/tools.js';
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import * as osFeature from 'opensphere/src/os/feature/feature.js';
 import * as ui from 'opensphere/src/os/ui/ui.js';
 
-const {ROOT} = goog.require('bits');
 const layout = goog.require('coreui.layout');
 const AbstractComponentCtrl = goog.require('coreui.layout.AbstractComponentCtrl');
 const Debouncer = goog.require('goog.async.Debouncer');

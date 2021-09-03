@@ -4,6 +4,7 @@ goog.module.declareLegacyNamespace();
 const keys = goog.require('mist.metrics.keys');
 const Module = goog.require('os.ui.Module');
 const AbstractNodeUICtrl = goog.require('os.ui.slick.AbstractNodeUICtrl');
+const {ROOT} = goog.require('tools');
 
 const dedupeNode = goog.requireType('mist.ui.DedupeNode');
 
@@ -14,7 +15,7 @@ const dedupeNode = goog.requireType('mist.ui.DedupeNode');
 const directive = () => ({
   restrict: 'AE',
   replace: true,
-  templateUrl: mist.ROOT + 'views/tools/dedupenodeui.html',
+  templateUrl: ROOT + 'views/tools/dedupenodeui.html',
   controller: Controller,
   controllerAs: 'nodeUi'
 });

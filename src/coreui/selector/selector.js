@@ -1,7 +1,8 @@
 goog.declareModuleId('coreui.selector.SelectorUI');
 
-const fn = goog.require('os.fn');
+import {ROOT} from '../../tools/tools.js';
 
+const fn = goog.require('os.fn');
 const Module = goog.require('os.ui.Module');
 
 
@@ -18,7 +19,6 @@ const Module = goog.require('os.ui.Module');
 export const directive = () => ({
   restrict: 'E',
   replace: true,
-
   scope: {
     'value': '=?', // Value of the index (or indices) of the selected option(s).
     'options': '=', // Array of options to display in the selection menu.
@@ -34,25 +34,21 @@ export const directive = () => ({
     'onSelect': '=?', // Callback when an option is selected.
     'onUpdate': '=?' // Callback when the Select2 object is updated.
   },
-
-  templateUrl: bits.ROOT + 'views/selector/selector.html',
+  templateUrl: ROOT + 'views/selector/selector.html',
   controller: Controller,
   controllerAs: 'ctrl'
 });
-
 
 /**
  * Add the directive to the module
  */
 Module.directive('selector', [directive]);
 
-
-
 /**
  * SelectorUI for the Select2 input
  * @unrestricted
  */
-class Controller {
+export class Controller {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -233,5 +229,3 @@ class Controller {
     // Override this method with your own logic when inherited.
   }
 }
-
-export {Controller};

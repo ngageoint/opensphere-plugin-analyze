@@ -3,7 +3,7 @@ goog.module.declareLegacyNamespace();
 
 goog.require('coreui.selector.GeneralSelectorUI');
 
-const bits = goog.require('bits');
+const {ROOT} = goog.require('tools');
 const milsym = goog.require('coreui.milsym');
 const EventType = goog.require('coreui.milsym.EventType');
 const olObj = goog.require('ol.obj');
@@ -27,7 +27,7 @@ const directive = () => ({
     'iconUrl': '='
   },
 
-  templateUrl: bits.ROOT + 'views/milsym/milsymsave\.html',
+  templateUrl: ROOT + 'views/milsym/milsymsave\.html',
   controller: Controller,
   controllerAs: 'ctrl'
 });

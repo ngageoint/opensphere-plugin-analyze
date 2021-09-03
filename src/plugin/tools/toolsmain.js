@@ -4,9 +4,9 @@ goog.require('os.ui.NgRightClickUI');
 goog.require('os.ui.util.AutoHeightUI');
 
 import {ToolsSettingsInitializer} from './settingsinitializer.js';
+import {ROOT} from '../../tools/tools.js';
 import {PiwikPlugin} from 'opensphere-plugin-geoint-viewer/src/plugin/piwik/piwikplugin.js';
 
-const {ROOT} = goog.require('mist');
 const log = goog.require('goog.log');
 const {isAnalyze} = goog.require('mist.analyze');
 const PluginManager = goog.require('os.plugin.PluginManager');

@@ -2,8 +2,9 @@ goog.declareModuleId('coreui.selector.GeneralSelectorUI');
 
 import {Controller as SelectorController} from './selector.js';
 import generalSelectorSignal from './generalselectorsignal.js';
+import {ROOT} from '../../tools/tools.js';
 
-import * as ui from 'opensphere/src/os/ui/ui.js';
+import {apply} from 'opensphere/src/os/ui/ui.js';
 
 const Module = goog.require('os.ui.Module');
 
@@ -72,7 +73,7 @@ export const directive = () => ({
     'onUpdate': '=?' // Callback when the Select2 object is updated.
   },
 
-  templateUrl: bits.ROOT + 'views/selector/selector.html',
+  templateUrl: ROOT + 'views/selector/selector.html',
   controller: Controller,
   controllerAs: 'ctrl'
 });
@@ -82,13 +83,11 @@ export const directive = () => ({
  */
 Module.directive('generalselector', [directive]);
 
-
-
 /**
  * GeneralSelectorUI for the general picker
  * @unrestricted
  */
-class Controller extends SelectorController {
+export class Controller extends SelectorController {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -180,7 +179,7 @@ class Controller extends SelectorController {
     } else {
       this.scope_['generalValue'] = this.scope_['generalOptions'][index];
     }
-    ui.apply(this.scope_);
+    apply(this.scope_);
   }
 
   /**
@@ -205,5 +204,3 @@ class Controller extends SelectorController {
     }.bind(this));
   }
 }
-
-export {Controller};

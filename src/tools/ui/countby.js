@@ -30,7 +30,7 @@ const osUiMenuList = goog.require('os.ui.menu.list');
 const osUiSlickColumn = goog.require('os.ui.slick.column');
 const ui = goog.require('os.ui');
 const {CountByEventType} = goog.require('tools.ui.CountByRemoveCascadeUI');
-const {ROOT} = goog.require('mist');
+const {ROOT} = goog.require('tools');
 
 const ColorBin = goog.requireType('os.data.histo.ColorBin');
 const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');

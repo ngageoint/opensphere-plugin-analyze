@@ -51,7 +51,7 @@ const EXPORT_PROPERTY = '_mistExports';
 /**
  * @define {string} The base path to tools.html.
  */
-const TOOLS_PATH = goog.define('mist.analyze.TOOLS_PATH', '../opensphere-plugin-mist/');
+const TOOLS_PATH = goog.define('mist.analyze.TOOLS_PATH', '../opensphere-plugin-analyze/');
 
 /**
  * Selector for the Analyze app.
@@ -353,28 +353,14 @@ const replaceExportFunctions = function() {
 };
 
 /**
- * The base path to the Analyze index.
- * @type {string}
- */
-let basePath = TOOLS_PATH;
-
-/**
- * Setter for the analyze base path.
- * @param {string} value
- */
-const setBasePath = (value) => {
-  basePath = value;
-};
-
-/**
- * Opens the analyze tools in a new tab/window
+ * Opens the analyze tools in a new tab/window.
  */
 const openExternal = function() {
-  window.open(basePath + 'tools.html', '_blank');
+  window.open(TOOLS_PATH + 'tools.html', '_blank');
 };
 
 /**
- * Opens the analyze tools internally via iframe
+ * Opens the analyze tools internally via iframe.
  */
 const openInternal = function() {
   const id = 'analyze-window';
@@ -382,7 +368,7 @@ const openInternal = function() {
   if (osWindow.getById(id)) {
     osWindow.bringToFront(id);
   } else {
-    const toolsPath = basePath + 'tools.html';
+    const toolsPath = TOOLS_PATH + 'tools.html';
     const html = '<savedwindow id="' + id + '" key="analyze" label="Analyze"' +
         ' icon="lt-blue-icon fa fa-list-alt" x="center" y="center" width="765" height="525"' +
         ' min-width="515" max-width="1500" min-height="250" max-height="1000" show-close="true">' +
@@ -395,7 +381,6 @@ const openInternal = function() {
 
 exports = {
   EXPORT_PROPERTY,
-  TOOLS_PATH,
   AppSelector,
   isAnalyze,
   getExternal,
@@ -409,8 +394,6 @@ exports = {
   initializeExports,
   restoreSingletonsFromExports,
   replaceExportFunctions,
-  basePath,
-  setBasePath,
   openExternal,
   openInternal
 };

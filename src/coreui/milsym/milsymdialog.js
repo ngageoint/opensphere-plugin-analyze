@@ -1,8 +1,7 @@
 goog.module('coreui.milsym.MilSymDialogUI');
 goog.module.declareLegacyNamespace();
 
-
-const bits = goog.require('bits');
+const {ROOT} = goog.require('tools');
 const EventType = goog.require('coreui.milsym.EventType');
 const {Controller: MilSymCtrl} = goog.require('coreui.milsym.MilSymUI');
 const Module = goog.require('os.ui.Module');
@@ -22,7 +21,7 @@ const directive = () => ({
     'isAutoheight': '='
   },
 
-  templateUrl: bits.ROOT + 'views/milsym/milsym\.html',
+  templateUrl: ROOT + 'views/milsym/milsym\.html',
   controller: Controller,
   controllerAs: 'ctrl'
 });

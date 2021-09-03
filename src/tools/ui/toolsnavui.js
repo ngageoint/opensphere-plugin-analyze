@@ -7,8 +7,9 @@ goog.require('tools.ui.LayoutButtonUI');
 goog.require('tools.ui.SourceSwitcherUI');
 
 const Disposable = goog.require('goog.Disposable');
-const Module = goog.require('tools.ui.Module');
 const list = goog.require('os.ui.list');
+const {ROOT} = goog.require('tools');
+const Module = goog.require('tools.ui.Module');
 const nav = goog.require('tools.ui.nav');
 
 /**
@@ -26,7 +27,7 @@ const directive = () => ({
     'layoutConfigs': '='
   },
 
-  templateUrl: mist.ROOT + 'views/tools/toolsnav.html',
+  templateUrl: ROOT + 'views/tools/toolsnav.html',
   controller: Controller,
   controllerAs: 'toolsNav'
 });

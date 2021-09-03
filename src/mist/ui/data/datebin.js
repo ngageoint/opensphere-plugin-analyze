@@ -3,6 +3,7 @@ goog.module.declareLegacyNamespace();
 
 const EventType = goog.require('goog.events.EventType');
 const Module = goog.require('os.ui.Module');
+const {ROOT} = goog.require('tools');
 
 const DateBinMethod = goog.requireType('os.histo.DateBinMethod');
 
@@ -14,7 +15,7 @@ const DateBinMethod = goog.requireType('os.histo.DateBinMethod');
 const directive = () => ({
   restrict: 'AE',
   replace: true,
-  templateUrl: mist.ROOT + 'views/data/datebin.html',
+  templateUrl: ROOT + 'views/data/datebin.html',
   controller: Controller
 });
 

@@ -4,7 +4,7 @@ goog.module.declareLegacyNamespace();
 goog.require('coreui.milsym.MilSymSaveUI');
 goog.require('coreui.selector.GeneralSelectorUI');
 
-const bits = goog.require('bits');
+const {ROOT} = goog.require('tools');
 const EventType = goog.require('coreui.milsym.EventType');
 const olObj = goog.require('ol.obj');
 const Module = goog.require('os.ui.Module');
@@ -24,7 +24,7 @@ const directive = () => ({
     'selected': '='
   },
 
-  templateUrl: bits.ROOT + 'views/milsym/milsym\.html',
+  templateUrl: ROOT + 'views/milsym/milsym\.html',
   controller: Controller,
   controllerAs: 'ctrl'
 });

@@ -1,10 +1,8 @@
 goog.declareModuleId('plugin.tools.ToolsPlugin');
 
-goog.require('bits');
 goog.require('mist.analyze.ButtonUI');
 goog.require('mist.mixin.places');
 
-import {TOOLS_PATH} from './tools.js';
 import {
   directive as toolsMainDirective,
   directiveTag as toolsMainTag
@@ -91,9 +89,6 @@ export class ToolsPlugin extends AbstractPlugin {
 
     // export properties for external windows
     analyze.initializeExports();
-
-    // use GV's tools.html
-    analyze.setBasePath(TOOLS_PATH);
   }
 
   /**

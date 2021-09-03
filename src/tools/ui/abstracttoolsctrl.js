@@ -57,6 +57,7 @@ const column = goog.require('os.ui.column');
 const ExportManager = goog.require('os.ui.file.ExportManager');
 const {LAYOUT_CONTAINER_ID} = goog.require('tools.ui');
 const {Event: NavEvent} = goog.require('tools.ui.nav');
+const {ROOT} = goog.require('tools');
 const util = goog.require('tools.util');
 
 const Logger = goog.requireType('goog.log.Logger');
@@ -79,7 +80,7 @@ class Controller extends AbstractMainCtrl {
    * @ngInject
    */
   constructor($scope, $element, $compile, $timeout, $injector) {
-    super($scope, $injector, mist.ROOT, 'Tools');
+    super($scope, $injector, ROOT, 'Tools');
 
     // disable animation on the tools window as it is an enormous performance killer with our Angular integration
     try {

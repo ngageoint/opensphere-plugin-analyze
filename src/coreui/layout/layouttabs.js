@@ -3,7 +3,7 @@ goog.module.declareLegacyNamespace();
 
 goog.require('coreui.layout.DragComponentUI');
 
-const bits = goog.require('bits');
+const {ROOT} = goog.require('tools');
 const LayoutTabsEvent = goog.require('coreui.layout.LayoutTabsEvent');
 const TabParams = goog.require('coreui.layout.TabParams');
 const Disposable = goog.require('goog.Disposable');
@@ -36,7 +36,7 @@ const directive = () => ({
 
   controller: Controller,
   controllerAs: 'layoutTabsCtrl',
-  templateUrl: bits.ROOT + 'views/layout/layouttabs.html'
+  templateUrl: ROOT + 'views/layout/layouttabs.html'
 });
 
 /**

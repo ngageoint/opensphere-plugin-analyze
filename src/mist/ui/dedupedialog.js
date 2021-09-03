@@ -16,6 +16,7 @@ const {nameCompare} = goog.require('os.ui.slick.column');
 const window = goog.require('os.ui.window');
 const ConfirmTextUI = goog.require('os.ui.window.ConfirmTextUI');
 const osMetrics = goog.require('os.metrics.Metrics');
+const {ROOT} = goog.require('tools');
 
 const VectorSource = goog.requireType('os.source.Vector');
 
@@ -28,7 +29,7 @@ const directive = () => ({
   restrict: 'E',
   replace: true,
   scope: true,
-  templateUrl: mist.ROOT + 'views/tools/dedupedialog.html',
+  templateUrl: ROOT + 'views/tools/dedupedialog.html',
   controller: Controller,
   controllerAs: 'dedupe'
 });

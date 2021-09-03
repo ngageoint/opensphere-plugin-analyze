@@ -32,7 +32,7 @@ const {containsValue} = goog.require('goog.object');
 const {getDocument} = goog.require('goog.dom');
 const {isPrimitive} = goog.require('os.object');
 const {listen: olListen, unlisten: olUnlisten} = goog.require('ol.events');
-const {ROOT} = goog.require('mist');
+const {ROOT} = goog.require('tools');
 
 const GoogEvent = goog.requireType('goog.events.Event');
 const Menu = goog.requireType('os.ui.menu.Menu');

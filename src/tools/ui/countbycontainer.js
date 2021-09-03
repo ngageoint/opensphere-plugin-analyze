@@ -17,7 +17,7 @@ const ToolsMenu = goog.require('mist.menu.tools');
 const analyze = goog.require('mist.analyze');
 const histo = goog.require('os.data.histo');
 const {getFilterColumns} = goog.require('os.source');
-const {ROOT} = goog.require('mist');
+const {ROOT} = goog.require('tools');
 
 const IFilterable = goog.requireType('os.filter.IFilterable');
 const IHistogramUI = goog.requireType('os.ui.IHistogramUI');

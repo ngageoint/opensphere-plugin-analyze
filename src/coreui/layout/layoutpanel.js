@@ -4,7 +4,7 @@ goog.module.declareLegacyNamespace();
 goog.require('coreui.layout.DragComponentUI');
 goog.require('os.ui.util.AutoHeightUI');
 
-const bits = goog.require('bits');
+const {ROOT} = goog.require('tools');
 const layout = goog.require('coreui.layout');
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
 const Disposable = goog.require('goog.Disposable');
@@ -31,7 +31,7 @@ const directive = () => ({
 
   controller: Controller,
   controllerAs: 'ctrl',
-  templateUrl: bits.ROOT + 'views/layout/layoutpanel.html'
+  templateUrl: ROOT + 'views/layout/layoutpanel.html'
 });
 
 /**

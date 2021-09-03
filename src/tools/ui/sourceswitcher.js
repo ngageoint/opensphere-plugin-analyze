@@ -13,7 +13,7 @@ const layout = goog.require('coreui.layout');
 const osSource = goog.require('os.source');
 const ui = goog.require('os.ui');
 const {Event: NavEvent} = goog.require('tools.ui.nav');
-const {ROOT} = goog.require('mist');
+const {ROOT} = goog.require('tools');
 
 const ISource = goog.requireType('os.source.ISource');
 

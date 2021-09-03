@@ -6,11 +6,11 @@ import * as statsmenu from '../../chartstatsmenu.js';
 import {default as ChartType} from '../charttype.js';
 import {default as EventType} from './eventtype.js';
 import * as stats from './vegachartstats.js';
+import {ROOT} from '../../../../tools/tools.js';
 
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import * as ui from 'opensphere/src/os/ui/ui.js';
 
-const {ROOT} = goog.require('bits');
 const Disposable = goog.require('goog.Disposable');
 const dispose = goog.require('goog.dispose');
 const GoogEventType = goog.require('goog.events.EventType');

@@ -1,7 +1,7 @@
 goog.module('coreui.layout.DragComponentUI');
 goog.module.declareLegacyNamespace();
 
-const bits = goog.require('bits');
+const {ROOT} = goog.require('tools');
 const coreuiLayout = goog.require('coreui.layout');
 const Disposable = goog.require('goog.Disposable');
 const googString = goog.require('goog.string');
@@ -24,7 +24,7 @@ const directive = () => ({
 
   controller: Controller,
   controllerAs: 'ctrl',
-  templateUrl: bits.ROOT + 'views/layout/dragcomponent.html'
+  templateUrl: ROOT + 'views/layout/dragcomponent.html'
 });
 
 /**

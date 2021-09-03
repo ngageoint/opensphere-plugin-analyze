@@ -7,7 +7,7 @@ const Module = goog.require('os.ui.Module');
 const osWindow = goog.require('os.ui.window');
 const RecordField = goog.require('os.data.RecordField');
 const {requestTrack} = goog.require('plugin.mist.track.query');
-const {ROOT} = goog.require('mist');
+const {ROOT} = goog.require('tools');
 const WindowEventType = goog.require('os.ui.WindowEventType');
 
 const Feature = goog.requireType('ol.Feature');
