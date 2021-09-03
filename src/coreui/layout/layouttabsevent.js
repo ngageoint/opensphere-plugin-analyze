@@ -1,5 +1,4 @@
 goog.module('coreui.layout.LayoutTabsEvent');
-goog.module.declareLegacyNamespace();
 
 
 /**

@@ -1,5 +1,4 @@
 goog.module('plugin.mist.track.TrackPlugin');
-goog.module.declareLegacyNamespace();
 
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const {createAndAdd} = goog.require('plugin.track');

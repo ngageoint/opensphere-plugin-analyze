@@ -1,5 +1,4 @@
 goog.module('tools.ui.AbstractHistogramCtrl');
-goog.module.declareLegacyNamespace();
 
 goog.require('mist.ui.data.DateBinUI');
 goog.require('mist.ui.data.NumericBinUI');

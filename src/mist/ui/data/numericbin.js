@@ -1,5 +1,4 @@
 goog.module('mist.ui.data.NumericBinUI');
-goog.module.declareLegacyNamespace();
 
 const EventType = goog.require('goog.events.EventType');
 const Module = goog.require('os.ui.Module');

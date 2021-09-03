@@ -1,5 +1,4 @@
 goog.module('tools.ui.ListToolUI');
-goog.module.declareLegacyNamespace();
 
 goog.require('mist.ui.widget');
 goog.require('os.ui.SliderUI');

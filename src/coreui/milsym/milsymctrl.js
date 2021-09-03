@@ -1,5 +1,4 @@
 goog.module('coreui.milsym.MilSymUI');
-goog.module.declareLegacyNamespace();
 
 goog.require('coreui.milsym.MilSymSaveUI');
 goog.require('coreui.selector.GeneralSelectorUI');

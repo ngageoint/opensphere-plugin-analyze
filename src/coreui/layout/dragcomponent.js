@@ -1,5 +1,4 @@
 goog.module('coreui.layout.DragComponentUI');
-goog.module.declareLegacyNamespace();
 
 const {ROOT} = goog.require('tools');
 const coreuiLayout = goog.require('coreui.layout');

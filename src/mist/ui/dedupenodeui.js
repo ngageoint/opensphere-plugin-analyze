@@ -1,5 +1,4 @@
 goog.module('mist.ui.DedupeNodeUI');
-goog.module.declareLegacyNamespace();
 
 const keys = goog.require('mist.metrics.keys');
 const Module = goog.require('os.ui.Module');

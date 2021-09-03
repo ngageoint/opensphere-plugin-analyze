@@ -1,5 +1,4 @@
 goog.module('coreui.layout.AbstractComponentCtrl');
-goog.module.declareLegacyNamespace();
 
 const layout = goog.require('coreui.layout');
 const Disposable = goog.require('goog.Disposable');

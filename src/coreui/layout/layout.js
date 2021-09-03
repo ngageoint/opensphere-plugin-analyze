@@ -1,5 +1,4 @@
 goog.module('coreui.layout');
-goog.module.declareLegacyNamespace();
 
 
 /**

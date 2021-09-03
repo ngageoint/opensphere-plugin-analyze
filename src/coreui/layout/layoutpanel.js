@@ -1,5 +1,4 @@
 goog.module('coreui.layout.LayoutPanelUI');
-goog.module.declareLegacyNamespace();
 
 goog.require('coreui.layout.DragComponentUI');
 goog.require('os.ui.util.AutoHeightUI');

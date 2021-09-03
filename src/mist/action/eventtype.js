@@ -1,5 +1,4 @@
 goog.module('mist.action.EventType');
-goog.module.declareLegacyNamespace();
 
 const EventType = goog.require('os.action.EventType');
 

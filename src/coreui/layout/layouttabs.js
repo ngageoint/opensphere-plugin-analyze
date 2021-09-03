@@ -1,5 +1,4 @@
 goog.module('coreui.layout.LayoutTabsUI');
-goog.module.declareLegacyNamespace();
 
 goog.require('coreui.layout.DragComponentUI');
 

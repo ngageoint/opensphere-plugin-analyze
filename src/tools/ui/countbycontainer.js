@@ -1,5 +1,4 @@
 goog.module('tools.ui.CountByContainerUI');
-goog.module.declareLegacyNamespace();
 
 const {inIframe} = goog.require('os');
 const AlertManager = goog.require('os.alert.AlertManager');

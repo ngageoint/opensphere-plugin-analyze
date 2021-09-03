@@ -1,5 +1,4 @@
 goog.module('coreui.milsym');
-goog.module.declareLegacyNamespace();
 
 
 /**

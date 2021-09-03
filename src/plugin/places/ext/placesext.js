@@ -1,5 +1,4 @@
 goog.module('plugin.places.ext');
-goog.module.declareLegacyNamespace();
 
 const {getValueByKeys} = goog.require('goog.object');
 const {getExports} = goog.require('mist.analyze');

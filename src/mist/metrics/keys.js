@@ -1,5 +1,4 @@
 goog.module('mist.metrics.keys');
-goog.module.declareLegacyNamespace();
 
 
 /**

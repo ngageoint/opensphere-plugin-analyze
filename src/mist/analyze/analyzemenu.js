@@ -1,5 +1,4 @@
 goog.module('mist.analyze.menu');
-goog.module.declareLegacyNamespace();
 
 const EventType = goog.require('mist.action.EventType');
 const analyze = goog.require('mist.analyze');

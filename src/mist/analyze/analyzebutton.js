@@ -1,5 +1,4 @@
 goog.module('mist.analyze.ButtonUI');
-goog.module.declareLegacyNamespace();
 
 const analyze = goog.require('mist.analyze');
 const keys = goog.require('mist.metrics.keys');

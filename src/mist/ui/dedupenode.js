@@ -1,5 +1,4 @@
 goog.module('mist.ui.DedupeNode');
-goog.module.declareLegacyNamespace();
 
 const SlickTreeNode = goog.require('os.ui.slick.SlickTreeNode');
 const ISearchable = goog.requireType('os.data.ISearchable');
@@ -97,7 +96,7 @@ class DedupeNode extends SlickTreeNode {
  * @type {string}
  * @const
  */
-DedupeNode.INVALID_ICON = `<i class="fa fa-fw fa-warning text-warning" title="One or more columns are 
+DedupeNode.INVALID_ICON = `<i class="fa fa-fw fa-warning text-warning" title="One or more columns are
     missing on the layer, so the configuration cannot be applied."></i>`;
 
 

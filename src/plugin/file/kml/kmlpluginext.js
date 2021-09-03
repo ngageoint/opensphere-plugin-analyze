@@ -1,5 +1,4 @@
 goog.module('plugin.file.kml.KMLPluginExt');
-goog.module.declareLegacyNamespace();
 
 goog.require('plugin.file.kml.ui.KMLExportUI');
 

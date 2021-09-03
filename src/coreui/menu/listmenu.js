@@ -1,5 +1,4 @@
 goog.module('bits.coreui.menu.list');
-goog.module.declareLegacyNamespace();
 
 
 /**

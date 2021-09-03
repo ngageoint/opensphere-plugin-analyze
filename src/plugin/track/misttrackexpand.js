@@ -1,5 +1,4 @@
 goog.module('plugin.mist.track.ExpandTrackUI');
-goog.module.declareLegacyNamespace();
 
 goog.require('os.ui.datetime.DateTimeUI');
 

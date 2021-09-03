@@ -1,5 +1,4 @@
 goog.module('plugin.mist.track.menu');
-goog.module.declareLegacyNamespace();
 
 const {addToTrack, getSortField, isTrackFeature, promptForTitle} = goog.require('os.track');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');

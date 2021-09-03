@@ -1,5 +1,4 @@
 goog.module('tools.ui.AllTimeCheckboxUI');
-goog.module.declareLegacyNamespace();
 
 const DataManager = goog.require('os.data.DataManager');
 const Disposable = goog.require('goog.Disposable');

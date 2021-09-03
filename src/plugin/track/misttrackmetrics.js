@@ -1,5 +1,4 @@
 goog.module('plugin.mist.track.Metrics');
-goog.module.declareLegacyNamespace();
 
 const {ID} = goog.require('plugin.mist.track.Constants');
 

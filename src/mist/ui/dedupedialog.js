@@ -1,5 +1,4 @@
 goog.module('mist.ui.MistDedupeUI');
-goog.module.declareLegacyNamespace();
 
 const settings = goog.require('os.config.Settings');
 const ui = goog.require('os.ui');

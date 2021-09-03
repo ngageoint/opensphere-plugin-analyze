@@ -1,5 +1,4 @@
 goog.module('mist.analyze');
-goog.module.declareLegacyNamespace();
 
 const googLog = goog.require('goog.log');
 const AlertManager = goog.require('os.alert.AlertManager');

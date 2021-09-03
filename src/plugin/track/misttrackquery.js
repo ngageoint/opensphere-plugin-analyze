@@ -1,5 +1,4 @@
 goog.module('plugin.mist.track.query');
-goog.module.declareLegacyNamespace();
 
 const {addToTrack} = goog.require('os.track');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');

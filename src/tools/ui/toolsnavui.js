@@ -1,5 +1,4 @@
 goog.module('tools.ui.nav.ToolsNavUI');
-goog.module.declareLegacyNamespace();
 
 goog.require('coreui.layout.LayoutTabsUI');
 goog.require('tools.ui.AllTimeCheckboxUI');

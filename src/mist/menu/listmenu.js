@@ -1,5 +1,4 @@
 goog.module('mist.menu.list');
-goog.module.declareLegacyNamespace();
 
 goog.require('ol.events');
 goog.require('ol.extent');

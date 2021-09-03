@@ -1,5 +1,4 @@
 goog.module('mist.ui.menu.layer');
-goog.module.declareLegacyNamespace();
 
 const MapContainer = goog.require('os.MapContainer');
 const EventType = goog.require('mist.action.EventType');

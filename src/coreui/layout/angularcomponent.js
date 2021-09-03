@@ -1,5 +1,4 @@
 goog.module('coreui.layout.AngularComponent');
-goog.module.declareLegacyNamespace();
 
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
 const googString = goog.require('goog.string');

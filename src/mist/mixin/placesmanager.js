@@ -1,5 +1,4 @@
 goog.module('mist.mixin.places');
-goog.module.declareLegacyNamespace();
 
 goog.require('mist.mixin.vectorsource');
 

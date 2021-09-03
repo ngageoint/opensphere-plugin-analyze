@@ -1,5 +1,4 @@
 goog.module('mist.chart');
-goog.module.declareLegacyNamespace();
 
 
 const {default: ChartRegistry} = goog.require('coreui.chart.vega.ChartRegistry');

@@ -1,5 +1,4 @@
 goog.module('tools.ui.Module');
-goog.module.declareLegacyNamespace();
 
 /**
  * Angular module 'tools'.

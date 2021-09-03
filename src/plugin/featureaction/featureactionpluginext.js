@@ -1,5 +1,4 @@
 goog.module('plugin.im.action.feature.PluginExt');
-goog.module.declareLegacyNamespace();
 
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const analyze = goog.require('mist.analyze');

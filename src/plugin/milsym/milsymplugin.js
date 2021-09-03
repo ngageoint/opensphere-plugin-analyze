@@ -1,5 +1,4 @@
 goog.module('plugin.milsym.MilSymPlugin');
-goog.module.declareLegacyNamespace();
 
 goog.require('coreui.milsym.MilSymDialogUI');
 

@@ -1,5 +1,4 @@
 goog.module('tools.util');
-goog.module.declareLegacyNamespace();
 
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');

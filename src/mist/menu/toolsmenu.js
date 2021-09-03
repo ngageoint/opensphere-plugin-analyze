@@ -1,5 +1,4 @@
 goog.module('mist.menu.tools');
-goog.module.declareLegacyNamespace();
 
 const keys = goog.require('mist.metrics.keys');
 const EventType = goog.require('os.action.EventType');

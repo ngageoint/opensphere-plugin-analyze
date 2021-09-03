@@ -1,5 +1,4 @@
 goog.module('coreui.milsym.EventType');
-goog.module.declareLegacyNamespace();
 
 
 exports = {

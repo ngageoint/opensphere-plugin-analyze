@@ -1,5 +1,4 @@
 goog.module('mist.ui.widget');
-goog.module.declareLegacyNamespace();
 
 goog.require('os.ui');
 goog.require('os.ui.Module');

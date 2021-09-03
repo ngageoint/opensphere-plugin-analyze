@@ -1,5 +1,4 @@
 goog.module('plugin.places.ext.menu');
-goog.module.declareLegacyNamespace();
 
 const {assert} = goog.require('goog.asserts');
 const listMenu = goog.require('mist.menu.list');

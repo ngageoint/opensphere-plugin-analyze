@@ -1,5 +1,4 @@
 goog.module('tools.ui.AbstractToolsMainCtrl');
-goog.module.declareLegacyNamespace();
 
 goog.require('coreui.chart.vega.base.VegaChartUI');
 goog.require('coreui.layout.LayoutPanelUI');

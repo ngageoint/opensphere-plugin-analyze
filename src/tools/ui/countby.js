@@ -1,5 +1,4 @@
 goog.module('tools.ui.CountByUI');
-goog.module.declareLegacyNamespace();
 
 goog.require('mist.ui.widget');
 goog.require('os.ui.UISwitchUI');

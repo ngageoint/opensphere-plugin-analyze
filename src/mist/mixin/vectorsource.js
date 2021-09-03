@@ -1,5 +1,4 @@
 goog.module('mist.mixin.vectorsource');
-goog.module.declareLegacyNamespace();
 
 const PropertyChangeEvent = goog.require('os.events.PropertyChangeEvent');
 const instanceOf = goog.require('os.instanceOf');

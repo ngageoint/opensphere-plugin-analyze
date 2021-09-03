@@ -1,5 +1,4 @@
 goog.module('plugin.places.PluginExt');
-goog.module.declareLegacyNamespace();
 
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const {addFolder, addPlace, saveFromSource} = goog.require('plugin.places');

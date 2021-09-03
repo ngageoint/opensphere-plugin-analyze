@@ -1,5 +1,4 @@
 goog.module('tools.ui.LayoutButtonUI');
-goog.module.declareLegacyNamespace();
 
 const Disposable = goog.require('goog.Disposable');
 const Module = goog.require('tools.ui.Module');

@@ -1,5 +1,4 @@
 goog.module('mist.menu.countBy');
-goog.module.declareLegacyNamespace();
 
 const dispatcher = goog.require('os.Dispatcher');
 const osFeature = goog.require('os.feature');

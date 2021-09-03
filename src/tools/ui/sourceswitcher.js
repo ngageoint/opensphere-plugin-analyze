@@ -1,5 +1,4 @@
 goog.module('tools.ui.SourceSwitcherUI');
-goog.module.declareLegacyNamespace();
 
 goog.require('goog.events.EventType');
 goog.require('mist.mixin.vectorsource');

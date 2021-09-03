@@ -1,5 +1,4 @@
 goog.module('tools.ui.nav');
-goog.module.declareLegacyNamespace();
 
 
 /**

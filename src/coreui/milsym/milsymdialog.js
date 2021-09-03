@@ -1,5 +1,4 @@
 goog.module('coreui.milsym.MilSymDialogUI');
-goog.module.declareLegacyNamespace();
 
 const {ROOT} = goog.require('tools');
 const EventType = goog.require('coreui.milsym.EventType');
