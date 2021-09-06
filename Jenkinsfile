@@ -34,9 +34,6 @@ node {
           dir(workspace_dir) {
             def projects = [
               'opensphere',
-              'bits-internal',
-              'mist',
-              'opensphere-nga-brand',
               project_dir
             ]
 
