@@ -5,7 +5,7 @@ goog.require('mist.mixin.vectorsource');
 goog.require('mist.ui.widget');
 goog.require('ol.events');
 
-const Module = goog.require('tools.ui.Module');
+const {Module} = goog.require('tools.ui.Module');
 const SourceManager = goog.require('os.data.SourceManager');
 const Timer = goog.require('goog.Timer');
 const layout = goog.require('coreui.layout');

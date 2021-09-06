@@ -3,7 +3,7 @@ goog.module('tools.ui.AllTimeCheckboxUI');
 const DataManager = goog.require('os.data.DataManager');
 const Disposable = goog.require('goog.Disposable');
 const GoogEventType = goog.require('goog.events.EventType');
-const Module = goog.require('tools.ui.Module');
+const {Module} = goog.require('tools.ui.Module');
 const PropertyChange = goog.require('os.data.PropertyChange');
 const {ROOT} = goog.require('tools');
 

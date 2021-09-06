@@ -3,27 +3,22 @@ goog.declareModuleId('plugin.tools.ToolsPlugin');
 goog.require('mist.analyze.ButtonUI');
 goog.require('mist.mixin.places');
 
-import {
-  directive as toolsMainDirective,
-  directiveTag as toolsMainTag
-} from './toolsmain.js';
+import * as ToolsMain from './toolsmain.js'; // eslint-disable-line
+import {ToolsSettingsInitializer} from './settingsinitializer.js';
 
-import {inIframe} from 'opensphere/src/os/os.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
-import {replaceDirective} from 'opensphere/src/os/ui/ui.js';
 
 const GoogEventType = goog.require('goog.events.EventType');
 
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
 const MistActionEventType = goog.require('mist.action.EventType');
-const analyze = goog.require('mist.analyze');
+const {closeExternal, initializeExports, isAnalyze} = goog.require('mist.analyze');
 const analyzeMenu = goog.require('mist.analyze.menu');
 const countBy = goog.require('mist.menu.countBy');
 const mistMenuList = goog.require('mist.menu.list');
 const {handleAddColumn} = goog.require('mist.menu.tools');
 const mistLayerMenu = goog.require('mist.ui.menu.layer');
 const widget = goog.require('mist.ui.widget');
-const Module = goog.require('tools.ui.Module');
 
 const ActionEventType = goog.require('os.action.EventType');
 const osList = goog.require('os.ui.list');
@@ -32,10 +27,10 @@ const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const PluginManager = goog.require('os.plugin.PluginManager');
 const menuList = goog.require('os.ui.menu.list');
 
-const pluginImActionFeaturePluginExt = goog.require('plugin.im.action.feature.PluginExt');
+const FeatureActionPluginExt = goog.require('plugin.im.action.feature.PluginExt');
 const MilSymPlugin = goog.require('plugin.milsym.MilSymPlugin');
 const TrackPlugin = goog.require('plugin.mist.track.TrackPlugin');
-const PluginExt = goog.require('plugin.places.PluginExt');
+const PlacesPluginExt = goog.require('plugin.places.PluginExt');
 
 
 /**
@@ -85,10 +80,10 @@ export class ToolsPlugin extends AbstractPlugin {
     osList.add(NavLocation.TOP_LEFT, '<analyze-button show-label="!punyWindow"></analyze-button>', 250);
 
     // close external windows when this window is closed
-    window.addEventListener(GoogEventType.BEFOREUNLOAD, analyze.closeExternal);
+    window.addEventListener(GoogEventType.BEFOREUNLOAD, closeExternal);
 
     // export properties for external windows
-    analyze.initializeExports();
+    initializeExports();
   }
 
   /**
@@ -104,16 +99,18 @@ export class ToolsPlugin extends AbstractPlugin {
   }
 }
 
-// Replace MIST's tools-main directive with our own.
-replaceDirective(toolsMainTag, Module, toolsMainDirective);
-
-if (!(inIframe() || analyze.isExternal(window))) {
+if (isAnalyze()) {
+  // Initialize settings for the Analyze window.
+  const settingsInitializer = new ToolsSettingsInitializer();
+  settingsInitializer.init();
+} else {
+  // Add the plugin to the main app.
   const pm = PluginManager.getInstance();
   pm.addPlugin(ToolsPlugin.getInstance());
 
-  // plugins that add exports for Analyze
-  pm.addPlugin(pluginImActionFeaturePluginExt.getInstance());
-  pm.addPlugin(PluginExt.getInstance());
+  // Add plugins that provide exports for the Analyze window.
+  pm.addPlugin(FeatureActionPluginExt.getInstance());
+  pm.addPlugin(PlacesPluginExt.getInstance());
   pm.addPlugin(TrackPlugin.getInstance());
   pm.addPlugin(MilSymPlugin.getInstance());
 }

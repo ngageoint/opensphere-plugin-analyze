@@ -1,9 +1,9 @@
-goog.module('tools.ui.Module');
+goog.declareModuleId('tools.ui.Module');
 
 /**
  * Angular module 'tools'.
  */
-exports = angular.module('tools', [
+export const Module = angular.module('tools', [
   'ngSanitize',
   'os.ui'
 ]);

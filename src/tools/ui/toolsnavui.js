@@ -8,7 +8,7 @@ goog.require('tools.ui.SourceSwitcherUI');
 const Disposable = goog.require('goog.Disposable');
 const list = goog.require('os.ui.list');
 const {ROOT} = goog.require('tools');
-const Module = goog.require('tools.ui.Module');
+const {Module} = goog.require('tools.ui.Module');
 const nav = goog.require('tools.ui.nav');
 
 /**

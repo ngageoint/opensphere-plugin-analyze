@@ -1,7 +1,7 @@
 goog.module('tools.ui.LayoutButtonUI');
 
 const Disposable = goog.require('goog.Disposable');
-const Module = goog.require('tools.ui.Module');
+const {Module} = goog.require('tools.ui.Module');
 const {LayoutEvent} = goog.require('coreui.layout');
 
 
