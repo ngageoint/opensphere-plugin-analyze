@@ -20,7 +20,7 @@ const IHistogramUI = goog.requireType('os.ui.IHistogramUI');
 const ColorBin = goog.requireType('os.data.histo.ColorBin');
 const OlFeature = goog.requireType('ol.Feature');
 const SourceHistogram = goog.requireType('os.data.histo.SourceHistogram');
-const AbstractHistogramCtrl = goog.requireType('tools.ui.AbstractHistogramCtrl');
+const {AbstractHistogramCtrl} = goog.requireType('tools.ui.AbstractHistogramCtrl');
 const SourceModel = goog.requireType('coreui.chart.vega.data.SourceModel');
 
 

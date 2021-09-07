@@ -1,4 +1,4 @@
-goog.module('tools.ui.CountByUI');
+goog.declareModuleId('tools.ui.CountByUI');
 
 goog.require('mist.ui.widget');
 goog.require('os.ui.UISwitchUI');
@@ -6,7 +6,7 @@ goog.require('os.ui.slick.SlickGridUI');
 
 const {isOSX} = goog.require('os');
 const {registerClass} = goog.require('os.classRegistry');
-const AbstractHistogramCtrl = goog.require('tools.ui.AbstractHistogramCtrl');
+const {AbstractHistogramCtrl} = goog.require('tools.ui.AbstractHistogramCtrl');
 const CountByContainerUI = goog.require('tools.ui.CountByContainerUI');
 const CountByMenu = goog.require('mist.menu.countBy');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
@@ -39,7 +39,7 @@ const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
  * The count by directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
 
@@ -54,19 +54,16 @@ const directive = () => ({
   controllerAs: 'countby'
 });
 
-
 /**
  * Add the directive to the tools module
  */
 Module.directive('countby', [directive]);
 
-
-
 /**
  * Controller class for the source switcher
  * @unrestricted
  */
-class Controller extends AbstractHistogramCtrl {
+export class Controller extends AbstractHistogramCtrl {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -75,7 +72,7 @@ class Controller extends AbstractHistogramCtrl {
    */
   constructor($scope, $element) {
     super($scope, $element);
-    this.log = LOGGER_;
+    this.log = LOGGER;
     this.contextMenu = CountByMenu.MENU || null;
 
     /**
@@ -638,35 +635,25 @@ class Controller extends AbstractHistogramCtrl {
  * @type {string}
  * @const
  */
-const NAME = 'tools.ui.CountByCtrl';
-registerClass(NAME, Controller);
+export const NAME = 'tools.ui.CountByCtrl';
 
+registerClass(NAME, Controller);
 
 /**
  * Logger for tools.ui.CountByCtrl
  * @type {log.Logger}
- * @private
- * @const
  */
-const LOGGER_ = log.getLogger('tools.ui.CountByUI');
-
+const LOGGER = log.getLogger('tools.ui.CountByUI');
 
 /**
  * The HTML template used for cascaded rows.
  * @type {string}
  * @const
  */
-const CASCADE_TEMPLATE =
+export const CASCADE_TEMPLATE =
     '<div class="cascade-bin">' +
     '<cascaderemove></cascaderemove>' +
     '&nbsp;' +
     '<i class="fa fa-arrow-right text-success" ' +
         'title="This bin is being included in the next Count By and created filters"></i>' +
     '</div>';
-
-exports = {
-  Controller,
-  directive,
-  CASCADE_TEMPLATE,
-  NAME
-};

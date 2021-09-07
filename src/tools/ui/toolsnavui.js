@@ -1,4 +1,4 @@
-goog.module('tools.ui.nav.ToolsNavUI');
+goog.declareModuleId('tools.ui.nav.ToolsNavUI');
 
 goog.require('coreui.layout.LayoutTabsUI');
 goog.require('tools.ui.AllTimeCheckboxUI');
@@ -11,11 +11,12 @@ const {ROOT} = goog.require('tools');
 const {Module} = goog.require('tools.ui.Module');
 const nav = goog.require('tools.ui.nav');
 
+
 /**
  * The toolsnav directive.
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
 
@@ -33,12 +34,11 @@ const directive = () => ({
 
 Module.directive('toolsnav', [directive]);
 
-
 /**
  * Controller for the tools nav directive.
  * @unrestricted
  */
-class Controller extends Disposable {
+export class Controller extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -97,8 +97,3 @@ class Controller extends Disposable {
     }
   }
 }
-
-exports = {
-  Controller,
-  directive
-};

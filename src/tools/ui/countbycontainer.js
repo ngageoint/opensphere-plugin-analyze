@@ -1,4 +1,4 @@
-goog.module('tools.ui.CountByContainerUI');
+goog.declareModuleId('tools.ui.CountByContainerUI');
 
 const {inIframe} = goog.require('os');
 const AlertManager = goog.require('os.alert.AlertManager');
@@ -28,73 +28,63 @@ const ISource = goog.requireType('os.source.ISource');
  * @type {string}
  * @const
  */
-const COUNTBY_CHILD_TEMPLATE = '<countby class="border-left" container="container" source="source" ' +
+export const COUNTBY_CHILD_TEMPLATE = '<countby class="border-left" container="container" source="source" ' +
     'parent="parent"></countby>';
-
 
 /**
  * Selector for the count by DOM element
  * @type {string}
  * @const
  */
-const COUNTBY_SELECTOR = '.js-countby';
-
+export const COUNTBY_SELECTOR = '.js-countby';
 
 /**
  * Selector for the DOM element containing the count bys
  * @type {string}
  * @const
  */
-const CONTAINER_SELECTOR = '.js-countby-container__countbys';
-
+export const CONTAINER_SELECTOR = '.js-countby-container__countbys';
 
 /**
  * Selector for the DOM element containing cascading scroll pane.
  * @type {string}
  * @const
  */
-const SCROLLPANE_SELECTOR = '.js-countby-container__scrollpane';
-
+export const SCROLLPANE_SELECTOR = '.js-countby-container__scrollpane';
 
 /**
  * The `controllerAs` value for the count by container.
  * @type {string}
  * @const
  */
-const COUNTBY_CONTAINER_CTRL = 'cbc';
-
+export const COUNTBY_CONTAINER_CTRL = 'cbc';
 
 /**
  * The countbycontainer directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
-
   scope: {
     'container': '=',
     'source': '='
   },
-
   templateUrl: ROOT + 'views/tools/countbycontainer.html',
   controller: Controller,
   controllerAs: COUNTBY_CONTAINER_CTRL
 });
-
 
 /**
  * Add the directive to the module.
  */
 Module.directive('countbycontainer', [directive]);
 
-
-
 /**
  * Controller function for the countbycontainer directive
  * @unrestricted
  */
-class Controller extends Disposable {
+export class Controller extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -419,21 +409,9 @@ class Controller extends Disposable {
   }
 }
 
-
 /**
  * Counter for filters generated from a Count By.
  * @type {number}
  * @private
  */
 Controller.filterCount_ = 1;
-
-
-exports = {
-  Controller,
-  directive,
-  COUNTBY_CHILD_TEMPLATE,
-  COUNTBY_SELECTOR,
-  CONTAINER_SELECTOR,
-  SCROLLPANE_SELECTOR,
-  COUNTBY_CONTAINER_CTRL
-};

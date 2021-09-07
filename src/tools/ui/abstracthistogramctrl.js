@@ -1,4 +1,4 @@
-goog.module('tools.ui.AbstractHistogramCtrl');
+goog.declareModuleId('tools.ui.AbstractHistogramCtrl');
 
 goog.require('mist.ui.data.DateBinUI');
 goog.require('mist.ui.data.NumericBinUI');
@@ -50,27 +50,21 @@ const VectorSource = goog.requireType('os.source.Vector');
 /**
  * Logger for tools.ui.AbstractHistogramCtrl
  * @type {log.Logger}
- * @private
- * @const
  */
-const LOGGER_ = log.getLogger('tools.ui.AbstractHistogramCtrl');
-
+const LOGGER = log.getLogger('tools.ui.AbstractHistogramCtrl');
 
 /**
  * Default bin method type.
  * @type {string}
- * @private
- * @const
  */
-const DEFAULT_METHOD_ = 'Unique';
-
+const DEFAULT_METHOD = 'Unique';
 
 /**
  * Abstract controller for directives backed by a source histogram.
  * @implements {IHistogramUI}
  * @unrestricted
  */
-class Controller extends AbstractComponentCtrl {
+export class AbstractHistogramCtrl extends AbstractComponentCtrl {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -85,7 +79,7 @@ class Controller extends AbstractComponentCtrl {
      * @type {log.Logger}
      * @protected
      */
-    this.log = LOGGER_;
+    this.log = LOGGER;
 
     /**
      * Map of configurations for each source.
@@ -237,7 +231,7 @@ class Controller extends AbstractComponentCtrl {
    * @protected
    */
   getDefaultMethod() {
-    return DEFAULT_METHOD_;
+    return DEFAULT_METHOD;
   }
 
   /**
@@ -312,7 +306,7 @@ class Controller extends AbstractComponentCtrl {
    * @inheritDoc
    */
   getParent() {
-    return this.scope ? /** @type {Controller|undefined} */ (this.scope['parent']) : undefined;
+    return this.scope ? /** @type {AbstractHistogramCtrl|undefined} */ (this.scope['parent']) : undefined;
   }
 
   /**
@@ -1036,6 +1030,3 @@ class Controller extends AbstractComponentCtrl {
     return this.source.createHistogram(opt_parent);
   }
 }
-
-
-exports = Controller;

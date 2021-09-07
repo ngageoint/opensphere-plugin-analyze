@@ -1,4 +1,4 @@
-goog.module('tools.ui.ListToolUI');
+goog.declareModuleId('tools.ui.ListToolUI');
 
 goog.require('mist.ui.widget');
 goog.require('os.ui.SliderUI');
@@ -43,7 +43,7 @@ const VectorSource = goog.requireType('os.source.Vector');
  * The list tool directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
 
@@ -57,18 +57,16 @@ const directive = () => ({
   controllerAs: 'list'
 });
 
-
 /**
  * Add the directive to the tools module
  */
 Module.directive('listtool', [directive]);
 
-
 /**
  * Controller class for the list tool
  * @unrestricted
  */
-class Controller extends AbstractComponentCtrl {
+export class Controller extends AbstractComponentCtrl {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -489,15 +487,8 @@ class Controller extends AbstractComponentCtrl {
   }
 }
 
-
 /**
  * The default row height (not including padding)
  * @type {number}
  */
 Controller.DEFAULT_ROW_HEIGHT = 21;
-
-
-exports = {
-  Controller,
-  directive
-};

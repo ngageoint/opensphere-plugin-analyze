@@ -1,4 +1,4 @@
-goog.module('tools.ui.SourceSwitcherUI');
+goog.declareModuleId('tools.ui.SourceSwitcherUI');
 
 goog.require('goog.events.EventType');
 goog.require('mist.mixin.vectorsource');
@@ -21,7 +21,7 @@ const ISource = goog.requireType('os.source.ISource');
  * The source switcher directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'AE',
   replace: true,
   templateUrl: ROOT + 'views/tools/sourceswitcher.html',
@@ -29,19 +29,16 @@ const directive = () => ({
   controllerAs: 'srcSwitch'
 });
 
-
 /**
  * Add the directive to the tools module
  */
 Module.directive('sourceswitcher', [directive]);
 
-
-
 /**
  * Controller class for the source switcher
  * @unrestricted
  */
-class Controller extends SourceManager {
+export class Controller extends SourceManager {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -271,8 +268,3 @@ class Controller extends SourceManager {
     this.onUpdateDelay();
   }
 }
-
-exports = {
-  Controller,
-  directive
-};

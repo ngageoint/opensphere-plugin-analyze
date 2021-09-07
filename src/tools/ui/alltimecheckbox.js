@@ -1,4 +1,4 @@
-goog.module('tools.ui.AllTimeCheckboxUI');
+goog.declareModuleId('tools.ui.AllTimeCheckboxUI');
 
 const DataManager = goog.require('os.data.DataManager');
 const Disposable = goog.require('goog.Disposable');
@@ -14,7 +14,7 @@ const PropertyChangeEvent = goog.requireType('os.events.PropertyChangeEvent');
  * The all time checkbox directive.
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'AE',
   replace: true,
   scope: true,
@@ -23,18 +23,16 @@ const directive = () => ({
   controllerAs: 'ctrl'
 });
 
-
 /**
  * Add the directive to the tools module
  */
 Module.directive('alltimecheckbox', [directive]);
 
-
 /**
  * Controller for the all time checkbox.
  * @unrestricted
  */
-class Controller extends Disposable {
+export class Controller extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -94,8 +92,3 @@ class Controller extends Disposable {
     }
   }
 }
-
-exports = {
-  Controller,
-  directive
-};

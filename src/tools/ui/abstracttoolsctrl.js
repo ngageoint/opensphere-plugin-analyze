@@ -1,4 +1,4 @@
-goog.module('tools.ui.AbstractToolsMainCtrl');
+goog.declareModuleId('tools.ui.AbstractToolsMainCtrl');
 
 goog.require('coreui.chart.vega.base.VegaChartUI');
 goog.require('coreui.layout.LayoutPanelUI');
@@ -41,7 +41,6 @@ const DataManager = goog.require('os.data.DataManager');
 const events = goog.require('os.events');
 const FilePersistence = goog.require('os.file.persist.FilePersistence');
 const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
-const fn = goog.require('os.fn');
 const Metrics = goog.require('os.metrics.Metrics');
 const keys = goog.require('os.metrics.keys');
 const addDefaultHandlers = goog.require('os.net.addDefaultHandlers');
@@ -68,7 +67,7 @@ const IPersistable = goog.requireType('os.IPersistable');
  * @implements {IPersistable}
  * @unrestricted
  */
-class Controller extends AbstractMainCtrl {
+export class AbstractToolsMainCtrl extends AbstractMainCtrl {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -118,7 +117,7 @@ class Controller extends AbstractMainCtrl {
      * @type {Logger}
      * @protected
      */
-    this.log = LOGGER_;
+    this.log = LOGGER;
 
     /**
      * Identifier for the external window.
@@ -858,19 +857,15 @@ class Controller extends AbstractMainCtrl {
       CommandProcessor.getInstance().addCommand(cmd);
     }
   }
+
+  /**
+   * @inheritDoc
+   */
+  doCertNazi() {}
 }
 
 /**
  * Logger
  * @type {Logger}
- * @private
- * @const
  */
-const LOGGER_ = log.getLogger('tools.ui.AbstractToolsMainCtrl');
-
-
-/**
- * @inheritDoc
- */
-Controller.prototype.doCertNazi = fn.noop;
-exports = Controller;
+const LOGGER = log.getLogger('tools.ui.AbstractToolsMainCtrl');

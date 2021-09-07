@@ -1,4 +1,4 @@
-goog.module('tools.ui.CountByRemoveCascadeUI');
+goog.declareModuleId('tools.ui.CountByRemoveCascadeUI');
 
 const Module = goog.require('os.ui.Module');
 
@@ -6,16 +6,15 @@ const Module = goog.require('os.ui.Module');
 /**
  * @enum {string}
  */
-const CountByEventType = {
+export const CountByEventType = {
   REMOVE_CASCADE: 'countby:removeCascade'
 };
-
 
 /**
  * The cascaderemove directive
  * @return {angular.Directive}
  */
-const directive = function() {
+export const directive = function() {
   return {
     restrict: 'E',
     replace: true,
@@ -32,14 +31,7 @@ const directive = function() {
   };
 };
 
-
 /**
  * Add the directive to the module.
  */
 Module.directive('cascaderemove', [directive]);
-
-
-exports = {
-  CountByEventType,
-  directive
-};

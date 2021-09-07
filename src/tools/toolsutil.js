@@ -1,4 +1,4 @@
-goog.module('tools.util');
+goog.declareModuleId('tools.util');
 
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
@@ -15,8 +15,7 @@ const {unsafeClone} = goog.require('os.object');
  * Global reference of arrays for default analyze window tab config/layouts.
  * @type {Array<GoldenLayout.Config>}
  */
-const layoutConfigs = [];
-
+export const layoutConfigs = [];
 
 /**
  * Map of constant values from plugins; which may or may not be included in various builds of MIST.  At some
@@ -25,7 +24,7 @@ const layoutConfigs = [];
  *
  * @type {Object<string,Object>}
  */
-const constants = {
+export const constants = {
   infinity: {
     VEGA: 'infinity_' + widget.Type.VEGA, // plugin.infinity.WidgetId.VEGA
     CHART: 'infinity_' + widget.Type.CHART, // plugin.infinity.WidgetId.CHART
@@ -57,12 +56,11 @@ const constants = {
   }
 };
 
-
 /**
  * Create the default Golden Layout content.
  * @return {!Array<!GoldenLayout.Config>}
  */
-const createDefaultContent = function() {
+export const createDefaultContent = function() {
   var wm = ComponentManager.getInstance();
 
   var countBy = wm.createComponent(widget.Type.COUNT_BY);
@@ -89,26 +87,24 @@ const createDefaultContent = function() {
   }];
 };
 
-
 /**
  * Get the default configs for the GoldenLayout tabs. This can be contributed to by plugins through the
  * {@code layoutConfigs} array.
  * @return {Array<GoldenLayout.Config>} The configs.
  */
-const getDefaultConfigs = function() {
+export const getDefaultConfigs = function() {
   var baseConfig = /** @type {!GoldenLayout.Config} */ (Settings.getInstance().get('toolsWindow.defaultConfig', {}));
   baseConfig['content'] = createDefaultContent();
   baseConfig['showClose'] = false;
   return [baseConfig].concat(layoutConfigs);
 };
 
-
 /**
  * If Vega plugin is available, convert Zing charts' GoldenConfig into a Vega GoldenConfig
  * @param {*=} config the GoldenConfig holder
  * @return {*} the GoldenConfig holder; possibly transformed
  */
-const transform = function(config) {
+export const transform = function(config) {
   /**
    * Recursively walk down the content arrays of the configs; transforming configs as needed
    *
@@ -146,7 +142,6 @@ const transform = function(config) {
   return config;
 };
 
-
 /**
  * Convert Zing to Vega.
  *
@@ -158,7 +153,7 @@ const transform = function(config) {
  * @param {string} source the Source's ID
  * @return {GoldenLayout.Component|null} the VegaChart config
  */
-const toVega = function(record, source) {
+export const toVega = function(record, source) {
   if (!record) return null;
 
   var isInfinity = (record.id == constants.infinity.CHART);
@@ -273,13 +268,4 @@ const toVega = function(record, source) {
   }
 
   return null;
-};
-
-exports = {
-  layoutConfigs,
-  constants,
-  createDefaultContent,
-  getDefaultConfigs,
-  transform,
-  toVega
 };

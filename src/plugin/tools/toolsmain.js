@@ -14,7 +14,7 @@ import {PiwikPlugin} from 'opensphere-plugin-geoint-viewer/src/plugin/piwik/piwi
 
 const log = goog.require('goog.log');
 const PluginManager = goog.require('os.plugin.PluginManager');
-const AbstractToolsMainCtrl = goog.require('tools.ui.AbstractToolsMainCtrl');
+const {AbstractToolsMainCtrl} = goog.require('tools.ui.AbstractToolsMainCtrl');
 
 const Logger = goog.requireType('goog.log.Logger');
 
