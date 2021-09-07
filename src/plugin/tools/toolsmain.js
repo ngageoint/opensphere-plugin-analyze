@@ -3,7 +3,8 @@ goog.declareModuleId('plugin.tools.ToolsMain');
 goog.require('os.ui.NgRightClickUI');
 goog.require('os.ui.util.AutoHeightUI');
 
-import SettingsInitializer from './settingsinitializer.js';
+import {ToolsSettingsInitializer} from './settingsinitializer.js';
+import {PiwikPlugin} from 'opensphere-plugin-geoint-viewer/src/plugin/piwik/piwikplugin.js';
 
 const {ROOT} = goog.require('mist');
 const log = goog.require('goog.log');
@@ -12,7 +13,6 @@ const PluginManager = goog.require('os.plugin.PluginManager');
 const KMLPluginExt = goog.require('plugin.file.kml.KMLPluginExt');
 const FeatureActionPluginExt = goog.require('plugin.im.action.feature.PluginExt');
 const TrackPlugin = goog.require('plugin.mist.track.TrackPlugin');
-const PiwikPlugin = goog.require('plugin.piwik.PiwikPlugin');
 const PlacesPluginExt = goog.require('plugin.places.PluginExt');
 const AbstractToolsMainCtrl = goog.require('tools.ui.AbstractToolsMainCtrl');
 
@@ -89,6 +89,6 @@ class Controller extends AbstractToolsMainCtrl {
 
 if (isAnalyze()) {
   // Initialize settings for this app
-  const settingsInitializer = new SettingsInitializer();
+  const settingsInitializer = new ToolsSettingsInitializer();
   settingsInitializer.init();
 }
