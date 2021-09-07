@@ -1,6 +1,6 @@
 goog.declareModuleId('plugin.mist.track.EventType');
 
-const {ID} = goog.require('plugin.mist.track.Constants');
+import {ID} from './constants.js';
 
 /**
  * Events for the MIST track plugin.

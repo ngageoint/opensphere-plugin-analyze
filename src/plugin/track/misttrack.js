@@ -1,5 +1,8 @@
 goog.declareModuleId('plugin.mist.track');
 
+import {LAYER_TITLE} from './constants.js';
+import {MistTrackEventType} from './eventtype.js';
+
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const AlertManager = goog.require('os.alert.AlertManager');
 const cloneToContext = goog.require('os.filter.cloneToContext');
@@ -12,10 +15,8 @@ const {getWfsParams} = goog.require('os.ogc');
 const instanceOf = goog.require('os.instanceOf');
 const IOGCDescriptor = goog.require('os.ui.ogc.IOGCDescriptor');
 const KMLNodeAdd = goog.require('plugin.file.kml.cmd.KMLNodeAdd');
-const {LAYER_TITLE} = goog.require('plugin.mist.track.Constants');
 const log = goog.require('goog.log');
 const MapContainer = goog.require('os.MapContainer');
-const {MistTrackEventType} = goog.require('plugin.mist.track.EventType');
 const osImplements = goog.require('os.implements');
 const PlacesManager = goog.require('plugin.places.PlacesManager');
 const RecordField = goog.require('os.data.RecordField');

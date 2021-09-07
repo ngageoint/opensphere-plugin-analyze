@@ -1,12 +1,14 @@
 goog.declareModuleId('plugin.im.action.feature.FeatureActionPluginExt');
 
+import {ID} from './featureactionext.js';
+import {countByDispose, countBySetup} from './featureactionmenuext.js';
+
+import {isMainWindow} from 'opensphere/src/os/os.js';
+
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const analyze = goog.require('mist.analyze');
-const ext = goog.require('plugin.im.action.feature.ext');
-const featureActionExtMenu = goog.require('plugin.im.action.feature.ext.menu');
 const FeatureActionManager = goog.require('plugin.im.action.feature.Manager');
 const googObject = goog.require('goog.object');
-const {isMainWindow} = goog.require('os');
 const {launchEditFeatureAction} = goog.require('plugin.im.action.feature.ui');
 const osObject = goog.require('os.object');
 
@@ -20,7 +22,7 @@ export class FeatureActionPluginExt extends AbstractPlugin {
    */
   constructor() {
     super();
-    this.id = ext.ID;
+    this.id = ID;
   }
 
   /**
@@ -30,7 +32,7 @@ export class FeatureActionPluginExt extends AbstractPlugin {
     super.disposeInternal();
 
     if (!isMainWindow()) {
-      featureActionExtMenu.countByDispose();
+      countByDispose();
     }
   }
 
@@ -49,7 +51,7 @@ export class FeatureActionPluginExt extends AbstractPlugin {
         // use the manager from the main window context.
         FeatureActionManager.setInstance(manager);
 
-        featureActionExtMenu.countBySetup();
+        countBySetup();
       }
     }
   }

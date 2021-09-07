@@ -1,5 +1,15 @@
 goog.declareModuleId('plugin.mist.track.menu');
 
+import {createFromBinEvent} from './misttrack.js';
+import {ExpandTrackCtrl} from './misttrackexpand.js';
+import {LAYER_TITLE} from './constants.js';
+import {MistTrackEventType} from './eventtype.js';
+import {Keys} from './misttrackmetrics.js';
+import {checkQueryTrack, requestTrack} from './misttrackquery.js';
+
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {getFilterColumns} from 'opensphere/src/os/source/source.js';
+
 const {addToTrack, getSortField, isTrackFeature, promptForTitle} = goog.require('os.track');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const AlertManager = goog.require('os.alert.AlertManager');
@@ -8,18 +18,11 @@ const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
 const countByMenu = goog.require('mist.menu.countBy');
 const TrackPlugin = goog.require('plugin.track');
 const {createFilter, filterValidControllers} = goog.require('os.data.histo');
-const {createFromBinEvent} = goog.require('plugin.mist.track');
-const Dispatcher = goog.require('os.Dispatcher');
-const {ExpandTrackCtrl} = goog.require('plugin.mist.track.ExpandTrackUI');
 const Feature = goog.require('ol.Feature');
 const FilterEntry = goog.require('os.filter.FilterEntry');
-const {getFilterColumns} = goog.require('os.source');
-const {LAYER_TITLE} = goog.require('plugin.mist.track.Constants');
 const listMenu = goog.require('mist.menu.list');
 const MapContainer = goog.require('os.MapContainer');
 const MenuItemType = goog.require('os.ui.menu.MenuItemType');
-const {MistTrackEventType} = goog.require('plugin.mist.track.EventType');
-const MistTrackMetrics = goog.require('plugin.mist.track.Metrics');
 const osFeatureMenu = goog.require('os.ui.menu.feature');
 const osInstanceOf = goog.require('os.instanceOf');
 const osLayerMenu = goog.require('os.ui.menu.layer');
@@ -28,7 +31,6 @@ const osSpatialMenu = goog.require('os.ui.menu.spatial');
 const PlacesManager = goog.require('plugin.places.PlacesManager');
 const TrackEvent = goog.require('plugin.track.Event');
 const TrackEventType = goog.require('plugin.track.EventType');
-const TrackQuery = goog.require('plugin.mist.track.query');
 const TrackManager = goog.require('plugin.track.TrackManager');
 const TrackMenu = goog.require('plugin.track.menu');
 const TrackMetrics = goog.require('plugin.track.Metrics');
@@ -72,7 +74,7 @@ export const countBySetup = function() {
           tooltip: 'Create a single track that combines all features in the Count By. The track will be created by ' +
             'linking all features in time order. Operates on selected bins, or all bins if none are selected.',
           icons: ['<i class="fa fa-fw fa-share-alt"></i>'],
-          metricKey: MistTrackMetrics.Keys.CREATE_SINGLE_COUNTBY,
+          metricKey: Keys.CREATE_SINGLE_COUNTBY,
           handler: handleCountByAction,
           sort: 0
         },
@@ -82,7 +84,7 @@ export const countBySetup = function() {
           tooltip: 'Create a new track for each bin in the Count By. Each track will be created by linking bin ' +
             'features in time order. Operates on selected bins, or all bins if none are selected.',
           icons: ['<i class="fa fa-fw fa-share-alt"></i>'],
-          metricKey: MistTrackMetrics.Keys.CREATE_MULTI_COUNTBY,
+          metricKey: Keys.CREATE_MULTI_COUNTBY,
           handler: handleCountByAction,
           sort: 1
         },
@@ -91,7 +93,7 @@ export const countBySetup = function() {
           label: 'Add Selected to Track...',
           tooltip: 'Adds features in selected bins to an existing track.',
           icons: ['<i class="fa fa-fw fa-share-alt"></i>'],
-          metricKey: MistTrackMetrics.Keys.ADD_TO_COUNTBY,
+          metricKey: Keys.ADD_TO_COUNTBY,
           beforeRender: visibleIfHasTrackAndCountBySelection,
           handler: handleCountByAction,
           sort: 2
@@ -254,7 +256,7 @@ export const layerSetup = function() {
           label: '+/- Day',
           tooltip: 'Query more data for the track by adding a day before and a day after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.LAYERS_EXPAND_TRACK_DAY,
+          metricKey: Keys.LAYERS_EXPAND_TRACK_DAY,
           handler: goog.partial(handleLayerQueryTrackEvent, 24 * 60 * 60 * 1000),
           sort: 0
         }, {
@@ -262,7 +264,7 @@ export const layerSetup = function() {
           label: '+/- Week',
           tooltip: 'Query more data for the track, adding a week before and a week after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.LAYERS_EXPAND_TRACK_WEEK,
+          metricKey: Keys.LAYERS_EXPAND_TRACK_WEEK,
           handler: goog.partial(handleLayerQueryTrackEvent, 24 * 60 * 60 * 1000 * 7),
           sort: 1
         }, {
@@ -270,7 +272,7 @@ export const layerSetup = function() {
           label: '+/- Month',
           tooltip: 'Query more data for the track by adding a month (30 days) before and after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.LAYERS_EXPAND_TRACK_MONTH,
+          metricKey: Keys.LAYERS_EXPAND_TRACK_MONTH,
           handler: goog.partial(handleLayerQueryTrackEvent, 24 * 60 * 60 * 1000 * 30),
           sort: 2
         }, {
@@ -278,7 +280,7 @@ export const layerSetup = function() {
           label: 'Custom...',
           tooltip: 'Pick a custom date range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.LAYERS_EXPAND_TRACK,
+          metricKey: Keys.LAYERS_EXPAND_TRACK,
           handler: goog.partial(handleLayerQueryTrackEvent, 0),
           sort: 3
         }
@@ -309,7 +311,7 @@ export const spatialSetup = function() {
           label: '+/- Day',
           tooltip: 'Query more data for the track by adding a day before and a day after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.MAP_EXPAND_TRACK_DAY,
+          metricKey: Keys.MAP_EXPAND_TRACK_DAY,
           handler: goog.partial(handleExpandTrackEvent, 24 * 60 * 60 * 1000),
           sort: 0
         }, {
@@ -317,7 +319,7 @@ export const spatialSetup = function() {
           label: '+/- Week',
           tooltip: 'Query more data for the track by adding a week before and a week after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.MAP_EXPAND_TRACK_WEEK,
+          metricKey: Keys.MAP_EXPAND_TRACK_WEEK,
           handler: goog.partial(handleExpandTrackEvent, 24 * 60 * 60 * 1000 * 7),
           sort: 1
         }, {
@@ -325,7 +327,7 @@ export const spatialSetup = function() {
           label: '+/- Month',
           tooltip: 'Query more data for the track by adding a month (30 days) before and after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.MAP_EXPAND_TRACK_MONTH,
+          metricKey: Keys.MAP_EXPAND_TRACK_MONTH,
           handler: goog.partial(handleExpandTrackEvent, 24 * 60 * 60 * 1000 * 30),
           sort: 2
         }, {
@@ -333,7 +335,7 @@ export const spatialSetup = function() {
           label: 'Custom...',
           tooltip: 'Pick a custom date range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.MAP_EXPAND_TRACK,
+          metricKey: Keys.MAP_EXPAND_TRACK,
           handler: goog.partial(handleExpandTrackEvent, 0),
           sort: 3
         }
@@ -354,9 +356,9 @@ export const handleLayerQueryTrackEvent = function(time, event) {
       const trackNodes = TrackMenu.getTrackNodes([context[i]]);
       if (trackNodes.length) {
         const track = trackNodes[0].getFeature();
-        if (track && TrackQuery.checkQueryTrack(track)) {
+        if (track && checkQueryTrack(track)) {
           if (time > 0) {
-            TrackQuery.requestTrack(track, time);
+            requestTrack(track, time);
           } else {
             ExpandTrackCtrl.launch(track);
           }
@@ -375,7 +377,7 @@ export const handleExpandTrackEvent = function(time, event) {
   const context = event.getContext();
   if (context && context.feature && isTrackFeature(context.feature)) {
     if (time > 0) {
-      TrackQuery.requestTrack(/** @type {!Feature} */ (context.feature), time);
+      requestTrack(/** @type {!Feature} */ (context.feature), time);
     } else {
       ExpandTrackCtrl.launch(/** @type {!Feature} */ (context.feature));
     }
@@ -397,7 +399,7 @@ export const listSetup = function() {
       label: 'Create Track From Selection',
       tooltip: 'Creates a new track by linking selected features in time order.',
       icons: ['<i class="fa fa-fw fa-share-alt"></i>'],
-      metricKey: MistTrackMetrics.Keys.CREATE_LIST,
+      metricKey: Keys.CREATE_LIST,
       beforeRender: osListMenu.visibleIfHasSelected,
       handler: handleListAction_
     });
@@ -408,7 +410,7 @@ export const listSetup = function() {
       tooltip: 'Adds selected features to an existing track.',
       icons: ['<i class="fa fa-fw fa-share-alt"></i>'],
       handler: handleListAction_,
-      metricKey: MistTrackMetrics.Keys.ADD_TO_LIST,
+      metricKey: Keys.ADD_TO_LIST,
       beforeRender: visibleIfHasTrackAndListSelection
     });
 

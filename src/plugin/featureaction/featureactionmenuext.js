@@ -1,25 +1,27 @@
 goog.declareModuleId('plugin.im.action.feature.ext.menu');
 
+import {EventType, Metrics} from './featureactionext.js';
+
+import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import {inIframe} from 'opensphere/src/os/os.js';
+import {getFilterColumns} from 'opensphere/src/os/source/source.js';
+
 const action = goog.require('os.im.action');
 const AlertManager = goog.require('os.alert.AlertManager');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const analyze = goog.require('mist.analyze');
 const {assert} = goog.require('goog.asserts');
 const CountByUI = goog.require('tools.ui.CountByUI');
-const dispatcher = goog.require('os.Dispatcher');
-const ext = goog.require('plugin.im.action.feature.ext');
 const featureAction = goog.require('plugin.im.action.feature');
 const googObject = goog.require('goog.object');
 const ImportActionEvent = goog.require('os.im.action.ImportActionEvent');
 const ImportActionEventType = goog.require('os.im.action.ImportActionEventType');
 const ImportActionManager = goog.require('os.im.action.ImportActionManager');
 const IImportSource = goog.require('os.source.IImportSource');
-const {inIframe} = goog.require('os');
 const instanceOf = goog.require('os.instanceOf');
 const {launchEditFeatureAction} = goog.require('plugin.im.action.feature.ui');
 const mistCountByMenu = goog.require('mist.menu.countBy');
 const osImplements = goog.require('os.implements');
-const osSource = goog.require('os.source');
 
 const Entry = goog.requireType('plugin.im.action.feature.Entry');
 const IHistogramUI = goog.requireType('os.ui.IHistogramUI');
@@ -46,11 +48,11 @@ export const countBySetup = () => {
     assert(group, 'Group "' + mistCountByMenu.GroupLabel.TOOLS + '" should exist! Check spelling?');
 
     group.addChild({
-      eventType: ext.EventType.CREATE_FROM_COUNTBY,
+      eventType: EventType.CREATE_FROM_COUNTBY,
       label: 'Create Feature Action',
       tooltip: 'Create a new feature action with a filter generated from cascaded bins',
       icons: ['<i class="fa fa-fw ' + action.ICON + '"></i>'],
-      metricKey: ext.Metrics.CREATE_FROM_COUNTBY,
+      metricKey: Metrics.CREATE_FROM_COUNTBY,
       beforeRender: visibleIfCanCreateFromHistoUI,
       handler: createFromCountBy
     });
@@ -64,7 +66,7 @@ export const countByDispose = () => {
   if (mistCountByMenu.MENU) {
     const group = mistCountByMenu.MENU.getRoot().find(mistCountByMenu.GroupLabel.FILTER);
     if (group) {
-      group.removeChild(ext.EventType.CREATE_FROM_COUNTBY);
+      group.removeChild(EventType.CREATE_FROM_COUNTBY);
     }
   }
 };
@@ -133,7 +135,7 @@ export const createFromCountBy = (event) => {
   const source = countBy ? countBy.getSource() : null;
   const container = countBy ? countBy.getContainer() : null;
   if (source && container) {
-    const columns = osSource.getFilterColumns(source, true);
+    const columns = getFilterColumns(source, true);
     if (columns) {
       const filterEntry = container.getFilter(columns);
       if (filterEntry) {

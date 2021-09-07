@@ -5,14 +5,15 @@ goog.require('os.ui.util.AutoHeightUI');
 
 import {ROOT} from '../../tools/tools.js';
 import {Module} from '../../tools/ui/module.js';
+import {FeatureActionPluginExt} from '../featureaction/featureactionpluginext.js';
+import {KMLPluginExt} from '../file/kml/kmlpluginext.js';
+import {TrackPlugin} from '../track/misttrackplugin.js';
+import {PlacesPluginExt} from '../places/ext/placespluginext.js';
+
 import {PiwikPlugin} from 'opensphere-plugin-geoint-viewer/src/plugin/piwik/piwikplugin.js';
 
 const log = goog.require('goog.log');
 const PluginManager = goog.require('os.plugin.PluginManager');
-const {KMLPluginExt} = goog.require('plugin.file.kml.KMLPluginExt');
-const {FeatureActionPluginExt} = goog.require('plugin.im.action.feature.FeatureActionPluginExt');
-const {TrackPlugin} = goog.require('plugin.mist.track.TrackPlugin');
-const {PlacesPluginExt} = goog.require('plugin.places.PlacesPluginExt');
 const AbstractToolsMainCtrl = goog.require('tools.ui.AbstractToolsMainCtrl');
 
 const Logger = goog.requireType('goog.log.Logger');

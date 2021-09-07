@@ -1,6 +1,6 @@
 goog.declareModuleId('plugin.mist.track.Metrics');
 
-const {ID} = goog.require('plugin.mist.track.Constants');
+import {ID} from './constants.js';
 
 
 /**

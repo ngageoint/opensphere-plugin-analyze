@@ -4,7 +4,13 @@ goog.require('mist.analyze.ButtonUI');
 goog.require('mist.mixin.places');
 
 import * as ToolsMain from './toolsmain.js'; // eslint-disable-line
+
 import {ToolsSettingsInitializer} from './settingsinitializer.js';
+import {FeatureActionPluginExt} from '../featureaction/featureactionpluginext.js';
+import {MilSymPlugin} from '../milsym/milsymplugin.js';
+import {TrackPlugin} from '../track/misttrackplugin.js';
+import {PlacesPluginExt} from '../places/ext/placespluginext.js';
+
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 
 const GoogEventType = goog.require('goog.events.EventType');
@@ -26,18 +32,12 @@ const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const PluginManager = goog.require('os.plugin.PluginManager');
 const menuList = goog.require('os.ui.menu.list');
 
-const {FeatureActionPluginExt} = goog.require('plugin.im.action.feature.FeatureActionPluginExt');
-const {MilSymPlugin} = goog.require('plugin.milsym.MilSymPlugin');
-const {TrackPlugin} = goog.require('plugin.mist.track.TrackPlugin');
-const {PlacesPluginExt} = goog.require('plugin.places.PlacesPluginExt');
-
 
 /**
  * Global ToolsPlugin instance.
  * @type {ToolsPlugin|undefined}
  */
 let instance;
-
 
 /**
  */
