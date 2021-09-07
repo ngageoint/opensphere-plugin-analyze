@@ -1,13 +1,12 @@
-goog.module('plugin.mist.track.EventType');
+goog.declareModuleId('plugin.mist.track.EventType');
 
 const {ID} = goog.require('plugin.mist.track.Constants');
-
 
 /**
  * Events for the MIST track plugin.
  * @enum {string}
  */
-exports = {
+export const MistTrackEventType = {
   CREATE_TRACKS: ID + ':createMulti',
   EXPAND_TRACK_DAY: ID + ':expandTrackDay',
   EXPAND_TRACK_WEEK: ID + ':expandTrackWeek',

@@ -1,4 +1,4 @@
-goog.module('plugin.file.kml.KMLPluginExt');
+goog.declareModuleId('plugin.file.kml.KMLPluginExt');
 
 goog.require('plugin.file.kml.ui.KMLExportUI');
 
@@ -8,7 +8,7 @@ const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 /**
  * Provides KML support to external tools
  */
-class KMLPluginExt extends AbstractPlugin {
+export class KMLPluginExt extends AbstractPlugin {
   /**
    * Constructor.
    */
@@ -26,12 +26,8 @@ class KMLPluginExt extends AbstractPlugin {
   }
 }
 
-
 /**
  * @type {string}
  * @const
  */
 KMLPluginExt.ID = 'kml-ext';
-
-
-exports = KMLPluginExt;

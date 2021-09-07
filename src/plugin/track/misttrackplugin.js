@@ -1,4 +1,4 @@
-goog.module('plugin.mist.track.TrackPlugin');
+goog.declareModuleId('plugin.mist.track.TrackPlugin');
 
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const {createAndAdd} = goog.require('plugin.track');
@@ -18,13 +18,12 @@ const trackMenu = goog.require('plugin.mist.track.menu');
  * The static instance of the plugin.
  * @type {TrackPlugin}
  */
-let TrackPluginInstance;
-
+let instance;
 
 /**
  * Provides track features to MIST.
  */
-class TrackPlugin extends AbstractPlugin {
+export class TrackPlugin extends AbstractPlugin {
   /**
    * Constructor.
    */
@@ -74,10 +73,10 @@ class TrackPlugin extends AbstractPlugin {
    * @return {!TrackPlugin}
    */
   static getInstance() {
-    if (!TrackPluginInstance) {
-      TrackPluginInstance = new TrackPlugin();
+    if (!instance) {
+      instance = new TrackPlugin();
     }
-    return TrackPluginInstance;
+    return instance;
   }
 
   /**
@@ -86,9 +85,6 @@ class TrackPlugin extends AbstractPlugin {
    * @param {!TrackPlugin} value
    */
   static setInstance(value) {
-    TrackPluginInstance = value;
+    instance = value;
   }
 }
-
-
-exports = TrackPlugin;

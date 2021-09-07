@@ -9,10 +9,10 @@ import {PiwikPlugin} from 'opensphere-plugin-geoint-viewer/src/plugin/piwik/piwi
 
 const log = goog.require('goog.log');
 const PluginManager = goog.require('os.plugin.PluginManager');
-const KMLPluginExt = goog.require('plugin.file.kml.KMLPluginExt');
-const FeatureActionPluginExt = goog.require('plugin.im.action.feature.PluginExt');
-const TrackPlugin = goog.require('plugin.mist.track.TrackPlugin');
-const PlacesPluginExt = goog.require('plugin.places.PluginExt');
+const {KMLPluginExt} = goog.require('plugin.file.kml.KMLPluginExt');
+const {FeatureActionPluginExt} = goog.require('plugin.im.action.feature.FeatureActionPluginExt');
+const {TrackPlugin} = goog.require('plugin.mist.track.TrackPlugin');
+const {PlacesPluginExt} = goog.require('plugin.places.PlacesPluginExt');
 const AbstractToolsMainCtrl = goog.require('tools.ui.AbstractToolsMainCtrl');
 
 const Logger = goog.requireType('goog.log.Logger');

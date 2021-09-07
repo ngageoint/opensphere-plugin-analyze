@@ -1,4 +1,4 @@
-goog.module('plugin.im.action.feature.PluginExt');
+goog.declareModuleId('plugin.im.action.feature.FeatureActionPluginExt');
 
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const analyze = goog.require('mist.analyze');
@@ -14,7 +14,7 @@ const osObject = goog.require('os.object');
 /**
  * Plugin to add feature action capabilities to the Analyze window.
  */
-class PluginExt extends AbstractPlugin {
+export class FeatureActionPluginExt extends AbstractPlugin {
   /**
    * Constructor.
    */
@@ -56,20 +56,17 @@ class PluginExt extends AbstractPlugin {
 
 
   /**
-   * @return {!PluginExt}
+   * @return {!FeatureActionPluginExt}
    */
   static getInstance() {
     if (!instance) {
-      instance = new PluginExt();
+      instance = new FeatureActionPluginExt();
     }
     return instance;
   }
 }
 
 /**
- * @type {PluginExt|undefined}
+ * @type {FeatureActionPluginExt|undefined}
  */
 let instance;
-
-
-exports = PluginExt;

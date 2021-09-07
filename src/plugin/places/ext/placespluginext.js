@@ -1,4 +1,4 @@
-goog.module('plugin.places.PluginExt');
+goog.declareModuleId('plugin.places.PlacesPluginExt');
 
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const {addFolder, addPlace, saveFromSource} = goog.require('plugin.places');
@@ -15,13 +15,11 @@ const OlFeature = goog.requireType('ol.Feature');
 
 
 /**
- * Logger for plugin.places.PluginExt
+ * Logger.
  * @type {Logger}
- * @private
  * @const
  */
-const LOGGER_ = log.getLogger('plugin.places.PluginExt');
-
+const LOGGER = log.getLogger('plugin.places.PlacesPluginExt');
 
 /**
  * Identifier used by the external places plugin.
@@ -30,12 +28,11 @@ const LOGGER_ = log.getLogger('plugin.places.PluginExt');
  */
 const ID = 'places-ext';
 
-
 /**
  * Plugin that adds saved places features to the external tools window.
  * @extends {AbstractPlugin}
  */
-class PluginExt extends AbstractPlugin {
+export class PlacesPluginExt extends AbstractPlugin {
   /**
    * Constructor
    */
@@ -74,25 +71,22 @@ class PluginExt extends AbstractPlugin {
         restoreExports();
       }
     } catch (e) {
-      log.error(LOGGER_, 'Failed initializing external Places plugin:', e);
+      log.error(LOGGER, 'Failed initializing external Places plugin:', e);
     }
   }
 
   /**
-   * @return {!PluginExt}
+   * @return {!PlacesPluginExt}
    */
   static getInstance() {
     if (!instance) {
-      instance = new PluginExt();
+      instance = new PlacesPluginExt();
     }
     return instance;
   }
 }
 
 /**
- * @type {PluginExt|undefined}
+ * @type {PlacesPluginExt|undefined}
  */
 let instance;
-
-
-exports = PluginExt;

@@ -1,4 +1,4 @@
-goog.module('plugin.mist.track.query');
+goog.declareModuleId('plugin.mist.track.query');
 
 const {addToTrack} = goog.require('os.track');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
@@ -37,8 +37,8 @@ const OGCFilterModifierOptions = goog.requireType('os.ogc.filter.OGCFilterModifi
  * @param {number=} opt_start The track start time, in milliseconds
  * @param {number=} opt_end The track end time, in milliseconds
  */
-exports.requestTrack = function(track, opt_time, opt_start, opt_end) {
-  if (!exports.checkQueryTrack(track)) {
+export const requestTrack = function(track, opt_time, opt_start, opt_end) {
+  if (!checkQueryTrack(track)) {
     return;
   }
 
@@ -77,30 +77,29 @@ exports.requestTrack = function(track, opt_time, opt_start, opt_end) {
     request.addModifier(new OGCFilterCleaner());
 
     // request the data
-    request.listen(googEventType.SUCCESS, exports.onRequestSuccess.bind(undefined, track));
-    request.listen(googEventType.ERROR, exports.onRequestFailure.bind(undefined, track));
+    request.listen(googEventType.SUCCESS, onRequestSuccess.bind(undefined, track));
+    request.listen(googEventType.ERROR, onRequestFailure.bind(undefined, track));
 
     track.dispatchEvent(new PropertyChangeEvent('loading', true));
     queryOptions.loading = true;
 
     request.load();
   } else {
-    exports.reportError();
+    reportError();
   }
 };
-
 
 /**
  * Check if a track can be queried for more data
  * @param {!Feature} track The track to query
  * @return {boolean}
  */
-exports.checkQueryTrack = function(track) {
+export const checkQueryTrack = function(track) {
   const sourceId = /** @type {string|undefined} */ (track.get(TrackField.ORIG_SOURCE_ID));
   if (sourceId) {
     const filterable = BaseFilterManager.getInstance().getFilterable(sourceId);
     if (!filterable || !filterable.isFilterable()) {
-      exports.reportError('The original data source cannot be queried.');
+      reportError('The original data source cannot be queried.');
       return false;
     }
   }
@@ -111,21 +110,20 @@ exports.checkQueryTrack = function(track) {
     const msg = (name ? name + '. ' : '') +
         'Track does not contain information required for query. Only tracks created from a Count By or ' +
         'Stream Bins can be queried.';
-    exports.reportError(msg);
+    reportError(msg);
     return false;
   } else if (queryOptions.loading) {
-    exports.reportError('Track is already being queried. Please wait for the query to complete.');
+    reportError('Track is already being queried. Please wait for the query to complete.');
     return false;
   }
   return true;
 };
 
-
 /**
  * Display an error alert when track query fails.
  * @param {string=} opt_details The error details.
  */
-exports.reportError = function(opt_details) {
+export const reportError = function(opt_details) {
   let msg = 'Unable to request additional data for the selected track.';
   if (opt_details) {
     msg += ' ' + opt_details;
@@ -134,13 +132,12 @@ exports.reportError = function(opt_details) {
   AlertManager.getInstance().sendAlert(msg, AlertEventSeverity.WARNING);
 };
 
-
 /**
  * Queries a track outside the bounds of the map.
  * @param {!Feature} track The track to query.
  * @param {!googEvent} event The event.
  */
-exports.onRequestSuccess = function(track, event) {
+export const onRequestSuccess = function(track, event) {
   const request = /** @type {!osRequest} */ (event.target);
   const response = /** @type {string|undefined} */ (request.getResponse());
   request.dispose();
@@ -152,7 +149,7 @@ exports.onRequestSuccess = function(track, event) {
 
     const importer = new FeatureImporter(new GeoJSONParser());
     importer.setMappings(mappings);
-    importer.listen(osEventType.COMPLETE, exports.onImportComplete.bind(undefined, track));
+    importer.listen(osEventType.COMPLETE, onImportComplete.bind(undefined, track));
     importer.startImport(response);
   } else {
     track.dispatchEvent(new PropertyChangeEvent('loading', false));
@@ -163,13 +160,12 @@ exports.onRequestSuccess = function(track, event) {
   }
 };
 
-
 /**
  * Queries a track outside the bounds of the map.
  * @param {!Feature} track The track to query.
  * @param {!googEvent} event The event.
  */
-exports.onRequestFailure = function(track, event) {
+export const onRequestFailure = function(track, event) {
   const request = /** @type {!osRequest} */ (event.target);
   request.dispose();
 
@@ -181,13 +177,12 @@ exports.onRequestFailure = function(track, event) {
   }
 };
 
-
 /**
  * Queries a track outside the bounds of the map.
  * @param {!Feature} track The track to query.
  * @param {!googEvent} event The event.
  */
-exports.onImportComplete = function(track, event) {
+export const onImportComplete = function(track, event) {
   const importer = /** @type {!FeatureImporter} */ (event.target);
   const features = /** @type {Array<!Feature>|undefined} */ (importer.getData());
   importer.dispose();

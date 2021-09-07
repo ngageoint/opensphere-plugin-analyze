@@ -1,4 +1,4 @@
-goog.module('plugin.places.ext');
+goog.declareModuleId('plugin.places.ext');
 
 const {getValueByKeys} = goog.require('goog.object');
 const {getExports} = goog.require('mist.analyze');
@@ -15,7 +15,7 @@ const {FolderOptions, PlaceOptions} = goog.requireType('plugin.places');
 /**
  * Restore exports from the main application.
  */
-exports.restoreExports = function() {
+export const restoreExports = function() {
   const xPorts = getExports();
   if (xPorts) {
     const placesManager = getValueByKeys(xPorts, ['plugin', 'places', 'PlacesManager']);

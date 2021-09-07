@@ -1,17 +1,16 @@
-goog.module('plugin.im.action.feature.ext');
-
+goog.declareModuleId('plugin.im.action.feature.ext');
 
 /**
  * Identifier for external import action plugin components.
  * @type {string}
  */
-const ID = 'featureactionsext';
+export const ID = 'featureactionsext';
 
 /**
  * Events for the external feature actions plugin.
  * @enum {string}
  */
-const Metrics = {
+export const Metrics = {
   CREATE_FROM_COUNTBY: 'analyze.countBy.contextMenu.createFeatureAction'
 };
 
@@ -19,12 +18,6 @@ const Metrics = {
  * Events for the external feature actions plugin.
  * @enum {string}
  */
-const EventType = {
+export const EventType = {
   CREATE_FROM_COUNTBY: 'featureAction:createFromCountBy'
-};
-
-exports = {
-  ID,
-  Metrics,
-  EventType
 };
