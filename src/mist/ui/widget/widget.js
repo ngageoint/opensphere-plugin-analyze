@@ -1,14 +1,11 @@
-goog.module('mist.ui.widget');
-
-goog.require('os.ui');
-goog.require('os.ui.Module');
+goog.declareModuleId('mist.ui.widget');
 
 
 /**
  * Widget types.
  * @enum {string}
  */
-const Type = {
+export const Type = {
   COUNT_BY: 'widget-countby',
   LIST: 'widget-list',
   CHART: 'widget-chart',
@@ -19,7 +16,7 @@ const Type = {
  * Default configuration for the Count By widget.
  * @type {!GoldenLayout.Component}
  */
-const COUNT_BY = {
+export const COUNT_BY = {
   id: Type.COUNT_BY,
   type: 'component',
   componentName: 'angular',
@@ -36,7 +33,7 @@ const COUNT_BY = {
  * Default configuration for the List widget.
  * @type {!GoldenLayout.Component}
  */
-const LIST = {
+export const LIST = {
   id: Type.LIST,
   type: 'component',
   componentName: 'angular',
@@ -54,7 +51,7 @@ const LIST = {
  * @type {!GoldenLayout.Component}
  * @deprecated Please use {@link mist.ui.widget.VEGA}
  */
-const CHART = {
+export const CHART = {
   id: Type.CHART,
   type: 'component',
   componentName: 'angular',
@@ -71,7 +68,7 @@ const CHART = {
  * Default configuration for the Vega widget.
  * @type {!GoldenLayout.Component}
  */
-const VEGA = {
+export const VEGA = {
   id: Type.VEGA,
   type: 'component',
   componentName: 'angular',
@@ -82,12 +79,4 @@ const VEGA = {
   icon: '<i class="fa fa-fw fa-bar-chart"></i>',
   description: 'Display loaded data in a chart.',
   title: 'Chart'
-};
-
-exports = {
-  Type,
-  COUNT_BY,
-  LIST,
-  CHART,
-  VEGA
 };

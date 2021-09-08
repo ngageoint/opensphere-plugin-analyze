@@ -16,7 +16,7 @@ import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 const GoogEventType = goog.require('goog.events.EventType');
 
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
-const MistActionEventType = goog.require('mist.action.EventType');
+const {AnalyzeEventType} = goog.require('mist.analyze.EventType');
 const {closeExternal, initializeExports, isAnalyze} = goog.require('mist.analyze');
 const analyzeMenu = goog.require('mist.analyze.menu');
 const countBy = goog.require('mist.menu.countBy');
@@ -66,7 +66,7 @@ export class ToolsPlugin extends AbstractPlugin {
     // events forwarded from within an iframe
     const dispatcher = Dispatcher.getInstance();
     dispatcher.listen(ActionEventType.EXPORT, menuList.onExport);
-    dispatcher.listen(MistActionEventType.ADDCOLUMN, handleAddColumn);
+    dispatcher.listen(AnalyzeEventType.ADDCOLUMN, handleAddColumn);
 
     // add listeners for action events that must be handled in the main window context
     mistMenuList.setupInternal();

@@ -1,4 +1,4 @@
-goog.module('mist.ui.MistDedupeUI');
+goog.declareModuleId('mist.ui.MistDedupeUI');
 
 const settings = goog.require('os.config.Settings');
 const ui = goog.require('os.ui');
@@ -6,7 +6,7 @@ const Disposable = goog.require('goog.Disposable');
 const array = goog.require('goog.array');
 const Delay = goog.require('goog.async.Delay');
 const keys = goog.require('mist.metrics.keys');
-const DedupeNode = goog.require('mist.ui.DedupeNode');
+const {DedupeNode} = goog.require('mist.ui.DedupeNode');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const AlertManager = goog.require('os.alert.AlertManager');
 const Module = goog.require('os.ui.Module');
@@ -24,7 +24,7 @@ const VectorSource = goog.requireType('os.source.Vector');
  * The mistexport directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
   scope: true,
@@ -33,19 +33,16 @@ const directive = () => ({
   controllerAs: 'dedupe'
 });
 
-
 /**
  * Add the directive to the module.
  */
 Module.directive('mistdedupe', [directive]);
 
-
-
 /**
  * Controller function for the mistdedupe directive
  * @unrestricted
  */
-class Controller extends Disposable {
+export class Controller extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -617,8 +614,3 @@ class Controller extends Disposable {
     }
   }
 }
-
-exports = {
-  Controller,
-  directive
-};

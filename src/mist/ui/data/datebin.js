@@ -1,4 +1,4 @@
-goog.module('mist.ui.data.DateBinUI');
+goog.declareModuleId('mist.ui.data.DateBinUI');
 
 const EventType = goog.require('goog.events.EventType');
 const Module = goog.require('os.ui.Module');
@@ -11,25 +11,23 @@ const DateBinMethod = goog.requireType('os.histo.DateBinMethod');
  * The date bin UI
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'AE',
   replace: true,
   templateUrl: ROOT + 'views/data/datebin.html',
   controller: Controller
 });
 
-
 /**
  * Add the directive to the module
  */
 Module.directive('datebin', [directive]);
 
-
 /**
  * Controller for date bin UI
  * @unrestricted
  */
-class Controller {
+export class Controller {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -100,8 +98,3 @@ class Controller {
     }
   }
 }
-
-exports = {
-  Controller,
-  directive
-};

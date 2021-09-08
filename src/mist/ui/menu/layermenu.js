@@ -1,10 +1,10 @@
-goog.module('mist.ui.menu.layer');
+goog.declareModuleId('mist.ui.menu.layer');
 
 const MapContainer = goog.require('os.MapContainer');
 const instanceOf = goog.require('os.instanceOf');
 const Vector = goog.require('os.source.Vector');
 const layerMenu = goog.require('os.ui.menu.layer');
-const EventType = goog.require('mist.action.EventType');
+const {AnalyzeEventType} = goog.require('mist.analyze.EventType');
 const {showInAnalyze} = goog.require('mist.mixin.vectorsource');
 
 const VectorLayer = goog.requireType('os.layer.Vector');
@@ -15,15 +15,15 @@ const MenuItem = goog.requireType('os.ui.menu.MenuItem');
 /**
  * Setup
  */
-const setup = function() {
+export const setup = function() {
   const menu = layerMenu.getMenu();
-  if (menu && !menu.getRoot().find(EventType.HIDE_ANALYZE)) {
+  if (menu && !menu.getRoot().find(AnalyzeEventType.HIDE_ANALYZE)) {
     const group = menu.getRoot().find(layerMenu.GroupLabel.LAYER);
     goog.asserts.assert(group, 'Group should exist! Check spelling?');
 
     group.addChild({
       label: 'Remove From Analyze Window',
-      eventType: EventType.HIDE_ANALYZE,
+      eventType: AnalyzeEventType.HIDE_ANALYZE,
       tooltip: 'Removes the layer from the Analyze window',
       icons: ['<i class="fa fa-fw fa-list-alt"></i>'],
       beforeRender: visibleIfShownInAnalyze,
@@ -32,7 +32,7 @@ const setup = function() {
 
     group.addChild({
       label: 'Show In Analyze Window',
-      eventType: EventType.SHOW_ANALYZE,
+      eventType: AnalyzeEventType.SHOW_ANALYZE,
       tooltip: 'Adds the layer to the Analyze window',
       icons: ['<i class="fa fa-fw fa-list-alt"></i>'],
       beforeRender: visibleIfHiddenFromAnalyze,
@@ -46,7 +46,7 @@ const setup = function() {
  * @param {!Vector} source The source
  * @return {boolean} True if the source is hidden
  */
-const isSourceHidden = function(source) {
+export const isSourceHidden = function(source) {
   return !showInAnalyze(source);
 };
 
@@ -55,7 +55,7 @@ const isSourceHidden = function(source) {
  * @param {!Vector} source The source
  * @return {boolean} True if the source is shown
  */
-const isSourceShown = function(source) {
+export const isSourceShown = function(source) {
   return showInAnalyze(source);
 };
 
@@ -64,7 +64,7 @@ const isSourceShown = function(source) {
  * @param {!Array<!VectorLayer>} layers The layers.
  * @return {!Array<!Vector>} Vector sources that can be shown in Analyze.
  */
-const getAnalyzeSources = function(layers) {
+export const getAnalyzeSources = function(layers) {
   layers = /** @type {!Array<!VectorLayer>} */ (layers.filter(MapContainer.isVectorLayer));
 
   return /** @type {!Array<!Vector>} */ (layers.map(function(layer) {
@@ -79,7 +79,7 @@ const getAnalyzeSources = function(layers) {
  * @param {layerMenu.Context} context The menu context.
  * @this {MenuItem}
  */
-const visibleIfShownInAnalyze = function(context) {
+export const visibleIfShownInAnalyze = function(context) {
   this.visible = false;
 
   if (Array.isArray(context) && context.length > 0) {
@@ -96,7 +96,7 @@ const visibleIfShownInAnalyze = function(context) {
  * @param {layerMenu.Context} context The menu context.
  * @this {MenuItem}
  */
-const visibleIfHiddenFromAnalyze = function(context) {
+export const visibleIfHiddenFromAnalyze = function(context) {
   this.visible = false;
 
   if (Array.isArray(context)) {
@@ -112,7 +112,7 @@ const visibleIfHiddenFromAnalyze = function(context) {
  * Show layers in the event context in the Analyze window.
  * @param {!MenuEvent<layerMenu.Context>} event The menu event.
  */
-const handleShowInAnalyze = function(event) {
+export const handleShowInAnalyze = function(event) {
   const layers = layerMenu.getLayersFromContext(event.getContext()).filter(MapContainer.isVectorLayer);
   toggleLayersInAnalyze(layers, true);
 };
@@ -121,7 +121,7 @@ const handleShowInAnalyze = function(event) {
  * Show layers in the event context in the Analyze window.
  * @param {!MenuEvent<layerMenu.Context>} event The menu event.
  */
-const handleHideInAnalyze = function(event) {
+export const handleHideInAnalyze = function(event) {
   const layers = layerMenu.getLayersFromContext(event.getContext()).filter(MapContainer.isVectorLayer);
   toggleLayersInAnalyze(layers, false);
 };
@@ -131,23 +131,11 @@ const handleHideInAnalyze = function(event) {
  * @param {!Array<!VectorLayer>} layers The layers to toggle.
  * @param {boolean} shown If the layers should be shown in the Analyze window.
  */
-const toggleLayersInAnalyze = function(layers, shown) {
+export const toggleLayersInAnalyze = function(layers, shown) {
   layers.forEach(function(layer) {
     const source = /** @type {Vector} */ (layer.getSource());
     if (source) {
       source.setShowInAnalyze(shown);
     }
   });
-};
-
-exports = {
-  setup,
-  isSourceHidden,
-  isSourceShown,
-  getAnalyzeSources,
-  visibleIfShownInAnalyze,
-  visibleIfHiddenFromAnalyze,
-  handleShowInAnalyze,
-  handleHideInAnalyze,
-  toggleLayersInAnalyze
 };

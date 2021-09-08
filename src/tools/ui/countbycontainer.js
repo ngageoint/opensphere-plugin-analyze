@@ -18,7 +18,7 @@ const PayloadEvent = goog.require('os.events.PayloadEvent');
 const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
 const FilterEvent = goog.require('os.ui.filter.FilterEvent');
 const FilterEventType = goog.require('os.ui.filter.FilterEventType');
-const MistEventType = goog.require('mist.action.EventType');
+const {AnalyzeEventType} = goog.require('mist.analyze.EventType');
 const {EXPORT_PROPERTY} = goog.require('mist.analyze');
 const CountByMenu = goog.require('mist.menu.countBy');
 const ToolsMenu = goog.require('mist.menu.tools');
@@ -128,7 +128,7 @@ export class Controller extends Disposable {
     }
 
     if (CountByMenu.MENU) {
-      CountByMenu.MENU.listen(MistEventType.CREATE_FILTER, this.createFilter, false, this);
+      CountByMenu.MENU.listen(AnalyzeEventType.CREATE_FILTER, this.createFilter, false, this);
     }
 
     $scope.$on('$destroy', this.dispose.bind(this));
@@ -141,7 +141,7 @@ export class Controller extends Disposable {
     super.disposeInternal();
 
     if (CountByMenu.MENU) {
-      CountByMenu.MENU.unlisten(MistEventType.CREATE_FILTER, this.createFilter, false, this);
+      CountByMenu.MENU.unlisten(AnalyzeEventType.CREATE_FILTER, this.createFilter, false, this);
     }
 
     // clean up any children that were compiled in

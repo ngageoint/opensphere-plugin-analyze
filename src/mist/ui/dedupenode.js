@@ -1,4 +1,4 @@
-goog.module('mist.ui.DedupeNode');
+goog.declareModuleId('mist.ui.DedupeNode');
 
 const SlickTreeNode = goog.require('os.ui.slick.SlickTreeNode');
 const ISearchable = goog.requireType('os.data.ISearchable');
@@ -9,7 +9,7 @@ const DedupeNodeUi = goog.require('mist.ui.DedupeNodeUI');
  * Tree nodes for dedupes
  * @implements {ISearchable}
  */
-class DedupeNode extends SlickTreeNode {
+export class DedupeNode extends SlickTreeNode {
   /**
    * Constructor.
    * @param {Object} entry
@@ -90,7 +90,6 @@ class DedupeNode extends SlickTreeNode {
   }
 }
 
-
 /**
  * Icon to display to when a node is invalid.
  * @type {string}
@@ -98,6 +97,3 @@ class DedupeNode extends SlickTreeNode {
  */
 DedupeNode.INVALID_ICON = `<i class="fa fa-fw fa-warning text-warning" title="One or more columns are
     missing on the layer, so the configuration cannot be applied."></i>`;
-
-
-exports = DedupeNode;

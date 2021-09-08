@@ -1,4 +1,4 @@
-goog.module('mist.mixin.vectorsource');
+goog.declareModuleId('mist.mixin.vectorsource');
 
 const PropertyChangeEvent = goog.require('os.events.PropertyChangeEvent');
 const instanceOf = goog.require('os.instanceOf');
@@ -11,13 +11,13 @@ const SimpleGeom = goog.require('ol.geom.SimpleGeometry');
  * Key used to save the show in analyze state to layer config.
  * @type {string}
  */
-const ANALYZE_CONFIG_KEY = 'analyze';
+export const ANALYZE_CONFIG_KEY = 'analyze';
 
 /**
  * Event that fires when the show in analyze state changes on a source.
  * @type {string}
  */
-const SHOW_ANALYZE = 'showInAnalyze';
+export const SHOW_ANALYZE = 'showInAnalyze';
 
 /**
  * @type {boolean}
@@ -47,7 +47,7 @@ Vector.prototype.setShowInAnalyze = function(value) {
  * @param {*} source The source.
  * @return {boolean} Whether or not the source is should be shown.
  */
-const showInAnalyze = function(source) {
+export const showInAnalyze = function(source) {
   return instanceOf(source, Vector.NAME) && /** @type {!Vector} */ (source).getShowInAnalyze();
 };
 
@@ -120,10 +120,4 @@ Vector.prototype.setSelectedItems = function(items) {
     }
     window.parent.postMessage(data, '*');
   }
-};
-
-exports = {
-  ANALYZE_CONFIG_KEY,
-  SHOW_ANALYZE,
-  showInAnalyze
 };

@@ -1,7 +1,8 @@
-goog.module('mist.analyze.ButtonUI');
+goog.declareModuleId('mist.analyze.ButtonUI');
 
-const analyze = goog.require('mist.analyze');
-const keys = goog.require('mist.metrics.keys');
+const {openExternal} = goog.require('mist.analyze');
+const {MENU} = goog.require('mist.analyze.menu');
+const {Analyze} = goog.require('mist.metrics.keys');
 const Module = goog.require('os.ui.Module');
 const MenuButtonCtrl = goog.require('os.ui.menu.MenuButtonCtrl');
 
@@ -10,13 +11,12 @@ const MenuButtonCtrl = goog.require('os.ui.menu.MenuButtonCtrl');
  * The add data button bar directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
   scope: true,
   controller: Controller,
   controllerAs: 'ctrl',
-
   template: '<div class="btn-group" ng-right-click="ctrl.openMenu()">' +
     '<button class="btn btn-primary" ng-click="ctrl.open()" title="List tool, count by, and other tools for ' +
     'analysis">' +
@@ -26,18 +26,16 @@ const directive = () => ({
     '</button>'
 });
 
-
 /**
  * add the directive to the module
  */
 Module.directive('analyzeButton', [directive]);
 
-
 /**
  * Controller function for the analyze button directive
  * @unrestricted
  */
-class Controller extends MenuButtonCtrl {
+export class Controller extends MenuButtonCtrl {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The scope
@@ -46,16 +44,16 @@ class Controller extends MenuButtonCtrl {
    */
   constructor($scope, $element) {
     super($scope, $element);
-    this.menu = analyze.MENU;
+    this.menu = MENU;
     this.flag = 'analyze';
-    this.metricKey = keys.Analyze.OPEN;
+    this.metricKey = Analyze.OPEN;
+  }
+
+  /**
+   * Open a new Analyze window.
+   * @export
+   */
+  open() {
+    openExternal();
   }
 }
-
-// export a function for Angular to open a new Analyze window on click
-Controller.prototype['open'] = analyze.openExternal;
-
-exports = {
-  Controller,
-  directive
-};

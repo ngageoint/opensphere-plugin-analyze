@@ -1,8 +1,8 @@
-goog.module('mist.menu.tools');
+goog.declareModuleId('mist.menu.tools');
 
 const keys = goog.require('mist.metrics.keys');
 const EventType = goog.require('os.action.EventType');
-const MistEventType = goog.require('mist.action.EventType');
+const {AnalyzeEventType} = goog.require('mist.analyze.EventType');
 const ColorMethod = goog.require('os.data.histo.ColorMethod');
 const {launchAddColumn} = goog.require('os.ui.data.AddColumnUI');
 const feature = goog.require('os.ui.menu.feature');
@@ -28,7 +28,7 @@ const SourceModel = goog.requireType('coreui.chart.vega.data.SourceModel');
  * Metric keys to assign to generic menu items.
  * @type {!Array<!({eventType: string, key: string})>}
  */
-const METRIC_KEYS = [
+export const METRIC_KEYS = [
   {eventType: EventType.SELECT, key: keys.Analyze.SELECT_ALL},
   {eventType: EventType.DESELECT, key: keys.Analyze.DESELECT_ALL},
   {eventType: EventType.INVERT, key: keys.Analyze.INVERT_SELECTION},
@@ -44,7 +44,7 @@ const METRIC_KEYS = [
  * @param {Menu} manager
  * @param {string=} opt_prefix
  */
-const addGenericItems = function(manager, opt_prefix) {
+export const addGenericItems = function(manager, opt_prefix) {
   const prefix = opt_prefix || '';
   const menuRoot = manager.getRoot();
 
@@ -63,12 +63,12 @@ const addGenericItems = function(manager, opt_prefix) {
   if (group) {
     group.addChild({
       label: 'Add Custom Label',
-      eventType: MistEventType.ADDCOLUMN,
+      eventType: AnalyzeEventType.ADDCOLUMN,
       tooltip: 'Adds a column to the selected records where custom data and labels can be provided',
       icons: ['<i class="fa fa-fw fa-plus"></i>'],
       handler: inIframe() ? undefined : handleAddColumn,
       metricKey: keys.Analyze.ADD_CUSTOM_DATA,
-      beforeRender: somethingIsSelected_,
+      beforeRender: somethingIsSelected,
       sort: 5
     });
   }
@@ -79,7 +79,7 @@ const addGenericItems = function(manager, opt_prefix) {
  * @param {IHistogramUI=} opt_histoUi
  * @return {boolean}
  */
-const canCreateHistogramFilter = function(opt_histoUi) {
+export const canCreateHistogramFilter = function(opt_histoUi) {
   if (opt_histoUi) {
     try {
       if (osSource.isFilterable(opt_histoUi.getSource())) {
@@ -103,7 +103,7 @@ const canCreateHistogramFilter = function(opt_histoUi) {
  * @param {!Array<!ColorBin>} bins
  * @return {!Array<!OlFeature>} items
  */
-const getCountByItems = function(bins) {
+export const getCountByItems = function(bins) {
   // build an array in-place instead of using concat which will create a new array on each call
   const items = [];
   for (let i = 0, ii = bins.length; i < ii; i++) {
@@ -125,7 +125,7 @@ const getCountByItems = function(bins) {
  * @param {!Array<!ColorBin>} bins The bins to color
  * @param {string} color The color
  */
-const onColorChosen = function(histogram, bins, color) {
+export const onColorChosen = function(histogram, bins, color) {
   histogram.setColorMethod(ColorMethod.MANUAL, bins, osStyle.toRgbaString(color));
 };
 
@@ -134,7 +134,7 @@ const onColorChosen = function(histogram, bins, color) {
  * @param {*} target
  * @this {MenuItem}
  */
-const somethingIsSelected_ = function(context, target) {
+const somethingIsSelected = function(context, target) {
   this.visible = false;
 
   let source;
@@ -157,7 +157,7 @@ const somethingIsSelected_ = function(context, target) {
 /**
  * @param {MenuEvent} event
  */
-const handleAddColumn = function(event) {
+export const handleAddColumn = function(event) {
   if (event instanceof GoogEvent && !inIframe()) {
     // handle the event
     event.preventDefault();
@@ -187,13 +187,4 @@ const handleAddColumn = function(event) {
       launchAddColumn(source);
     }
   }
-};
-
-exports = {
-  METRIC_KEYS,
-  addGenericItems,
-  canCreateHistogramFilter,
-  getCountByItems,
-  onColorChosen,
-  handleAddColumn
 };

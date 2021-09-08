@@ -1,7 +1,8 @@
-goog.module('mist.mixin.places');
+goog.declareModuleId('mist.mixin.places');
+
+import {ANALYZE_CONFIG_KEY} from './vectorsource.js';
 
 const Settings = goog.require('os.config.Settings');
-const {ANALYZE_CONFIG_KEY} = goog.require('mist.mixin.vectorsource');
 const PlacesManager = goog.require('plugin.places.PlacesManager');
 
 
