@@ -1,9 +1,10 @@
 goog.declareModuleId('mist.ui.DedupeNodeUI');
 
-const {Analyze} = goog.require('mist.metrics.keys');
+import {Analyze} from '../metrics/keys.js';
+import {ROOT} from '../../tools/tools.js';
+
 const Module = goog.require('os.ui.Module');
 const AbstractNodeUICtrl = goog.require('os.ui.slick.AbstractNodeUICtrl');
-const {ROOT} = goog.require('tools');
 
 const {DedupeNode} = goog.requireType('mist.ui.DedupeNode');
 

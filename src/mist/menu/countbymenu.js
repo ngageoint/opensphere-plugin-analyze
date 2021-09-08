@@ -1,14 +1,16 @@
 goog.declareModuleId('mist.menu.countBy');
 
-const dispatcher = goog.require('os.Dispatcher');
-const {getFirstColor, removeFeatures} = goog.require('os.feature');
+import {AnalyzeEventType} from '../analyze/eventtype.js';
+import {addGenericItems, canCreateHistogramFilter, onColorChosen} from './toolsmenu.js';
+import {Analyze} from '../metrics/keys.js';
+
+import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import {getFirstColor, removeFeatures} from 'opensphere/src/os/feature/feature.js';
+import {toRgbaString} from 'opensphere/src/os/style/style.js';
+
 const {Strings: BitsListStrings} = goog.require('bits.coreui.menu.list');
-const {AnalyzeEventType} = goog.require('mist.analyze.EventType');
-const {addGenericItems, canCreateHistogramFilter, onColorChosen} = goog.require('mist.menu.tools');
-const {Analyze} = goog.require('mist.metrics.keys');
 const EventType = goog.require('os.action.EventType');
 const FeaturesVisibility = goog.require('os.command.FeaturesVisibility');
-const {toRgbaString} = goog.require('os.style');
 const Menu = goog.require('os.ui.menu.Menu');
 const MenuItem = goog.require('os.ui.menu.MenuItem');
 const MenuItemType = goog.require('os.ui.menu.MenuItemType');

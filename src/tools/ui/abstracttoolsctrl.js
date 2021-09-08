@@ -14,6 +14,10 @@ import {LAYOUT_CONTAINER_ID} from './toolsui.js';
 import {Event as NavEvent} from './toolsnav.js';
 import {ROOT} from '../tools.js';
 import {createDefaultContent, getDefaultConfigs, transform} from '../toolsutil.js';
+import {getExports, restoreSingletonsFromExports} from '../../mist/analyze/analyze.js';
+import {registerVegaCharts} from '../../mist/ui/widget/mistchart.js';
+import * as CountByMenu from '../../mist/menu/countbymenu.js';
+import * as ListMenu from '../../mist/menu/listmenu.js';
 
 import {inIframe, isOSX, setDataManager} from 'opensphere/src/os/os.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
@@ -35,10 +39,6 @@ const log = goog.require('goog.log');
 const {getValueByKeys} = goog.require('goog.object');
 const {getRandomString} = goog.require('goog.string');
 
-const {getExports, restoreSingletonsFromExports} = goog.require('mist.analyze');
-const {registerVegaCharts} = goog.require('mist.chart');
-const CountByMenu = goog.require('mist.menu.countBy');
-const ListMenu = goog.require('mist.menu.list');
 const AlertManager = goog.require('os.alert.AlertManager');
 const CommandProcessor = goog.require('os.command.CommandProcessor');
 const FeaturesVisibility = goog.require('os.command.FeaturesVisibility');

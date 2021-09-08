@@ -1,8 +1,9 @@
 goog.declareModuleId('mist.ui.DedupeNode');
 
+import {getNodeUi} from './dedupenodeui.js';
+
 const SlickTreeNode = goog.require('os.ui.slick.SlickTreeNode');
 const ISearchable = goog.requireType('os.data.ISearchable');
-const DedupeNodeUi = goog.require('mist.ui.DedupeNodeUI');
 
 
 /**
@@ -31,7 +32,7 @@ export class DedupeNode extends SlickTreeNode {
       this.setLabel(this.item.title);
     }
     this.bold = false;
-    this.nodeUI = DedupeNodeUi.getNodeUi();
+    this.nodeUI = getNodeUi();
   }
 
   /**

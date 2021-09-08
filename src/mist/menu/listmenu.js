@@ -1,14 +1,16 @@
 goog.declareModuleId('mist.menu.list');
 
-const dispatcher = goog.require('os.Dispatcher');
+import {addGenericItems} from './toolsmenu.js';
+import {Analyze} from '../metrics/keys.js';
+import {launchDedupeUI} from '../ui/dedupedialog.js';
+import {AnalyzeEventType} from '../analyze/eventtype.js';
+
+import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import {inIframe} from 'opensphere/src/os/os.js';
+import {instanceOf} from 'opensphere/src/os/classregistry.js';
+
 const Event = goog.require('goog.events.Event');
-const {addGenericItems} = goog.require('mist.menu.tools');
-const {Analyze} = goog.require('mist.metrics.keys');
-const MistDedupeUI = goog.require('mist.ui.MistDedupeUI');
-const {inIframe} = goog.require('os');
 const EventType = goog.require('os.action.EventType');
-const {instanceOf} = goog.require('os.classRegistry');
-const {AnalyzeEventType} = goog.require('mist.analyze.EventType');
 const buffer = goog.require('os.buffer');
 const BufferDialogUI = goog.require('os.ui.buffer.BufferDialogUI');
 const Menu = goog.require('os.ui.menu.Menu');
@@ -209,7 +211,7 @@ export const handleBufferEvent = function(event) {
  */
 export const handleDedupeEvent = function(event) {
   const source = /** @type {VectorSource} */ (event.getContext());
-  MistDedupeUI.Controller.launch(source);
+  launchDedupeUI(source);
 };
 
 /**

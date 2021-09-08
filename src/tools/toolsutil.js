@@ -1,13 +1,14 @@
 goog.declareModuleId('tools.util');
 
+import {OPS_CLOCK_DATE_BIN_TYPES} from '../coreui/chart/vega/utils.js';
+import * as vega from '../mist/ui/widget/mistchart.js';
+import {Type as WidgetType} from '../mist/ui/widget/widget.js';
+
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
 const Settings = goog.require('os.config.Settings');
 const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
-import {OPS_CLOCK_DATE_BIN_TYPES} from '../coreui/chart/vega/utils.js';
-const vega = goog.require('mist.chart');
-const widget = goog.require('mist.ui.widget');
 const {unsafeClone} = goog.require('os.object');
 
 
@@ -26,8 +27,8 @@ export const layoutConfigs = [];
  */
 export const constants = {
   infinity: {
-    VEGA: 'infinity_' + widget.Type.VEGA, // plugin.infinity.WidgetId.VEGA
-    CHART: 'infinity_' + widget.Type.CHART, // plugin.infinity.WidgetId.CHART
+    VEGA: 'infinity_' + WidgetType.VEGA, // plugin.infinity.WidgetId.VEGA
+    CHART: 'infinity_' + WidgetType.CHART, // plugin.infinity.WidgetId.CHART
     TAB_CLASS: 'c-lm-tab__infinity'
   },
   vega: {
@@ -63,16 +64,16 @@ export const constants = {
 export const createDefaultContent = function() {
   var wm = ComponentManager.getInstance();
 
-  var countBy = wm.createComponent(widget.Type.COUNT_BY);
+  var countBy = wm.createComponent(WidgetType.COUNT_BY);
   countBy.width = 25;
 
-  var list = wm.createComponent(widget.Type.LIST);
+  var list = wm.createComponent(WidgetType.LIST);
   list.height = 65;
 
-  var chart1 = wm.createComponent(widget.Type.VEGA);
+  var chart1 = wm.createComponent(WidgetType.VEGA);
   chart1.width = 40;
 
-  var chart2 = wm.createComponent(widget.Type.VEGA);
+  var chart2 = wm.createComponent(WidgetType.VEGA);
   chart2.width = 60;
 
   return [{
@@ -118,7 +119,7 @@ export const transform = function(config) {
     for (var i = 0, len = content.length; i < len; i++) {
       try {
         var updated = null;
-        if (content[i].id == widget.Type.CHART || content[i].id == constants.infinity.CHART) {
+        if (content[i].id == WidgetType.CHART || content[i].id == constants.infinity.CHART) {
           updated = toVega(content[i], source);
         }
 
@@ -157,7 +158,7 @@ export const toVega = function(record, source) {
   if (!record) return null;
 
   var isInfinity = (record.id == constants.infinity.CHART);
-  if ((record.id == widget.Type.CHART || isInfinity) &&
+  if ((record.id == WidgetType.CHART || isInfinity) &&
       record.componentState &&
       record.componentState['config'] &&
       record.componentState['config']['chartconfig'] &&
@@ -250,12 +251,12 @@ export const toVega = function(record, source) {
 
     transform.id = (isInfinity) ?
       constants.infinity.VEGA :
-      widget.Type.VEGA;
+      WidgetType.VEGA;
 
     transform.componentState = {
       'type': (isInfinity) ?
         constants.infinity.VEGA :
-        widget.Type.VEGA,
+        WidgetType.VEGA,
       'template': (isInfinity) ?
         '<infinityvegachart source="source" container="container"></infinityvegachart>' :
         '<vegachart container="container" source="source"></vegachart>',

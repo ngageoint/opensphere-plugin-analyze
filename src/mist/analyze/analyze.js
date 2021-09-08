@@ -1,11 +1,14 @@
 goog.declareModuleId('mist.analyze');
 
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {getParentWindow} from 'opensphere/src/os/os.js';
+import * as osStyle from 'opensphere/src/os/style/style.js';
+
 const googLog = goog.require('goog.log');
 const AlertManager = goog.require('os.alert.AlertManager');
 const settings = goog.require('os.config.Settings');
 const MapContainer = goog.require('os.MapContainer');
 const ComponentManager = goog.require('coreui.layout.ComponentManager');
-const Dispatcher = goog.require('os.Dispatcher');
 const {getCrossOrigin, setGetCrossOriginFn} = goog.require('os.net');
 const CommandProcessor = goog.require('os.command.CommandProcessor');
 const AreaManager = goog.require('os.query.AreaManager');
@@ -20,7 +23,6 @@ const MetricsManager = goog.require('os.ui.metrics.MetricsManager');
 const TimelineController = goog.require('os.time.TimelineController');
 const IconSelectorManager = goog.require('os.ui.icon.IconSelectorManager');
 
-const {getParentWindow} = goog.require('os');
 const buffer = goog.require('os.buffer');
 const GeoJSON = goog.require('ol.format.GeoJSON');
 const DataManager = goog.require('os.data.DataManager');
@@ -28,7 +30,6 @@ const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
 const {setIMapContainer, setMapContainer} = goog.require('os.map.instance');
 const Metrics = goog.require('os.metrics.Metrics');
 const {setAreaManager, setFilterManager, setQueryManager} = goog.require('os.query.instance');
-const osStyle = goog.require('os.style');
 const {setStyleManager} = goog.require('os.style.instance');
 const {launchPropertyInfo} = goog.require('os.ui.PropertyInfoUI');
 const column = goog.require('os.ui.column');

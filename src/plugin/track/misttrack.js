@@ -2,6 +2,7 @@ goog.declareModuleId('plugin.mist.track');
 
 import {LAYER_TITLE} from './constants.js';
 import {MistTrackEventType} from './eventtype.js';
+import {getExports} from '../../mist/analyze/analyze.js';
 
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const AlertManager = goog.require('os.alert.AlertManager');
@@ -9,7 +10,6 @@ const cloneToContext = goog.require('os.filter.cloneToContext');
 const CommandProcessor = goog.require('os.command.CommandProcessor');
 const {createTrack} = goog.require('os.track');
 const DataManager = goog.require('os.data.DataManager');
-const {getExports} = goog.require('mist.analyze');
 const {getValueByKeys} = goog.require('goog.object');
 const {getWfsParams} = goog.require('os.ogc');
 const instanceOf = goog.require('os.instanceOf');

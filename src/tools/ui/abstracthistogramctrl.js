@@ -1,11 +1,14 @@
 goog.declareModuleId('tools.ui.AbstractHistogramCtrl');
 
-goog.require('mist.ui.data.DateBinUI');
-goog.require('mist.ui.data.NumericBinUI');
+import * as DateBinUI from '../../mist/ui/data/datebin.js';// eslint-disable-line
+import * as NumericBinUI from '../../mist/ui/data/numericbin.js';// eslint-disable-line
+
+import {default as ChartKeys} from '../../coreui/chart/chart.js';
+import * as ToolsMenu from '../../mist/menu/toolsmenu.js';
+import {Analyze as AnalyzeKeys} from '../../mist/metrics/keys.js';
 
 import {getField} from 'opensphere/src/os/feature/feature.js';
 import {apply} from 'opensphere/src/os/ui/ui.js';
-import {default as ChartKeys} from '../../coreui/chart/chart.js';
 
 const AbstractComponentCtrl = goog.require('coreui.layout.AbstractComponentCtrl');
 const BinMethod = goog.require('os.histo.BinMethod');
@@ -22,11 +25,9 @@ const PropertyChange = goog.require('os.source.PropertyChange');
 const SelectionType = goog.require('os.events.SelectionType');
 const Settings = goog.require('os.config.Settings');
 const SlickGridEvent = goog.require('os.ui.slick.SlickGridEvent');
-const ToolsMenu = goog.require('mist.menu.tools');
 const log = goog.require('goog.log');
 const {COLOR_ID, findByField, numerateNameCompare} = goog.require('os.ui.slick.column');
 const windowSelector = goog.require('os.ui.windowSelector');
-const {Analyze: AnalyzeKeys} = goog.require('mist.metrics.keys');
 const {containsValue} = goog.require('goog.object');
 const {getDocument} = goog.require('goog.dom');
 const {listen: googListen, unlisten: googUnlisten} = goog.require('goog.events');

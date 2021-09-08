@@ -1,6 +1,8 @@
 goog.declareModuleId('plugin.im.action.feature.ext.menu');
 
 import {EventType, Metrics} from './featureactionext.js';
+import {EXPORT_PROPERTY} from '../../mist/analyze/analyze.js';
+import * as countByMenu from '../../mist/menu/countbymenu.js';
 import * as CountByUI from '../../tools/ui/countby.js';
 
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
@@ -10,7 +12,6 @@ import {getFilterColumns} from 'opensphere/src/os/source/source.js';
 const action = goog.require('os.im.action');
 const AlertManager = goog.require('os.alert.AlertManager');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
-const analyze = goog.require('mist.analyze');
 const {assert} = goog.require('goog.asserts');
 const featureAction = goog.require('plugin.im.action.feature');
 const googObject = goog.require('goog.object');
@@ -20,7 +21,6 @@ const ImportActionManager = goog.require('os.im.action.ImportActionManager');
 const IImportSource = goog.require('os.source.IImportSource');
 const instanceOf = goog.require('os.instanceOf');
 const {launchEditFeatureAction} = goog.require('plugin.im.action.feature.ui');
-const mistCountByMenu = goog.require('mist.menu.countBy');
 const osImplements = goog.require('os.implements');
 
 const Entry = goog.requireType('plugin.im.action.feature.Entry');
@@ -41,11 +41,11 @@ let cbActionCount = 1;
  * Sets up import actions in the Layers window.
  */
 export const countBySetup = () => {
-  const menu = mistCountByMenu.MENU;
+  const menu = countByMenu.MENU;
   if (menu) {
     const root = menu.getRoot();
-    const group = root.find(mistCountByMenu.GroupLabel.FILTER);
-    assert(group, 'Group "' + mistCountByMenu.GroupLabel.TOOLS + '" should exist! Check spelling?');
+    const group = root.find(countByMenu.GroupLabel.FILTER);
+    assert(group, 'Group "' + countByMenu.GroupLabel.TOOLS + '" should exist! Check spelling?');
 
     group.addChild({
       eventType: EventType.CREATE_FROM_COUNTBY,
@@ -63,8 +63,8 @@ export const countBySetup = () => {
  * Clean up buffer region listeners in the layers window.
  */
 export const countByDispose = () => {
-  if (mistCountByMenu.MENU) {
-    const group = mistCountByMenu.MENU.getRoot().find(mistCountByMenu.GroupLabel.FILTER);
+  if (countByMenu.MENU) {
+    const group = countByMenu.MENU.getRoot().find(countByMenu.GroupLabel.FILTER);
     if (group) {
       group.removeChild(EventType.CREATE_FROM_COUNTBY);
     }
@@ -150,7 +150,7 @@ export const createFromCountBy = (event) => {
         if (inIframe()) {
           // for internal analyze, launch the edit in the main window
           editActionFn = /** @type {Function|undefined} */ (googObject.getValueByKeys(
-              window, analyze.EXPORT_PROPERTY, 'functions', 'launchFeatureActionEdit'));
+              window, EXPORT_PROPERTY, 'functions', 'launchFeatureActionEdit'));
         }
 
         if (!editActionFn) {

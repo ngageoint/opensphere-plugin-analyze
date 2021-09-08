@@ -1,17 +1,19 @@
 goog.declareModuleId('mist.menu.tools');
 
-const keys = goog.require('mist.metrics.keys');
+import {Analyze} from '../metrics/keys.js';
+import {AnalyzeEventType} from '../analyze/eventtype.js';
+
+import {inIframe} from 'opensphere/src/os/os.js';
+import {instanceOf} from 'opensphere/src/os/classregistry.js';
+import {isFilterable} from 'opensphere/src/os/source/source.js';
+import {toRgbaString} from 'opensphere/src/os/style/style.js';
+
 const EventType = goog.require('os.action.EventType');
-const {AnalyzeEventType} = goog.require('mist.analyze.EventType');
 const ColorMethod = goog.require('os.data.histo.ColorMethod');
 const {launchAddColumn} = goog.require('os.ui.data.AddColumnUI');
 const feature = goog.require('os.ui.menu.feature');
 const Vector = goog.require('os.source.Vector');
 const GoogEvent = goog.require('goog.events.Event');
-const {inIframe} = goog.require('os');
-const {instanceOf} = goog.require('os.classRegistry');
-const osSource = goog.require('os.source');
-const osStyle = goog.require('os.style');
 
 const Menu = goog.requireType('os.ui.menu.Menu');
 const MenuItem = goog.requireType('os.ui.menu.MenuItem');
@@ -21,7 +23,7 @@ const ColorBin = goog.requireType('os.data.histo.ColorBin');
 const OlFeature = goog.requireType('ol.Feature');
 const SourceHistogram = goog.requireType('os.data.histo.SourceHistogram');
 const {AbstractHistogramCtrl} = goog.requireType('tools.ui.AbstractHistogramCtrl');
-const SourceModel = goog.requireType('coreui.chart.vega.data.SourceModel');
+const {default: SourceModel} = goog.requireType('coreui.chart.vega.data.SourceModel');
 
 
 /**
@@ -29,14 +31,14 @@ const SourceModel = goog.requireType('coreui.chart.vega.data.SourceModel');
  * @type {!Array<!({eventType: string, key: string})>}
  */
 export const METRIC_KEYS = [
-  {eventType: EventType.SELECT, key: keys.Analyze.SELECT_ALL},
-  {eventType: EventType.DESELECT, key: keys.Analyze.DESELECT_ALL},
-  {eventType: EventType.INVERT, key: keys.Analyze.INVERT_SELECTION},
-  {eventType: EventType.HIDE_SELECTED, key: keys.Analyze.HIDE_SELECTED},
-  {eventType: EventType.HIDE_UNSELECTED, key: keys.Analyze.HIDE_UNSELECTED},
-  {eventType: EventType.DISPLAY_ALL, key: keys.Analyze.DISPLAY_ALL},
-  {eventType: EventType.REMOVE, key: keys.Analyze.REMOVE_SELECTED},
-  {eventType: EventType.REMOVE_UNSELECTED, key: keys.Analyze.REMOVE_UNSELECTED}
+  {eventType: EventType.SELECT, key: Analyze.SELECT_ALL},
+  {eventType: EventType.DESELECT, key: Analyze.DESELECT_ALL},
+  {eventType: EventType.INVERT, key: Analyze.INVERT_SELECTION},
+  {eventType: EventType.HIDE_SELECTED, key: Analyze.HIDE_SELECTED},
+  {eventType: EventType.HIDE_UNSELECTED, key: Analyze.HIDE_UNSELECTED},
+  {eventType: EventType.DISPLAY_ALL, key: Analyze.DISPLAY_ALL},
+  {eventType: EventType.REMOVE, key: Analyze.REMOVE_SELECTED},
+  {eventType: EventType.REMOVE_UNSELECTED, key: Analyze.REMOVE_UNSELECTED}
 ];
 
 /**
@@ -67,7 +69,7 @@ export const addGenericItems = function(manager, opt_prefix) {
       tooltip: 'Adds a column to the selected records where custom data and labels can be provided',
       icons: ['<i class="fa fa-fw fa-plus"></i>'],
       handler: inIframe() ? undefined : handleAddColumn,
-      metricKey: keys.Analyze.ADD_CUSTOM_DATA,
+      metricKey: Analyze.ADD_CUSTOM_DATA,
       beforeRender: somethingIsSelected,
       sort: 5
     });
@@ -82,7 +84,7 @@ export const addGenericItems = function(manager, opt_prefix) {
 export const canCreateHistogramFilter = function(opt_histoUi) {
   if (opt_histoUi) {
     try {
-      if (osSource.isFilterable(opt_histoUi.getSource())) {
+      if (isFilterable(opt_histoUi.getSource())) {
         const parent = opt_histoUi.getParent();
 
         // we can create a filter if the count by has selected bins, is cascaded and has cascaded bins, or the parent
@@ -126,7 +128,7 @@ export const getCountByItems = function(bins) {
  * @param {string} color The color
  */
 export const onColorChosen = function(histogram, bins, color) {
-  histogram.setColorMethod(ColorMethod.MANUAL, bins, osStyle.toRgbaString(color));
+  histogram.setColorMethod(ColorMethod.MANUAL, bins, toRgbaString(color));
 };
 
 /**

@@ -1,7 +1,8 @@
 goog.declareModuleId('plugin.places.ext.menu');
 
+import * as listMenu from '../../../mist/menu/listmenu.js';
+
 const {assert} = goog.require('goog.asserts');
-const listMenu = goog.require('mist.menu.list');
 const instanceOf = goog.require('os.instanceOf');
 const VectorSource = goog.require('os.source.Vector');
 const placesPlugin = goog.require('plugin.places');

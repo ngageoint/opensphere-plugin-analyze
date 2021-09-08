@@ -1,6 +1,5 @@
 goog.declareModuleId('tools.ui.CountByUI');
 
-goog.require('mist.ui.widget');
 goog.require('os.ui.UISwitchUI');
 goog.require('os.ui.slick.SlickGridUI');
 
@@ -9,17 +8,18 @@ import * as CountByContainerUI from './countbycontainer.js';
 import {Module} from './module.js';
 import {CountByEventType} from './countbyremovecascade.js';
 import {ROOT} from '../tools.js';
+import * as CountByMenu from '../../mist/menu/countbymenu.js';
+import * as ListMenu from '../../mist/menu/listmenu.js';
+import * as metricsKeys from '../../mist/metrics/keys.js';
 
 import {isOSX} from 'opensphere/src/os/os.js';
 import {registerClass} from 'opensphere/src/os/classregistry.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 import {MODAL_SELECTOR, apply} from 'opensphere/src/os/ui/ui.js';
 
-const CountByMenu = goog.require('mist.menu.countBy');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const DateRangeBinType = goog.require('os.histo.DateRangeBinType');
 const KeyCodes = goog.require('goog.events.KeyCodes');
-const ListMenu = goog.require('mist.menu.list');
 const Metrics = goog.require('os.metrics.Metrics');
 const MenuEvent = goog.require('os.ui.menu.MenuEvent');
 const OSEventType = goog.require('os.action.EventType');
@@ -29,7 +29,6 @@ const asserts = goog.require('goog.asserts');
 const formatter = goog.require('os.ui.slick.formatter');
 const layout = goog.require('coreui.layout');
 const log = goog.require('goog.log');
-const metricsKeys = goog.require('mist.metrics.keys');
 const osUiMenuList = goog.require('os.ui.menu.list');
 const osUiSlickColumn = goog.require('os.ui.slick.column');
 

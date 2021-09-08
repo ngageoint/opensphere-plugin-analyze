@@ -1,8 +1,9 @@
 goog.declareModuleId('mist.analyze.ButtonUI');
 
-const {openExternal} = goog.require('mist.analyze');
-const {MENU} = goog.require('mist.analyze.menu');
-const {Analyze} = goog.require('mist.metrics.keys');
+import {openExternal} from './analyze.js';
+import {MENU} from './analyzemenu.js';
+import {Analyze} from '../metrics/keys.js';
+
 const Module = goog.require('os.ui.Module');
 const MenuButtonCtrl = goog.require('os.ui.menu.MenuButtonCtrl');
 

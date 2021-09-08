@@ -1,11 +1,12 @@
 goog.declareModuleId('mist.ui.menu.layer');
 
+import {AnalyzeEventType} from '../../analyze/eventtype.js';
+import {showInAnalyze} from '../../mixin/vectorsource.js';
+
 const MapContainer = goog.require('os.MapContainer');
 const instanceOf = goog.require('os.instanceOf');
 const Vector = goog.require('os.source.Vector');
 const layerMenu = goog.require('os.ui.menu.layer');
-const {AnalyzeEventType} = goog.require('mist.analyze.EventType');
-const {showInAnalyze} = goog.require('mist.mixin.vectorsource');
 
 const VectorLayer = goog.requireType('os.layer.Vector');
 const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');

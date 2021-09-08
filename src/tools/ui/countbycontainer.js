@@ -2,6 +2,10 @@ goog.declareModuleId('tools.ui.CountByContainerUI');
 
 import {Module} from './module.js';
 import {ROOT} from '../tools.js';
+import {AnalyzeEventType} from '../../mist/analyze/eventtype.js';
+import {EXPORT_PROPERTY} from '../../mist/analyze/analyze.js';
+import * as CountByMenu from '../../mist/menu/countbymenu.js';
+import * as ToolsMenu from '../../mist/menu/toolsmenu.js';
 
 import {inIframe} from 'opensphere/src/os/os.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
@@ -18,10 +22,6 @@ const PayloadEvent = goog.require('os.events.PayloadEvent');
 const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
 const FilterEvent = goog.require('os.ui.filter.FilterEvent');
 const FilterEventType = goog.require('os.ui.filter.FilterEventType');
-const {AnalyzeEventType} = goog.require('mist.analyze.EventType');
-const {EXPORT_PROPERTY} = goog.require('mist.analyze');
-const CountByMenu = goog.require('mist.menu.countBy');
-const ToolsMenu = goog.require('mist.menu.tools');
 
 const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
 const FilterEntry = goog.requireType('os.filter.FilterEntry');

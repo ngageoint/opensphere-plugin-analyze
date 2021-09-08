@@ -1,9 +1,10 @@
 goog.declareModuleId('mist.chart');
 
-const {default: ChartRegistry} = goog.require('coreui.chart.vega.ChartRegistry');
-const {default: ChartKeys} = goog.require('coreui.chart.keys');
-const {default: Utils} = goog.require('coreui.chart.vega.Utils');
-const {default: ChartType} = goog.require('coreui.chart.vega.ChartType');
+import {default as ChartRegistry} from '../../../coreui/chart/vega/chartregistry.js';
+import {default as ChartKeys} from '../../../coreui/chart/chart.js';
+import {default as Utils} from '../../../coreui/chart/vega/utils.js';
+import {default as ChartType} from '../../../coreui/chart/vega/charttype.js';
+
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
 

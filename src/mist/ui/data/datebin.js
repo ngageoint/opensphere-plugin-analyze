@@ -1,8 +1,9 @@
 goog.declareModuleId('mist.ui.data.DateBinUI');
 
+import {ROOT} from '../../../tools/tools.js';
+
 const EventType = goog.require('goog.events.EventType');
 const Module = goog.require('os.ui.Module');
-const {ROOT} = goog.require('tools');
 
 const DateBinMethod = goog.requireType('os.histo.DateBinMethod');
 

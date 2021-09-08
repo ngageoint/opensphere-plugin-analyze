@@ -1,9 +1,9 @@
 goog.declareModuleId('plugin.places.ext');
 
+import {getExports} from '../../../mist/analyze/analyze.js';
 import {inIframe} from 'opensphere/src/os/os.js';
 
 const {getValueByKeys} = goog.require('goog.object');
-const {getExports} = goog.require('mist.analyze');
 const {setAddFolder, setAddPlace, setSaveFromSource} = goog.require('plugin.places');
 const PlacesManager = goog.require('plugin.places.PlacesManager');
 const {setLaunchSavePlaces} = goog.require('plugin.places.ui.launchSavePlaces');

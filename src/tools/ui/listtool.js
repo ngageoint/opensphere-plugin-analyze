@@ -1,11 +1,12 @@
 goog.declareModuleId('tools.ui.ListToolUI');
 
-goog.require('mist.ui.widget');
 goog.require('os.ui.SliderUI');
 goog.require('os.ui.SourceGridUI');
 
 import {Module} from './module.js';
 import {ROOT} from '../tools.js';
+import * as ListMenu from '../../mist/menu/listmenu.js';
+import {Analyze as AnalyzeKeys} from '../../mist/metrics/keys.js';
 
 import {isOSX} from 'opensphere/src/os/os.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
@@ -31,8 +32,6 @@ const PropertyChange = goog.require('os.source.PropertyChange');
 const MenuEvent = goog.require('os.ui.menu.MenuEvent');
 const OsListMenu = goog.require('os.ui.menu.list');
 const ColumnEventType = goog.require('os.ui.slick.ColumnEventType');
-const ListMenu = goog.require('mist.menu.list');
-const {Analyze: AnalyzeKeys} = goog.require('mist.metrics.keys');
 
 const GoogEvent = goog.requireType('goog.events.Event');
 const Menu = goog.requireType('os.ui.menu.Menu');
