@@ -1,10 +1,10 @@
 goog.declareModuleId('tools.ui.AbstractToolsMainCtrl');
 
-goog.require('coreui.layout.LayoutPanelUI');
 goog.require('os.style.StyleManager');
 goog.require('os.ui.column.ColumnManagerUI');
 
 import * as VegaChartUI from '../../coreui/chart/vega/base/vegachart.js'; // eslint-disable-line
+import * as LayoutPanelUI from '../../coreui/layout/layoutpanel.js'; // eslint-disable-line
 import * as CountByContainerUI from './countbycontainer.js'; // eslint-disable-line
 import * as CountByUI from './countby.js'; // eslint-disable-line
 import * as ListToolUI from './listtool.js'; // eslint-disable-line
@@ -14,6 +14,8 @@ import {LAYOUT_CONTAINER_ID} from './toolsui.js';
 import {Event as NavEvent} from './toolsnav.js';
 import {ROOT} from '../tools.js';
 import {createDefaultContent, getDefaultConfigs, transform} from '../toolsutil.js';
+import {GoldenLayoutEvent, LayoutEvent, cleanConfig} from '../../coreui/layout/layout.js';
+import {AngularComponent} from '../../coreui/layout/angularcomponent.js';
 import {getExports, restoreSingletonsFromExports} from '../../mist/analyze/analyze.js';
 import {registerVegaCharts} from '../../mist/ui/widget/mistchart.js';
 import * as CountByMenu from '../../mist/menu/countbymenu.js';
@@ -23,8 +25,6 @@ import {inIframe, isOSX, setDataManager} from 'opensphere/src/os/os.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 import {MODAL_SELECTOR, apply, injector, waitForAngular} from 'opensphere/src/os/ui/ui.js';
 
-const {GoldenLayoutEvent, LayoutEvent, cleanConfig} = goog.require('coreui.layout');
-const {AngularComponent} = goog.require('coreui.layout.AngularComponent');
 const {peek, remove, removeDuplicates} = goog.require('goog.array');
 const Delay = goog.require('goog.async.Delay');
 const dispose = goog.require('goog.dispose');

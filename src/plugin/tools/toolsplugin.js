@@ -9,6 +9,7 @@ import {FeatureActionPluginExt} from '../featureaction/featureactionpluginext.js
 import {MilSymPlugin} from '../milsym/milsymplugin.js';
 import {TrackPlugin} from '../track/misttrackplugin.js';
 import {PlacesPluginExt} from '../places/ext/placespluginext.js';
+import {ComponentManager} from '../../coreui/layout/componentmanager.js';
 import {AnalyzeEventType} from '../../mist/analyze/eventtype.js';
 import {closeExternal, initializeExports, isAnalyze} from '../../mist/analyze/analyze.js';
 import * as analyzeMenu from '../../mist/analyze/analyzemenu.js';
@@ -21,7 +22,6 @@ import * as widget from '../../mist/ui/widget/widget.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 
 const GoogEventType = goog.require('goog.events.EventType');
-const {ComponentManager} = goog.require('coreui.layout.ComponentManager');
 const ActionEventType = goog.require('os.action.EventType');
 const osList = goog.require('os.ui.list');
 const NavLocation = goog.require('os.ui.nav.Location');

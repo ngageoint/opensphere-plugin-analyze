@@ -1,16 +1,18 @@
 goog.declareModuleId('coreui.layout.LayoutPanelUI');
 
-goog.require('coreui.layout.DragComponentUI');
 goog.require('os.ui.util.AutoHeightUI');
 
-const {ROOT} = goog.require('tools');
-const {LayoutEvent} = goog.require('coreui.layout');
-const {ComponentManager} = goog.require('coreui.layout.ComponentManager');
+import * as DragComponentUI from './dragcomponent.js'; // eslint-disable-line
+
+import {ROOT} from '../../tools/tools.js';
+import {LayoutEvent} from './layout.js';
+import {ComponentManager} from './componentmanager.js';
+import {apply} from 'opensphere/src/os/ui/ui.js';
+
 const Disposable = goog.require('goog.Disposable');
 const Delay = goog.require('goog.async.Delay');
 const dispose = goog.require('goog.dispose');
 const GoogEventType = goog.require('goog.events.EventType');
-const {apply} = goog.require('os.ui');
 const Module = goog.require('os.ui.Module');
 
 

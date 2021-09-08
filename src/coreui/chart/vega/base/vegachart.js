@@ -2,35 +2,37 @@ goog.declareModuleId('coreui.chart.vega.base.VegaChartUI');
 
 import * as VegaOptionsUI from './vegaoptions.js';// eslint-disable-line
 import * as Opsclock from '../opsclock/opsclock.js';// eslint-disable-line
+
 import {DEFAULT_CHART} from '../charttype.js';
 import {default as ChartRegistry} from '../chartregistry.js';
 import {default as ChartManager} from './chartmanager.js';
 import {default as EventType} from './eventtype.js';
 import {default as Model} from '../data/model';
 import {default as SourceModel} from '../data/sourcemodel';
+import {isActiveComponent} from '../../../layout/layout.js';
+import {AbstractComponentCtrl} from '../../../layout/abstractcomponentctrl.js';
 import {ROOT} from '../../../../tools/tools.js';
-import * as dispatcher from 'opensphere/src/os/dispatcher.js';
-import * as osFeature from 'opensphere/src/os/feature/feature.js';
-import * as ui from 'opensphere/src/os/ui/ui.js';
 
-const layout = goog.require('coreui.layout');
-const {AbstractComponentCtrl} = goog.require('coreui.layout.AbstractComponentCtrl');
+import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import {getField} from 'opensphere/src/os/feature/feature.js';
+import {apply, removeResize, resize} from 'opensphere/src/os/ui/ui.js';
+
 const Debouncer = goog.require('goog.async.Debouncer');
 const dispose = goog.require('goog.dispose');
-const dom = goog.require('goog.dom');
+const {getDocument} = goog.require('goog.dom');
 const KeyCodes = goog.require('goog.events.KeyCodes');
 const KeyEvent = goog.require('goog.events.KeyEvent');
 const KeyHandler = goog.require('goog.events.KeyHandler');
 const googObject = goog.require('goog.object');
 const ThemeSettingsChangeEvent = goog.require('os.config.ThemeSettingsChangeEvent');
 const RecordField = goog.require('os.data.RecordField');
-const histo = goog.require('os.histo');
+const {restoreMethod} = goog.require('os.histo');
 const BinMethod = goog.require('os.histo.BinMethod');
 const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
 const instanceOf = goog.require('os.instanceOf');
-const osObject = goog.require('os.object');
+const {unsafeClone} = goog.require('os.object');
 const VectorSource = goog.require('os.source.Vector');
-const osString = goog.require('os.string');
+const {randomString} = goog.require('os.string');
 const Module = goog.require('os.ui.Module');
 const ResizeEventType = goog.require('os.ui.ResizeEventType');
 const {numerateNameCompare} = goog.require('os.ui.slick.column');
@@ -49,12 +51,10 @@ const IBinMethod = goog.requireType('os.histo.IBinMethod');
 export const directive = () => ({
   restrict: 'E',
   replace: true,
-
   scope: {
     'container': '=',
     'source': '='
   },
-
   templateUrl: ROOT + 'views/chart/vega/vegachart.html',
   controller: Controller,
   controllerAs: 'ctrl'
@@ -66,13 +66,10 @@ export const directive = () => ({
  */
 export const directiveTag = 'vegachart';
 
-
 /**
  * Add the directive to the module
  */
 Module.directive('vegachart', [directive]);
-
-
 
 /**
  * Controller class for the chart container
@@ -87,7 +84,7 @@ Module.directive('vegachart', [directive]);
  * the same for interactions.
  * @unrestricted
  */
-class Controller extends AbstractComponentCtrl {
+export class Controller extends AbstractComponentCtrl {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -133,14 +130,14 @@ class Controller extends AbstractComponentCtrl {
      * @private
      */
     this.resizeFn_ = this.onResize_.bind(this);
-    ui.resize(this.element, this.resizeFn_);
+    resize(this.element, this.resizeFn_);
     this.element.css('overflow', 'hidden');
 
     /**
      * ID so charts don't talk to eachother
      * @type {string}
      */
-    this.id = osString.randomString();
+    this.id = randomString();
 
     /**
      * Map of chart configs by source ID. Note that these are NOT bitsx.vega.Options objects, but rather the results
@@ -223,7 +220,7 @@ class Controller extends AbstractComponentCtrl {
     this.scope.$on('$destroy', this.dispose.bind(this));
 
     // set up key handlers
-    this.keyHandler_ = new KeyHandler(dom.getDocument());
+    this.keyHandler_ = new KeyHandler(getDocument());
     this.keyHandler_.listen(KeyEvent.EventType.KEY, this.handleKeyEvent, false, this);
   }
 
@@ -236,7 +233,7 @@ class Controller extends AbstractComponentCtrl {
     dispose(this.keyHandler_);
     this.keyHandler_ = undefined;
 
-    ui.removeResize(this.element, this.resizeFn_);
+    removeResize(this.element, this.resizeFn_);
     this.destroyChart();
 
     dispatcher.getInstance().unlisten(EventType.UPDATESCOPE, this.onScopeChange, false, this);
@@ -250,7 +247,7 @@ class Controller extends AbstractComponentCtrl {
    * @protected
    */
   handleKeyEvent(event) {
-    const applies = layout.isActiveComponent(this.componentId);
+    const applies = isActiveComponent(this.componentId);
 
     if (applies) {
       switch (event.keyCode) {
@@ -285,8 +282,8 @@ class Controller extends AbstractComponentCtrl {
    * @protected
    */
   onUpdateResize() {
-    ui.removeResize(this.element, this.resizeFn_);
-    ui.resize(this.element, this.resizeFn_);
+    removeResize(this.element, this.resizeFn_);
+    resize(this.element, this.resizeFn_);
   }
 
   /**
@@ -363,7 +360,7 @@ class Controller extends AbstractComponentCtrl {
         this['tooManyBins'] = false;
       }
 
-      ui.apply(this.scope);
+      apply(this.scope);
     }
   }
 
@@ -389,11 +386,11 @@ class Controller extends AbstractComponentCtrl {
     if (bool) {
       clearTimeout(this.optionsTimeoutId);
       this['optionsVisible'] = true;
-      ui.apply(this.scope);
+      apply(this.scope);
     } else {
       this.optionsTimeoutId = setTimeout(function() {
         this['optionsVisible'] = this.optionsOpen || false;
-        ui.apply(this.scope);
+        apply(this.scope);
       }.bind(this), 1000);
     }
   }
@@ -432,7 +429,7 @@ class Controller extends AbstractComponentCtrl {
 
     if (methodCtor) {
       method = new methodCtor();
-      method.setValueFunction(osFeature.getField);
+      method.setValueFunction(getField);
       this.modifyMethod(method);
     }
 
@@ -637,16 +634,16 @@ class Controller extends AbstractComponentCtrl {
     this['availableOptions'].length = 0;
 
     for (const key in config) {
-      const options = osObject.unsafeClone(config[key]);
+      const options = unsafeClone(config[key]);
 
       if (typeof options == 'object') {
         // recreate the bin method instances
         let method;
         const primaryConfig = options.primaryMethod;
         if (primaryConfig) {
-          method = histo.restoreMethod(primaryConfig);
+          method = restoreMethod(primaryConfig);
           if (method) {
-            method.setValueFunction(osFeature.getField);
+            method.setValueFunction(getField);
           }
 
           options.primaryMethod = method;
@@ -654,9 +651,9 @@ class Controller extends AbstractComponentCtrl {
 
         const secondaryConfig = options.secondaryMethod;
         if (secondaryConfig) {
-          method = histo.restoreMethod(secondaryConfig);
+          method = restoreMethod(secondaryConfig);
           if (method) {
-            method.setValueFunction(osFeature.getField);
+            method.setValueFunction(getField);
           }
 
           options.secondaryMethod = method;
@@ -715,5 +712,3 @@ class Controller extends AbstractComponentCtrl {
     return method;
   }
 }
-
-export {Controller};

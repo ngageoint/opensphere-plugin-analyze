@@ -5,6 +5,8 @@ goog.require('os.ui.SourceGridUI');
 
 import {Module} from './module.js';
 import {ROOT} from '../tools.js';
+import {AbstractComponentCtrl} from '../../coreui/layout/abstractcomponentctrl.js';
+import {isActiveComponent} from '../../coreui/layout/layout.js';
 import * as ListMenu from '../../mist/menu/listmenu.js';
 import {Analyze as AnalyzeKeys} from '../../mist/metrics/keys.js';
 
@@ -21,8 +23,6 @@ const KeyHandler = goog.require('goog.events.KeyHandler');
 const {containsValue} = goog.require('goog.object');
 const {listen: olListen, unlisten: olUnlisten} = goog.require('ol.events');
 
-const {AbstractComponentCtrl} = goog.require('coreui.layout.AbstractComponentCtrl');
-const layout = goog.require('coreui.layout');
 const ActionEventType = goog.require('os.action.EventType');
 const SelectionType = goog.require('os.events.SelectionType');
 const Metrics = goog.require('os.metrics.Metrics');
@@ -208,7 +208,7 @@ export class Controller extends AbstractComponentCtrl {
    */
   handleKeyEvent_(event) {
     var ctrlOr = isOSX() ? event.metaKey : event.ctrlKey;
-    var applies = layout.isActiveComponent(this.componentId);
+    var applies = isActiveComponent(this.componentId);
 
     if (!document.querySelector(MODAL_SELECTOR) && applies) {
       switch (event.keyCode) {

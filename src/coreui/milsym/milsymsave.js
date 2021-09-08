@@ -1,10 +1,11 @@
 goog.declareModuleId('coreui.milsym.MilSymSaveUI');
 
-goog.require('coreui.selector.GeneralSelectorUI');
+import * as GeneralSelectorUI from '../selector/generalselector.js';// eslint-disable-line
 
-const {ROOT} = goog.require('tools');
-const {settingsID} = goog.require('coreui.milsym');
-const {MilSymEventType} = goog.require('coreui.milsym.EventType');
+import {ROOT} from '../../tools/tools.js';
+import {settingsID} from './milsym.js';
+import {MilSymEventType} from './milsymeventtype.js';
+
 const Settings = goog.require('os.config.Settings');
 const Module = goog.require('os.ui.Module');
 

@@ -1,8 +1,9 @@
 goog.declareModuleId('coreui.layout.AngularComponent');
 
-const {ComponentManager} = goog.require('coreui.layout.ComponentManager');
+import {ComponentManager} from './componentmanager.js';
+import {injector} from 'opensphere/src/os/ui/ui.js';
+
 const {isEmptyOrWhitespace} = goog.require('goog.string');
-const {injector} = goog.require('os.ui');
 
 
 /**

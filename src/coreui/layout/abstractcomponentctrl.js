@@ -1,6 +1,7 @@
 goog.declareModuleId('coreui.layout.AbstractComponentCtrl');
 
-const {isActiveComponent, setActiveComponentId} = goog.require('coreui.layout');
+import {isActiveComponent, setActiveComponentId} from './layout.js';
+
 const Disposable = goog.require('goog.Disposable');
 const {listen, unlisten} = goog.require('goog.events');
 const GoogEventType = goog.require('goog.events.EventType');

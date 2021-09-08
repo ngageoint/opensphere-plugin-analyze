@@ -1,17 +1,18 @@
 goog.declareModuleId('coreui.layout.LayoutTabsUI');
 
-goog.require('coreui.layout.DragComponentUI');
+import * as DragComponentUI from './dragcomponent.js'; // eslint-disable-line
 
-const {ROOT} = goog.require('tools');
-const {LayoutTabsEvent} = goog.require('coreui.layout.LayoutTabsEvent');
-const {TabParams} = goog.require('coreui.layout.TabParams');
+import {ROOT} from '../../tools/tools.js';
+import {LayoutTabsEvent} from './layouttabsevent.js';
+import {TabParams} from './tabparams.js';
+import {apply, measureText} from 'opensphere/src/os/ui/ui.js';
+
 const Disposable = goog.require('goog.Disposable');
 const googArray = goog.require('goog.array');
 const ViewportSizeMonitor = goog.require('goog.dom.ViewportSizeMonitor');
 const GoogEventType = goog.require('goog.events.EventType');
 const {getRandomString, truncate} = goog.require('goog.string');
 const {unsafeClone} = goog.require('os.object');
-const {apply, measureText} = goog.require('os.ui');
 const Module = goog.require('os.ui.Module');
 const Menu = goog.require('os.ui.menu.Menu');
 const MenuItem = goog.require('os.ui.menu.MenuItem');

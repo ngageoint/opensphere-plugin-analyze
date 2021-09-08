@@ -6,6 +6,7 @@ goog.require('ol.events');
 import {Module} from './module.js';
 import {Event as NavEvent} from './toolsnav.js';
 import {ROOT} from '../tools.js';
+import {setActiveComponentId} from '../../coreui/layout/layout.js';
 import {SHOW_ANALYZE, showInAnalyze} from '../../mist/mixin/vectorsource.js';
 
 import {isEnabled, isVisible, titleCompare} from 'opensphere/src/os/source/source.js';
@@ -13,7 +14,6 @@ import {apply} from 'opensphere/src/os/ui/ui.js';
 
 const SourceManager = goog.require('os.data.SourceManager');
 const Timer = goog.require('goog.Timer');
-const {setActiveComponentId} = goog.require('coreui.layout');
 
 const ISource = goog.requireType('os.source.ISource');
 

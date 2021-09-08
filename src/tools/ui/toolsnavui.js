@@ -1,10 +1,9 @@
 goog.declareModuleId('tools.ui.nav.ToolsNavUI');
 
-goog.require('coreui.layout.LayoutTabsUI');
-
 import * as AllTimeCheckboxUI from './alltimecheckbox.js'; // eslint-disable-line
 import * as LayoutButtonUI from './layoutbutton.js'; // eslint-disable-line
 import * as SourceSwitcherUI from './sourceswitcher.js'; // eslint-disable-line
+import * as LayoutTabsUI from '../../coreui/layout/layouttabs.js'; // eslint-disable-line
 
 import {ROOT} from '../tools.js';
 import {Module} from './module.js';

@@ -3,8 +3,8 @@ goog.declareModuleId('tools.util');
 import {OPS_CLOCK_DATE_BIN_TYPES} from '../coreui/chart/vega/utils.js';
 import * as vega from '../mist/ui/widget/mistchart.js';
 import {Type as WidgetType} from '../mist/ui/widget/widget.js';
+import {ComponentManager} from '../coreui/layout/componentmanager.js';
 
-const {ComponentManager} = goog.require('coreui.layout.ComponentManager');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
 const Settings = goog.require('os.config.Settings');

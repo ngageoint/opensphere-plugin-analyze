@@ -6,11 +6,11 @@ import {default as Model} from '../data/model.js';
 import {default as SourceModel} from '../data/sourcemodel.js';
 import {default as AbstractInteraction} from './abstractinteraction.js';
 import {default as ClickContextEventType} from './clickcontexteventtype.js';
+import * as listMenu from '../../../menu/listmenu.js';
 
 import {inIframe} from 'opensphere/src/os/os.js';
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 
-const bitsCoreuiMenuList = goog.require('bits.coreui.menu.list');
 const dispose = goog.require('goog.dispose');
 const GoogEvent = goog.require('goog.events.Event');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
@@ -22,7 +22,7 @@ const {launchAddColumn} = goog.require('os.ui.data.AddColumnUI');
 const Menu = goog.require('os.ui.menu.Menu');
 const MenuItem = goog.require('os.ui.menu.MenuItem');
 const MenuItemType = goog.require('os.ui.menu.MenuItemType');
-const list = goog.require('os.ui.menu.list');
+const osListMenu = goog.require('os.ui.menu.list');
 
 const {default: Event} = goog.requireType('coreui.chart.vega.base.Event');
 const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
@@ -289,33 +289,33 @@ class ClickContext extends AbstractInteraction {
       }];
 
       const colorChildren = [{
-        label: list.Strings.COLOR_SELECTED_LABEL,
+        label: osListMenu.Strings.COLOR_SELECTED_LABEL,
         eventType: ClickContextEventType.COLOR_SELECTED,
-        tooltip: list.Strings.COLOR_SELECTED_TOOLTIP,
+        tooltip: osListMenu.Strings.COLOR_SELECTED_TOOLTIP,
         icons: ['<i class="fa fa-fw fa-tint"></i> '],
         handler: ClickContext.sendChartMenuEvent,
         beforeRender: ClickContext.chartActionAllowed,
         sort: 0
       }, {
-        label: bitsCoreuiMenuList.Strings.COLOR_SELECTED_BINS_LABEL,
+        label: listMenu.Strings.COLOR_SELECTED_BINS_LABEL,
         eventType: ClickContextEventType.COLOR_SELECTED_BINS,
-        tooltip: bitsCoreuiMenuList.Strings.COLOR_SELECTED_BINS_TOOLTIP,
+        tooltip: listMenu.Strings.COLOR_SELECTED_BINS_TOOLTIP,
         icons: ['<i class="fa fa-fw fa-tint"></i> '],
         handler: ClickContext.sendChartMenuEvent,
         beforeRender: ClickContext.chartActionAllowed,
         sort: 1
       }, {
-        label: bitsCoreuiMenuList.Strings.COLOR_AUTO_LABEL,
+        label: listMenu.Strings.COLOR_AUTO_LABEL,
         eventType: ClickContextEventType.AUTO_COLOR,
-        tooltip: bitsCoreuiMenuList.Strings.COLOR_AUTO_TOOLTIP,
+        tooltip: listMenu.Strings.COLOR_AUTO_TOOLTIP,
         icons: ['<i class="fa fa-fw fa-tint"></i> '],
         handler: ClickContext.sendChartMenuEvent,
         beforeRender: ClickContext.chartActionAllowed,
         sort: 10
       }, {
-        label: list.Strings.COLOR_RESET_LABEL,
+        label: osListMenu.Strings.COLOR_RESET_LABEL,
         eventType: ClickContextEventType.RESET_COLOR,
-        tooltip: list.Strings.COLOR_RESET_TOOLTIP,
+        tooltip: osListMenu.Strings.COLOR_RESET_TOOLTIP,
         icons: ['<i class="fa fa-fw fa-tint"></i> '],
         handler: ClickContext.sendChartMenuEvent,
         beforeRender: ClickContext.chartActionAllowed,

@@ -8,6 +8,7 @@ import * as CountByContainerUI from './countbycontainer.js';
 import {Module} from './module.js';
 import {CountByEventType} from './countbyremovecascade.js';
 import {ROOT} from '../tools.js';
+import {isActiveComponent} from '../../coreui/layout/layout.js';
 import * as CountByMenu from '../../mist/menu/countbymenu.js';
 import * as ListMenu from '../../mist/menu/listmenu.js';
 import * as metricsKeys from '../../mist/metrics/keys.js';
@@ -27,7 +28,6 @@ const SlickGridEvent = goog.require('os.ui.slick.SlickGridEvent');
 const array = goog.require('goog.array');
 const asserts = goog.require('goog.asserts');
 const formatter = goog.require('os.ui.slick.formatter');
-const layout = goog.require('coreui.layout');
 const log = goog.require('goog.log');
 const osUiMenuList = goog.require('os.ui.menu.list');
 const osUiSlickColumn = goog.require('os.ui.slick.column');
@@ -432,7 +432,7 @@ export class Controller extends AbstractHistogramCtrl {
     if (newVal && !this.inEvent && this.shouldResetSelection_(newVal, oldVal)) {
       this.inEvent = true;
 
-      if (this.userUpdated_ && this.source && layout.isActiveComponent(this.componentId)) {
+      if (this.userUpdated_ && this.source && isActiveComponent(this.componentId)) {
         // WORKAROUND: Sweet, sometimes the newVal set of bins doesnt contain items.
         // Thats why we have to fire the result delay and re-lookup the selected bins.
         // The real fix we need to figure out how do we get bins without items.
@@ -576,7 +576,7 @@ export class Controller extends AbstractHistogramCtrl {
    */
   handleKeyEvent(event) {
     var ctrlOr = isOSX() ? event.metaKey : event.ctrlKey;
-    var applies = layout.isActiveComponent(this.componentId);
+    var applies = isActiveComponent(this.componentId);
 
     if (!document.querySelector(MODAL_SELECTOR) && applies) {
       switch (event.keyCode) {
