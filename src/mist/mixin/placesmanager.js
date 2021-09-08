@@ -1,8 +1,7 @@
 goog.module('mist.mixin.places');
 
-goog.require('mist.mixin.vectorsource');
-
-const settings = goog.require('os.config.Settings');
+const Settings = goog.require('os.config.Settings');
+const {ANALYZE_CONFIG_KEY} = goog.require('mist.mixin.vectorsource');
 const PlacesManager = goog.require('plugin.places.PlacesManager');
 
 
@@ -12,7 +11,6 @@ const PlacesManager = goog.require('plugin.places.PlacesManager');
  */
 (function() {
   const old = PlacesManager.prototype.getOptions;
-  const oldKey = 'analyze';
 
   /**
    * options used to create the places layer
@@ -24,15 +22,15 @@ const PlacesManager = goog.require('plugin.places.PlacesManager');
     const options = old.call(this);
 
     // see if the user has this in the old setting
-    const oldSetting = settings.getInstance().get(oldKey, false);
+    const oldSetting = Settings.getInstance().get(ANALYZE_CONFIG_KEY, false);
     if (oldSetting) {
-      options[oldKey] = oldSetting;
-      settings.getInstance().delete(oldKey);
+      options[ANALYZE_CONFIG_KEY] = oldSetting;
+      Settings.getInstance().delete(ANALYZE_CONFIG_KEY);
     }
 
     // ensure we default to false
-    if (!(oldKey in options)) {
-      options[oldKey] = false;
+    if (!(ANALYZE_CONFIG_KEY in options)) {
+      options[ANALYZE_CONFIG_KEY] = false;
     }
 
     return options;

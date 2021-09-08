@@ -1,7 +1,6 @@
 goog.declareModuleId('tools.ui.SourceSwitcherUI');
 
 goog.require('goog.events.EventType');
-goog.require('mist.mixin.vectorsource');
 goog.require('mist.ui.widget');
 goog.require('ol.events');
 
@@ -9,12 +8,13 @@ import {Module} from './module.js';
 import {Event as NavEvent} from './toolsnav.js';
 import {ROOT} from '../tools.js';
 
-import * as osSource from 'opensphere/src/os/source/source.js';
+import {isEnabled, isVisible, titleCompare} from 'opensphere/src/os/source/source.js';
 import {apply} from 'opensphere/src/os/ui/ui.js';
 
 const SourceManager = goog.require('os.data.SourceManager');
 const Timer = goog.require('goog.Timer');
 const {setActiveComponentId} = goog.require('coreui.layout');
+const {SHOW_ANALYZE, showInAnalyze} = goog.require('mist.mixin.vectorsource');
 
 const ISource = goog.requireType('os.source.ISource');
 
@@ -52,13 +52,13 @@ export class Controller extends SourceManager {
 
     // use the base update events, and add the show in analyze event
     this.updateEvents = this.updateEvents.slice();
-    this.updateEvents.push(osSource.SHOW_ANALYZE);
+    this.updateEvents.push(SHOW_ANALYZE);
 
     // show the source if it is visible, and flagged to show in analyze
     this.validationFunctions = [
-      osSource.isEnabled,
-      osSource.isVisible,
-      osSource.showInAnalyze
+      isEnabled,
+      isVisible,
+      showInAnalyze
     ];
 
     /**
@@ -133,7 +133,7 @@ export class Controller extends SourceManager {
 
     if (this.scope_ && this.scope_['sources'] && this.scope_['sources'].indexOf(source) === -1) {
       this.scope_['sources'].push(source);
-      this.scope_['sources'].sort(osSource.titleCompare);
+      this.scope_['sources'].sort(titleCompare);
 
       if (!this.scope_['source']) {
         this.scope_['source'] = source;
