@@ -3,7 +3,7 @@ goog.declareModuleId('tools.ui.AbstractHistogramCtrl');
 import * as DateBinUI from '../../mist/ui/data/datebin.js';// eslint-disable-line
 import * as NumericBinUI from '../../mist/ui/data/numericbin.js';// eslint-disable-line
 
-import {default as ChartKeys} from '../../coreui/chart/chart.js';
+import {ChartKeys} from '../../coreui/chart/chart.js';
 import {AbstractComponentCtrl} from '../../coreui/layout/abstractcomponentctrl.js';
 import * as ToolsMenu from '../../mist/menu/toolsmenu.js';
 import {Analyze as AnalyzeKeys} from '../../mist/metrics/keys.js';

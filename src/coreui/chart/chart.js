@@ -5,7 +5,7 @@ goog.declareModuleId('coreui.chart.keys');
  * @enum {string}
  * @const
  */
-const ChartKeys = {
+export const ChartKeys = {
   CHART_OPTIONS_OPEN: 'analyze.chart.optionsOpen',
   CHART_OPTIONS_BAR: 'analyze.chart.optionsBar',
   CHART_OPTIONS_SCATTER: 'analyze.chart.optionsScatter',
@@ -40,5 +40,3 @@ const ChartKeys = {
   CHART_DATA_STATS_2STDEV: 'analyze.chart.contextMenu.dataStats2stdev',
   CHART_DATA_STATS_3STDEV: 'analyze.chart.contextMenu.dataStats3stdev'
 };
-
-export default ChartKeys;

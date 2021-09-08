@@ -1,9 +1,8 @@
 goog.declareModuleId('coreui.chart.vega.interaction.AbstractInteraction');
 
 const Disposable = goog.require('goog.Disposable');
-const osString = goog.require('os.string');
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
-
+const {randomString} = goog.require('os.string');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 const GoogEvent = goog.requireType('goog.events.Event');
 
@@ -11,7 +10,7 @@ const GoogEvent = goog.requireType('goog.events.Event');
 /**
  * @abstract
  */
-class AbstractInteraction extends Disposable {
+export class AbstractInteraction extends Disposable {
   /**
    * Constructor.
    * @param {Model} model
@@ -23,7 +22,7 @@ class AbstractInteraction extends Disposable {
     /**
      * @type {string}
      */
-    this.id = osString.randomString();
+    this.id = randomString();
 
     /**
      * @type {Model}
@@ -215,5 +214,3 @@ class AbstractInteraction extends Disposable {
     return val;
   }
 }
-
-export default AbstractInteraction;

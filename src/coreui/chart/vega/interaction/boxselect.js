@@ -1,10 +1,10 @@
 goog.declareModuleId('coreui.chart.vega.interaction.BoxSelect');
 
-import {default as ChartType} from '../charttype.js';
-import {default as Utils} from '../utils.js';
-import {default as Charts} from '../base/charts.js';
-import {default as Model} from '../data/model.js';
-import {default as AbstractInteraction} from './abstractinteraction.js';
+import {ChartType} from '../charttype.js';
+import {Utils} from '../utils.js';
+import {Charts} from '../base/charts.js';
+import {Model} from '../data/model.js';
+import {AbstractInteraction} from './abstractinteraction.js';
 
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 
@@ -15,14 +15,15 @@ const GlobalMenuEventType = goog.require('os.ui.GlobalMenuEventType');
 const Menu = goog.require('os.ui.menu.Menu');
 const MenuItem = goog.require('os.ui.menu.MenuItem');
 const MenuItemType = goog.require('os.ui.menu.MenuItemType');
-const {default: Event} = goog.requireType('coreui.chart.vega.base.Event');
+
+const {VegaEvent} = goog.requireType('coreui.chart.vega.base.Event');
 const ColorBin = goog.requireType('os.data.histo.ColorBin');
 const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
 
 
 /**
  */
-class BoxSelect extends AbstractInteraction {
+export class BoxSelect extends AbstractInteraction {
   /**
    * Constructor.
    * @param {Model} model
@@ -365,7 +366,7 @@ class BoxSelect extends AbstractInteraction {
       } else if (!this.contextMenu.isOpen()) {
         // ensure this runs after the other vega signals finish processing
         setTimeout(function() {
-          const evt = /** @type {Event} */ ({
+          const evt = /** @type {VegaEvent} */ ({
             'id': this.model.id,
             'type': BoxSelect.EventType.ZOOM_XY
           });
@@ -397,7 +398,7 @@ class BoxSelect extends AbstractInteraction {
 
   /**
    * Menu selection was made, do the stuff
-   * @param {Event} event
+   * @param {VegaEvent} event
    * @protected
    */
   runSelection(event) {
@@ -722,6 +723,3 @@ BoxSelect.EventType = {
  * @type {Menu|undefined}
  */
 BoxSelect.MENU = undefined;
-
-
-export default BoxSelect;

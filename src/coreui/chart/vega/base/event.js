@@ -2,13 +2,13 @@ goog.declareModuleId('coreui.chart.vega.base.Event');
 
 const GoogEvent = goog.require('goog.events.Event');
 
-const {default: EventType} = goog.requireType('coreui.chart.vega.base.EventType');
+const {EventType} = goog.requireType('coreui.chart.vega.base.EventType');
 
 
 /**
  * Reference to the object that is the target of this event
  */
-class Event extends GoogEvent {
+export class VegaEvent extends GoogEvent {
   /**
    * Constructor.
    * @param {EventType} type
@@ -48,5 +48,3 @@ class Event extends GoogEvent {
     return this.id_;
   }
 }
-
-export default Event;

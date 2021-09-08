@@ -1,12 +1,12 @@
 goog.declareModuleId('coreui.chart.vega.pie.PieSpecHandler');
 
-import {default as SpecHandler} from '../base/spechandler.js';
+import {SpecHandler} from '../base/spechandler.js';
 
 
 /**
  * The spec for the Vega pie chart.
  */
-class PieSpecHandler extends SpecHandler {
+export class PieSpecHandler extends SpecHandler {
   /**
    * Constructor.
    * @param {Object=} opt_spec A full spec to use override the default
@@ -223,5 +223,3 @@ class PieSpecHandler extends SpecHandler {
     return field + count;
   }
 }
-
-export default PieSpecHandler;

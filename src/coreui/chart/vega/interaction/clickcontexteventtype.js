@@ -4,7 +4,7 @@ goog.declareModuleId('coreui.chart.vega.interaction.ClickContextEventType');
  * Events fired by the chart menu.
  * @enum {string}
  */
-export default {
+export const ClickContextEventType = {
   SELECT_ALL: 'chartmenu:selectall',
   DESELECT_ALL: 'chartmenu:deselectall',
   INVERT_SELECTION: 'chartmenu:invertselection',

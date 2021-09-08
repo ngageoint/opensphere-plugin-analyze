@@ -1,12 +1,12 @@
 goog.declareModuleId('coreui.chart.vega.scatter.ScatterSpecHandler');
 
-import {default as SpecHandler} from '../base/spechandler.js';
+import {SpecHandler} from '../base/spechandler.js';
 
 
 /**
  * The spec that will be used to partially overwrite the basic vega spec when a scatter chart is required
  */
-class ScatterSpecHandler extends SpecHandler {
+export class ScatterSpecHandler extends SpecHandler {
   /**
    * Constructor.
    * @param {Object=} opt_spec A full spec to use override the default
@@ -354,5 +354,3 @@ class ScatterSpecHandler extends SpecHandler {
     return datumID + '\'\\n\'' + datumXField + '\'\\n\'' + datumYField;
   }
 }
-
-export default ScatterSpecHandler;

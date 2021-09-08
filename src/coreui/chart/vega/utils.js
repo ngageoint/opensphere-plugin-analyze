@@ -25,7 +25,7 @@ export const OPS_CLOCK_DATE_BIN_TYPES = [
 /**
  * Useful methods for interacting with Vega
  */
-const Utils = {
+export const Utils = {
   /**
    * Gets the bin method for the opsclock. This method has a restricted set of available date bin types.
    * @param {os.histo.DateBinMethod=} opt_method method on which to apply additional opsclock settings
@@ -106,6 +106,3 @@ const Utils = {
     return Object.keys(view.getState()['signals']).indexOf(name) >= 0;
   }
 };
-
-
-export default Utils;

@@ -1,12 +1,12 @@
 goog.declareModuleId('coreui.chart.vega.bar.BarSpecHandler');
 
-import {default as SpecHandler} from '../base/spechandler';
+import {SpecHandler} from '../base/spechandler';
 
 
 /**
  * The spec for the Vega bar chart.
  */
-class BarSpecHandler extends SpecHandler {
+export class BarSpecHandler extends SpecHandler {
   /**
    * Constructor.
    * @param {Object=} opt_spec A full spec to use override the default
@@ -180,5 +180,3 @@ class BarSpecHandler extends SpecHandler {
     return field + count;
   }
 }
-
-export default BarSpecHandler;

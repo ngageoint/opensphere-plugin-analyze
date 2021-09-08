@@ -1,8 +1,8 @@
 goog.declareModuleId('coreui.chart.vega.interaction.DragSelect');
 
-import {default as Charts} from '../base/charts.js';
-import {default as Model} from '../data/model.js';
-import {default as AbstractInteraction} from './abstractinteraction.js';
+import {Charts} from '../base/charts.js';
+import {Model} from '../data/model.js';
+import {AbstractInteraction} from './abstractinteraction.js';
 
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 
@@ -11,18 +11,16 @@ const GlobalMenuEventType = goog.require('os.ui.GlobalMenuEventType');
 const Menu = goog.require('os.ui.menu.Menu');
 const MenuItem = goog.require('os.ui.menu.MenuItem');
 const MenuItemType = goog.require('os.ui.menu.MenuItemType');
-const {default: VegaBaseEvent} = goog.requireType('coreui.chart.vega.base.Event');
-
+const {VegaEvent} = goog.requireType('coreui.chart.vega.base.Event');
 
 const GoogEvent = goog.requireType('goog.events.Event');
-
 const ColorBin = goog.requireType('os.data.histo.ColorBin');
 const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
 
 
 /**
  */
-class DragSelect extends AbstractInteraction {
+export class DragSelect extends AbstractInteraction {
   /**
    * @param {Model} model
    * @param {string=} opt_chartType
@@ -262,7 +260,7 @@ class DragSelect extends AbstractInteraction {
 
   /**
    * Menu selection was made, do the stuff
-   * @param {VegaBaseEvent} event
+   * @param {VegaEvent} event
    * @protected
    */
   runSelection(event) {
@@ -390,5 +388,3 @@ DragSelect.EventType = {
  * @type {Menu|undefined}
  */
 DragSelect.MENU = undefined;
-
-export default DragSelect;

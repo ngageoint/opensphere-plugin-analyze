@@ -1,13 +1,13 @@
 goog.declareModuleId('coreui.chart.vega.base.ConfigHandler');
 
-const osColor = goog.require('os.color');
+const {HEATMAP_GRADIENT_HEX} = goog.require('os.color');
 
 
 /**
  * The vega config is the JSON object that defines all of the values for the visualization
  * It generally takes precedence over the spec so it can be used for site wide application like themes
  */
-class ConfigHandler {
+export class ConfigHandler {
   /**
    * Constructor.
    * @param {Object=} opt_obj A config that should be created, will check the keys and override only those keys
@@ -91,7 +91,7 @@ class ConfigHandler {
         'color': this.color_
       },
       'range': {
-        'heatmap': osColor.HEATMAP_GRADIENT_HEX
+        'heatmap': HEATMAP_GRADIENT_HEX
       }
     };
 
@@ -120,5 +120,3 @@ class ConfigHandler {
     }
   }
 }
-
-export default ConfigHandler;

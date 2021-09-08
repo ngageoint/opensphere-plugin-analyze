@@ -3,8 +3,8 @@ goog.declareModuleId('coreui.chart.vega.base.VegaOptionsUI');
 goog.require('os.ui.UISwitchUI');
 
 import * as statsmenu from '../../chartstatsmenu.js';
-import {default as ChartType} from '../charttype.js';
-import {default as EventType} from './eventtype.js';
+import {ChartType} from '../charttype.js';
+import {EventType} from './eventtype.js';
 import * as stats from './vegachartstats.js';
 import {ROOT} from '../../../../tools/tools.js';
 

@@ -1,16 +1,14 @@
 goog.declareModuleId('coreui.chart.vega.symlog.Symlog');
 
-import * as ClickContext from '../interaction/clickcontext.js';// eslint-disable-line
+import {ChartType} from '../charttype.js';
+import {AbstractChart} from '../base/abstractchart.js';
+import {SourceModel} from '../data/sourcemodel.js';
+import {BoxSelect} from '../interaction/boxselect.js';
+import {ClickSelect} from '../interaction/clickselect.js';
+import {Hover} from '../interaction/hover.js';
+import {SymlogSpecHandler} from './symlogspec.js';
 
-import {default as ChartType} from '../charttype.js';
-import {default as AbstractChart} from '../base/abstractchart.js';
-import {default as SourceModel} from '../data/sourcemodel.js';
-import {default as BoxSelect} from '../interaction/boxselect.js';
-import {default as ClickSelect} from '../interaction/clickselect.js';
-import {default as Hover} from '../interaction/hover.js';
-import {default as SymlogSpecHandler} from './symlogspec.js';
-
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
 /**
@@ -20,7 +18,7 @@ const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
  * the chart needs to provide more visibility for data closer to the value of zero when there is also data considerably
  * farther away from the value of zero (hundreds, thousands, tens of thousands, etc)
  */
-class Symlog extends AbstractChart {
+export class Symlog extends AbstractChart {
   /**
    * Constructor.
    * @param {string} id The chart ID.
@@ -122,5 +120,3 @@ class Symlog extends AbstractChart {
     return 1500;
   }
 }
-
-export default Symlog;

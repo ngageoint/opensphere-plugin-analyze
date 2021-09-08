@@ -5,7 +5,7 @@ goog.declareModuleId('coreui.chart.vega.base.EventType');
  * Event types are appended to the id of the chart
  * @enum {string}
  */
-const EventType = {
+export const EventType = {
   CHANGE_TYPE: 'vega:changeType',
   MODELCHANGE: 'modelchange',
   OPTIONS: 'vegaoptions',
@@ -15,5 +15,3 @@ const EventType = {
   UPDATESCOPE: 'updatescope',
   WINDOWACTIVE: 'chart:windowactive'
 };
-
-export default EventType;

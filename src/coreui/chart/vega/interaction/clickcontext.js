@@ -1,11 +1,11 @@
 goog.declareModuleId('coreui.chart.vega.interaction.ClickContext');
 
-import {default as ChartType} from '../charttype.js';
-import {default as Charts} from '../base/charts.js';
-import {default as Model} from '../data/model.js';
-import {default as SourceModel} from '../data/sourcemodel.js';
-import {default as AbstractInteraction} from './abstractinteraction.js';
-import {default as ClickContextEventType} from './clickcontexteventtype.js';
+import {ChartType} from '../charttype.js';
+import {Charts} from '../base/charts.js';
+import {Model} from '../data/model.js';
+import {SourceModel} from '../data/sourcemodel.js';
+import {AbstractInteraction} from './abstractinteraction.js';
+import {ClickContextEventType} from './clickcontexteventtype.js';
 import * as listMenu from '../../../menu/listmenu.js';
 
 import {inIframe} from 'opensphere/src/os/os.js';
@@ -24,13 +24,13 @@ const MenuItem = goog.require('os.ui.menu.MenuItem');
 const MenuItemType = goog.require('os.ui.menu.MenuItemType');
 const osListMenu = goog.require('os.ui.menu.list');
 
-const {default: Event} = goog.requireType('coreui.chart.vega.base.Event');
+const {VegaEvent} = goog.requireType('coreui.chart.vega.base.Event');
 const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
 
 
 /**
  */
-class ClickContext extends AbstractInteraction {
+export class ClickContext extends AbstractInteraction {
   /**
    * Constructor.
    * @param {Model} model
@@ -128,7 +128,7 @@ class ClickContext extends AbstractInteraction {
 
   /**
    * Menu selection was made, do the stuff
-   * @param {Event} event
+   * @param {VegaEvent} event
    * @protected
    */
   runSelection(event) {
@@ -479,6 +479,3 @@ class ClickContext extends AbstractInteraction {
  * @type {Menu|undefined}
  */
 ClickContext.MENU = undefined;
-
-
-export default ClickContext;

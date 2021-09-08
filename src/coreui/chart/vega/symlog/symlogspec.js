@@ -1,12 +1,12 @@
 goog.declareModuleId('coreui.chart.vega.symlog.SymlogSpecHandler');
 
-import {default as SpecHandler} from '../base/spechandler.js';
+import {SpecHandler} from '../base/spechandler.js';
 
 
 /**
  * The spec for the Vega symlog chart.
  */
-class SymlogSpecHandler extends SpecHandler {
+export class SymlogSpecHandler extends SpecHandler {
   /**
    * Constructor.
    * @param {Object=} opt_spec A full spec to use override the default
@@ -361,5 +361,3 @@ class SymlogSpecHandler extends SpecHandler {
     return field + count;
   }
 }
-
-export default SymlogSpecHandler;

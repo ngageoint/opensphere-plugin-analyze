@@ -1,16 +1,16 @@
 goog.declareModuleId('coreui.chart.vega.line.Line');
 
-import {default as ChartType} from '../charttype.js';
-import {default as AbstractChart} from '../base/abstractchart.js';
-import {default as SourceModel} from '../data/sourcemodel.js';
-import {default as BoxSelect} from '../interaction/boxselect.js';
-import {default as ClickContext} from '../interaction/clickcontext.js';
-import {default as ClickContextEventType} from '../interaction/clickcontexteventtype.js';
-import {default as ClickSelect} from '../interaction/clickselect.js';
-import {default as Hover} from '../interaction/hover.js';
-import {default as LineSpecHandler} from './linespec.js';
+import {ChartType} from '../charttype.js';
+import {AbstractChart} from '../base/abstractchart.js';
+import {SourceModel} from '../data/sourcemodel.js';
+import {BoxSelect} from '../interaction/boxselect.js';
+import {ClickContext} from '../interaction/clickcontext.js';
+import {ClickContextEventType} from '../interaction/clickcontexteventtype.js';
+import {ClickSelect} from '../interaction/clickselect.js';
+import {Hover} from '../interaction/hover.js';
+import {LineSpecHandler} from './linespec.js';
 
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
 /**
@@ -18,7 +18,7 @@ const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
  * It is a direct representation of the range values (y) over the domain values (x). A common example might be the
  * range values of counts of something (y) over a time domain (x) represented directly on the chart.
  */
-class Line extends AbstractChart {
+export class Line extends AbstractChart {
   /**
    * Constructor.
    * @param {string} id The chart ID.
@@ -139,5 +139,3 @@ class Line extends AbstractChart {
     return 1250;
   }
 }
-
-export default Line;

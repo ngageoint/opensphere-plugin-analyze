@@ -1,16 +1,16 @@
 goog.declareModuleId('coreui.chart.vega.base.AbstractChart');
 
-import {default as Utils} from '../utils.js';
-import {default as ChartType} from '../charttype.js';
-import {default as Charts} from './charts.js';
-import {default as ConfigHandler} from './confighandler.js';
-import {default as Event} from './event.js';
-import {default as EventType} from './eventtype.js';
+import {Utils} from '../utils.js';
+import {ChartType} from '../charttype.js';
+import {Charts} from './charts.js';
+import {ConfigHandler} from './confighandler.js';
+import {VegaEvent} from './event.js';
+import {EventType} from './eventtype.js';
 import * as stats from './vegachartstats.js';
-import {default as SourceModel} from '../data/sourcemodel';
-import {default as BoxSelect} from '../interaction/boxselect';
-import {default as ClickContextEventType} from '../interaction/clickcontexteventtype';
-import {default as DragSelect} from '../interaction/dragselect';
+import {SourceModel} from '../data/sourcemodel';
+import {BoxSelect} from '../interaction/boxselect';
+import {ClickContextEventType} from '../interaction/clickcontexteventtype';
+import {DragSelect} from '../interaction/dragselect';
 
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 
@@ -24,11 +24,9 @@ const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
 const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
 const osObject = goog.require('os.object');
 
-const {
-  default: SpecHandler
-} = goog.requireType('coreui.chart.vega.base.SpecHandler');
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
-const {default: AbstractInteraction} = goog.requireType('coreui.chart.vega.interaction.AbstractInteraction');
+const {SpecHandler} = goog.requireType('coreui.chart.vega.base.SpecHandler');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {AbstractInteraction} = goog.requireType('coreui.chart.vega.interaction.AbstractInteraction');
 const Logger = goog.requireType('goog.log.Logger');
 const IBinMethod = goog.requireType('os.histo.IBinMethod');
 
@@ -37,7 +35,7 @@ const IBinMethod = goog.requireType('os.histo.IBinMethod');
  * An abstract implementation of a Vega chart. This class connects our XF-based model classes with the Vega view.
  * @abstract
  */
-class AbstractChart extends EventTarget {
+export class AbstractChart extends EventTarget {
   /**
    * Constructor.
    * @param {string} id the chart id
@@ -134,7 +132,7 @@ class AbstractChart extends EventTarget {
      * @type {goog.log.Logger}
      * @protected
      */
-    this.log = AbstractChart.LOGGER_;
+    this.log = LOGGER;
 
     /**
      * @type {Object<string, AbstractInteraction>}
@@ -276,7 +274,7 @@ class AbstractChart extends EventTarget {
 
   /**
    * The model changed, redo whatever needs to be changed and rerender the chart
-   * @param {Event} event
+   * @param {VegaEvent} event
    * @protected
    */
   onModelChange(event) {
@@ -460,7 +458,7 @@ class AbstractChart extends EventTarget {
 
         if (this.triggerUpdate) {
           this.triggerUpdate = false;
-          const event = new Event(EventType.UPDATESCOPE, this.id);
+          const event = new VegaEvent(EventType.UPDATESCOPE, this.id);
           dispatcher.getInstance().dispatchEvent(event);
         }
       }
@@ -598,10 +596,5 @@ class AbstractChart extends EventTarget {
 /**
  * Logger for vega.base.AbstractChart
  * @type {Logger}
- * @private
- * @const
  */
-AbstractChart.LOGGER_ = log.getLogger('coreui.chart.vega.base.AbstractChart');
-
-
-export default AbstractChart;
+const LOGGER = log.getLogger('coreui.chart.vega.base.AbstractChart');

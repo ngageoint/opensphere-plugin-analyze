@@ -4,11 +4,11 @@ import * as VegaOptionsUI from './vegaoptions.js';// eslint-disable-line
 import * as Opsclock from '../opsclock/opsclock.js';// eslint-disable-line
 
 import {DEFAULT_CHART} from '../charttype.js';
-import {default as ChartRegistry} from '../chartregistry.js';
-import {default as ChartManager} from './chartmanager.js';
-import {default as EventType} from './eventtype.js';
-import {default as Model} from '../data/model';
-import {default as SourceModel} from '../data/sourcemodel';
+import {ChartRegistry} from '../chartregistry.js';
+import {ChartManager} from './chartmanager.js';
+import {EventType} from './eventtype.js';
+import {Model} from '../data/model';
+import {SourceModel} from '../data/sourcemodel';
 import {isActiveComponent} from '../../../layout/layout.js';
 import {AbstractComponentCtrl} from '../../../layout/abstractcomponentctrl.js';
 import {ROOT} from '../../../../tools/tools.js';
@@ -37,9 +37,9 @@ const Module = goog.require('os.ui.Module');
 const ResizeEventType = goog.require('os.ui.ResizeEventType');
 const {numerateNameCompare} = goog.require('os.ui.slick.column');
 
-const {default: AbstractChart} = goog.requireType('coreui.chart.vega.base.AbstractChart');
-const {default: Event} = goog.requireType('coreui.chart.vega.base.Event');
-const {default: AbstractInteraction} = goog.requireType('coreui.chart.vega.interaction.AbstractInteraction');
+const {AbstractChart} = goog.requireType('coreui.chart.vega.base.AbstractChart');
+const {VegaEvent} = goog.requireType('coreui.chart.vega.base.Event');
+const {AbstractInteraction} = goog.requireType('coreui.chart.vega.interaction.AbstractInteraction');
 const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
 const IBinMethod = goog.requireType('os.histo.IBinMethod');
 
@@ -340,7 +340,7 @@ export class Controller extends AbstractComponentCtrl {
 
   /**
    * Apply scope triggered outside of current scope
-   * @param {Event} event
+   * @param {VegaEvent} event
    */
   onScopeChange(event) {
     if (!this.isDisposed() && event && event.getId() == this.id) {

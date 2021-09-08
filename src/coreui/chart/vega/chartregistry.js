@@ -1,15 +1,14 @@
 goog.declareModuleId('coreui.chart.vega.ChartRegistry');
 
 const osObject = goog.require('os.object');
-const {
-  default: ChartType
-} = goog.requireType('coreui.chart.vega.ChartType');
+
+const {ChartType} = goog.requireType('coreui.chart.vega.ChartType');
 
 
 /**
  * Manage the registered Vega chart types and provide helper function(s) to sort/display them
  */
-class ChartRegistry {
+export class ChartRegistry {
   /**
    * Constructor
    */
@@ -113,6 +112,3 @@ class ChartRegistry {
  * @type {ChartRegistry|undefined}
  */
 let instance;
-
-
-export default ChartRegistry;

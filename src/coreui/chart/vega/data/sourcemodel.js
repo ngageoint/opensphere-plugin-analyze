@@ -1,20 +1,16 @@
 goog.declareModuleId('coreui.chart.vega.data.SourceModel');
 
-goog.require('os.data.ColumnDefinition');
-goog.require('os.data.xf.DataModel');
-
-import * as coreuiChartStats from '../../chartstats.js';
-import {default as Model} from './model.js';
-import {default as ClickContextEventType} from '../interaction/clickcontexteventtype';
-import * as osFeature from 'opensphere/src/os/feature/feature.js';
-import * as osStyle from 'opensphere/src/os/style/style.js';
+import {getDefaultStats, getFeatureStats} from '../../chartstats.js';
+import {Model} from './model.js';
+import {ClickContextEventType} from '../interaction/clickcontexteventtype';
+import {getField, getFirstColor} from 'opensphere/src/os/feature/feature.js';
+import {toRgbaString} from 'opensphere/src/os/style/style.js';
 
 const Debouncer = goog.require('goog.async.Debouncer');
 const Throttle = goog.require('goog.async.Throttle');
 const dispose = goog.require('goog.dispose');
 const GoogEventType = goog.require('goog.events.EventType');
 const log = goog.require('goog.log');
-const olArray = goog.require('ol.array');
 const olEvents = goog.require('ol.events');
 const olObj = goog.require('ol.obj');
 const osArray = goog.require('os.array');
@@ -42,7 +38,7 @@ const VectorSource = goog.requireType('os.source.Vector');
  * Model for data in vega chart powered by VectorSource
  * Leverages SourceHistogram s to do all of the heavy lifting
  */
-class SourceModel extends Model {
+export class SourceModel extends Model {
   /**
    * Constructor.
    * @param {string} id ties the model to the chart
@@ -167,10 +163,10 @@ class SourceModel extends Model {
 
     let binMethod = cloneMethod(method);
     binMethod.setField(field);
-    binMethod.setValueFunction(osFeature.getField);
+    binMethod.setValueFunction(getField);
 
     // remove this series if it already exists
-    if (olArray.includes(this.seriesKeys, field) || this.series[field]) {
+    if (this.seriesKeys.includes(field) || this.series[field]) {
       this.removeSeries(field);
     }
 
@@ -807,16 +803,16 @@ class SourceModel extends Model {
         color = bins[0]['color']; // grab color off the bin
 
         launchConfirmColor(function(color) {
-          histogram.setColorMethod(ColorMethod.MANUAL, bins, osStyle.toRgbaString(color));
+          histogram.setColorMethod(ColorMethod.MANUAL, bins, toRgbaString(color));
         }, color);
       }
     } else {
       const source = this.source;
       const items = source.getSelectedItems();
-      color = osFeature.getFirstColor(items);
+      color = getFirstColor(items);
 
       launchConfirmColor(function(color) {
-        source.setColor(items, osStyle.toRgbaString(color));
+        source.setColor(items, toRgbaString(color));
       }, color);
     }
   }
@@ -916,11 +912,9 @@ class SourceModel extends Model {
     // only single series is currently supported for data stats
     if (this.seriesKeys.length === 1) {
       const features = /** @type {Array<olFeature>} */ (this.getData());
-      return coreuiChartStats.getFeatureStats(features, this.seriesKeys[0]);
+      return getFeatureStats(features, this.seriesKeys[0]);
     }
 
-    return coreuiChartStats.getDefaultStats();
+    return getDefaultStats();
   }
 }
-
-export default SourceModel;

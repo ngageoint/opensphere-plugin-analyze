@@ -5,7 +5,7 @@ goog.declareModuleId('coreui.chart.vega.ChartType');
  * Various chart types
  * @enum {string}
  */
-const ChartType = {
+export const ChartType = {
   BAR: 'bar',
   LINE: 'line',
   OPSCLOCK: 'opsclock',
@@ -19,5 +19,3 @@ const ChartType = {
  * @type {string}
  */
 export const DEFAULT_CHART = ChartType.BAR;
-
-export default ChartType;

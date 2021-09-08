@@ -1,13 +1,13 @@
 goog.declareModuleId('coreui.chart.vega.interaction.ScrollZoom');
 
-import {default as AbstractInteraction} from './abstractinteraction.js';
+import {AbstractInteraction} from './abstractinteraction.js';
 
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
 /**
  */
-class ScrollZoom extends AbstractInteraction {
+export class ScrollZoom extends AbstractInteraction {
   /**
    * Constructor.
    * @param {Model} model
@@ -112,5 +112,3 @@ class ScrollZoom extends AbstractInteraction {
     }
   }
 }
-
-export default ScrollZoom;
