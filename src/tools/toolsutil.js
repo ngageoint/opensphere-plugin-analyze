@@ -5,7 +5,7 @@ const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
 const Settings = goog.require('os.config.Settings');
 const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
-const {OPS_CLOCK_DATE_BIN_TYPES} = goog.require('coreui.chart.vega.Utils');
+import {OPS_CLOCK_DATE_BIN_TYPES} from '../coreui/chart/vega/utils.js';
 const vega = goog.require('mist.chart');
 const widget = goog.require('mist.ui.widget');
 const {unsafeClone} = goog.require('os.object');

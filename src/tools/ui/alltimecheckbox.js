@@ -1,11 +1,12 @@
 goog.declareModuleId('tools.ui.AllTimeCheckboxUI');
 
+import {Module} from './module.js';
+import {ROOT} from '../tools.js';
+
 const DataManager = goog.require('os.data.DataManager');
 const Disposable = goog.require('goog.Disposable');
 const GoogEventType = goog.require('goog.events.EventType');
-const {Module} = goog.require('tools.ui.Module');
 const PropertyChange = goog.require('os.data.PropertyChange');
-const {ROOT} = goog.require('tools');
 
 const PropertyChangeEvent = goog.requireType('os.events.PropertyChangeEvent');
 

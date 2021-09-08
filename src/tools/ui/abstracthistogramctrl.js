@@ -3,6 +3,10 @@ goog.declareModuleId('tools.ui.AbstractHistogramCtrl');
 goog.require('mist.ui.data.DateBinUI');
 goog.require('mist.ui.data.NumericBinUI');
 
+import {getField} from 'opensphere/src/os/feature/feature.js';
+import {apply} from 'opensphere/src/os/ui/ui.js';
+import {default as ChartKeys} from '../../coreui/chart/chart.js';
+
 const AbstractComponentCtrl = goog.require('coreui.layout.AbstractComponentCtrl');
 const BinMethod = goog.require('os.histo.BinMethod');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
@@ -19,21 +23,15 @@ const SelectionType = goog.require('os.events.SelectionType');
 const Settings = goog.require('os.config.Settings');
 const SlickGridEvent = goog.require('os.ui.slick.SlickGridEvent');
 const ToolsMenu = goog.require('mist.menu.tools');
-
-const feature = goog.require('os.feature');
 const log = goog.require('goog.log');
-const slickColumn = goog.require('os.ui.slick.column');
-const ui = goog.require('os.ui');
+const {COLOR_ID, findByField, numerateNameCompare} = goog.require('os.ui.slick.column');
 const windowSelector = goog.require('os.ui.windowSelector');
-
 const {Analyze: AnalyzeKeys} = goog.require('mist.metrics.keys');
-const {default: ChartKeys} = goog.require('coreui.chart.keys');
 const {containsValue} = goog.require('goog.object');
 const {getDocument} = goog.require('goog.dom');
 const {listen: googListen, unlisten: googUnlisten} = goog.require('goog.events');
 const {listen: olListen, unlisten: olUnlisten} = goog.require('ol.events');
 const {OFFSET_KEY} = goog.require('os.time');
-
 const IHistogramUI = goog.require('os.ui.IHistogramUI'); // eslint-disable-line
 
 const BrowserEvent = goog.requireType('goog.events.BrowserEvent');
@@ -208,7 +206,7 @@ export class AbstractHistogramCtrl extends AbstractComponentCtrl {
    * @protected
    */
   getBinValue(bin, col) {
-    if (col['id'] == slickColumn.COLOR_ID) {
+    if (col['id'] == COLOR_ID) {
       // special column mapping to the bin's color
       return bin.getColor();
     }
@@ -243,7 +241,7 @@ export class AbstractHistogramCtrl extends AbstractComponentCtrl {
   createMethod(type) {
     var methodConstructor = /** @type {function(new: IBinMethod)} */ (this.scope['methods'][type]);
     var method = new methodConstructor();
-    method.setValueFunction(feature.getField);
+    method.setValueFunction(getField);
 
     return method;
   }
@@ -516,7 +514,7 @@ export class AbstractHistogramCtrl extends AbstractComponentCtrl {
     // restore bin cascade settings
     this.restoreCascadedBins();
 
-    ui.apply(this.scope);
+    apply(this.scope);
   }
 
   /**
@@ -553,7 +551,7 @@ export class AbstractHistogramCtrl extends AbstractComponentCtrl {
   clearSelection() {
     if (this.scope) {
       this.scope['selectedBins'] = [];
-      ui.apply(this.scope);
+      apply(this.scope);
     }
   }
 
@@ -631,13 +629,13 @@ export class AbstractHistogramCtrl extends AbstractComponentCtrl {
     if (!this.isDisposed()) {
       if (this.source) {
         var cols = this.source.getColumns();
-        cols.sort(slickColumn.numerateNameCompare);
+        cols.sort(numerateNameCompare);
         this.scope['columns'] = cols;
 
         // try to find a matching column by the user-facing name
         if (this.scope['column']) {
           // TODO: goog.array
-          this.scope['column'] = goog.array.find(cols, goog.partial(slickColumn.findByField, 'name',
+          this.scope['column'] = goog.array.find(cols, goog.partial(findByField, 'name',
               this.scope['column']['name']));
         }
       } else {
@@ -981,7 +979,7 @@ export class AbstractHistogramCtrl extends AbstractComponentCtrl {
       var methodType = config['type'] || this.getDefaultMethod();
       var method = this.createMethod(methodType);
       method.restore(config);
-      method.setValueFunction(feature.getField);
+      method.setValueFunction(getField);
 
       this.scope['methodType'] = methodType;
       this.scope['method'] = method;

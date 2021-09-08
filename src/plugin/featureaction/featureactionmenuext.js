@@ -1,6 +1,7 @@
 goog.declareModuleId('plugin.im.action.feature.ext.menu');
 
 import {EventType, Metrics} from './featureactionext.js';
+import * as CountByUI from '../../tools/ui/countby.js';
 
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import {inIframe} from 'opensphere/src/os/os.js';
@@ -11,7 +12,6 @@ const AlertManager = goog.require('os.alert.AlertManager');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const analyze = goog.require('mist.analyze');
 const {assert} = goog.require('goog.asserts');
-const CountByUI = goog.require('tools.ui.CountByUI');
 const featureAction = goog.require('plugin.im.action.feature');
 const googObject = goog.require('goog.object');
 const ImportActionEvent = goog.require('os.im.action.ImportActionEvent');

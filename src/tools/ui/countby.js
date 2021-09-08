@@ -4,19 +4,24 @@ goog.require('mist.ui.widget');
 goog.require('os.ui.UISwitchUI');
 goog.require('os.ui.slick.SlickGridUI');
 
-const {isOSX} = goog.require('os');
-const {registerClass} = goog.require('os.classRegistry');
-const {AbstractHistogramCtrl} = goog.require('tools.ui.AbstractHistogramCtrl');
-const CountByContainerUI = goog.require('tools.ui.CountByContainerUI');
+import {AbstractHistogramCtrl} from './abstracthistogramctrl.js';
+import * as CountByContainerUI from './countbycontainer.js';
+import {Module} from './module.js';
+import {CountByEventType} from './countbyremovecascade.js';
+import {ROOT} from '../tools.js';
+
+import {isOSX} from 'opensphere/src/os/os.js';
+import {registerClass} from 'opensphere/src/os/classregistry.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {MODAL_SELECTOR, apply} from 'opensphere/src/os/ui/ui.js';
+
 const CountByMenu = goog.require('mist.menu.countBy');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const DateRangeBinType = goog.require('os.histo.DateRangeBinType');
-const Dispatcher = goog.require('os.Dispatcher');
 const KeyCodes = goog.require('goog.events.KeyCodes');
 const ListMenu = goog.require('mist.menu.list');
 const Metrics = goog.require('os.metrics.Metrics');
 const MenuEvent = goog.require('os.ui.menu.MenuEvent');
-const {Module} = goog.require('tools.ui.Module');
 const OSEventType = goog.require('os.action.EventType');
 const SlickGridEvent = goog.require('os.ui.slick.SlickGridEvent');
 const array = goog.require('goog.array');
@@ -27,9 +32,6 @@ const log = goog.require('goog.log');
 const metricsKeys = goog.require('mist.metrics.keys');
 const osUiMenuList = goog.require('os.ui.menu.list');
 const osUiSlickColumn = goog.require('os.ui.slick.column');
-const ui = goog.require('os.ui');
-const {CountByEventType} = goog.require('tools.ui.CountByRemoveCascadeUI');
-const {ROOT} = goog.require('tools');
 
 const ColorBin = goog.requireType('os.data.histo.ColorBin');
 const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
@@ -42,13 +44,11 @@ const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
 export const directive = () => ({
   restrict: 'E',
   replace: true,
-
   scope: {
     'container': '=',
     'source': '=',
     'parent': '=?'
   },
-
   templateUrl: ROOT + 'views/tools/countby.html',
   controller: Controller,
   controllerAs: 'countby'
@@ -579,7 +579,7 @@ export class Controller extends AbstractHistogramCtrl {
     var ctrlOr = isOSX() ? event.metaKey : event.ctrlKey;
     var applies = layout.isActiveComponent(this.componentId);
 
-    if (!document.querySelector(ui.MODAL_SELECTOR) && applies) {
+    if (!document.querySelector(MODAL_SELECTOR) && applies) {
       switch (event.keyCode) {
         case KeyCodes.DELETE:
           // this is an internal event in the list tool, so sending via the generic Dispatcher
@@ -589,7 +589,7 @@ export class Controller extends AbstractHistogramCtrl {
         case KeyCodes.A:
           if (ctrlOr) {
             this.selectAll();
-            ui.apply(this.scope);
+            apply(this.scope);
           }
           break;
         case KeyCodes.ESC:
@@ -600,7 +600,7 @@ export class Controller extends AbstractHistogramCtrl {
           if (ctrlOr) {
             event.preventDefault();
             this.invertSelection();
-            ui.apply(this.scope);
+            apply(this.scope);
           }
           break;
         case KeyCodes.G:
@@ -633,14 +633,12 @@ export class Controller extends AbstractHistogramCtrl {
 /**
  * Class name
  * @type {string}
- * @const
  */
 export const NAME = 'tools.ui.CountByCtrl';
-
 registerClass(NAME, Controller);
 
 /**
- * Logger for tools.ui.CountByCtrl
+ * Logger.
  * @type {log.Logger}
  */
 const LOGGER = log.getLogger('tools.ui.CountByUI');
@@ -648,7 +646,6 @@ const LOGGER = log.getLogger('tools.ui.CountByUI');
 /**
  * The HTML template used for cascaded rows.
  * @type {string}
- * @const
  */
 export const CASCADE_TEMPLATE =
     '<div class="cascade-bin">' +

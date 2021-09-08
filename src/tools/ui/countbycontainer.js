@@ -1,23 +1,30 @@
 goog.declareModuleId('tools.ui.CountByContainerUI');
 
-const {inIframe} = goog.require('os');
+import {Module} from './module.js';
+import {ROOT} from '../tools.js';
+
+import {inIframe} from 'opensphere/src/os/os.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {getFilterColumns} from 'opensphere/src/os/source/source.js';
+
+const Disposable = goog.require('goog.Disposable');
+const {getValueByKeys} = goog.require('goog.object');
+const MapContainer = goog.require('os.MapContainer');
 const AlertManager = goog.require('os.alert.AlertManager');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
-const CountByMenu = goog.require('mist.menu.countBy');
-const Dispatcher = goog.require('os.Dispatcher');
-const Disposable = goog.require('goog.Disposable');
+const {HistoEventType, createFilter} = goog.require('os.data.histo');
+const ColorMethod = goog.require('os.data.histo.ColorMethod');
+const PayloadEvent = goog.require('os.events.PayloadEvent');
+const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
 const FilterEvent = goog.require('os.ui.filter.FilterEvent');
 const FilterEventType = goog.require('os.ui.filter.FilterEventType');
-const MapContainer = goog.require('os.MapContainer');
 const MistEventType = goog.require('mist.action.EventType');
-const {Module} = goog.require('tools.ui.Module');
-const PayloadEvent = goog.require('os.events.PayloadEvent');
+const {EXPORT_PROPERTY} = goog.require('mist.analyze');
+const CountByMenu = goog.require('mist.menu.countBy');
 const ToolsMenu = goog.require('mist.menu.tools');
-const analyze = goog.require('mist.analyze');
-const histo = goog.require('os.data.histo');
-const {getFilterColumns} = goog.require('os.source');
-const {ROOT} = goog.require('tools');
 
+const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
+const FilterEntry = goog.requireType('os.filter.FilterEntry');
 const IFilterable = goog.requireType('os.filter.IFilterable');
 const IHistogramUI = goog.requireType('os.ui.IHistogramUI');
 const ISource = goog.requireType('os.source.ISource');
@@ -225,7 +232,7 @@ export class Controller extends Disposable {
         var cbHisto = cb.getHistogram();
         var modelHisto = colorModel.getHistogram();
         if (cbHisto && cbHisto == modelHisto) {
-          cbHisto.setColorMethod(histo.ColorMethod.RESET);
+          cbHisto.setColorMethod(ColorMethod.RESET);
           AlertManager.getInstance().sendAlert('Count By coloring removed from source.', AlertEventSeverity.INFO);
         }
       }
@@ -237,7 +244,7 @@ export class Controller extends Disposable {
    */
   updateChildren_() {
     if (this.scope) {
-      this.scope.$broadcast(histo.HistoEventType.TOGGLE_CASCADE);
+      this.scope.$broadcast(HistoEventType.TOGGLE_CASCADE);
     }
   }
 
@@ -334,8 +341,8 @@ export class Controller extends Disposable {
 
   /**
    * Create a filter entry from Count By's in the container.
-   * @param {!Array<!os.data.ColumnDefinition>} columns The filter columns.
-   * @return {os.filter.FilterEntry}
+   * @param {!Array<!ColumnDefinition>} columns The filter columns.
+   * @return {FilterEntry}
    */
   getFilter(columns) {
     var controllers = this.getHistogramUIs();
@@ -344,12 +351,12 @@ export class Controller extends Disposable {
       return null;
     }
 
-    return histo.createFilter(controllers, columns);
+    return createFilter(controllers, columns);
   }
 
   /**
    * Create a filter entry from Count By's in the container and launch the filter edit dialog.
-   * @param {os.events.PayloadEvent<Function>=} opt_event
+   * @param {PayloadEvent<Function>=} opt_event
    * @export
    */
   createFilter(opt_event) {
@@ -369,18 +376,18 @@ export class Controller extends Disposable {
     if (entry) {
       var sourceId = source.getId();
       entry.setType(sourceId);
-      entry.setTitle('Count By Filter ' + Controller.filterCount_++);
+      entry.setTitle('Count By Filter ' + filterCount++);
       const next = function() {
         let editFilterFn;
         if (inIframe()) {
           // for internal analyze, launch the filter edit in the main window
-          editFilterFn = /** @type {Function|undefined} */ (goog.object.getValueByKeys(
-              window, analyze.EXPORT_PROPERTY, 'functions', 'launchFilterEdit'));
+          editFilterFn = /** @type {Function|undefined} */ (getValueByKeys(
+              window, EXPORT_PROPERTY, 'functions', 'launchFilterEdit'));
         }
 
         if (!editFilterFn) {
           // external analyze, or the function wasn't exported
-          editFilterFn = os.filter.BaseFilterManager.edit;
+          editFilterFn = BaseFilterManager.edit;
         }
 
         const winLabel = 'Create Filter for ' + source.getTitle();
@@ -394,7 +401,7 @@ export class Controller extends Disposable {
 
   /**
    * Handle user choosing filter title.
-   * @param {os.filter.FilterEntry} entry
+   * @param {FilterEntry} entry
    * @export
    */
   onFilterReady(entry) {
@@ -412,6 +419,5 @@ export class Controller extends Disposable {
 /**
  * Counter for filters generated from a Count By.
  * @type {number}
- * @private
  */
-Controller.filterCount_ = 1;
+let filterCount = 1;

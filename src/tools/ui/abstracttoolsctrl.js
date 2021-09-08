@@ -1,65 +1,70 @@
 goog.declareModuleId('tools.ui.AbstractToolsMainCtrl');
 
-goog.require('coreui.chart.vega.base.VegaChartUI');
 goog.require('coreui.layout.LayoutPanelUI');
 goog.require('os.style.StyleManager');
 goog.require('os.ui.column.ColumnManagerUI');
-goog.require('tools.ui.CountByContainerUI');
-goog.require('tools.ui.CountByUI');
-goog.require('tools.ui.ListToolUI');
-goog.require('tools.ui.nav.ToolsNavUI');
 
-const layout = goog.require('coreui.layout');
+import * as VegaChartUI from '../../coreui/chart/vega/base/vegachart.js'; // eslint-disable-line
+import * as CountByContainerUI from './countbycontainer.js'; // eslint-disable-line
+import * as CountByUI from './countby.js'; // eslint-disable-line
+import * as ListToolUI from './listtool.js'; // eslint-disable-line
+import * as ToolsNavUI from './toolsnavui.js'; // eslint-disable-line
+
+import {LAYOUT_CONTAINER_ID} from './toolsui.js';
+import {Event as NavEvent} from './toolsnav.js';
+import {ROOT} from '../tools.js';
+import {createDefaultContent, getDefaultConfigs, transform} from '../toolsutil.js';
+
+import {inIframe, isOSX, setDataManager} from 'opensphere/src/os/os.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {MODAL_SELECTOR, apply, injector, waitForAngular} from 'opensphere/src/os/ui/ui.js';
+
+const {GoldenLayoutEvent, LayoutEvent, cleanConfig} = goog.require('coreui.layout');
 const AngularComponent = goog.require('coreui.layout.AngularComponent');
-const googArray = goog.require('goog.array');
+const {peek, remove, removeDuplicates} = goog.require('goog.array');
 const Delay = goog.require('goog.async.Delay');
 const dispose = goog.require('goog.dispose');
-const dom = goog.require('goog.dom');
+const {getDocument} = goog.require('goog.dom');
 const ViewportSizeMonitor = goog.require('goog.dom.ViewportSizeMonitor');
-const classlist = goog.require('goog.dom.classlist');
+const {add: addClass} = goog.require('goog.dom.classlist');
 const EventType = goog.require('goog.events.EventType');
 const KeyCodes = goog.require('goog.events.KeyCodes');
 const KeyEvent = goog.require('goog.events.KeyEvent');
 const KeyHandler = goog.require('goog.events.KeyHandler');
 const log = goog.require('goog.log');
 const {getValueByKeys} = goog.require('goog.object');
-const googString = goog.require('goog.string');
+const {getRandomString} = goog.require('goog.string');
 
-const analyze = goog.require('mist.analyze');
-const chart = goog.require('mist.chart');
+const {getExports, restoreSingletonsFromExports} = goog.require('mist.analyze');
+const {registerVegaCharts} = goog.require('mist.chart');
 const CountByMenu = goog.require('mist.menu.countBy');
 const ListMenu = goog.require('mist.menu.list');
-const olArray = goog.require('ol.array');
-const os = goog.require('os');
-const Dispatcher = goog.require('os.Dispatcher');
 const AlertManager = goog.require('os.alert.AlertManager');
 const CommandProcessor = goog.require('os.command.CommandProcessor');
 const FeaturesVisibility = goog.require('os.command.FeaturesVisibility');
 const Settings = goog.require('os.config.Settings');
 const {Keys} = goog.require('os.config.theme');
 const DataManager = goog.require('os.data.DataManager');
-const events = goog.require('os.events');
+const {preventBrowserContextMenu} = goog.require('os.events');
 const FilePersistence = goog.require('os.file.persist.FilePersistence');
 const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
 const Metrics = goog.require('os.metrics.Metrics');
-const keys = goog.require('os.metrics.keys');
+const {Map: MapKeys} = goog.require('os.metrics.keys');
 const addDefaultHandlers = goog.require('os.net.addDefaultHandlers');
-const osObject = goog.require('os.object');
+const {unsafeClone} = goog.require('os.object');
 const PluginManager = goog.require('os.plugin.PluginManager');
-const osString = goog.require('os.string');
-const time = goog.require('os.time');
-const ui = goog.require('os.ui');
+const {randomString} = goog.require('os.string');
+const {disposeOffset, initOffset} = goog.require('os.time');
 const AbstractMainCtrl = goog.require('os.ui.AbstractMainCtrl');
+const {setLaunchPropertyInfo} = goog.require('os.ui.PropertyInfoUI');
 const ResizeEventType = goog.require('os.ui.ResizeEventType');
-const column = goog.require('os.ui.column');
+const {setLaunchColumnManagerFn} = goog.require('os.ui.column');
 const ExportManager = goog.require('os.ui.file.ExportManager');
-const {LAYOUT_CONTAINER_ID} = goog.require('tools.ui');
-const {Event: NavEvent} = goog.require('tools.ui.nav');
-const {ROOT} = goog.require('tools');
-const util = goog.require('tools.util');
 
 const Logger = goog.requireType('goog.log.Logger');
 const IPersistable = goog.requireType('os.IPersistable');
+const {LaunchPropertyInfoFn} = goog.requireType('os.ui.PropertyInfoUI');
+const {LaunchColumnManagerFn} = goog.requireType('os.ui.column');
 
 
 /**
@@ -82,14 +87,14 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
 
     // disable animation on the tools window as it is an enormous performance killer with our Angular integration
     try {
-      var $animate = /** @type {angular.$animate} */ (ui.injector.get('$animate'));
+      var $animate = /** @type {angular.$animate} */ (injector.get('$animate'));
       $animate.enabled($element, false);
     } catch (e) {
       // animate service not available, we don't really care
     }
 
     // prevent all browser context menu events before they bubble back out to the browser
-    events.preventBrowserContextMenu();
+    preventBrowserContextMenu();
 
     /**
      * The root DOM element.
@@ -124,7 +129,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
      * @type {string}
      * @const
      */
-    this.windowId = 'analyze-' + googString.getRandomString();
+    this.windowId = 'analyze-' + getRandomString();
 
     /**
      * @type {boolean}
@@ -134,7 +139,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
     /**
      * @type {boolean}
      */
-    this['isExternal'] = !os.inIframe();
+    this['isExternal'] = !inIframe();
 
     /**
      * Golden Layout instance.
@@ -204,13 +209,13 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
     this.initPlugins();
 
     // do not allow overflow on the body. the layout should be a single page, always.
-    classlist.add(document.body, 'u-overflow-x-hidden');
-    classlist.add(document.body, 'u-overflow-y-hidden');
+    addClass(document.body, 'u-overflow-x-hidden');
+    addClass(document.body, 'u-overflow-y-hidden');
 
-    this.scope.$on(layout.LayoutEvent.DRAGGING, this.onLayoutDragging_.bind(this));
-    this.scope.$on(layout.LayoutEvent.TOGGLE_PANEL, this.onToggleLayoutPanel_.bind(this));
-    this.scope.$on(layout.LayoutEvent.REMOVE_ALL, this.onWidgetCloseAll_.bind(this));
-    this.scope.$on(layout.LayoutEvent.RESET, this.onWidgetReset_.bind(this));
+    this.scope.$on(LayoutEvent.DRAGGING, this.onLayoutDragging_.bind(this));
+    this.scope.$on(LayoutEvent.TOGGLE_PANEL, this.onToggleLayoutPanel_.bind(this));
+    this.scope.$on(LayoutEvent.REMOVE_ALL, this.onWidgetCloseAll_.bind(this));
+    this.scope.$on(LayoutEvent.RESET, this.onWidgetReset_.bind(this));
 
     this.scope.$on(NavEvent.SET_TAB, this.onSetTab_.bind(this));
     this.scope.$on(NavEvent.ADD_TAB, this.onAddTab_.bind(this));
@@ -238,9 +243,8 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
 
     this.disposeActions_();
 
-    // TODO: os.ui.pluginManager is created in os.ui.AbstractMainCtrl and will probably be removed at some point
-    dispose(ui.pluginManager);
-    ui.pluginManager = undefined;
+    const pluginManager = PluginManager.getInstance();
+    dispose(pluginManager);
 
     this.element = undefined;
     this.compile = undefined;
@@ -254,18 +258,16 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
    */
   initInstances() {
     // Tools has its own plugin manager
-    // TODO: os.ui.pluginManager is created in os.ui.AbstractMainCtrl and will probably be removed at some point
-    // This might even be invalid right now.
-    ui.pluginManager = PluginManager.getInstance();
-    ui.pluginManager.listenOnce(EventType.LOAD, this.onPluginsLoaded, false, this);
+    const pluginManager = PluginManager.getInstance();
+    pluginManager.listenOnce(EventType.LOAD, this.onPluginsLoaded, false, this);
 
-    var xports = analyze.getExports();
+    var xports = getExports();
     if (xports) {
       var registerExternal = /** @type {Function} */ (getValueByKeys(xports, ['registerExternal']));
       registerExternal(this.windowId, window);
     }
 
-    analyze.restoreSingletonsFromExports();
+    restoreSingletonsFromExports();
   }
 
   /**
@@ -274,30 +276,33 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
   initialize() {
     super.initialize();
 
-    time.initOffset();
+    initOffset();
 
     // find the main mist application
-    var xports = analyze.getExports();
+    var xports = getExports();
     if (xports) {
       const exportManager = /** @type {ExportManager} */ (getValueByKeys(xports, ['exportManager']));
-      if (os.inIframe()) {
-        // internal tools should reuse the main export manager so dialogs are launched in the main window
-        Object.assign(ExportManager, {
-          getInstance: function() {
-            return exportManager;
-          }
-        });
 
-        // TODO: Can't really do anything about this now
+      if (inIframe()) {
+        // internal tools should reuse the main export manager so dialogs are launched in the main window
+        if (exportManager) {
+          ExportManager.setInstance(exportManager);
+        }
 
         const launchColumnManager = getValueByKeys(xports, ['functions', 'launchColumnManager']);
-        column.launchColumnManager = /** @type {!Function} */ (launchColumnManager);
+        if (launchColumnManager) {
+          setLaunchColumnManagerFn(/** @type {!LaunchColumnManagerFn} */ (launchColumnManager));
+        }
 
-        const edit = getValueByKeys(xports, ['functions', 'launchFilterEdit']);
-        BaseFilterManager.edit = /** @type {!Function} */ (edit);
+        const launchFilterEdit = getValueByKeys(xports, ['functions', 'launchFilterEdit']);
+        if (launchFilterEdit) {
+          BaseFilterManager.edit = /** @type {!Function} */ (launchFilterEdit);
+        }
 
         const launchPropertyInfo = getValueByKeys(xports, ['functions', 'launchPropertyInfo']);
-        ui.launchPropertyInfo = /** @type {!Function} */ (launchPropertyInfo);
+        if (launchPropertyInfo) {
+          setLaunchPropertyInfo(/** @type {!LaunchPropertyInfoFn} */ (launchPropertyInfo));
+        }
       } else {
         // we want export methods to run in the main application window context so any instanceof or
         // goog.asserts.assertInstanceof checks will be comparing objects to classes in the correct context. this was a
@@ -316,7 +321,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
 
       // try to connect the DataManager
       const dm = DataManager.getInstance();
-      os.setDataManager(dm);
+      setDataManager(dm);
 
       const datamanager = getValueByKeys(xports, ['dataManager']);
       if (dm && dm === datamanager && Dispatcher.getInstance()) {
@@ -325,7 +330,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
     }
 
     // register supported charts
-    chart.registerVegaCharts();
+    registerVegaCharts();
   }
 
   /**
@@ -339,10 +344,10 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
       Settings.getInstance().set(this.getConfigKeys_(), this.persist());
     }
 
-    time.disposeOffset();
+    disposeOffset();
 
     // unregister with the main application
-    var xports = analyze.getExports();
+    var xports = getExports();
     if (xports) {
       var unregisterExternal = /** @type {Function} */ (getValueByKeys(xports, ['unregisterExternal']));
       unregisterExternal(this.windowId);
@@ -414,10 +419,10 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
       // the object that we get from Settings is created in the main window context, so do a deep clone to recreate
       // it in this window context.
       // this is done to workaround a bad {@code array instanceof Array} check in GoldenLayout that fails without it
-      config = util.transform(osObject.unsafeClone(config));
+      config = transform(unsafeClone(config));
 
       // wait for Angular to initialize everything prior to restoring tools
-      ui.waitForAngular(function() {
+      waitForAngular(function() {
         // restore previous state, or initialize from an empty state
         this.restore(config || {});
 
@@ -426,7 +431,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
       }.bind(this));
 
       // set up key handlers using capture instead of bubble
-      this.keyHandler_ = new KeyHandler(dom.getDocument(), true);
+      this.keyHandler_ = new KeyHandler(getDocument(), true);
       this.keyHandler_.listen(KeyEvent.EventType.KEY, this.handleKeyEvent_, true, this);
     }
   }
@@ -457,28 +462,28 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
     var layoutContainer = document.getElementById(LAYOUT_CONTAINER_ID);
     if (layoutContainer && this.scope) {
       // we've encountered an issue where this array contains duplicate configs, this removeDuplicates call fixes it
-      googArray.removeDuplicates(this['layoutConfigs'], undefined, function(config) {
-        return config['$$hashKey'] || osString.randomString();
+      removeDuplicates(this['layoutConfigs'], undefined, function(config) {
+        return config['$$hashKey'] || randomString();
       });
 
       if (!this.layoutConfig_) {
-        this['layoutConfigs'] = util.getDefaultConfigs();
+        this['layoutConfigs'] = getDefaultConfigs();
         this.layoutConfig_ = this['layoutConfigs'][0];
         this.layoutConfig_['active'] = true;
       }
 
       if (!this.layoutConfig_['content'] || !this.layoutConfig_['content'].length) {
-        this.layoutConfig_['content'] = util.createDefaultContent();
+        this.layoutConfig_['content'] = createDefaultContent();
       } else {
         // clean up potential configuration snafus
-        layout.cleanConfig(this.layoutConfig_);
+        cleanConfig(this.layoutConfig_);
       }
 
       if (!this['layout']) {
         this['layout'] = new GoldenLayout(this.layoutConfig_, layoutContainer);
         this['layout'].registerComponent('angular',
             (container, state) => new AngularComponent(this.scope, container, state));
-        this['layout'].on(layout.GoldenLayoutEvent.STATE_CHANGED, function(event) {
+        this['layout'].on(GoldenLayoutEvent.STATE_CHANGED, function(event) {
           if (this.layoutStateDelay_) {
             this.layoutStateDelay_.start();
           }
@@ -509,7 +514,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
    * @private
    */
   getConfigKeys_() {
-    return ['toolsWindow', (os.inIframe() ? 'internal' : 'external')];
+    return ['toolsWindow', (inIframe() ? 'internal' : 'external')];
   }
 
   /**
@@ -530,7 +535,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
       this['showLayoutPanel'] = true;
     }
 
-    ui.apply(this.scope);
+    apply(this.scope);
   }
 
   /**
@@ -577,7 +582,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
       }
 
       // add the default content
-      this['layout'].root.addChild(util.createDefaultContent()[0]);
+      this['layout'].root.addChild(createDefaultContent()[0]);
     }
 
     this.layoutConfig_['content'] = this['layout'].toConfig()['content'];
@@ -611,7 +616,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
 
     if (!opt_config) {
       config['title'] = 'New Tab ' + this.tabCount_++;
-      config['content'] = util.createDefaultContent();
+      config['content'] = createDefaultContent();
       config['showClose'] = true;
     }
 
@@ -630,18 +635,14 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
 
     if (config['showClose']) {
       // don't even try if the tab is not removable
-      var removedIndex = olArray.findIndex(this['layoutConfigs'], function(c) {
-        return config === c;
-      });
-      var currentIndex = olArray.findIndex(this['layoutConfigs'], function(c) {
-        return this.layoutConfig_ === c;
-      }.bind(this));
+      var removedIndex = this['layoutConfigs'].findIndex((c) => config === c);
+      var currentIndex = this['layoutConfigs'].findIndex((c) => this.layoutConfig_ === c);
 
-      googArray.remove(this['layoutConfigs'], config);
+      remove(this['layoutConfigs'], config);
 
       if (currentIndex == this['layoutConfigs'].length) {
         // if we were on the last tab, go to the new last tab
-        this.setTab_(googArray.peek(this['layoutConfigs']));
+        this.setTab_(peek(this['layoutConfigs']));
       } else if (removedIndex == currentIndex) {
         // current tab was removed, so set us to the new tab at the current index
         this.setTab_(this['layoutConfigs'][currentIndex]);
@@ -692,7 +693,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
     }
 
     if (this['layoutConfigs']) {
-      opt_to['layoutConfigs'] = osObject.unsafeClone(this['layoutConfigs']);
+      opt_to['layoutConfigs'] = unsafeClone(this['layoutConfigs']);
     }
 
     return opt_to;
@@ -722,18 +723,18 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
       }
     }
 
-    ui.apply(this.scope);
+    apply(this.scope);
   }
 
   /**
    * Handle keyboard events.
-   * @param {goog.events.KeyEvent} event
+   * @param {KeyEvent} event
    * @private
    */
   handleKeyEvent_(event) {
-    var ctrlOr = os.isOSX() ? event.metaKey : event.ctrlKey;
+    var ctrlOr = isOSX() ? event.metaKey : event.ctrlKey;
 
-    if (!document.querySelector(ui.MODAL_SELECTOR)) {
+    if (!document.querySelector(MODAL_SELECTOR)) {
       switch (event.keyCode) {
         case KeyCodes.A:
           if (ctrlOr) {
@@ -777,14 +778,14 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
           if (ctrlOr) {
             event.preventDefault();
             this.scope.$broadcast(NavEvent.PREV_SOURCE);
-            ui.apply(this.scope);
+            apply(this.scope);
           }
           break;
         case KeyCodes.CLOSE_SQUARE_BRACKET:
           if (ctrlOr) {
             event.preventDefault();
             this.scope.$broadcast(NavEvent.NEXT_SOURCE);
-            ui.apply(this.scope);
+            apply(this.scope);
           }
           break;
         default:
@@ -797,7 +798,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
    * Undo the last command.
    */
   undoCommand() {
-    Metrics.getInstance().updateMetric(keys.Map.UNDO, 1);
+    Metrics.getInstance().updateMetric(MapKeys.UNDO, 1);
     CommandProcessor.getInstance().undo();
   }
 
@@ -805,7 +806,7 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
    * Redo the last undone command.
    */
   redoCommand() {
-    Metrics.getInstance().updateMetric(keys.Map.REDO, 1);
+    Metrics.getInstance().updateMetric(MapKeys.REDO, 1);
     CommandProcessor.getInstance().redo();
   }
 

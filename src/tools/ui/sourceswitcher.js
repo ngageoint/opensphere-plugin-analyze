@@ -5,14 +5,16 @@ goog.require('mist.mixin.vectorsource');
 goog.require('mist.ui.widget');
 goog.require('ol.events');
 
-const {Module} = goog.require('tools.ui.Module');
+import {Module} from './module.js';
+import {Event as NavEvent} from './toolsnav.js';
+import {ROOT} from '../tools.js';
+
+import * as osSource from 'opensphere/src/os/source/source.js';
+import {apply} from 'opensphere/src/os/ui/ui.js';
+
 const SourceManager = goog.require('os.data.SourceManager');
 const Timer = goog.require('goog.Timer');
-const layout = goog.require('coreui.layout');
-const osSource = goog.require('os.source');
-const ui = goog.require('os.ui');
-const {Event: NavEvent} = goog.require('tools.ui.nav');
-const {ROOT} = goog.require('tools');
+const {setActiveComponentId} = goog.require('coreui.layout');
 
 const ISource = goog.requireType('os.source.ISource');
 
@@ -171,11 +173,11 @@ export class Controller extends SourceManager {
       document.title = title;
 
       // clear the active Golden Layout component when the source is changed
-      layout.setActiveComponentId(undefined);
+      setActiveComponentId(undefined);
 
       this.scope_.$emit(NavEvent.SOURCE, this.scope_['source']);
 
-      ui.apply(this.scope_, 0);
+      apply(this.scope_, 0);
     }
   }
 
