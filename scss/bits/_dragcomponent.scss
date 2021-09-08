@@ -1,0 +1,9 @@
+.c-drag-component {
+  &:hover {
+    border-color: $primary;
+  }
+
+  &.dragging {
+    left: .25rem;
+  }
+}

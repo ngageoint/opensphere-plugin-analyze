@@ -1,0 +1,57 @@
+<div class="d-flex flex-column flex-fill js-icons-chooser c-icon-chooser__max-width">
+  <div class="flex row">
+    <div class="w-50 row flex-fill align-items-center justify-content-center">
+      <img class="mh-100 w-75 c-icon-picker__background rounded" ng-src="{{ctrl.iconURL}}" >
+    </div>
+    <div class="w-50 flex-fill m-1">
+      <div class="accordian" id="customizeIcon">
+        <div class="card">
+          <div class="card-header" id="headerOne">
+            <button class="btn btn-secondary btn-block" data-toggle="collapse" data-target="#basicInfo" type="button" aria-expanded="true"
+                aria-controls="basicInfo">
+              <i class="fa fa-fw"></i> Basic Information
+            </button>
+          </div>
+          <div class="collapse show" id="basicInfo" data-parent="#customizeIcon" aria-labelledby="headerOne">
+            <div class="card-body pre-scrollable">
+              <div>{{ctrl.currentVersion.standard}}
+                <popover class="mx-2" data-title="'Generating a Milsymbol'" content="popoverContent" pos="'right'"></popover>
+              </div>
+              Affiliation:
+              <generalselector general-options="affiliations" general-value="selectedOpts.aff" key="type" class=".js-selector"></generalselector>
+              Battle Dimension:
+              <generalselector general-options="dimensions" general-value="selectedOpts.dim" key="type" class=".js-selector"></generalselector>
+              Status:
+              <generalselector general-options="statuses" general-value="selectedOpts.stat" key="type" class=".js-selector"></generalselector>
+              Function:
+              <generalselector general-options="availFunctions" general-value="selectedOpts.funct" key="type" class=".js-selector"></generalselector>
+              Symbol Modifier:
+              <generalselector general-options="groups" general-value="selectedOpts.group" key="type" class=".js-selector"></generalselector>
+              Echelon Indicator:
+              <generalselector general-options="sizes" general-value="selectedOpts.size" key="type" class=".js-selector"></generalselector>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headerTwo">
+            <button class="btn btn-secondary btn-block" data-toggle="collapse" data-target="#additionalInfo" type="button" aria-expanded="false"
+                aria-controls="additionalInfo">
+              <i class="fa fa-fw"></i> Modifiers
+            </button>
+          </div>
+          <div class="collapse" id="additionalInfo" data-parent="#customizeIcon" aria-labelledby="headerTwo">
+            <div class="card-body pre-scrollable">
+              <div ng-repeat="opt in ctrl.additionalOptions">
+                {{opt.title}}
+                <input type="text" class="form-control" ng-change="ctrl.updateAddInfo(opt.model, options[opt.model])"
+                    ng-model="options[opt.model]">
+                <div class="text-danger" ng-if="options[opt.model].length == 50">Input is too long. 50 character limit</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <milsymsave is-autoheight="isAutoheight" selected-opts="selectedOpts" options="options" icon-url="ctrl.iconURL"></milsymsave>
+      </div>
+    </div>
+  </div>
+</div>

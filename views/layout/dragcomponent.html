@@ -1,0 +1,8 @@
+<div class="c-drag-component card u-card-hover u-cursor-grab" ng-class="ctrl.dragging && 'dragging'"
+    ng-mousedown="ctrl.toggleDrag(true)" ng-mouseup="ctrl.toggleDrag(false)"
+    title="Drag to add a new {{componentConfig.title}} to the window">
+  <div class="card-header" ng-class="{'rounded': !componentConfig.description}"><span ng-bind-html="componentConfig.icon"></span> {{componentConfig.title}}</div>
+  <div class="card-body" ng-if="componentConfig.description">
+    <p class="card-text">{{componentConfig.description}}</p>
+  </div>
+</div>

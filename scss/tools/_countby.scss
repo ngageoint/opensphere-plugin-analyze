@@ -1,0 +1,6 @@
+.c-countby {
+  // set a min width on cascaded count by's to force overflow if widget becomes too narrow
+  &:not(:only-child) {
+    min-width: 18rem;
+  }
+}

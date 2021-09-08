@@ -1,0 +1,23 @@
+<div class="js-layout-panel d-flex flex-column">
+  <div class="c-close-tab-left" ng-click="ctrl.closePanel()" title="Close the layout panel"></div>
+  <div class="c-layout-panel__nav container py-1 border-bottom">
+    <div class="text-right">
+      <button class="btn btn-secondary" type="button" ng-click="ctrl.removeAll()"
+          title="Remove everything from the layout">
+        <i class="fa fa-trash"></i>
+        Remove All
+      </button>
+      <button class="btn btn-secondary" type="button" ng-click="ctrl.reset()"
+          title="Reset to the default layout">
+        <i class="fa fa-refresh"></i>
+        Reset
+      </button>
+    </div>
+  </div>
+  <div class="c-layout-panel__components container flex-fill pt-1 u-overflow-y-auto"
+      autoheight siblings=".c-layout-panel__nav" parent="{{parent}}">
+    <drag-component class="mb-1" ng-repeat="component in ctrl.components"
+        component-config="component" layout="layout">
+    </drag-component>
+  </div>
+</div>

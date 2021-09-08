@@ -1,0 +1,71 @@
+<div class="d-flex flex-column flex-fill">
+  <header class="navbar navbar-expand border-0 no-gutters py-2">
+    <ul class="navbar-nav col">
+      <li class="nav-item mr-1 my-auto">
+        <button class="js-list-tool__context-button btn btn-primary dropdown-toggle" type="button"
+            title="View the list menu, also accessible by right-clicking inside the list."
+            ng-click="list.openListMenu()" ng-right-click="list.openListMenu()">
+          <i class="fa fa-fw fa-gear"></i>
+        </button>
+      </li>
+      <li class="nav-item mr-2 my-auto">
+        <div class="js-list-tool__column-button btn-group" ng-right-click="list.openColumnMenu()">
+          <button class="btn btn-secondary" type="button" ng-click="list.openColumnManager()"
+              title="Manage columns displayed in the list.">
+            <i class="fa fa-fw fa-columns"></i>
+          </button>
+          <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split" type="button"
+              ng-click="list.openColumnMenu()"
+              title="View the column menu. More options are available by right-clicking a column header in the list.">
+          </button>
+        </div>
+      </li>
+      <li class="nav-item mr-3 my-auto flex-shrink-0">
+        <div class="form-check"
+            title="If checked, only selected data will be displayed in the list.">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="selectedOnly" ng-model="list.selectedOnly">
+            Show Selected Only
+          </label>
+        </div>
+      </li>
+      <li class="c-list-tool__row-height nav-item mr-1 my-auto">
+        <slider min="1" max="50" step="1" value="list.rowStep" live="false" title="Row height"></slider>
+      </li>
+      <li class="nav-item mr-1 ml-auto my-auto">
+        <form ng-submit="list.doQuickFilter()">
+          <div class="form-group form-row d-flex align-items-center justify-content-center">
+            <div class="input-group col flex-nowrap">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Search</span>
+              </div>
+              <input class="form-control border border-right-0" type="text" ng-model="list.quickFilterTerm"
+                  ng-disabled="list.searchInProgress">
+              <div class="input-group-append">
+                <button type="button" class="btn form-control w-auto border border-left-0" ng-click="list.clearQuickFilter()"
+                    ng-disabled="list.searchInProgress">
+                  <i class="fa fa-fw" ng-class="list.searchInProgress ? 'fa-spin fa-spinner' : 'fa-times'"></i>
+                </button>
+                <button type="submit" class="btn btn-primary" ng-disabled="list.searchInProgress">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+            <popover content="list.getHelpText()" data-title="list.title" data-pos="'right'"></popover>
+          </div>
+        </form>
+      </li>
+    </ul>
+  </header>
+  <div class="d-flex flex-row flex-fill" ng-class="{'c-slick-grid__pre-wrap': list.rowStep > 1}">
+    <sourcegrid
+        context-menu="list.contextMenu"
+        source="source"
+        selected-only="list.selectedOnly"
+        row-height="list.rowHeight">
+    </sourcegrid>
+  </div>
+  <header class="navbar navbar-expand border-0 no-gutters" ng-if="list.getStatus()">
+    <span>{{list.getStatus()}}</span>
+  </header>
+</div>

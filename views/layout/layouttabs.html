@@ -1,0 +1,22 @@
+<div class="navbar-nav col">
+  <div class="d-flex ml-1 flex-fill js-layout-tabs">
+    <ul class="nav nav-tabs border-0 flex-shrink-0">
+      <li class="nav-item c-layout-tab js-layout-tab" ng-repeat="config in layoutTabsCtrl.tabs" title="{{config.title}}">
+        <a href class="nav-link d-flex c-layout-tab-link" ng-class="(config.active ? 'active' : '') + ' ' + config.tabClass" ng-click="layoutTabsCtrl.setTab(config)" ng-right-click="layoutTabsCtrl.openMenu($event, config)">
+          <div class="text-truncate flex-fill">
+            {{config.title}}
+          </div>
+          <i class="fa fa-fw fa-times flex-shrink-0 mt-1" ng-if="config.showClose" ng-click="layoutTabsCtrl.removeTab(config)" ng-class="{'c-glyph': layoutConfigs.length > 1, 'text-muted u-pointer-events-none': layoutConfigs.length == 1}"></i>
+        </a>
+      </li>
+    </ul>
+    <div class="my-auto ml-1 flex-shrink-0">
+      <button class="btn btn-secondary btn-sm" title="New tab" ng-click="layoutTabsCtrl.addTab()">
+        <i class="fa fa-fw fa-plus"></i>
+      </button>
+      <button class="btn btn-outline-primary btn-sm" ng-click="layoutTabsCtrl.openExtraTabsMenu($event)" ng-if="layoutTabsCtrl.extraTabs.length > 0">
+        <i class="fa fa-fw fa-chevron-down"></i>
+      </button>
+    </div>
+  </div>
+</div>

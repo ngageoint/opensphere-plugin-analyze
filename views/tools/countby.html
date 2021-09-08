@@ -1,0 +1,37 @@
+<div class="js-countby c-countby c-tools__form-control-label-fixed d-flex flex-column flex-fill">
+  <form class="container-fluid mb-1" name="countByForm" novalidate>
+    <div class="form-group d-flex flex-row">
+      <label class="form-control-label flex-shrink-0 mr-2 my-auto text-right">Column</label>
+      <select class="custom-select" ng-model="column" ng-options="col.name for col in columns">
+        <option value="">-- None --</option>
+      </select>
+    </div>
+    <div class="form-group d-flex flex-row">
+      <label class="form-control-label flex-shrink-0 mr-2 my-auto text-right">Type</label>
+      <select class="custom-select" ng-model="methodType" ng-change="countby.onMethodTypeChange()"
+          ng-options="key as key for (key, value) in methods"></select>
+    </div>
+    <uiswitch items="method" directive-function="countby.getUi"></uiswitch>
+    <div class="form-check form-check-inline" ng-show="countby.ifDateRanges()"
+        title="Generate this view based on time ranges if they are present in the TIME column of this data.">
+      <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" ng-model="countby.dateRangeToggleEnabled" ng-change="countby.onDateRangeToggle(countby.dateRangeToggleEnabled)">
+        Calculate Using Time Ranges
+      </label>
+    </div>
+  </form>
+  <div class="d-flex flex-row flex-fill px-2">
+    <slickgrid
+        x-data="bins"
+        columns="gridCols"
+        options="gridOptions"
+        dbl-click-enabled="true"
+        default-sort-column="label"
+        selected="selectedBins"
+        use-angular="true">
+    </slickgrid>
+  </div>
+  <header class="navbar navbar-expand no-gutters">
+    <span ng-bind-html="countby.getStatus()"></span>
+  </header>
+</div>

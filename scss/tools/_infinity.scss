@@ -1,0 +1,16 @@
+$infinity-color: $green;
+
+.u-text-infinity {
+  color: $infinity-color;
+}
+
+.c-lm-tab__infinity {
+  background-color: darken($infinity-color, 20%) !important;
+  color: color-yiq($infinity-color) !important;
+
+  &.lm_active,
+  &.active,
+  &:hover {
+    background-color: $infinity-color !important;
+  }
+}

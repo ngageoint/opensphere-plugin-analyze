@@ -3,12 +3,11 @@ goog.declareModuleId('plugin.tools.ToolsMain');
 goog.require('os.ui.NgRightClickUI');
 goog.require('os.ui.util.AutoHeightUI');
 
-import {ToolsSettingsInitializer} from './settingsinitializer.js';
+import {ROOT} from '../../tools/tools.js';
+import {Module} from '../../tools/ui/module.js';
 import {PiwikPlugin} from 'opensphere-plugin-geoint-viewer/src/plugin/piwik/piwikplugin.js';
 
-const {ROOT} = goog.require('mist');
 const log = goog.require('goog.log');
-const {isAnalyze} = goog.require('mist.analyze');
 const PluginManager = goog.require('os.plugin.PluginManager');
 const KMLPluginExt = goog.require('plugin.file.kml.KMLPluginExt');
 const FeatureActionPluginExt = goog.require('plugin.im.action.feature.PluginExt');
@@ -25,7 +24,6 @@ const Logger = goog.requireType('goog.log.Logger');
  */
 const LOGGER = log.getLogger('plugin.tools.ToolsMain');
 
-
 /**
  * The tools-main directive
  * @return {angular.Directive}
@@ -39,13 +37,16 @@ export const directive = () => ({
   controllerAs: 'toolsMain'
 });
 
-
 /**
  * The element tag for the directive.
  * @type {string}
  */
 export const directiveTag = 'toolsMain';
 
+/**
+ * Add the directive to the tools module
+ */
+Module.directive(directiveTag, [directive]);
 
 /**
  * Controller function for the Tools Main directive
@@ -85,10 +86,4 @@ class Controller extends AbstractToolsMainCtrl {
     pm.addPlugin(TrackPlugin.getInstance());
     pm.addPlugin(new PiwikPlugin());
   }
-}
-
-if (isAnalyze()) {
-  // Initialize settings for this app
-  const settingsInitializer = new ToolsSettingsInitializer();
-  settingsInitializer.init();
 }

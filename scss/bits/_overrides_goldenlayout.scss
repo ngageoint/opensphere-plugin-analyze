@@ -1,0 +1,281 @@
+$goldenlayout-control-font-size: .75rem !default;
+$goldenlayout-hidden-tabs-opacity: .98;
+$goldenlayout-hidden-tabs-height: 19px;
+
+
+// Allows the compontents to be full size and the header is inside the layout rather than on top of
+// Requirements: set headerHeight to 0
+// Only tested with no tab support
+.c-goldenlayout__simple-drag .lm_dragProxy,
+.c-goldenlayout__hidden-tabs {
+
+  .lm_item.lm_stack {
+    position: relative;
+
+    &:hover .lm_header {
+      opacity: $goldenlayout-hidden-tabs-opacity;
+    }
+  }
+
+  .lm_header {
+    align-items: center;
+    background: $primary;
+    display: flex;
+    flex-wrap: wrap;
+    height: auto !important;
+    justify-content: flex-end;
+    margin-left: 10%;
+    opacity: 0;
+    position: absolute;
+    transition: .4s ease opacity;
+    width: 80%;
+
+    .lm_tabs {
+      flex: 1 1 auto;
+      margin-left: auto;
+      position: relative;
+    }
+
+    .lm_tab {
+      background-color: $primary !important;
+      border: 0 !important;
+      color: color-yiq($primary);
+      display: flex;
+      float: none;
+      margin: 0;
+      padding: 0 .25rem;
+    }
+
+    .lm_title {
+      line-height: 1rem;
+      text-align: center;
+      width: 100%;
+    }
+
+    .lm_controls {
+      background-color: $primary !important;
+      color: color-yiq($primary);
+      display: flex;
+      margin-left: auto;
+      padding: 0 .25rem;
+      position: relative;
+      right: inherit;
+    }
+  }
+}
+
+.c-goldenlayout__hidden-tabs {
+  .lm_header {
+    &:before,
+    &:after {
+      border-bottom: 18px solid transparent;
+      content: '';
+      height: 0;
+      opacity: $goldenlayout-hidden-tabs-opacity;
+      position: absolute;
+      top: 0;
+      width: 0;
+    }
+
+    &:before {
+      border-right: $goldenlayout-hidden-tabs-height solid $primary;
+      left: -$goldenlayout-hidden-tabs-height;
+    }
+
+    &:after {
+      border-left: $goldenlayout-hidden-tabs-height solid $primary;
+      right: -$goldenlayout-hidden-tabs-height;
+    }
+  }
+}
+
+
+// Override the drag proxy to be better
+.c-goldenlayout__simple-drag .lm_dragProxy {
+  background-color: $body-bg !important;
+  border: $border-width solid $border-color;
+  border-radius: $border-radius;
+
+  .lm_header {
+    background-color: $body-bg !important;
+    border-radius: $border-radius;
+    color: $body-color;
+    height: 100% !important;
+    justify-content: center;
+    margin-left: 0;
+    opacity: 1;
+    width: 100%;
+
+    .lm_tabs {
+      margin-left: 0;
+
+      .lm_tab {
+        background-color: $body-bg !important;
+        color: $body-color;
+        height: auto;
+
+        .lm_title {
+          font-size: x-large;
+          line-height: 1.5rem;
+        }
+      }
+    }
+  }
+
+  .lm_content {
+    box-shadow: none;
+    display: none !important;
+  }
+}
+
+.c-goldenlayout__hide-tab-close {
+  .lm_close_tab {
+    display: none;
+  }
+}
+
+body.lm_dragging {
+  overflow: hidden;
+}
+
+.lm_goldenlayout {
+  background: $body-bg;
+}
+
+.lm_content {
+  background: $modal-content-bg;
+  border: 1px solid $modal-content-border-color;
+  display: flex !important;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow-y: auto;
+  width: auto !important;
+}
+
+.lm_dropTargetIndicator {
+  box-shadow: inset 0 0 30px $secondary;
+  outline: 1px dashed $modal-content-border-color;
+
+  .lm_inner {
+    background: $secondary;
+  }
+}
+
+.lm_splitter {
+  background: $modal-content-border-color;
+
+  &:hover,
+  .lm_dragging {
+    background: $secondary;
+  }
+
+  .lm_dragging {
+    cursor: col-resize;
+  }
+}
+
+.lm_header {
+  .lm_tab {
+    background: $body-bg;
+    border: 1px solid $modal-content-border-color;
+    box-shadow: none;
+    color: $body-color;
+
+    &.lm_active,
+    &:hover {
+      background: $modal-content-bg;
+      box-shadow: none;
+    }
+
+    .lm_close_tab {
+      background: none;
+      top: .1rem;
+
+      &::before {
+        @include font-awesome();
+        content: '\f00d';
+      }
+    }
+  }
+}
+
+.lm_dragProxy.lm_bottom .lm_header .lm_tab.lm_active,
+.lm_stack.lm_bottom .lm_header .lm_tab.lm_active {
+  box-shadow: 0 2px 2px $body-bg;
+}
+
+.lm_selected .lm_header {
+  background-color: $primary;
+}
+
+.lm_header .lm_controls .lm_tabdropdown::before {
+  color: $body-color;
+}
+
+.lm_controls {
+  font-size: $goldenlayout-control-font-size;
+
+  .lm_popout {
+    background: none;
+
+    &::before {
+      @include font-awesome();
+      content: '\f08e';
+    }
+  }
+
+  .lm_maximise {
+    background: none;
+
+    &::before {
+      @include font-awesome();
+      content: '\f065';
+    }
+  }
+
+  .lm_close {
+    background: none;
+
+    &::before {
+      @include font-awesome();
+      content: '\f00d';
+    }
+  }
+}
+
+.lm_maximised .lm_header {
+  background-color: $body-bg;
+}
+
+.lm_maximised .lm_controls .lm_maximise {
+  background: none;
+
+  &::before {
+    @include font-awesome();
+    content: '\f066';
+  }
+}
+
+.lm_transition_indicator {
+  background-color: $body-bg;
+  border-color: $table-border-color;
+}
+
+.lm_popin {
+  cursor: pointer;
+
+  .lm_bg {
+    background: $body-color;
+  }
+
+  .lm_icon {
+    background: none;
+    border-color: $body-color;
+
+    &::before {
+      @include font-awesome();
+      content: '\f08e';
+      transform: rotate(180deg);
+    }
+  }
+}

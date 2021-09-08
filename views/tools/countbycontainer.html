@@ -1,0 +1,24 @@
+<div class="d-flex flex-column flex-fill w-100">
+  <form class="container-fluid mt-1">
+    <div class="form-group btn-group">
+      <button class="btn btn-secondary" ng-click="cbc.add()"
+          title="Add a new Count By with data fed from the previous Count By">
+        <i class="fa fa-fw fa-plus"></i>
+      </button>
+      <button class="btn btn-secondary" ng-disabled="!cbc.canRemove()"
+          ng-click="cbc.remove()" title="Remove the last Count By">
+        <i class="fa fa-fw fa-minus"></i>
+      </button>
+      <button class="btn btn-secondary" ng-if="cbc.isFilterable()"
+          ng-disabled="!cbc.canFilter()" ng-click="cbc.createFilter()"
+          title="Create a filter for the selected data source from all Count By's">
+        <i class="fa fa-fw fa-filter"></i>
+      </button>
+    </div>
+  </form>
+  <div class="js-countby-container__scrollpane u-overflow-x-auto d-flex flex-fill">
+    <div class="js-countby-container__countbys flex-nowrap d-flex flex-row">
+      <countby source="source" state="state" container="container"></countby>
+    </div>
+  </div>
+</div>

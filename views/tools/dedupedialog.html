@@ -1,0 +1,78 @@
+<div class="d-flex flex-column flex-fill">
+  <div class="d-flex flex-fill modal-body">
+    <div class="d-flex flex-fill">
+      <slicktree class="border" x-data="dedupes" selected="selected" multi-select="false" ng-show="dedupe.hasConfig()"></slicktree>
+      <div class="px-1" ng-show="dedupe.hasConfig()"></div>
+      <div class="d-flex flex-column col p-0">
+        <div class="input-group form-group" ng-if="dedupe.hasConfig()">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+          </div>
+          <input class="form-control" type="text" ng-disabled="!dedupe.allColumnsValid()" ng-model="dedupe.activeConfig.title" required>
+        </div>
+        <div class="card flex-fill">
+          <div class="card-header">
+            Columns
+            <popover content="dedupe.popoverHelpText" data-title="dedupe.popoverTitle" data-pos="'right'"></popover>
+          </div>
+          <div class="card-body u-overflow-y-auto">
+            <table ng-if="dedupe.allColumnsValid()">
+              <tbody>
+                <tr ng-repeat="column in dedupe.activeConfig.columns">
+                  <td>
+                    <select class="custom-select" ng-model="column.column" ng-change="dedupe.onColumnChange(column,'{{column.column}}')"
+                      title="Sets the data field used for columns" ng-options="col.field as col.name for col in columns">
+                      <option value="">-- None --</option>
+                    </select>
+                  </td>
+                  <td ng-if="dedupe.activeConfig.columns.length > 1">
+                    <button class="btn btn-danger" ng-click="dedupe.removeColumn(column)" title="Remove this column">
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </td>
+                  <td ng-if="$last && columns.length > 0">
+                    <button class="btn btn-primary" ng-click="dedupe.addColumn()" title="Add a column">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </td>
+                </tr>
+            </tbody>
+            </table>
+            <table ng-if="!dedupe.allColumnsValid()">
+              <tbody>
+                <tr ng-repeat="column in dedupe.activeConfig.columns">
+                  <td>
+                    <select class="custom-select" title="Sets the data field used for columns" ng-disabled="true">
+                      <option value="">{{column.column}}</option>
+                    </select>
+                  </td>
+                </tr>
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  <div class="d-flex modal-footer text-nowrap">
+    <div class="small mr-auto" ng-bind-html="dedupe.getStatus()"></div>
+    <div>
+      <button class="btn btn-secondary" type="button" ng-click="dedupe.addConfig()" ng-if="dedupe.hasConfig()" title="Create new config">
+        <i class="fa fa-plus"></i>
+        Create
+      </button>
+      <button class="btn btn-secondary" type="button" ng-click="dedupe.save()" ng-disabled="!dedupe.isValidSave()" title="Save current config">
+        <i class="fa fa-floppy-o"></i>
+        Save
+      </button>
+      <button class="btn btn-primary" type="button" ng-click="dedupe.run()" ng-disabled="!dedupe.isValid()" title="Run dedupe">
+        <i class="fa fa-check"></i>
+        Run
+      </button>
+      <button class="btn btn-secondary" type="button" ng-click="dedupe.cancel()" title="Cancel dedupe">
+        <i class="fa fa-ban"></i>
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
