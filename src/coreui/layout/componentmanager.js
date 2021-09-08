@@ -1,15 +1,14 @@
-goog.module('coreui.layout.ComponentManager');
+goog.declareModuleId('coreui.layout.ComponentManager');
 
 const EventTarget = goog.require('goog.events.EventTarget');
 const GoogEventType = goog.require('goog.events.EventType');
-const googObject = goog.require('goog.object');
-const osObject = goog.require('os.object');
+const {unsafeClone} = goog.require('os.object');
 
 
 /**
  * A Golden Layout component manager.
  */
-class ComponentManager extends EventTarget {
+export class ComponentManager extends EventTarget {
   /**
    * Constructor.
    */
@@ -29,7 +28,7 @@ class ComponentManager extends EventTarget {
    * @return {!Array<!GoldenLayout.Component>}
    */
   getComponents() {
-    return googObject.getValues(this.configs_);
+    return Object.values(this.configs_);
   }
 
   /**
@@ -40,7 +39,7 @@ class ComponentManager extends EventTarget {
   createComponent(type) {
     var instance;
     if (type in this.configs_) {
-      instance = /** @type {!GoldenLayout.Component} */ (osObject.unsafeClone(this.configs_[type]));
+      instance = /** @type {!GoldenLayout.Component} */ (unsafeClone(this.configs_[type]));
     }
 
     return instance;
@@ -88,16 +87,37 @@ class ComponentManager extends EventTarget {
     if (!(type in this.configs_) && typeof config === 'object') {
       if (!(config instanceof Object)) {
         // created in an external window context, so clone it to prevent memory leaks
-        config = /** @type {!GoldenLayout.Component} */ (osObject.unsafeClone(config));
+        config = /** @type {!GoldenLayout.Component} */ (unsafeClone(config));
       }
 
       this.configs_[type] = config;
       this.dispatchEvent(GoogEventType.CHANGE);
     }
   }
+
+  /**
+   * Get the global instance.
+   * @return {!ComponentManager}
+   */
+  static getInstance() {
+    if (!instance) {
+      instance = new ComponentManager();
+    }
+
+    return instance;
+  }
+
+  /**
+   * Set the global instance.
+   * @param {ComponentManager} value
+   */
+  static setInstance(value) {
+    instance = value;
+  }
 }
 
-goog.addSingletonGetter(ComponentManager);
-
-
-exports = ComponentManager;
+/**
+ * Global instance.
+ * @type {ComponentManager|undefined}
+ */
+let instance;

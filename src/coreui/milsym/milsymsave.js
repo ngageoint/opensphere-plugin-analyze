@@ -1,31 +1,27 @@
-goog.module('coreui.milsym.MilSymSaveUI');
+goog.declareModuleId('coreui.milsym.MilSymSaveUI');
 
 goog.require('coreui.selector.GeneralSelectorUI');
 
 const {ROOT} = goog.require('tools');
-const milsym = goog.require('coreui.milsym');
-const EventType = goog.require('coreui.milsym.EventType');
-const olObj = goog.require('ol.obj');
+const {settingsID} = goog.require('coreui.milsym');
+const {MilSymEventType} = goog.require('coreui.milsym.EventType');
 const Settings = goog.require('os.config.Settings');
 const Module = goog.require('os.ui.Module');
-
 
 
 /**
  * The milsym directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'AE',
   replace: true,
-
   scope: {
     'isAutoheight': '=',
     'selectedOpts': '=',
     'options': '=',
     'iconUrl': '='
   },
-
   templateUrl: ROOT + 'views/milsym/milsymsave\.html',
   controller: Controller,
   controllerAs: 'ctrl'
@@ -35,21 +31,18 @@ const directive = () => ({
  * The element tag for the directive.
  * @type {string}
  */
-const directiveTag = 'milsymsave';
-
+export const directiveTag = 'milsymsave';
 
 /**
  * Add the directive to the module.
  */
 Module.directive('milsymsave', [directive]);
 
-
-
 /**
  * Controller for milsymsave directive
  * @unrestricted
  */
-class Controller {
+export class Controller {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -67,7 +60,7 @@ class Controller {
      * milsym id for settings
      * @type {string}
      */
-    this['id'] = milsym.settingsID;
+    this['id'] = settingsID;
 
     /**
      * Name used in saved settings
@@ -90,7 +83,7 @@ class Controller {
 
     this.scope.$watch('selectedIcon', this.reloadSaved.bind(this));
 
-    this.scope.$on(EventType.RESET_ICON, function(event) {
+    this.scope.$on(MilSymEventType.RESET_ICON, function(event) {
       this.scope['selectedIcon'] = undefined;
     }.bind(this));
   }
@@ -118,7 +111,7 @@ class Controller {
    */
   reloadSaved(value) {
     if (value) {
-      olObj.assign(this.scope['selectedOpts'], value);
+      Object.assign(this.scope['selectedOpts'], value);
       this.scope['options'] = value['options'];
     }
   }
@@ -149,7 +142,7 @@ class Controller {
     var fullName = this['id'] + '.' + name;
 
     var settings = {};
-    olObj.assign(settings, this.scope['selectedOpts']);
+    Object.assign(settings, this.scope['selectedOpts']);
     settings['options'] = this.scope['options'];
     settings['url'] = this.scope['iconUrl'];
     Settings.getInstance().set(fullName, settings);
@@ -199,9 +192,3 @@ class Controller {
     }
   }
 }
-
-exports = {
-  Controller,
-  directive,
-  directiveTag
-};

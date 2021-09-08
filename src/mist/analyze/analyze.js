@@ -8,7 +8,7 @@ const googLog = goog.require('goog.log');
 const AlertManager = goog.require('os.alert.AlertManager');
 const settings = goog.require('os.config.Settings');
 const MapContainer = goog.require('os.MapContainer');
-const ComponentManager = goog.require('coreui.layout.ComponentManager');
+const {ComponentManager} = goog.require('coreui.layout.ComponentManager');
 const {getCrossOrigin, setGetCrossOriginFn} = goog.require('os.net');
 const CommandProcessor = goog.require('os.command.CommandProcessor');
 const AreaManager = goog.require('os.query.AreaManager');
@@ -234,11 +234,6 @@ export const restoreSingletonsFromExports = function() {
         return /** @type {!Peer} */ (xp['peer']);
       }});
 
-    Object.assign(ComponentManager, {
-      getInstance: function() {
-        return /** @type {!ComponentManager} */ (xp['componentManager']);
-      }});
-
     // modularized singletons use setInstance to replace the local instance with one from the main window
     if (xp['alertManager']) {
       AlertManager.setInstance(/** @type {!AlertManager} */ (xp['alertManager']));
@@ -250,6 +245,9 @@ export const restoreSingletonsFromExports = function() {
     }
     if (xp['commandStack']) {
       CommandProcessor.setInstance(/** @type {!CommandProcessor} */ (xp['commandStack']));
+    }
+    if (xp['componentManager']) {
+      ComponentManager.setInstance(/** @type {!ComponentManager} */ (xp['componentManager']));
     }
     if (xp['dataManager']) {
       DataManager.setInstance(/** @type {!DataManager} */ (xp['dataManager']));

@@ -1,7 +1,6 @@
-goog.module('coreui.milsym.EventType');
+goog.declareModuleId('coreui.milsym.EventType');
 
-
-exports = {
+export const MilSymEventType = {
   ICON_SELECTED: 'Iconmilsym:iconSelected',
   RESET_ICON: 'Iconmilsym:resetIcon'
 };

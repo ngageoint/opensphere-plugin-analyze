@@ -1,17 +1,17 @@
-goog.module('coreui.layout.LayoutTabsUI');
+goog.declareModuleId('coreui.layout.LayoutTabsUI');
 
 goog.require('coreui.layout.DragComponentUI');
 
 const {ROOT} = goog.require('tools');
-const LayoutTabsEvent = goog.require('coreui.layout.LayoutTabsEvent');
-const TabParams = goog.require('coreui.layout.TabParams');
+const {LayoutTabsEvent} = goog.require('coreui.layout.LayoutTabsEvent');
+const {TabParams} = goog.require('coreui.layout.TabParams');
 const Disposable = goog.require('goog.Disposable');
 const googArray = goog.require('goog.array');
 const ViewportSizeMonitor = goog.require('goog.dom.ViewportSizeMonitor');
 const GoogEventType = goog.require('goog.events.EventType');
-const googString = goog.require('goog.string');
-const osObject = goog.require('os.object');
-const osUi = goog.require('os.ui');
+const {getRandomString, truncate} = goog.require('goog.string');
+const {unsafeClone} = goog.require('os.object');
+const {apply, measureText} = goog.require('os.ui');
 const Module = goog.require('os.ui.Module');
 const Menu = goog.require('os.ui.menu.Menu');
 const MenuItem = goog.require('os.ui.menu.MenuItem');
@@ -25,14 +25,12 @@ const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
  * The layout tabs directive.
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
-
   scope: {
     'layoutConfigs': '='
   },
-
   controller: Controller,
   controllerAs: 'layoutTabsCtrl',
   templateUrl: ROOT + 'views/layout/layouttabs.html'
@@ -42,21 +40,18 @@ const directive = () => ({
  * The element tag for the directive.
  * @type {string}
  */
-const directiveTag = 'layout-tabs';
-
+export const directiveTag = 'layout-tabs';
 
 /**
  * Add the directive to the module.
  */
 Module.directive('layoutTabs', [directive]);
 
-
-
 /**
  * Controller function for the component-flyout directive.
  * @unrestricted
  */
-class Controller extends Disposable {
+export class Controller extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -202,7 +197,7 @@ class Controller extends Disposable {
     // calculate the total width that each tab config would be if they were rendered
     configs.forEach(function(config) {
       // measure the text and add the static width of each row (borders, padding, X button)
-      var textWidth = Math.min(osUi.measureText(config['title']).width + TabParams.CLOSE_WIDTH,
+      var textWidth = Math.min(measureText(config['title']).width + TabParams.CLOSE_WIDTH,
           TabParams.MAX_WIDTH);
       var width = Math.max(textWidth, TabParams.MIN_WIDTH);
       config['width'] = width;
@@ -233,7 +228,7 @@ class Controller extends Disposable {
     }
 
     this.updateMenu(removed);
-    osUi.apply(this.scope);
+    apply(this.scope);
   }
 
   /**
@@ -261,8 +256,8 @@ class Controller extends Disposable {
 
     configs.forEach(function(config) {
       var menuItem = {
-        label: googString.truncate(config['title'], 30),
-        eventType: LayoutTabsEvent.EXTRA_TAB + googString.getRandomString(),
+        label: truncate(config['title'], 30),
+        eventType: LayoutTabsEvent.EXTRA_TAB + getRandomString(),
         tooltip: 'Switch to this tab',
         handler: this.onExtraTabEvent.bind(this, config),
         sort: 103
@@ -287,7 +282,7 @@ class Controller extends Disposable {
           break;
         case LayoutTabsEvent.DUPLICATE:
           // clone it and add it, but remove the hashKey or Angular will blow up (also make them closable)
-          config = osObject.unsafeClone(config);
+          config = unsafeClone(config);
           config['showClose'] = true;
           delete config['$$hashKey'];
 
@@ -342,7 +337,7 @@ class Controller extends Disposable {
    */
   onExtraTabEvent(config, event) {
     this.setTab(config);
-    osUi.apply(this.scope);
+    apply(this.scope);
   }
 
   /**
@@ -451,11 +446,11 @@ class Controller extends Disposable {
    */
   renameTab(config) {
     ConfirmTextUI.launchConfirmText({
-      confirm: function(title) {
+      confirm: (title) => {
         // set the title and recalculate the tabs
         config['title'] = title;
         this.calculateTabs();
-      }.bind(this),
+      },
       defaultValue: config['title'],
       prompt: 'Choose a new tab name:',
       select: true,
@@ -466,9 +461,3 @@ class Controller extends Disposable {
     });
   }
 }
-
-exports = {
-  Controller,
-  directive,
-  directiveTag
-};

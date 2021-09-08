@@ -24,7 +24,7 @@ import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 import {MODAL_SELECTOR, apply, injector, waitForAngular} from 'opensphere/src/os/ui/ui.js';
 
 const {GoldenLayoutEvent, LayoutEvent, cleanConfig} = goog.require('coreui.layout');
-const AngularComponent = goog.require('coreui.layout.AngularComponent');
+const {AngularComponent} = goog.require('coreui.layout.AngularComponent');
 const {peek, remove, removeDuplicates} = goog.require('goog.array');
 const Delay = goog.require('goog.async.Delay');
 const dispose = goog.require('goog.dispose');

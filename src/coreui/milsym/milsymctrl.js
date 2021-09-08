@@ -1,28 +1,24 @@
-goog.module('coreui.milsym.MilSymUI');
+goog.declareModuleId('coreui.milsym.MilSymUI');
 
 goog.require('coreui.milsym.MilSymSaveUI');
 goog.require('coreui.selector.GeneralSelectorUI');
 
 const {ROOT} = goog.require('tools');
-const EventType = goog.require('coreui.milsym.EventType');
-const olObj = goog.require('ol.obj');
+const {MilSymEventType} = goog.require('coreui.milsym.EventType');
 const Module = goog.require('os.ui.Module');
-
 
 
 /**
  * The milsym directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'AE',
   replace: true,
-
   scope: {
     'isAutoheight': '=',
     'selected': '='
   },
-
   templateUrl: ROOT + 'views/milsym/milsym\.html',
   controller: Controller,
   controllerAs: 'ctrl'
@@ -32,21 +28,18 @@ const directive = () => ({
  * The element tag for the directive.
  * @type {string}
  */
-const directiveTag = 'milsym';
-
+export const directiveTag = 'milsym';
 
 /**
  * Add the directive to the module.
  */
 Module.directive('milsym', [directive]);
 
-
-
 /**
  * Controller for milsym directive
  * @unrestricted
  */
-class Controller {
+export class Controller {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -263,7 +256,7 @@ class Controller {
     var opts = scope['selected']['options'] || {};
 
     settings = settings || this.scope['defaultVals'];
-    olObj.assign(scope['selectedOpts'], settings);
+    Object.assign(scope['selectedOpts'], settings);
     scope['availFunctions'] = this.scope['iconFunctions'][settings['dim']['type']];
     scope['options'] = opts.options || scope['options'];
   }
@@ -334,13 +327,13 @@ class Controller {
   resetIcon() {
     var scope = this.scope;
 
-    olObj.assign(scope['selectedOpts'], scope['defaultVals']);
+    Object.assign(scope['selectedOpts'], scope['defaultVals']);
     scope['availFunctions'] = this.scope['iconFunctions'][this.scope['selectedOpts']['dim']['type']];
     scope['options'] = {
       infoSize: 50,
       strokeWidth: 4
     };
-    scope.$broadcast(EventType.RESET_ICON);
+    scope.$broadcast(MilSymEventType.RESET_ICON);
     this.setIcon();
   }
 
@@ -351,7 +344,7 @@ class Controller {
     var opts = this.scope['selectedOpts'];
     opts['options'] = this.scope['options'];
 
-    this.scope.$emit(EventType.ICON_SELECTED, [this['iconURL'], this.scope.$id, opts]);
+    this.scope.$emit(MilSymEventType.ICON_SELECTED, [this['iconURL'], this.scope.$id, opts]);
   }
 
   /**
@@ -371,9 +364,3 @@ class Controller {
     this.setIcon();
   }
 }
-
-exports = {
-  Controller,
-  directive,
-  directiveTag
-};

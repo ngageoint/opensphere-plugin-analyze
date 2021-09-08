@@ -7,7 +7,7 @@ import {default as SourceModel} from '../data/sourcemodel.js';
 import {default as AbstractInteraction} from './abstractinteraction.js';
 import {default as ClickContextEventType} from './clickcontexteventtype.js';
 
-import * as os from 'opensphere/src/os/os.js';
+import {inIframe} from 'opensphere/src/os/os.js';
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 
 const bitsCoreuiMenuList = goog.require('bits.coreui.menu.list');
@@ -238,7 +238,7 @@ class ClickContext extends AbstractInteraction {
         eventType: ClickContextEventType.ADD_CUSTOM_LABEL,
         tooltip: 'Adds a column to the selected records where custom data and labels can be provided',
         icons: ['<i class="fa fa-fw fa-plus"></i>'],
-        handler: os.inIframe() ? undefined : ClickContext.handleAddColumn,
+        handler: inIframe() ? undefined : ClickContext.handleAddColumn,
         beforeRender: ClickContext.chartActionAllowed,
         sort: 40
       }];
@@ -457,7 +457,7 @@ class ClickContext extends AbstractInteraction {
    * @param {MenuEvent} event
    */
   static handleAddColumn(event) {
-    if (event instanceof GoogEvent && !os.inIframe()) {
+    if (event instanceof GoogEvent && !inIframe()) {
       // handle the event
       event.preventDefault();
       event.stopPropagation();

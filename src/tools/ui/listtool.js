@@ -21,7 +21,7 @@ const KeyHandler = goog.require('goog.events.KeyHandler');
 const {containsValue} = goog.require('goog.object');
 const {listen: olListen, unlisten: olUnlisten} = goog.require('ol.events');
 
-const AbstractComponentCtrl = goog.require('coreui.layout.AbstractComponentCtrl');
+const {AbstractComponentCtrl} = goog.require('coreui.layout.AbstractComponentCtrl');
 const layout = goog.require('coreui.layout');
 const ActionEventType = goog.require('os.action.EventType');
 const SelectionType = goog.require('os.events.SelectionType');

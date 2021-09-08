@@ -1,10 +1,11 @@
-goog.module('coreui.layout.AbstractComponentCtrl');
+goog.declareModuleId('coreui.layout.AbstractComponentCtrl');
 
-const layout = goog.require('coreui.layout');
+const {isActiveComponent, setActiveComponentId} = goog.require('coreui.layout');
 const Disposable = goog.require('goog.Disposable');
-const googEvents = goog.require('goog.events');
+const {listen, unlisten} = goog.require('goog.events');
 const GoogEventType = goog.require('goog.events.EventType');
-const googString = goog.require('goog.string');
+const {getRandomString} = goog.require('goog.string');
+
 const IPersistable = goog.requireType('os.IPersistable');
 
 
@@ -13,7 +14,7 @@ const IPersistable = goog.requireType('os.IPersistable');
  * @implements {IPersistable}
  * @unrestricted
  */
-class Controller extends Disposable {
+export class AbstractComponentCtrl extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -28,7 +29,7 @@ class Controller extends Disposable {
      * @type {string}
      * @protected
      */
-    this.componentId = googString.getRandomString();
+    this.componentId = getRandomString();
 
     /**
      * The Angular scope.
@@ -58,7 +59,7 @@ class Controller extends Disposable {
      */
     this.restoring = false;
 
-    googEvents.listen(this.element[0], GoogEventType.MOUSEDOWN, this.onMouseDown, true, this);
+    listen(this.element[0], GoogEventType.MOUSEDOWN, this.onMouseDown, true, this);
 
     $scope.$on('$destroy', this.dispose.bind(this));
 
@@ -71,12 +72,12 @@ class Controller extends Disposable {
   disposeInternal() {
     super.disposeInternal();
 
-    if (layout.isActiveComponent(this.componentId)) {
-      layout.setActiveComponentId(undefined);
+    if (isActiveComponent(this.componentId)) {
+      setActiveComponentId(undefined);
     }
 
     if (this.element) {
-      googEvents.unlisten(this.element[0], GoogEventType.MOUSEDOWN, this.onMouseDown, true, this);
+      unlisten(this.element[0], GoogEventType.MOUSEDOWN, this.onMouseDown, true, this);
     }
 
     this.scope = null;
@@ -110,7 +111,7 @@ class Controller extends Disposable {
    * @protected
    */
   onMouseDown() {
-    layout.setActiveComponentId(this.componentId);
+    setActiveComponentId(this.componentId);
   }
 
   /**
@@ -160,5 +161,3 @@ class Controller extends Disposable {
     // implement in extending classes
   }
 }
-
-exports = Controller;

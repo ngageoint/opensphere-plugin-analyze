@@ -1,10 +1,5 @@
 goog.declareModuleId('coreui.chart.vega.interaction.WindowBrush');
 
-goog.require('goog.events.Event');
-goog.require('os.ui.menu.Menu');
-goog.require('os.ui.menu.MenuItem');
-goog.require('os.ui.menu.MenuItemType');
-
 import {default as EventType} from '../base/eventtype.js';
 import {default as AbstractInteraction} from './abstractinteraction.js';
 

@@ -1,14 +1,14 @@
-goog.module('coreui.layout.AngularComponent');
+goog.declareModuleId('coreui.layout.AngularComponent');
 
-const ComponentManager = goog.require('coreui.layout.ComponentManager');
-const googString = goog.require('goog.string');
-const ui = goog.require('os.ui');
+const {ComponentManager} = goog.require('coreui.layout.ComponentManager');
+const {isEmptyOrWhitespace} = goog.require('goog.string');
+const {injector} = goog.require('os.ui');
 
 
 /**
  * A Golden Layout component that compiles an Angular directive.
  */
-class AngularComponent {
+export class AngularComponent {
   /**
    * Constructor.
    * @param {angular.Scope|undefined} scope The Angular scope.
@@ -61,7 +61,7 @@ class AngularComponent {
         template = this.state['template'];
       }
 
-      var compile = ui.injector.get('$compile');
+      var compile = injector.get('$compile');
       var element = this.container.getElement();
       if (compile && element && template && typeof template == 'string') {
         this.scope = this.parentScope.$new();
@@ -108,11 +108,9 @@ class AngularComponent {
         this.container.tab.element &&
         this.state) {
       var customTabClass = this.state['tabClass'];
-      if (customTabClass && !googString.isEmptyOrWhitespace(customTabClass)) {
+      if (customTabClass && !isEmptyOrWhitespace(customTabClass)) {
         this.container.tab.element.addClass(customTabClass);
       }
     }
   }
 }
-
-exports = AngularComponent;

@@ -1,7 +1,7 @@
-goog.module('coreui.milsym.MilSymDialogUI');
+goog.declareModuleId('coreui.milsym.MilSymDialogUI');
 
 const {ROOT} = goog.require('tools');
-const EventType = goog.require('coreui.milsym.EventType');
+const {MilSymEventType} = goog.require('coreui.milsym.EventType');
 const {Controller: MilSymCtrl} = goog.require('coreui.milsym.MilSymUI');
 const Module = goog.require('os.ui.Module');
 
@@ -10,16 +10,14 @@ const Module = goog.require('os.ui.Module');
  * A icon picker directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'AE',
   replace: true,
-
   scope: {
     'selected': '=',
     'acceptCallback': '=',
     'isAutoheight': '='
   },
-
   templateUrl: ROOT + 'views/milsym/milsym\.html',
   controller: Controller,
   controllerAs: 'ctrl'
@@ -29,20 +27,18 @@ const directive = () => ({
  * The element tag for the directive.
  * @type {string}
  */
-const directiveTag = 'milsymdialog';
-
+export const directiveTag = 'milsymdialog';
 
 /**
  * Add the directive to the module
  */
 Module.directive('milsymdialog', [directive]);
 
-
 /**
  * Controller for the icon picker directive
  * @unrestricted
  */
-class Controller extends MilSymCtrl {
+export class Controller extends MilSymCtrl {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -50,7 +46,7 @@ class Controller extends MilSymCtrl {
    */
   constructor($scope) {
     super($scope);
-    this.scope.$on(EventType.ICON_SELECTED, (event, options) => {
+    this.scope.$on(MilSymEventType.ICON_SELECTED, (event, options) => {
       this.onSelection_(options);
     });
   }
@@ -65,9 +61,3 @@ class Controller extends MilSymCtrl {
     this.scope['selected']['options'] = options[2];
   }
 }
-
-exports = {
-  directive,
-  directiveTag,
-  Controller
-};

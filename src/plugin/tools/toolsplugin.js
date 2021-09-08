@@ -21,7 +21,7 @@ import * as widget from '../../mist/ui/widget/widget.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 
 const GoogEventType = goog.require('goog.events.EventType');
-const ComponentManager = goog.require('coreui.layout.ComponentManager');
+const {ComponentManager} = goog.require('coreui.layout.ComponentManager');
 const ActionEventType = goog.require('os.action.EventType');
 const osList = goog.require('os.ui.list');
 const NavLocation = goog.require('os.ui.nav.Location');

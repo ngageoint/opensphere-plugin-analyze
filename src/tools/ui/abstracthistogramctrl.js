@@ -10,7 +10,7 @@ import {Analyze as AnalyzeKeys} from '../../mist/metrics/keys.js';
 import {getField} from 'opensphere/src/os/feature/feature.js';
 import {apply} from 'opensphere/src/os/ui/ui.js';
 
-const AbstractComponentCtrl = goog.require('coreui.layout.AbstractComponentCtrl');
+const {AbstractComponentCtrl} = goog.require('coreui.layout.AbstractComponentCtrl');
 const BinMethod = goog.require('os.histo.BinMethod');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const DateRangeBinType = goog.require('os.histo.DateRangeBinType');

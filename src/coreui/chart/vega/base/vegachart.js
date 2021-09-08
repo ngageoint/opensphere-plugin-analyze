@@ -14,7 +14,7 @@ import * as osFeature from 'opensphere/src/os/feature/feature.js';
 import * as ui from 'opensphere/src/os/ui/ui.js';
 
 const layout = goog.require('coreui.layout');
-const AbstractComponentCtrl = goog.require('coreui.layout.AbstractComponentCtrl');
+const {AbstractComponentCtrl} = goog.require('coreui.layout.AbstractComponentCtrl');
 const Debouncer = goog.require('goog.async.Debouncer');
 const dispose = goog.require('goog.dispose');
 const dom = goog.require('goog.dom');
