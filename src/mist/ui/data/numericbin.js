@@ -1,8 +1,9 @@
-goog.module('mist.ui.data.NumericBinUI');
+goog.declareModuleId('mist.ui.data.NumericBinUI');
+
+import {ROOT} from '../../../tools/tools.js';
 
 const EventType = goog.require('goog.events.EventType');
 const Module = goog.require('os.ui.Module');
-const {ROOT} = goog.require('tools');
 
 const NumericBinMethod = goog.requireType('os.histo.NumericBinMethod');
 
@@ -11,26 +12,23 @@ const NumericBinMethod = goog.requireType('os.histo.NumericBinMethod');
  * The numeric bin UI
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'AE',
   replace: true,
   templateUrl: ROOT + 'views/data/numericbin.html',
   controller: Controller
 });
 
-
 /**
  * Add the directive to the module
  */
 Module.directive('numericbin', [directive]);
 
-
-
 /**
  * Controller for the numeric bin UI
  * @unrestricted
  */
-class Controller {
+export class Controller {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -101,8 +99,3 @@ class Controller {
     }
   }
 }
-
-exports = {
-  Controller,
-  directive
-};

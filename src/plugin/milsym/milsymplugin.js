@@ -1,6 +1,6 @@
-goog.module('plugin.milsym.MilSymPlugin');
+goog.declareModuleId('plugin.milsym.MilSymPlugin');
 
-goog.require('coreui.milsym.MilSymDialogUI');
+import * as MilSymDialogUI from '../../coreui/milsym/milsymdialog.js'; // eslint-disable-line
 
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const IconSelectorManager = goog.require('os.ui.icon.IconSelectorManager');
@@ -9,7 +9,7 @@ const IconSelectorManager = goog.require('os.ui.icon.IconSelectorManager');
 /**
  * Plugin that allows the user to interact with the icon service
  */
-class MilSymPlugin extends AbstractPlugin {
+export class MilSymPlugin extends AbstractPlugin {
   /**
    * Constructor.
    */
@@ -45,11 +45,7 @@ class MilSymPlugin extends AbstractPlugin {
   }
 }
 
-
 /**
  * @type {MilSymPlugin|undefined}
  */
 let instance;
-
-
-exports = MilSymPlugin;

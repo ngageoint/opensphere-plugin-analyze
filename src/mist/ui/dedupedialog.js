@@ -1,12 +1,15 @@
-goog.module('mist.ui.MistDedupeUI');
+goog.declareModuleId('mist.ui.MistDedupeUI');
+
+import {Analyze} from '../metrics/keys.js';
+import {DedupeNode} from './dedupenode.js';
+import {ROOT} from '../../tools/tools.js';
+
+import {apply} from 'opensphere/src/os/ui/ui.js';
 
 const settings = goog.require('os.config.Settings');
-const ui = goog.require('os.ui');
 const Disposable = goog.require('goog.Disposable');
 const array = goog.require('goog.array');
 const Delay = goog.require('goog.async.Delay');
-const keys = goog.require('mist.metrics.keys');
-const DedupeNode = goog.require('mist.ui.DedupeNode');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const AlertManager = goog.require('os.alert.AlertManager');
 const Module = goog.require('os.ui.Module');
@@ -15,7 +18,6 @@ const {nameCompare} = goog.require('os.ui.slick.column');
 const window = goog.require('os.ui.window');
 const ConfirmTextUI = goog.require('os.ui.window.ConfirmTextUI');
 const osMetrics = goog.require('os.metrics.Metrics');
-const {ROOT} = goog.require('tools');
 
 const VectorSource = goog.requireType('os.source.Vector');
 
@@ -24,7 +26,7 @@ const VectorSource = goog.requireType('os.source.Vector');
  * The mistexport directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
   scope: true,
@@ -33,19 +35,16 @@ const directive = () => ({
   controllerAs: 'dedupe'
 });
 
-
 /**
  * Add the directive to the module.
  */
 Module.directive('mistdedupe', [directive]);
 
-
-
 /**
  * Controller function for the mistdedupe directive
  * @unrestricted
  */
-class Controller extends Disposable {
+export class Controller extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -138,7 +137,7 @@ class Controller extends Disposable {
       const config = configs[i];
       config.invalid = !this.allColumnsValid(config);
       if (config.invalid) {
-        osMetrics.getInstance().updateMetric(keys.Analyze.DEDUPE_BY_NON_COMPAT_CONFIG, 1);
+        osMetrics.getInstance().updateMetric(Analyze.DEDUPE_BY_NON_COMPAT_CONFIG, 1);
       }
       const node = new DedupeNode(config);
       this.scope['dedupes'].addChild(node);
@@ -186,7 +185,7 @@ class Controller extends Disposable {
    */
   cancel() {
     this.close_();
-    osMetrics.getInstance().updateMetric(keys.Analyze.DEDUPE_BY_CANCEL, 1);
+    osMetrics.getInstance().updateMetric(Analyze.DEDUPE_BY_CANCEL, 1);
   }
 
   /**
@@ -208,14 +207,14 @@ class Controller extends Disposable {
       if (this.currentDedupe && this['activeConfig']) {
         const oldCfg = this.currentDedupe.getItem();
         if (oldCfg['title'] != this['activeConfig']['title']) {
-          osMetrics.getInstance().updateMetric(keys.Analyze.DEDUPE_BY_NAME_CHANGE, 1);
+          osMetrics.getInstance().updateMetric(Analyze.DEDUPE_BY_NAME_CHANGE, 1);
         }
       }
       const activeConfig = angular.copy(this['activeConfig']);
       this.currentDedupe.setItem(activeConfig);
     }
     this.saveConfig_();
-    osMetrics.getInstance().updateMetric(keys.Analyze.DEDUPE_BY_SAVE, 1);
+    osMetrics.getInstance().updateMetric(Analyze.DEDUPE_BY_SAVE, 1);
   }
 
   /**
@@ -332,7 +331,7 @@ class Controller extends Disposable {
     if (this.numEmpty == 0) {
       this.checkForDupesAndInvalid_(); // only check if no empty columns
     }
-    osMetrics.getInstance().updateMetric(keys.Analyze.DEDUPE_BY_EDIT_COLUMN, 1);
+    osMetrics.getInstance().updateMetric(Analyze.DEDUPE_BY_EDIT_COLUMN, 1);
   }
 
   /**
@@ -342,7 +341,7 @@ class Controller extends Disposable {
   addColumn() {
     this['activeConfig']['columns'].push({});
     this.numEmpty++;
-    osMetrics.getInstance().updateMetric(keys.Analyze.DEDUPE_BY_ADD_COLUMN, 1);
+    osMetrics.getInstance().updateMetric(Analyze.DEDUPE_BY_ADD_COLUMN, 1);
   }
 
   /**
@@ -358,7 +357,7 @@ class Controller extends Disposable {
     if (this.numEmpty == 0) {
       this.checkForDupesAndInvalid_(); // only check if no empty columns
     }
-    osMetrics.getInstance().updateMetric(keys.Analyze.DEDUPE_BY_REMOVE_COLUMN, 1);
+    osMetrics.getInstance().updateMetric(Analyze.DEDUPE_BY_REMOVE_COLUMN, 1);
   }
 
   /**
@@ -390,7 +389,7 @@ class Controller extends Disposable {
         curValidator = curValidator[prop];
       }
     }
-    osMetrics.getInstance().updateMetric(keys.Analyze.DEDUPE_BY_RUN, 1);
+    osMetrics.getInstance().updateMetric(Analyze.DEDUPE_BY_RUN, 1);
     this.source.setSelectedItems(selected);
 
     let msg = 'Deduplicate-by finished. ';
@@ -455,7 +454,7 @@ class Controller extends Disposable {
    */
   addConfig(opt_config, opt_nottemp) {
     if (!opt_config && !opt_nottemp) {
-      osMetrics.getInstance().updateMetric(keys.Analyze.DEDUPE_BY_CREATE, 1);
+      osMetrics.getInstance().updateMetric(Analyze.DEDUPE_BY_CREATE, 1);
     }
     const newConfig = opt_config ? opt_config : {'title': 'dedupe ' + this.source.getTitle(true)};
     let newdupe = undefined;
@@ -506,7 +505,7 @@ class Controller extends Disposable {
   selectNode_(node) {
     const selectDelay = new Delay(function() {
       this.scope['selected'] = node;
-      ui.apply(this.scope);
+      apply(this.scope);
     }, 10, this);
     selectDelay.start();
   }
@@ -586,39 +585,34 @@ class Controller extends Disposable {
 
     ConfirmTextUI.launchConfirmText(options);
   }
-
-  /**
-   * Starts the dedupe process for the provided source
-   * @param {VectorSource} source The source
-   */
-  static launch(source) {
-    const windowId = 'mistDedupe';
-    if (window.exists(windowId)) {
-      window.bringToFront(windowId);
-    } else {
-      const scopeOptions = {
-        'source': source
-      };
-
-      const windowOptions = {
-        'id': windowId,
-        'label': 'Deduplicate-By',
-        'icon': 'fa fa-sitemap fa-rotate-90',
-        'x': 'center',
-        'y': 'center',
-        'width': '550',
-        'height': '400',
-        'show-close': true,
-        'modal': true
-      };
-
-      const template = '<mistdedupe></mistdedupe>';
-      window.create(windowOptions, template, undefined, undefined, undefined, scopeOptions);
-    }
-  }
 }
 
-exports = {
-  Controller,
-  directive
+/**
+ * Starts the dedupe process for the provided source
+ * @param {VectorSource} source The source
+ */
+export const launchDedupeUI = (source) => {
+  const windowId = 'mistDedupe';
+  if (window.exists(windowId)) {
+    window.bringToFront(windowId);
+  } else {
+    const scopeOptions = {
+      'source': source
+    };
+
+    const windowOptions = {
+      'id': windowId,
+      'label': 'Deduplicate-By',
+      'icon': 'fa fa-sitemap fa-rotate-90',
+      'x': 'center',
+      'y': 'center',
+      'width': '550',
+      'height': '400',
+      'show-close': true,
+      'modal': true
+    };
+
+    const template = '<mistdedupe></mistdedupe>';
+    window.create(windowOptions, template, undefined, undefined, undefined, scopeOptions);
+  }
 };

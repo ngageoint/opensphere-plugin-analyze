@@ -1,14 +1,14 @@
 goog.declareModuleId('coreui.chart.vega.base.Charts');
 
-const {default: AbstractChart} = goog.requireType('coreui.chart.vega.base.AbstractChart');
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {AbstractChart} = goog.requireType('coreui.chart.vega.base.AbstractChart');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 const MenuItem = goog.requireType('os.ui.menu.MenuItem');
 
 
 /**
  * Manager for different creating different Vega chart implementations.
  */
-class Charts {
+export class Charts {
   /**
    * Constructor.
    */
@@ -112,5 +112,3 @@ class Charts {
  * @type {Charts|undefined}
  */
 let instance;
-
-export default Charts;

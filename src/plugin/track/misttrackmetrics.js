@@ -1,13 +1,13 @@
-goog.module('plugin.mist.track.Metrics');
+goog.declareModuleId('plugin.mist.track.Metrics');
 
-const {ID} = goog.require('plugin.mist.track.Constants');
+import {ID} from './constants.js';
 
 
 /**
  * Metric keys for the MIST track plugin.
  * @enum {string}
  */
-const Keys = {
+export const Keys = {
   CREATE_MULTI_COUNTBY: ID + '.createMulti-countBy',
   CREATE_SINGLE_COUNTBY: ID + '.createSingle-countBy',
   ADD_TO_COUNTBY: ID + '.addTo-countBy',
@@ -21,8 +21,4 @@ const Keys = {
   MAP_EXPAND_TRACK_DAY: ID + '.queryEntireTrack-map-day',
   MAP_EXPAND_TRACK_WEEK: ID + '.queryEntireTrack-map-week',
   MAP_EXPAND_TRACK_MONTH: ID + '.queryEntireTrack-map-month'
-};
-
-exports = {
-  Keys
 };

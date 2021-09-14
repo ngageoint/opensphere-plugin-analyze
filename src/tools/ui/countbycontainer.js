@@ -1,23 +1,30 @@
-goog.module('tools.ui.CountByContainerUI');
+goog.declareModuleId('tools.ui.CountByContainerUI');
 
-const {inIframe} = goog.require('os');
+import {Module} from './module.js';
+import {ROOT} from '../tools.js';
+import {AnalyzeEventType} from '../../mist/analyze/eventtype.js';
+import {EXPORT_PROPERTY} from '../../mist/analyze/analyze.js';
+import * as CountByMenu from '../../mist/menu/countbymenu.js';
+import * as ToolsMenu from '../../mist/menu/toolsmenu.js';
+
+import {inIframe} from 'opensphere/src/os/os.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {getFilterColumns} from 'opensphere/src/os/source/source.js';
+
+const Disposable = goog.require('goog.Disposable');
+const {getValueByKeys} = goog.require('goog.object');
+const MapContainer = goog.require('os.MapContainer');
 const AlertManager = goog.require('os.alert.AlertManager');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
-const CountByMenu = goog.require('mist.menu.countBy');
-const Dispatcher = goog.require('os.Dispatcher');
-const Disposable = goog.require('goog.Disposable');
+const {HistoEventType, createFilter} = goog.require('os.data.histo');
+const ColorMethod = goog.require('os.data.histo.ColorMethod');
+const PayloadEvent = goog.require('os.events.PayloadEvent');
+const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
 const FilterEvent = goog.require('os.ui.filter.FilterEvent');
 const FilterEventType = goog.require('os.ui.filter.FilterEventType');
-const MapContainer = goog.require('os.MapContainer');
-const MistEventType = goog.require('mist.action.EventType');
-const {Module} = goog.require('tools.ui.Module');
-const PayloadEvent = goog.require('os.events.PayloadEvent');
-const ToolsMenu = goog.require('mist.menu.tools');
-const analyze = goog.require('mist.analyze');
-const histo = goog.require('os.data.histo');
-const {getFilterColumns} = goog.require('os.source');
-const {ROOT} = goog.require('tools');
 
+const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
+const FilterEntry = goog.requireType('os.filter.FilterEntry');
 const IFilterable = goog.requireType('os.filter.IFilterable');
 const IHistogramUI = goog.requireType('os.ui.IHistogramUI');
 const ISource = goog.requireType('os.source.ISource');
@@ -28,73 +35,63 @@ const ISource = goog.requireType('os.source.ISource');
  * @type {string}
  * @const
  */
-const COUNTBY_CHILD_TEMPLATE = '<countby class="border-left" container="container" source="source" ' +
+export const COUNTBY_CHILD_TEMPLATE = '<countby class="border-left" container="container" source="source" ' +
     'parent="parent"></countby>';
-
 
 /**
  * Selector for the count by DOM element
  * @type {string}
  * @const
  */
-const COUNTBY_SELECTOR = '.js-countby';
-
+export const COUNTBY_SELECTOR = '.js-countby';
 
 /**
  * Selector for the DOM element containing the count bys
  * @type {string}
  * @const
  */
-const CONTAINER_SELECTOR = '.js-countby-container__countbys';
-
+export const CONTAINER_SELECTOR = '.js-countby-container__countbys';
 
 /**
  * Selector for the DOM element containing cascading scroll pane.
  * @type {string}
  * @const
  */
-const SCROLLPANE_SELECTOR = '.js-countby-container__scrollpane';
-
+export const SCROLLPANE_SELECTOR = '.js-countby-container__scrollpane';
 
 /**
  * The `controllerAs` value for the count by container.
  * @type {string}
  * @const
  */
-const COUNTBY_CONTAINER_CTRL = 'cbc';
-
+export const COUNTBY_CONTAINER_CTRL = 'cbc';
 
 /**
  * The countbycontainer directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
-
   scope: {
     'container': '=',
     'source': '='
   },
-
   templateUrl: ROOT + 'views/tools/countbycontainer.html',
   controller: Controller,
   controllerAs: COUNTBY_CONTAINER_CTRL
 });
-
 
 /**
  * Add the directive to the module.
  */
 Module.directive('countbycontainer', [directive]);
 
-
-
 /**
  * Controller function for the countbycontainer directive
  * @unrestricted
  */
-class Controller extends Disposable {
+export class Controller extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -131,7 +128,7 @@ class Controller extends Disposable {
     }
 
     if (CountByMenu.MENU) {
-      CountByMenu.MENU.listen(MistEventType.CREATE_FILTER, this.createFilter, false, this);
+      CountByMenu.MENU.listen(AnalyzeEventType.CREATE_FILTER, this.createFilter, false, this);
     }
 
     $scope.$on('$destroy', this.dispose.bind(this));
@@ -144,7 +141,7 @@ class Controller extends Disposable {
     super.disposeInternal();
 
     if (CountByMenu.MENU) {
-      CountByMenu.MENU.unlisten(MistEventType.CREATE_FILTER, this.createFilter, false, this);
+      CountByMenu.MENU.unlisten(AnalyzeEventType.CREATE_FILTER, this.createFilter, false, this);
     }
 
     // clean up any children that were compiled in
@@ -235,7 +232,7 @@ class Controller extends Disposable {
         var cbHisto = cb.getHistogram();
         var modelHisto = colorModel.getHistogram();
         if (cbHisto && cbHisto == modelHisto) {
-          cbHisto.setColorMethod(histo.ColorMethod.RESET);
+          cbHisto.setColorMethod(ColorMethod.RESET);
           AlertManager.getInstance().sendAlert('Count By coloring removed from source.', AlertEventSeverity.INFO);
         }
       }
@@ -247,7 +244,7 @@ class Controller extends Disposable {
    */
   updateChildren_() {
     if (this.scope) {
-      this.scope.$broadcast(histo.HistoEventType.TOGGLE_CASCADE);
+      this.scope.$broadcast(HistoEventType.TOGGLE_CASCADE);
     }
   }
 
@@ -344,8 +341,8 @@ class Controller extends Disposable {
 
   /**
    * Create a filter entry from Count By's in the container.
-   * @param {!Array<!os.data.ColumnDefinition>} columns The filter columns.
-   * @return {os.filter.FilterEntry}
+   * @param {!Array<!ColumnDefinition>} columns The filter columns.
+   * @return {FilterEntry}
    */
   getFilter(columns) {
     var controllers = this.getHistogramUIs();
@@ -354,12 +351,12 @@ class Controller extends Disposable {
       return null;
     }
 
-    return histo.createFilter(controllers, columns);
+    return createFilter(controllers, columns);
   }
 
   /**
    * Create a filter entry from Count By's in the container and launch the filter edit dialog.
-   * @param {os.events.PayloadEvent<Function>=} opt_event
+   * @param {PayloadEvent<Function>=} opt_event
    * @export
    */
   createFilter(opt_event) {
@@ -379,18 +376,18 @@ class Controller extends Disposable {
     if (entry) {
       var sourceId = source.getId();
       entry.setType(sourceId);
-      entry.setTitle('Count By Filter ' + Controller.filterCount_++);
+      entry.setTitle('Count By Filter ' + filterCount++);
       const next = function() {
         let editFilterFn;
         if (inIframe()) {
           // for internal analyze, launch the filter edit in the main window
-          editFilterFn = /** @type {Function|undefined} */ (goog.object.getValueByKeys(
-              window, analyze.EXPORT_PROPERTY, 'functions', 'launchFilterEdit'));
+          editFilterFn = /** @type {Function|undefined} */ (getValueByKeys(
+              window, EXPORT_PROPERTY, 'functions', 'launchFilterEdit'));
         }
 
         if (!editFilterFn) {
           // external analyze, or the function wasn't exported
-          editFilterFn = os.filter.BaseFilterManager.edit;
+          editFilterFn = BaseFilterManager.edit;
         }
 
         const winLabel = 'Create Filter for ' + source.getTitle();
@@ -404,7 +401,7 @@ class Controller extends Disposable {
 
   /**
    * Handle user choosing filter title.
-   * @param {os.filter.FilterEntry} entry
+   * @param {FilterEntry} entry
    * @export
    */
   onFilterReady(entry) {
@@ -419,21 +416,8 @@ class Controller extends Disposable {
   }
 }
 
-
 /**
  * Counter for filters generated from a Count By.
  * @type {number}
- * @private
  */
-Controller.filterCount_ = 1;
-
-
-exports = {
-  Controller,
-  directive,
-  COUNTBY_CHILD_TEMPLATE,
-  COUNTBY_SELECTOR,
-  CONTAINER_SELECTOR,
-  SCROLLPANE_SELECTOR,
-  COUNTBY_CONTAINER_CTRL
-};
+let filterCount = 1;

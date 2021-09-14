@@ -1,11 +1,10 @@
-goog.module('coreui.layout.LayoutTabsEvent');
-
+goog.declareModuleId('coreui.layout.LayoutTabsEvent');
 
 /**
  * Layout tab events.
  * @enum {string}
  */
-exports = {
+export const LayoutTabsEvent = {
   RENAME: 'tab:rename',
   DUPLICATE: 'tab:duplicate',
   CLOSE: 'tab:close',

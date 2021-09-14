@@ -1,25 +1,27 @@
-goog.module('plugin.im.action.feature.ext.menu');
+goog.declareModuleId('plugin.im.action.feature.ext.menu');
+
+import {EventType, Metrics} from './featureactionext.js';
+import {EXPORT_PROPERTY} from '../../mist/analyze/analyze.js';
+import * as countByMenu from '../../mist/menu/countbymenu.js';
+import * as CountByUI from '../../tools/ui/countby.js';
+
+import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import {inIframe} from 'opensphere/src/os/os.js';
+import {getFilterColumns} from 'opensphere/src/os/source/source.js';
 
 const action = goog.require('os.im.action');
 const AlertManager = goog.require('os.alert.AlertManager');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
-const analyze = goog.require('mist.analyze');
 const {assert} = goog.require('goog.asserts');
-const CountByUI = goog.require('tools.ui.CountByUI');
-const dispatcher = goog.require('os.Dispatcher');
-const ext = goog.require('plugin.im.action.feature.ext');
 const featureAction = goog.require('plugin.im.action.feature');
 const googObject = goog.require('goog.object');
 const ImportActionEvent = goog.require('os.im.action.ImportActionEvent');
 const ImportActionEventType = goog.require('os.im.action.ImportActionEventType');
 const ImportActionManager = goog.require('os.im.action.ImportActionManager');
 const IImportSource = goog.require('os.source.IImportSource');
-const {inIframe} = goog.require('os');
 const instanceOf = goog.require('os.instanceOf');
 const {launchEditFeatureAction} = goog.require('plugin.im.action.feature.ui');
-const mistCountByMenu = goog.require('mist.menu.countBy');
 const osImplements = goog.require('os.implements');
-const osSource = goog.require('os.source');
 
 const Entry = goog.requireType('plugin.im.action.feature.Entry');
 const IHistogramUI = goog.requireType('os.ui.IHistogramUI');
@@ -32,53 +34,49 @@ const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
 /**
  * Counter for feature actions generated from a Count By.
  * @type {number}
- * @private
  */
-let cbActionCount_ = 1;
-
+let cbActionCount = 1;
 
 /**
  * Sets up import actions in the Layers window.
  */
-const countBySetup = () => {
-  const menu = mistCountByMenu.MENU;
+export const countBySetup = () => {
+  const menu = countByMenu.MENU;
   if (menu) {
     const root = menu.getRoot();
-    const group = root.find(mistCountByMenu.GroupLabel.FILTER);
-    assert(group, 'Group "' + mistCountByMenu.GroupLabel.TOOLS + '" should exist! Check spelling?');
+    const group = root.find(countByMenu.GroupLabel.FILTER);
+    assert(group, 'Group "' + countByMenu.GroupLabel.TOOLS + '" should exist! Check spelling?');
 
     group.addChild({
-      eventType: ext.EventType.CREATE_FROM_COUNTBY,
+      eventType: EventType.CREATE_FROM_COUNTBY,
       label: 'Create Feature Action',
       tooltip: 'Create a new feature action with a filter generated from cascaded bins',
       icons: ['<i class="fa fa-fw ' + action.ICON + '"></i>'],
-      metricKey: ext.Metrics.CREATE_FROM_COUNTBY,
-      beforeRender: visibleIfCanCreateFromHistoUI_,
+      metricKey: Metrics.CREATE_FROM_COUNTBY,
+      beforeRender: visibleIfCanCreateFromHistoUI,
       handler: createFromCountBy
     });
   }
 };
 
-
 /**
  * Clean up buffer region listeners in the layers window.
  */
-const countByDispose = () => {
-  if (mistCountByMenu.MENU) {
-    const group = mistCountByMenu.MENU.getRoot().find(mistCountByMenu.GroupLabel.FILTER);
+export const countByDispose = () => {
+  if (countByMenu.MENU) {
+    const group = countByMenu.MENU.getRoot().find(countByMenu.GroupLabel.FILTER);
     if (group) {
-      group.removeChild(ext.EventType.CREATE_FROM_COUNTBY);
+      group.removeChild(EventType.CREATE_FROM_COUNTBY);
     }
   }
 };
-
 
 /**
  * Checks if there are selected bins in the Count By to show/hide the Color Selected menu item.
  * @param {IHistogramUI=} opt_histoUi
  * @return {boolean}
  */
-const canCreateHistogramFilter = (opt_histoUi) => {
+export const canCreateHistogramFilter = (opt_histoUi) => {
   if (opt_histoUi) {
     try {
       if (osImplements(opt_histoUi.getSource(), IImportSource.ID)) {
@@ -102,9 +100,8 @@ const canCreateHistogramFilter = (opt_histoUi) => {
  * @this {MenuItem}
  * @param {Menu} context The context menu.
  * @param {IHistogramUI} ctrl The histogram UI.
- * @private
  */
-const visibleIfCanCreateFromHistoUI_ = function(context, ctrl) {
+const visibleIfCanCreateFromHistoUI = function(context, ctrl) {
   this.visible = false;
 
   if (ctrl) {
@@ -130,7 +127,7 @@ const visibleIfCanCreateFromHistoUI_ = function(context, ctrl) {
  * Create a feature action from a Count By.
  * @param {MenuEvent} event The event.
  */
-const createFromCountBy = (event) => {
+export const createFromCountBy = (event) => {
   let countBy = event.target;
   if (!instanceOf(countBy, CountByUI.NAME)) {
     countBy = event.getContext();
@@ -138,13 +135,13 @@ const createFromCountBy = (event) => {
   const source = countBy ? countBy.getSource() : null;
   const container = countBy ? countBy.getContainer() : null;
   if (source && container) {
-    const columns = osSource.getFilterColumns(source, true);
+    const columns = getFilterColumns(source, true);
     if (columns) {
       const filterEntry = container.getFilter(columns);
       if (filterEntry) {
         const entry = ImportActionManager.getInstance().createActionEntry();
         entry.restore(filterEntry.persist());
-        entry.setTitle('Count By Action ' + cbActionCount_++);
+        entry.setTitle('Count By Action ' + cbActionCount++);
 
         const sourceId = source.getId();
         entry.setType(sourceId);
@@ -153,14 +150,14 @@ const createFromCountBy = (event) => {
         if (inIframe()) {
           // for internal analyze, launch the edit in the main window
           editActionFn = /** @type {Function|undefined} */ (googObject.getValueByKeys(
-              window, analyze.EXPORT_PROPERTY, 'functions', 'launchFeatureActionEdit'));
+              window, EXPORT_PROPERTY, 'functions', 'launchFeatureActionEdit'));
         }
 
         if (!editActionFn) {
           editActionFn = launchEditFeatureAction;
         }
 
-        const callback = onEntryReady_.bind(undefined, source);
+        const callback = onEntryReady.bind(undefined, source);
         editActionFn(sourceId, columns, callback, entry);
       }
     }
@@ -172,9 +169,8 @@ const createFromCountBy = (event) => {
  * Handle user saving the feature action.
  * @param {ISource} source The source.
  * @param {Entry} entry The feature action entry.
- * @private
  */
-const onEntryReady_ = (source, entry) => {
+const onEntryReady = (source, entry) => {
   if (entry && source) {
     const event = new ImportActionEvent(ImportActionEventType.ADD_ENTRY, entry, true);
     dispatcher.getInstance().dispatchEvent(event);
@@ -184,11 +180,4 @@ const onEntryReady_ = (source, entry) => {
         'Created a new ' + featureAction.ENTRY_TITLE + ' for ' + layerName + '.',
         AlertEventSeverity.SUCCESS);
   }
-};
-
-exports = {
-  countBySetup,
-  countByDispose,
-  canCreateHistogramFilter,
-  createFromCountBy
 };

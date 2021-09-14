@@ -1,13 +1,13 @@
 goog.declareModuleId('coreui.chart.vega.base.stats');
 
 import {StatType} from '../../chartstats.js';
-import {default as ChartType} from '../charttype.js';
-import {default as Utils} from '../utils.js';
+import {ChartType} from '../charttype.js';
+import {Utils} from '../utils.js';
 import {measureText} from 'opensphere/src/os/ui/ui.js';
 
 const {roundWithPrecision} = goog.require('os.math');
 
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
 /**

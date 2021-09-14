@@ -2,7 +2,6 @@ goog.declareModuleId('coreui.selector.SelectorUI');
 
 import {ROOT} from '../../tools/tools.js';
 
-const fn = goog.require('os.fn');
 const Module = goog.require('os.ui.Module');
 
 
@@ -85,8 +84,8 @@ export class Controller {
 
     this['selectFired'] = false;
 
-    this.scope_['onSelect'] = this.scope_['onSelect'] || fn.noop;
-    this.scope_['onUpdate'] = this.scope_['onUpdate'] || fn.noop;
+    this.scope_['onSelect'] = this.scope_['onSelect'] || (() => {});
+    this.scope_['onUpdate'] = this.scope_['onUpdate'] || (() => {});
 
     this['onSelectWrapper'] = function(args) {
       if (!this['selectFired']) {

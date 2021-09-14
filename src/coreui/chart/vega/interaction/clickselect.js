@@ -1,14 +1,14 @@
 goog.declareModuleId('coreui.chart.vega.interaction.ClickSelect');
 
-import {default as AbstractInteraction} from './abstractinteraction.js';
+import {AbstractInteraction} from './abstractinteraction.js';
 
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
 /**
  *
  */
-class ClickSelect extends AbstractInteraction {
+export class ClickSelect extends AbstractInteraction {
   /**
    * Constructor.
    * @param {Model} model
@@ -46,5 +46,3 @@ class ClickSelect extends AbstractInteraction {
     }
   }
 }
-
-export default ClickSelect;

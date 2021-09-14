@@ -1,10 +1,11 @@
-goog.module('coreui.layout.DragComponentUI');
+goog.declareModuleId('coreui.layout.DragComponentUI');
 
-const {ROOT} = goog.require('tools');
-const coreuiLayout = goog.require('coreui.layout');
+import {ROOT} from '../../tools/tools.js';
+import {GoldenLayoutEvent, LayoutEvent, minimizeAll} from './layout.js';
+import {apply} from 'opensphere/src/os/ui/ui.js';
+
 const Disposable = goog.require('goog.Disposable');
-const googString = goog.require('goog.string');
-const ui = goog.require('os.ui');
+const {isEmptyOrWhitespace} = goog.require('goog.string');
 const Module = goog.require('os.ui.Module');
 
 
@@ -12,15 +13,13 @@ const Module = goog.require('os.ui.Module');
  * A draggable Golden Layout component.
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
-
   scope: {
     'componentConfig': '=',
     'layout': '='
   },
-
   controller: Controller,
   controllerAs: 'ctrl',
   templateUrl: ROOT + 'views/layout/dragcomponent.html'
@@ -30,21 +29,18 @@ const directive = () => ({
  * The element tag for the directive.
  * @type {string}
  */
-const directiveTag = 'drag-component';
-
+export const directiveTag = 'drag-component';
 
 /**
  * Add the directive to the module.
  */
 Module.directive('dragComponent', [directive]);
 
-
-
 /**
  * Controller function for the drag-component directive.
  * @unrestricted
  */
-class Controller extends Disposable {
+export class Controller extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -88,8 +84,8 @@ class Controller extends Disposable {
 
     if (this.dragSource) {
       if (this.dragSource._dragListener) {
-        this.dragSource._dragListener.off(coreuiLayout.GoldenLayoutEvent.DRAG_START, this.onDragStart, this);
-        this.dragSource._dragListener.off(coreuiLayout.GoldenLayoutEvent.DRAG_STOP, this.onDragStop, this);
+        this.dragSource._dragListener.off(GoldenLayoutEvent.DRAG_START, this.onDragStart, this);
+        this.dragSource._dragListener.off(GoldenLayoutEvent.DRAG_STOP, this.onDragStop, this);
       }
 
       this.dragSource = null;
@@ -122,8 +118,8 @@ class Controller extends Disposable {
    */
   addDragListeners() {
     if (this.dragSource) {
-      this.dragSource._dragListener.on(coreuiLayout.GoldenLayoutEvent.DRAG_START, this.onDragStart, this);
-      this.dragSource._dragListener.on(coreuiLayout.GoldenLayoutEvent.DRAG_STOP, this.onDragStop, this);
+      this.dragSource._dragListener.on(GoldenLayoutEvent.DRAG_START, this.onDragStart, this);
+      this.dragSource._dragListener.on(GoldenLayoutEvent.DRAG_STOP, this.onDragStop, this);
     }
   }
 
@@ -143,7 +139,7 @@ class Controller extends Disposable {
       // this must be done on mousedown on the element instead of in the dragStart handler, because changing the layout
       // during the latter will cause problems with the drag proxy.
       //
-      coreuiLayout.minimizeAll(/** @type {!GoldenLayout} */ (this.scope['layout']).root);
+      minimizeAll(/** @type {!GoldenLayout} */ (this.scope['layout']).root);
     }
   }
 
@@ -152,8 +148,8 @@ class Controller extends Disposable {
    * @protected
    */
   onDragStart() {
-    this.scope.$emit(coreuiLayout.LayoutEvent.DRAGGING, true);
-    ui.apply(this.scope);
+    this.scope.$emit(LayoutEvent.DRAGGING, true);
+    apply(this.scope);
   }
 
   /**
@@ -165,8 +161,8 @@ class Controller extends Disposable {
     this.addDragListeners();
 
     this['dragging'] = false;
-    this.scope.$emit(coreuiLayout.LayoutEvent.DRAGGING, false);
-    ui.apply(this.scope);
+    this.scope.$emit(LayoutEvent.DRAGGING, false);
+    apply(this.scope);
   }
 
   /**
@@ -180,15 +176,9 @@ class Controller extends Disposable {
         this.scope['componentConfig'] &&
         this.scope['componentConfig']['componentState']) {
       var customDragClass = this.scope['componentConfig']['componentState']['dragComponentClass'];
-      if (customDragClass && !googString.isEmptyOrWhitespace(customDragClass)) {
+      if (customDragClass && !isEmptyOrWhitespace(customDragClass)) {
         this.element.addClass(customDragClass);
       }
     }
   }
 }
-
-exports = {
-  Controller,
-  directive,
-  directiveTag
-};

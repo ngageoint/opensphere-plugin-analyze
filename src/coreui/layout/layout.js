@@ -1,11 +1,10 @@
-goog.module('coreui.layout');
-
+goog.declareModuleId('coreui.layout');
 
 /**
  * Golden Layout events.
  * @enum {string}
  */
-const GoldenLayoutEvent = {
+export const GoldenLayoutEvent = {
   DRAG: 'drag',
   DRAG_START: 'dragStart',
   DRAG_STOP: 'dragStop',
@@ -16,7 +15,7 @@ const GoldenLayoutEvent = {
  * Internal layout events.
  * @enum {string}
  */
-const LayoutEvent = {
+export const LayoutEvent = {
   DRAGGING: 'layout:dragging',
   REMOVE_ALL: 'layout:removeAll',
   RESET: 'layout:reset',
@@ -26,16 +25,15 @@ const LayoutEvent = {
 /**
  * The active component id.
  * @type {string|undefined}
- * @private
  */
-let activeComponentId_ = undefined;
+let activeComponentId = undefined;
 
 /**
  * Sets the global variable for the active component id.
  * @param {string|undefined} id The component id.
  */
-const setActiveComponentId = function(id) {
-  activeComponentId_ = id;
+export const setActiveComponentId = function(id) {
+  activeComponentId = id;
 };
 
 /**
@@ -43,15 +41,15 @@ const setActiveComponentId = function(id) {
  * @param {string|undefined} id The id of the component we are checking.
  * @return {boolean} True when the id matches (i.e. is active).
  */
-const isActiveComponent = function(id) {
-  return !!id && id === activeComponentId_;
+export const isActiveComponent = function(id) {
+  return !!id && id === activeComponentId;
 };
 
 /**
  * Minimize a Golden Layout node and all of its children.
  * @param {GoldenLayout.ContentItem} node The node.
  */
-const minimizeAll = function(node) {
+export const minimizeAll = function(node) {
   if (node) {
     if (node.isMaximised) {
       node.toggleMaximise();
@@ -69,7 +67,7 @@ const minimizeAll = function(node) {
  * Clean up potential errors in the Golden Layout config.
  * @param {!Object} config The config.
  */
-const cleanConfig = function(config) {
+export const cleanConfig = function(config) {
   if (Array.isArray(config['content'])) {
     if (config['content'].length > 1) {
       // we have encountered cases where the base level content array has multiple elements in it, which causes
@@ -85,7 +83,7 @@ const cleanConfig = function(config) {
  * Clean up potential errors in the Golden Layout config.
  * @param {!Object} contentItem The config.
  */
-const cleanContentItem = function(contentItem) {
+export const cleanContentItem = function(contentItem) {
   if (contentItem['activeItemIndex']) {
     //
     // Golden Layout has a bug the will break initialization if the active tab index in a stack is beyond the number
@@ -108,7 +106,7 @@ const cleanContentItem = function(contentItem) {
  * @param {number} y
  * @this {GoldenLayout.ContentItem}
  */
-const disallowTabsDropZone = function(x, y) {
+export const disallowTabsDropZone = function(x, y) {
   for (var segment in this['_contentAreaDimensions']) {
     var area = this['_contentAreaDimensions'][segment]['hoverArea'];
     if (area['x1'] < x && area['x2'] > x && area['y1'] < y && area['y2'] > y) {
@@ -119,15 +117,4 @@ const disallowTabsDropZone = function(x, y) {
       return;
     }
   }
-};
-
-exports = {
-  GoldenLayoutEvent,
-  LayoutEvent,
-  setActiveComponentId,
-  isActiveComponent,
-  minimizeAll,
-  cleanConfig,
-  cleanContentItem,
-  disallowTabsDropZone
 };

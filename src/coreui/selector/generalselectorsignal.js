@@ -1,8 +1,8 @@
-goog.declareModuleId('coreui.selector.generalSelectorSignal');
+goog.declareModuleId('coreui.selector.GeneralSelectorSignal');
 
 /**
  * @enum {string}
  */
-export default {
+export const GeneralSelectorSignal = {
   VALIDATION: 'generalselector.validation'
 };

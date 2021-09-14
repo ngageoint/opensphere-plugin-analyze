@@ -1,6 +1,6 @@
 goog.declareModuleId('coreui.chart.vega.data.Series');
 
-import * as osFeature from 'opensphere/src/os/feature/feature.js';
+import {getField} from 'opensphere/src/os/feature/feature.js';
 
 const EventTarget = goog.require('goog.events.EventTarget');
 const osFields = goog.require('os.Fields');
@@ -24,7 +24,7 @@ const IBinMethod = goog.requireType('os.histo.IBinMethod');
  * @template T
  * @unrestricted
  */
-class Series extends EventTarget {
+export class Series extends EventTarget {
   /**
    * Constructor.
    * @param {string} id the field on the item
@@ -195,7 +195,7 @@ class Series extends EventTarget {
         break;
     }
 
-    this.binMethod.setValueFunction(osFeature.getField);
+    this.binMethod.setValueFunction(getField);
 
     return this.binMethod;
   }
@@ -241,6 +241,3 @@ class Series extends EventTarget {
  * @const
  */
 Series.DATE_TIME = 'dateTime';
-
-
-export default Series;

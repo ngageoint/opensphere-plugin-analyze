@@ -1,12 +1,13 @@
-goog.module('plugin.mist.track.ExpandTrackUI');
+goog.declareModuleId('plugin.mist.track.ExpandTrackUI');
 
 goog.require('os.ui.datetime.DateTimeUI');
+
+import {requestTrack} from './misttrackquery.js';
+import {ROOT} from '../../tools/tools.js';
 
 const Module = goog.require('os.ui.Module');
 const osWindow = goog.require('os.ui.window');
 const RecordField = goog.require('os.data.RecordField');
-const {requestTrack} = goog.require('plugin.mist.track.query');
-const {ROOT} = goog.require('tools');
 const WindowEventType = goog.require('os.ui.WindowEventType');
 
 const Feature = goog.requireType('ol.Feature');
@@ -17,7 +18,7 @@ const ITime = goog.requireType('os.time.ITime');
  * The query track custom range ui directive
  * @return {angular.Directive}
  */
-const directive = function() {
+export const directive = function() {
   return {
     restrict: 'E',
     replace: true,
@@ -30,18 +31,16 @@ const directive = function() {
   };
 };
 
-
 /**
  * Add the directive to the module.
  */
 Module.directive('expandtrack', [directive]);
 
-
 /**
  * Controller function for the custom track query directive
  * @unrestricted
  */
-class ExpandTrackCtrl {
+export class ExpandTrackCtrl {
   /**
    * @param {!angular.Scope} $scope
    * @param {!angular.JQLite} $element
@@ -177,8 +176,3 @@ class ExpandTrackCtrl {
     osWindow.create(windowOptions, template, undefined, undefined, undefined, scopeOptions);
   }
 }
-
-exports = {
-  directive,
-  ExpandTrackCtrl
-};

@@ -1,18 +1,19 @@
-goog.module('tools.ui.SourceSwitcherUI');
+goog.declareModuleId('tools.ui.SourceSwitcherUI');
 
 goog.require('goog.events.EventType');
-goog.require('mist.mixin.vectorsource');
-goog.require('mist.ui.widget');
 goog.require('ol.events');
 
-const {Module} = goog.require('tools.ui.Module');
+import {Module} from './module.js';
+import {Event as NavEvent} from './toolsnav.js';
+import {ROOT} from '../tools.js';
+import {setActiveComponentId} from '../../coreui/layout/layout.js';
+import {SHOW_ANALYZE, showInAnalyze} from '../../mist/mixin/vectorsource.js';
+
+import {isEnabled, isVisible, titleCompare} from 'opensphere/src/os/source/source.js';
+import {apply} from 'opensphere/src/os/ui/ui.js';
+
 const SourceManager = goog.require('os.data.SourceManager');
 const Timer = goog.require('goog.Timer');
-const layout = goog.require('coreui.layout');
-const osSource = goog.require('os.source');
-const ui = goog.require('os.ui');
-const {Event: NavEvent} = goog.require('tools.ui.nav');
-const {ROOT} = goog.require('tools');
 
 const ISource = goog.requireType('os.source.ISource');
 
@@ -21,7 +22,7 @@ const ISource = goog.requireType('os.source.ISource');
  * The source switcher directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'AE',
   replace: true,
   templateUrl: ROOT + 'views/tools/sourceswitcher.html',
@@ -29,19 +30,16 @@ const directive = () => ({
   controllerAs: 'srcSwitch'
 });
 
-
 /**
  * Add the directive to the tools module
  */
 Module.directive('sourceswitcher', [directive]);
 
-
-
 /**
  * Controller class for the source switcher
  * @unrestricted
  */
-class Controller extends SourceManager {
+export class Controller extends SourceManager {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -53,13 +51,13 @@ class Controller extends SourceManager {
 
     // use the base update events, and add the show in analyze event
     this.updateEvents = this.updateEvents.slice();
-    this.updateEvents.push(osSource.SHOW_ANALYZE);
+    this.updateEvents.push(SHOW_ANALYZE);
 
     // show the source if it is visible, and flagged to show in analyze
     this.validationFunctions = [
-      osSource.isEnabled,
-      osSource.isVisible,
-      osSource.showInAnalyze
+      isEnabled,
+      isVisible,
+      showInAnalyze
     ];
 
     /**
@@ -134,7 +132,7 @@ class Controller extends SourceManager {
 
     if (this.scope_ && this.scope_['sources'] && this.scope_['sources'].indexOf(source) === -1) {
       this.scope_['sources'].push(source);
-      this.scope_['sources'].sort(osSource.titleCompare);
+      this.scope_['sources'].sort(titleCompare);
 
       if (!this.scope_['source']) {
         this.scope_['source'] = source;
@@ -174,11 +172,11 @@ class Controller extends SourceManager {
       document.title = title;
 
       // clear the active Golden Layout component when the source is changed
-      layout.setActiveComponentId(undefined);
+      setActiveComponentId(undefined);
 
       this.scope_.$emit(NavEvent.SOURCE, this.scope_['source']);
 
-      ui.apply(this.scope_, 0);
+      apply(this.scope_, 0);
     }
   }
 
@@ -271,8 +269,3 @@ class Controller extends SourceManager {
     this.onUpdateDelay();
   }
 }
-
-exports = {
-  Controller,
-  directive
-};

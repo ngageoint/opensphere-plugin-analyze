@@ -1,25 +1,28 @@
-goog.module('plugin.mist.track.menu');
+goog.declareModuleId('plugin.mist.track.menu');
+
+import {createFromBinEvent} from './misttrack.js';
+import {ExpandTrackCtrl} from './misttrackexpand.js';
+import {LAYER_TITLE} from './constants.js';
+import {MistTrackEventType} from './eventtype.js';
+import {Keys} from './misttrackmetrics.js';
+import {checkQueryTrack, requestTrack} from './misttrackquery.js';
+import * as countByMenu from '../../mist/menu/countbymenu.js';
+import * as listMenu from '../../mist/menu/listmenu.js';
+
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {getFilterColumns} from 'opensphere/src/os/source/source.js';
 
 const {addToTrack, getSortField, isTrackFeature, promptForTitle} = goog.require('os.track');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const AlertManager = goog.require('os.alert.AlertManager');
 const {assert} = goog.require('goog.asserts');
 const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
-const countByMenu = goog.require('mist.menu.countBy');
 const TrackPlugin = goog.require('plugin.track');
 const {createFilter, filterValidControllers} = goog.require('os.data.histo');
-const {createFromBinEvent} = goog.require('plugin.mist.track');
-const Dispatcher = goog.require('os.Dispatcher');
-const {ExpandTrackCtrl} = goog.require('plugin.mist.track.ExpandTrackUI');
 const Feature = goog.require('ol.Feature');
 const FilterEntry = goog.require('os.filter.FilterEntry');
-const {getFilterColumns} = goog.require('os.source');
-const {LAYER_TITLE} = goog.require('plugin.mist.track.Constants');
-const listMenu = goog.require('mist.menu.list');
 const MapContainer = goog.require('os.MapContainer');
 const MenuItemType = goog.require('os.ui.menu.MenuItemType');
-const MistTrackEventType = goog.require('plugin.mist.track.EventType');
-const MistTrackMetrics = goog.require('plugin.mist.track.Metrics');
 const osFeatureMenu = goog.require('os.ui.menu.feature');
 const osInstanceOf = goog.require('os.instanceOf');
 const osLayerMenu = goog.require('os.ui.menu.layer');
@@ -28,7 +31,6 @@ const osSpatialMenu = goog.require('os.ui.menu.spatial');
 const PlacesManager = goog.require('plugin.places.PlacesManager');
 const TrackEvent = goog.require('plugin.track.Event');
 const TrackEventType = goog.require('plugin.track.EventType');
-const TrackQuery = goog.require('plugin.mist.track.query');
 const TrackManager = goog.require('plugin.track.TrackManager');
 const TrackMenu = goog.require('plugin.track.menu');
 const TrackMetrics = goog.require('plugin.track.Metrics');
@@ -51,11 +53,10 @@ const MenuItem = goog.requireType('os.ui.menu.MenuItem');
  */
 const GROUP = 'Tracks';
 
-
 /**
  * Sets up track actions in the Count By.
  */
-exports.countBySetup = function() {
+export const countBySetup = function() {
   const menu = countByMenu.MENU;
   if (menu) {
     const root = menu.getRoot();
@@ -73,8 +74,8 @@ exports.countBySetup = function() {
           tooltip: 'Create a single track that combines all features in the Count By. The track will be created by ' +
             'linking all features in time order. Operates on selected bins, or all bins if none are selected.',
           icons: ['<i class="fa fa-fw fa-share-alt"></i>'],
-          metricKey: MistTrackMetrics.Keys.CREATE_SINGLE_COUNTBY,
-          handler: handleCountByAction_,
+          metricKey: Keys.CREATE_SINGLE_COUNTBY,
+          handler: handleCountByAction,
           sort: 0
         },
         {
@@ -83,8 +84,8 @@ exports.countBySetup = function() {
           tooltip: 'Create a new track for each bin in the Count By. Each track will be created by linking bin ' +
             'features in time order. Operates on selected bins, or all bins if none are selected.',
           icons: ['<i class="fa fa-fw fa-share-alt"></i>'],
-          metricKey: MistTrackMetrics.Keys.CREATE_MULTI_COUNTBY,
-          handler: handleCountByAction_,
+          metricKey: Keys.CREATE_MULTI_COUNTBY,
+          handler: handleCountByAction,
           sort: 1
         },
         {
@@ -92,9 +93,9 @@ exports.countBySetup = function() {
           label: 'Add Selected to Track...',
           tooltip: 'Adds features in selected bins to an existing track.',
           icons: ['<i class="fa fa-fw fa-share-alt"></i>'],
-          metricKey: MistTrackMetrics.Keys.ADD_TO_COUNTBY,
-          beforeRender: visibleIfHasTrackAndCountBySelection_,
-          handler: handleCountByAction_,
+          metricKey: Keys.ADD_TO_COUNTBY,
+          beforeRender: visibleIfHasTrackAndCountBySelection,
+          handler: handleCountByAction,
           sort: 2
         }
       ]
@@ -102,15 +103,13 @@ exports.countBySetup = function() {
   }
 };
 
-
 /**
  * Show a menu item if one or more tracks exist and the menu source has a selection.
  * @param {Menu} context The context menu.
  * @param {CountByUI.Controller} ctrl The count by controller.
  * @this {MenuItem}
- * @private
  */
-const visibleIfHasTrackAndCountBySelection_ = function(context, ctrl) {
+const visibleIfHasTrackAndCountBySelection = function(context, ctrl) {
   this.visible = false;
 
   // only show this option when tracks exist and the source has one or more selected features
@@ -120,13 +119,11 @@ const visibleIfHasTrackAndCountBySelection_ = function(context, ctrl) {
   }
 };
 
-
 /**
  * Handle track actions from the Count By.
  * @param {MenuEvent} event The event
- * @private
  */
-const handleCountByAction_ = function(event) {
+const handleCountByAction = function(event) {
   const countBy = /** @type {CountByUI.Controller} */ (event.target);
   const container = /** @type {CountByContainerUI.Controller} */ (countBy ? countBy.getContainer() : null);
   const source = countBy ? countBy.getSource() : null;
@@ -237,11 +234,10 @@ const handleCountByAction_ = function(event) {
   }
 };
 
-
 /**
  * Add track items to the layer menu.
  */
-exports.layerSetup = function() {
+export const layerSetup = function() {
   const menu = osLayerMenu.getMenu();
   if (menu && !menu.getRoot().find(MistTrackEventType.EXPAND_TRACK)) {
     const group = menu.getRoot().find(osLayerMenu.GroupLabel.TOOLS);
@@ -260,32 +256,32 @@ exports.layerSetup = function() {
           label: '+/- Day',
           tooltip: 'Query more data for the track by adding a day before and a day after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.LAYERS_EXPAND_TRACK_DAY,
-          handler: goog.partial(exports.handleLayerQueryTrackEvent, 24 * 60 * 60 * 1000),
+          metricKey: Keys.LAYERS_EXPAND_TRACK_DAY,
+          handler: goog.partial(handleLayerQueryTrackEvent, 24 * 60 * 60 * 1000),
           sort: 0
         }, {
           eventType: MistTrackEventType.EXPAND_TRACK_WEEK,
           label: '+/- Week',
           tooltip: 'Query more data for the track, adding a week before and a week after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.LAYERS_EXPAND_TRACK_WEEK,
-          handler: goog.partial(exports.handleLayerQueryTrackEvent, 24 * 60 * 60 * 1000 * 7),
+          metricKey: Keys.LAYERS_EXPAND_TRACK_WEEK,
+          handler: goog.partial(handleLayerQueryTrackEvent, 24 * 60 * 60 * 1000 * 7),
           sort: 1
         }, {
           eventType: MistTrackEventType.EXPAND_TRACK_MONTH,
           label: '+/- Month',
           tooltip: 'Query more data for the track by adding a month (30 days) before and after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.LAYERS_EXPAND_TRACK_MONTH,
-          handler: goog.partial(exports.handleLayerQueryTrackEvent, 24 * 60 * 60 * 1000 * 30),
+          metricKey: Keys.LAYERS_EXPAND_TRACK_MONTH,
+          handler: goog.partial(handleLayerQueryTrackEvent, 24 * 60 * 60 * 1000 * 30),
           sort: 2
         }, {
           eventType: MistTrackEventType.EXPAND_TRACK,
           label: 'Custom...',
           tooltip: 'Pick a custom date range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.LAYERS_EXPAND_TRACK,
-          handler: goog.partial(exports.handleLayerQueryTrackEvent, 0),
+          metricKey: Keys.LAYERS_EXPAND_TRACK,
+          handler: goog.partial(handleLayerQueryTrackEvent, 0),
           sort: 3
         }
       ]
@@ -293,11 +289,10 @@ exports.layerSetup = function() {
   }
 };
 
-
 /**
  * Set up track items in the spatial menu.
  */
-exports.spatialSetup = function() {
+export const spatialSetup = function() {
   const menu = osSpatialMenu.getMenu();
   if (menu && !menu.getRoot().find(MistTrackEventType.EXPAND_TRACK)) {
     const group = menu.getRoot().find(osSpatialMenu.Group.FEATURES);
@@ -316,32 +311,32 @@ exports.spatialSetup = function() {
           label: '+/- Day',
           tooltip: 'Query more data for the track by adding a day before and a day after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.MAP_EXPAND_TRACK_DAY,
-          handler: goog.partial(exports.handleExpandTrackEvent, 24 * 60 * 60 * 1000),
+          metricKey: Keys.MAP_EXPAND_TRACK_DAY,
+          handler: goog.partial(handleExpandTrackEvent, 24 * 60 * 60 * 1000),
           sort: 0
         }, {
           eventType: MistTrackEventType.EXPAND_TRACK_WEEK,
           label: '+/- Week',
           tooltip: 'Query more data for the track by adding a week before and a week after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.MAP_EXPAND_TRACK_WEEK,
-          handler: goog.partial(exports.handleExpandTrackEvent, 24 * 60 * 60 * 1000 * 7),
+          metricKey: Keys.MAP_EXPAND_TRACK_WEEK,
+          handler: goog.partial(handleExpandTrackEvent, 24 * 60 * 60 * 1000 * 7),
           sort: 1
         }, {
           eventType: MistTrackEventType.EXPAND_TRACK_MONTH,
           label: '+/- Month',
           tooltip: 'Query more data for the track by adding a month (30 days) before and after the track time range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.MAP_EXPAND_TRACK_MONTH,
-          handler: goog.partial(exports.handleExpandTrackEvent, 24 * 60 * 60 * 1000 * 30),
+          metricKey: Keys.MAP_EXPAND_TRACK_MONTH,
+          handler: goog.partial(handleExpandTrackEvent, 24 * 60 * 60 * 1000 * 30),
           sort: 2
         }, {
           eventType: MistTrackEventType.EXPAND_TRACK,
           label: 'Custom...',
           tooltip: 'Pick a custom date range',
           icons: ['<i class="fa fa-fw fa-calendar"></i>'],
-          metricKey: MistTrackMetrics.Keys.MAP_EXPAND_TRACK,
-          handler: goog.partial(exports.handleExpandTrackEvent, 0),
+          metricKey: Keys.MAP_EXPAND_TRACK,
+          handler: goog.partial(handleExpandTrackEvent, 0),
           sort: 3
         }
       ]
@@ -349,22 +344,21 @@ exports.spatialSetup = function() {
   }
 };
 
-
 /**
  * Handle the expand track menu event from the layer menu.
  * @param {number} time The amount of time, in milliseconds, to query before and after the track range
  * @param {!MenuEvent<osLayerMenu.Context>} event The menu event.
  */
-exports.handleLayerQueryTrackEvent = function(time, event) {
+export const handleLayerQueryTrackEvent = function(time, event) {
   const context = event.getContext();
   if (Array.isArray(context) && context.length > 0) {
     for (let i = 0; i < context.length; i++) {
       const trackNodes = TrackMenu.getTrackNodes([context[i]]);
       if (trackNodes.length) {
         const track = trackNodes[0].getFeature();
-        if (track && TrackQuery.checkQueryTrack(track)) {
+        if (track && checkQueryTrack(track)) {
           if (time > 0) {
-            TrackQuery.requestTrack(track, time);
+            requestTrack(track, time);
           } else {
             ExpandTrackCtrl.launch(track);
           }
@@ -374,28 +368,26 @@ exports.handleLayerQueryTrackEvent = function(time, event) {
   }
 };
 
-
 /**
  * Handle the expand track menu event.
  * @param {number} time The amount of time, in milliseconds, to query before and after the track range
  * @param {!MenuEvent<Object|undefined>} event The menu event.
  */
-exports.handleExpandTrackEvent = function(time, event) {
+export const handleExpandTrackEvent = function(time, event) {
   const context = event.getContext();
   if (context && context.feature && isTrackFeature(context.feature)) {
     if (time > 0) {
-      TrackQuery.requestTrack(/** @type {!Feature} */ (context.feature), time);
+      requestTrack(/** @type {!Feature} */ (context.feature), time);
     } else {
       ExpandTrackCtrl.launch(/** @type {!Feature} */ (context.feature));
     }
   }
 };
 
-
 /**
  * Sets up track actions in the List tool.
  */
-exports.listSetup = function() {
+export const listSetup = function() {
   const menu = listMenu.MENU;
   if (menu) {
     const root = menu.getRoot();
@@ -407,7 +399,7 @@ exports.listSetup = function() {
       label: 'Create Track From Selection',
       tooltip: 'Creates a new track by linking selected features in time order.',
       icons: ['<i class="fa fa-fw fa-share-alt"></i>'],
-      metricKey: MistTrackMetrics.Keys.CREATE_LIST,
+      metricKey: Keys.CREATE_LIST,
       beforeRender: osListMenu.visibleIfHasSelected,
       handler: handleListAction_
     });
@@ -418,8 +410,8 @@ exports.listSetup = function() {
       tooltip: 'Adds selected features to an existing track.',
       icons: ['<i class="fa fa-fw fa-share-alt"></i>'],
       handler: handleListAction_,
-      metricKey: MistTrackMetrics.Keys.ADD_TO_LIST,
-      beforeRender: visibleIfHasTrackAndListSelection_
+      metricKey: Keys.ADD_TO_LIST,
+      beforeRender: visibleIfHasTrackAndListSelection
     });
 
     group.addChild({
@@ -490,9 +482,8 @@ exports.listSetup = function() {
  * Show a menu item if one or more tracks exist and the menu source has a selection.
  * @param {VectorSource} context The menu context.
  * @this {MenuItem}
- * @private
  */
-const visibleIfHasTrackAndListSelection_ = function(context) {
+const visibleIfHasTrackAndListSelection = function(context) {
   this.visible = false;
 
   // only show this option when tracks exist and the source has one or more selected features
@@ -501,7 +492,6 @@ const visibleIfHasTrackAndListSelection_ = function(context) {
     this.visible = osListMenu.hasSelected(context);
   }
 };
-
 
 /**
  * Handle track actions from the List tool.
@@ -559,33 +549,29 @@ const handleListAction_ = function(event) {
   }
 };
 
-
 /**
  * Sets up track actions that must be handled from the main window context. These actions create objects that will cause
  * a leak if created in the external context (commands, features, etc).
  */
-exports.setupInternal = function() {
-  Dispatcher.getInstance().listen(TrackEventType.CREATE_TRACK, handleInternalEvent_);
-  Dispatcher.getInstance().listen(MistTrackEventType.CREATE_TRACKS, handleInternalEvent_);
-  Dispatcher.getInstance().listen(TrackEventType.ADD_TO, handleInternalEvent_);
+export const setupInternal = function() {
+  Dispatcher.getInstance().listen(TrackEventType.CREATE_TRACK, handleInternalEvent);
+  Dispatcher.getInstance().listen(MistTrackEventType.CREATE_TRACKS, handleInternalEvent);
+  Dispatcher.getInstance().listen(TrackEventType.ADD_TO, handleInternalEvent);
 };
-
 
 /**
  * Cleans up internal track actions.
  */
-exports.disposeInternal = function() {
-  Dispatcher.getInstance().unlisten(TrackEventType.CREATE_TRACK, handleInternalEvent_);
-  Dispatcher.getInstance().unlisten(MistTrackEventType.CREATE_TRACKS, handleInternalEvent_);
-  Dispatcher.getInstance().unlisten(TrackEventType.ADD_TO, handleInternalEvent_);
+export const disposeInternal = function() {
+  Dispatcher.getInstance().unlisten(TrackEventType.CREATE_TRACK, handleInternalEvent);
+  Dispatcher.getInstance().unlisten(MistTrackEventType.CREATE_TRACKS, handleInternalEvent);
+  Dispatcher.getInstance().unlisten(TrackEventType.ADD_TO, handleInternalEvent);
 };
-
 
 /**
  * @param {TrackEvent} event
- * @private
  */
-const handleInternalEvent_ = function(event) {
+const handleInternalEvent = function(event) {
   switch (event.type) {
     case TrackEventType.CREATE_TRACK:
     case MistTrackEventType.CREATE_TRACKS:

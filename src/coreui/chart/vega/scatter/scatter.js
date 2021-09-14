@@ -1,26 +1,27 @@
 goog.declareModuleId('coreui.chart.vega.scatter.Scatter');
 
-import {default as Utils, NUMERIC_EMPTY_ID} from '../utils.js';
-import {default as ChartType} from '../charttype.js';
-import {default as AbstractChart} from '../base/abstractchart.js';
-import {default as BoxSelect} from '../interaction/boxselect.js';
-import {default as ClickContext} from '../interaction/clickcontext.js';
-import {default as ClickContextEventType} from '../interaction/clickcontexteventtype.js';
-import {default as ClickSelect} from '../interaction/clickselect.js';
-import {default as DragPan} from '../interaction/dragpan.js';
-import {default as Hover} from '../interaction/hover.js';
-import {default as ScrollZoom} from '../interaction/scrollzoom.js';
-import {default as WindowBrush} from '../interaction/windowbrush.js';
-import {default as ScatterSpecHandler} from './scatterspec.js';
+import {Utils, NUMERIC_EMPTY_ID} from '../utils.js';
+import {ChartType} from '../charttype.js';
+import {AbstractChart} from '../base/abstractchart.js';
+import {BoxSelect} from '../interaction/boxselect.js';
+import {ClickContext} from '../interaction/clickcontext.js';
+import {ClickContextEventType} from '../interaction/clickcontexteventtype.js';
+import {ClickSelect} from '../interaction/clickselect.js';
+import {DragPan} from '../interaction/dragpan.js';
+import {Hover} from '../interaction/hover.js';
+import {ScrollZoom} from '../interaction/scrollzoom.js';
+import {WindowBrush} from '../interaction/windowbrush.js';
+import {ScatterSpecHandler} from './scatterspec.js';
+
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
 
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
 /**
  */
-class Scatter extends AbstractChart {
+export class Scatter extends AbstractChart {
   /**
    * Constructor.
    * @param {string} id
@@ -297,5 +298,3 @@ class Scatter extends AbstractChart {
  * @const
  */
 Scatter.GUTTER_NUM = 256;
-
-export default Scatter;

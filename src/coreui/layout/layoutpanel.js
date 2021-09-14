@@ -1,16 +1,18 @@
-goog.module('coreui.layout.LayoutPanelUI');
+goog.declareModuleId('coreui.layout.LayoutPanelUI');
 
-goog.require('coreui.layout.DragComponentUI');
 goog.require('os.ui.util.AutoHeightUI');
 
-const {ROOT} = goog.require('tools');
-const layout = goog.require('coreui.layout');
-const ComponentManager = goog.require('coreui.layout.ComponentManager');
+import * as DragComponentUI from './dragcomponent.js'; // eslint-disable-line
+
+import {ROOT} from '../../tools/tools.js';
+import {LayoutEvent} from './layout.js';
+import {ComponentManager} from './componentmanager.js';
+import {apply} from 'opensphere/src/os/ui/ui.js';
+
 const Disposable = goog.require('goog.Disposable');
 const Delay = goog.require('goog.async.Delay');
 const dispose = goog.require('goog.dispose');
 const GoogEventType = goog.require('goog.events.EventType');
-const ui = goog.require('os.ui');
 const Module = goog.require('os.ui.Module');
 
 
@@ -18,16 +20,14 @@ const Module = goog.require('os.ui.Module');
  * The layout panel directive.
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
-
   scope: {
     'parent': '@',
     'layout': '=',
     'shown': '='
   },
-
   controller: Controller,
   controllerAs: 'ctrl',
   templateUrl: ROOT + 'views/layout/layoutpanel.html'
@@ -37,21 +37,18 @@ const directive = () => ({
  * The element tag for the directive.
  * @type {string}
  */
-const directiveTag = 'layout-panel';
-
+export const directiveTag = 'layout-panel';
 
 /**
  * Add the directive to the module.
  */
 Module.directive('layoutPanel', [directive]);
 
-
-
 /**
  * Controller function for the component-flyout directive.
  * @unrestricted
  */
-class Controller extends Disposable {
+export class Controller extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -118,7 +115,7 @@ class Controller extends Disposable {
    */
   onUpdateDelay() {
     this['components'] = ComponentManager.getInstance().getComponents();
-    ui.apply(this.scope);
+    apply(this.scope);
   }
 
   /**
@@ -127,7 +124,7 @@ class Controller extends Disposable {
    */
   closePanel() {
     if (this.scope) {
-      this.scope.$emit(layout.LayoutEvent.TOGGLE_PANEL, false);
+      this.scope.$emit(LayoutEvent.TOGGLE_PANEL, false);
     }
   }
 
@@ -137,7 +134,7 @@ class Controller extends Disposable {
    */
   removeAll() {
     if (this.scope) {
-      this.scope.$emit(layout.LayoutEvent.REMOVE_ALL);
+      this.scope.$emit(LayoutEvent.REMOVE_ALL);
     }
   }
 
@@ -147,13 +144,7 @@ class Controller extends Disposable {
    */
   reset() {
     if (this.scope) {
-      this.scope.$emit(layout.LayoutEvent.RESET);
+      this.scope.$emit(LayoutEvent.RESET);
     }
   }
 }
-
-exports = {
-  Controller,
-  directive,
-  directiveTag
-};

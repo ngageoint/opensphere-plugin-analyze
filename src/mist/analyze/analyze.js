@@ -1,11 +1,15 @@
-goog.module('mist.analyze');
+goog.declareModuleId('mist.analyze');
+
+import {ComponentManager} from '../../coreui/layout/componentmanager.js';
+
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {getParentWindow} from 'opensphere/src/os/os.js';
+import * as osStyle from 'opensphere/src/os/style/style.js';
 
 const googLog = goog.require('goog.log');
 const AlertManager = goog.require('os.alert.AlertManager');
 const settings = goog.require('os.config.Settings');
 const MapContainer = goog.require('os.MapContainer');
-const ComponentManager = goog.require('coreui.layout.ComponentManager');
-const Dispatcher = goog.require('os.Dispatcher');
 const {getCrossOrigin, setGetCrossOriginFn} = goog.require('os.net');
 const CommandProcessor = goog.require('os.command.CommandProcessor');
 const AreaManager = goog.require('os.query.AreaManager');
@@ -20,7 +24,6 @@ const MetricsManager = goog.require('os.ui.metrics.MetricsManager');
 const TimelineController = goog.require('os.time.TimelineController');
 const IconSelectorManager = goog.require('os.ui.icon.IconSelectorManager');
 
-const os = goog.require('os');
 const buffer = goog.require('os.buffer');
 const GeoJSON = goog.require('ol.format.GeoJSON');
 const DataManager = goog.require('os.data.DataManager');
@@ -28,7 +31,6 @@ const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
 const {setIMapContainer, setMapContainer} = goog.require('os.map.instance');
 const Metrics = goog.require('os.metrics.Metrics');
 const {setAreaManager, setFilterManager, setQueryManager} = goog.require('os.query.instance');
-const osStyle = goog.require('os.style');
 const {setStyleManager} = goog.require('os.style.instance');
 const {launchPropertyInfo} = goog.require('os.ui.PropertyInfoUI');
 const column = goog.require('os.ui.column');
@@ -45,30 +47,30 @@ const CrossOrigin = goog.requireType('os.net.CrossOrigin');
  * Property set on `window` with all application exports from the main window.
  * @type {string}
  */
-const EXPORT_PROPERTY = '_mistExports';
+export const EXPORT_PROPERTY = '_mistExports';
 
 /**
  * @define {string} The base path to tools.html.
  */
-const TOOLS_PATH = goog.define('mist.analyze.TOOLS_PATH', '../opensphere-plugin-analyze/');
+export const TOOLS_PATH = goog.define('mist.analyze.TOOLS_PATH', '../opensphere-plugin-analyze/');
 
 /**
  * Selector for the Analyze app.
  * @type {string}
  */
-const AppSelector = '#ng-app.js-analyze';
+export const AppSelector = '#ng-app.js-analyze';
 
 /**
  * Analyze window instances.
  * @type {!Object<string, !Window>}
  */
-let windows_ = {};
+let analyzeWindows = {};
 
 /**
  * Checks whether the current window context contains the Analyze app selector.
  * @return {boolean} If this is the Analyze app.
  */
-const isAnalyze = function() {
+export const isAnalyze = function() {
   return !!document.querySelector(AppSelector);
 };
 
@@ -77,8 +79,8 @@ const isAnalyze = function() {
  * @param {string} id The window id.
  * @return {Window|undefined} The window, if registered.
  */
-const getExternal = function(id) {
-  let win = windows_[id];
+export const getExternal = function(id) {
+  let win = analyzeWindows[id];
   if (win && win.closed) {
     // window was closed, but not cleaned up. drop the reference.
     unregisterExternal(id);
@@ -93,9 +95,9 @@ const getExternal = function(id) {
  * @param {string} id The window id.
  * @param {Window} win The window.
  */
-let registerExternal = function(id, win) {
-  if (win && !windows_[id]) {
-    windows_[id] = win;
+export let registerExternal = function(id, win) {
+  if (win && !analyzeWindows[id]) {
+    analyzeWindows[id] = win;
   }
 };
 
@@ -103,19 +105,19 @@ let registerExternal = function(id, win) {
  * Unregisters an external window (typically on close of that window)
  * @param {string} id the window id.
  */
-let unregisterExternal = function(id) {
-  delete windows_[id];
+export let unregisterExternal = function(id) {
+  delete analyzeWindows[id];
 };
 
 /**
  * Closes all the registered external windows
  */
-const closeExternal = function() {
-  for (const id in windows_) {
-    windows_[id].close();
+export const closeExternal = function() {
+  for (const id in analyzeWindows) {
+    analyzeWindows[id].close();
   }
 
-  windows_ = {};
+  analyzeWindows = {};
 };
 
 /**
@@ -124,7 +126,7 @@ const closeExternal = function() {
  * @param {Window=} opt_window A Window context other than "this" window.
  * @return {boolean} If this is an external window
  */
-const isExternal = function(opt_window) {
+export const isExternal = function(opt_window) {
   try {
     // all browsers will block cross-origin access to Window.document and throw an exception
     return window.opener != null && window.opener.document != null;
@@ -138,8 +140,8 @@ const isExternal = function(opt_window) {
  * Get the exports object from the main window.
  * @return {(Object<string, *>|undefined)}
  */
-const getExports = function() {
-  const win = os.getParentWindow();
+export const getExports = function() {
+  const win = getParentWindow();
   return win !== window ? win[EXPORT_PROPERTY] : undefined;
 };
 
@@ -147,7 +149,7 @@ const getExports = function() {
  * Get the export functions object from the main window.
  * @return {(Object<string, Function>|undefined)}
  */
-const getExportFns = function() {
+export const getExportFns = function() {
   const xp = getExports();
   if (xp && xp['functions']) {
     return /** @type {!Object<string, Function>} */ (xp['functions']);
@@ -161,7 +163,7 @@ const getExportFns = function() {
  * @param {string} symbol Unobfuscated name to export.
  * @param {*} value The value to export.
  */
-const exportSymbol = function(symbol, value) {
+export const exportSymbol = function(symbol, value) {
   goog.exportSymbol(EXPORT_PROPERTY + '.' + symbol, value);
 };
 
@@ -169,7 +171,7 @@ const exportSymbol = function(symbol, value) {
  * Exports properties for external access by the Analyze window.
  * @suppress {accessControls} To provide access to private properties.
  */
-const initializeExports = function() {
+export const initializeExports = function() {
   exportSymbol('dispatcher', Dispatcher.getInstance());
   exportSymbol('commandStack', CommandProcessor.getInstance());
   exportSymbol('dataManager', DataManager.getInstance());
@@ -221,7 +223,7 @@ const initializeExports = function() {
  * Restores the singleton getters from exported instances.
  * @suppress {accessControls} To provide access to private properties.
  */
-const restoreSingletonsFromExports = function() {
+export const restoreSingletonsFromExports = function() {
   // find the main application
   const xp = getExports();
   if (xp) {
@@ -231,11 +233,6 @@ const restoreSingletonsFromExports = function() {
     Object.assign(Peer, {
       getInstance: function() {
         return /** @type {!Peer} */ (xp['peer']);
-      }});
-
-    Object.assign(ComponentManager, {
-      getInstance: function() {
-        return /** @type {!ComponentManager} */ (xp['componentManager']);
       }});
 
     // modularized singletons use setInstance to replace the local instance with one from the main window
@@ -249,6 +246,9 @@ const restoreSingletonsFromExports = function() {
     }
     if (xp['commandStack']) {
       CommandProcessor.setInstance(/** @type {!CommandProcessor} */ (xp['commandStack']));
+    }
+    if (xp['componentManager']) {
+      ComponentManager.setInstance(/** @type {!ComponentManager} */ (xp['componentManager']));
     }
     if (xp['dataManager']) {
       DataManager.setInstance(/** @type {!DataManager} */ (xp['dataManager']));
@@ -311,7 +311,7 @@ const restoreSingletonsFromExports = function() {
  * Replace functions local to the Analyze window with the main window's function.
  * @suppress {accessControls} To provide access to private functions.
  */
-const replaceExportFunctions = function() {
+export const replaceExportFunctions = function() {
   const xp = getExports();
   if (xp && xp['functions']) {
     const exportFns = xp['functions'];
@@ -354,14 +354,14 @@ const replaceExportFunctions = function() {
 /**
  * Opens the analyze tools in a new tab/window.
  */
-const openExternal = function() {
+export const openExternal = function() {
   window.open(TOOLS_PATH + 'tools.html', '_blank');
 };
 
 /**
  * Opens the analyze tools internally via iframe.
  */
-const openInternal = function() {
+export const openInternal = function() {
   const id = 'analyze-window';
 
   if (osWindow.getById(id)) {
@@ -376,23 +376,4 @@ const openInternal = function() {
 
     osWindow.launch(html);
   }
-};
-
-exports = {
-  EXPORT_PROPERTY,
-  AppSelector,
-  isAnalyze,
-  getExternal,
-  registerExternal,
-  unregisterExternal,
-  closeExternal,
-  isExternal,
-  getExports,
-  getExportFns,
-  exportSymbol,
-  initializeExports,
-  restoreSingletonsFromExports,
-  replaceExportFunctions,
-  openExternal,
-  openInternal
 };

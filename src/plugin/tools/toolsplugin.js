@@ -1,25 +1,27 @@
 goog.declareModuleId('plugin.tools.ToolsPlugin');
 
-goog.require('mist.analyze.ButtonUI');
-goog.require('mist.mixin.places');
-
 import * as ToolsMain from './toolsmain.js'; // eslint-disable-line
+import * as ButtonUI from '../../mist/analyze/analyzebutton.js'; // eslint-disable-line
+import * as PlacesMixin from '../../mist/mixin/placesmanager.js'; // eslint-disable-line
+
 import {ToolsSettingsInitializer} from './settingsinitializer.js';
+import {FeatureActionPluginExt} from '../featureaction/featureactionpluginext.js';
+import {MilSymPlugin} from '../milsym/milsymplugin.js';
+import {TrackPlugin} from '../track/misttrackplugin.js';
+import {PlacesPluginExt} from '../places/ext/placespluginext.js';
+import {ComponentManager} from '../../coreui/layout/componentmanager.js';
+import {AnalyzeEventType} from '../../mist/analyze/eventtype.js';
+import {closeExternal, initializeExports, isAnalyze} from '../../mist/analyze/analyze.js';
+import * as analyzeMenu from '../../mist/analyze/analyzemenu.js';
+import * as countByMenu from '../../mist/menu/countbymenu.js';
+import * as listMenu from '../../mist/menu/listmenu.js';
+import {handleAddColumn} from '../../mist/menu/toolsmenu.js';
+import * as layerMenu from '../../mist/ui/menu/layermenu.js';
+import * as widget from '../../mist/ui/widget/widget.js';
 
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 
 const GoogEventType = goog.require('goog.events.EventType');
-
-const ComponentManager = goog.require('coreui.layout.ComponentManager');
-const MistActionEventType = goog.require('mist.action.EventType');
-const {closeExternal, initializeExports, isAnalyze} = goog.require('mist.analyze');
-const analyzeMenu = goog.require('mist.analyze.menu');
-const countBy = goog.require('mist.menu.countBy');
-const mistMenuList = goog.require('mist.menu.list');
-const {handleAddColumn} = goog.require('mist.menu.tools');
-const mistLayerMenu = goog.require('mist.ui.menu.layer');
-const widget = goog.require('mist.ui.widget');
-
 const ActionEventType = goog.require('os.action.EventType');
 const osList = goog.require('os.ui.list');
 const NavLocation = goog.require('os.ui.nav.Location');
@@ -27,18 +29,12 @@ const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const PluginManager = goog.require('os.plugin.PluginManager');
 const menuList = goog.require('os.ui.menu.list');
 
-const FeatureActionPluginExt = goog.require('plugin.im.action.feature.PluginExt');
-const MilSymPlugin = goog.require('plugin.milsym.MilSymPlugin');
-const TrackPlugin = goog.require('plugin.mist.track.TrackPlugin');
-const PlacesPluginExt = goog.require('plugin.places.PluginExt');
-
 
 /**
  * Global ToolsPlugin instance.
  * @type {ToolsPlugin|undefined}
  */
 let instance;
-
 
 /**
  */
@@ -67,14 +63,14 @@ export class ToolsPlugin extends AbstractPlugin {
     // events forwarded from within an iframe
     const dispatcher = Dispatcher.getInstance();
     dispatcher.listen(ActionEventType.EXPORT, menuList.onExport);
-    dispatcher.listen(MistActionEventType.ADDCOLUMN, handleAddColumn);
+    dispatcher.listen(AnalyzeEventType.ADDCOLUMN, handleAddColumn);
 
     // add listeners for action events that must be handled in the main window context
-    mistMenuList.setupInternal();
-    countBy.setupInternal();
+    listMenu.setupInternal();
+    countByMenu.setupInternal();
 
     // initialize extra menus provided by MIST
-    mistLayerMenu.setup();
+    layerMenu.setup();
 
     // add Analyze to top left
     osList.add(NavLocation.TOP_LEFT, '<analyze-button show-label="!punyWindow"></analyze-button>', 250);

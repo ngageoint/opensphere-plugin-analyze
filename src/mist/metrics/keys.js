@@ -1,11 +1,10 @@
-goog.module('mist.metrics.keys');
-
+goog.declareModuleId('mist.metrics.keys');
 
 /**
  * Analyze metrics
  * @enum {string}
  */
-const Analyze = {
+export const Analyze = {
   OPEN: 'analyze.OPEN',
   SELECT_ALL: 'analyze.selectAll',
   DESELECT_ALL: 'analyze.deSelectAll',
@@ -70,9 +69,4 @@ const Analyze = {
   LIST_DEDUPE: 'analyze.list.contextMenu.dedupe',
   LIST_GOTO: 'analyze.list.contextMenu.goTo',
   LIST_COPY_ROWS: 'analyze.list.contextMenu.copyRows'
-};
-
-
-exports = {
-  Analyze
 };

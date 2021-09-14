@@ -1,14 +1,14 @@
 goog.declareModuleId('coreui.chart.vega.interaction.DragPan');
 
-import {default as Utils} from '../utils.js';
-import {default as AbstractInteraction} from './abstractinteraction.js';
+import {Utils} from '../utils.js';
+import {AbstractInteraction} from './abstractinteraction.js';
 
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
 /**
  */
-class DragPan extends AbstractInteraction {
+export class DragPan extends AbstractInteraction {
   /**
    * Constructor.
    * @param {Model} model
@@ -202,5 +202,3 @@ class DragPan extends AbstractInteraction {
     return Array.isArray(downVal) && !!(downVal[0] || downVal[1]);
   }
 }
-
-export default DragPan;

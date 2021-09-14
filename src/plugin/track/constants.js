@@ -1,17 +1,13 @@
-goog.module('plugin.mist.track.Constants');
-
+goog.declareModuleId('plugin.mist.track.Constants');
 
 /**
  * Identifier for MIST track plugin components.
  * @type {string}
- * @const
  */
-exports.ID = 'misttrack';
-
+export const ID = 'misttrack';
 
 /**
  * Title for the track layer.
  * @type {string}
- * @const
  */
-exports.LAYER_TITLE = 'Saved Places';
+export const LAYER_TITLE = 'Saved Places';

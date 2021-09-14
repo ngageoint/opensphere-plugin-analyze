@@ -1,10 +1,10 @@
 goog.declareModuleId('coreui.chart.vega.data.Model');
 
-import * as coreuiChartStats from '../../chartstats.js';
-import {default as Utils} from '../utils.js';
-import {default as Event} from '../base/event.js';
-import {default as EventType} from '../base/eventtype.js';
-import {default as Series} from './series.js';
+import {getDataStats, getDefaultStats, getValueStats} from '../../chartstats.js';
+import {Utils} from '../utils.js';
+import {VegaEvent} from '../base/event.js';
+import {EventType} from '../base/eventtype.js';
+import {Series} from './series.js';
 
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 
@@ -12,18 +12,17 @@ const Debouncer = goog.require('goog.async.Debouncer');
 const dispose = goog.require('goog.dispose');
 const EventTarget = goog.require('goog.events.EventTarget');
 const log = goog.require('goog.log');
-const googObject = goog.require('goog.object');
-const osArray = goog.require('os.array');
-const osColor = goog.require('os.color');
+const {binaryInsert} = goog.require('os.array');
+const {getHslGradient} = goog.require('os.color');
 const ColumnDefinition = goog.require('os.data.ColumnDefinition');
 const ColorBin = goog.require('os.data.histo.ColorBin');
 const DataModel = goog.require('os.data.xf.DataModel');
-const easing = goog.require('os.easing');
+const {easeSinusoidal} = goog.require('os.easing');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
 const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
-const ogc = goog.require('os.ogc');
-const osString = goog.require('os.string');
+const {getMaxFeatures} = goog.require('os.ogc');
+const {randomString} = goog.require('os.string');
 const time = goog.require('os.time');
 const Duration = goog.require('os.time.Duration');
 
@@ -37,7 +36,7 @@ const IBinMethod = goog.requireType('os.histo.IBinMethod');
  * Manages the bins and serves them to the chart
  * Decides if interactions hit bins
  */
-class Model extends EventTarget {
+export class Model extends EventTarget {
   /**
    * Constructor.
    * @param {string} id ties the model to the chart
@@ -138,13 +137,13 @@ class Model extends EventTarget {
      * The colors available for serieses (in semi random order)
      * @type {Array<string>}
      */
-    this.colors = osColor.getHslGradient(this.maxSerieses, 30, 330, true);
+    this.colors = getHslGradient(this.maxSerieses, 30, 330, true);
 
     /**
      * @type {Logger}
      * @protected
      */
-    this.log = Model.LOGGER_;
+    this.log = LOGGER;
 
     /**
      * A function to check if items on the chart are selected
@@ -275,7 +274,7 @@ class Model extends EventTarget {
    * Alert that the model has changed
    */
   alertChanges() {
-    const clone = googObject.clone(this.changes); // unsafe clone is not needed here
+    const clone = Object.assign({}, this.changes); // unsafe clone is not needed here
 
     if (this.isMultiDimensional && this.seriesKeys && this.seriesKeys.length > 1) {
       if (Array.isArray(this.currentDomain[this.seriesKeys[1]]) && this.currentDomain[this.seriesKeys[1]].length) {
@@ -283,7 +282,7 @@ class Model extends EventTarget {
           this.currentDomain[this.seriesKeys[1]][this.currentDomain[this.seriesKeys[1]].length - 1]) {
           // first and last domain items are the same, hit the brakes, no valid data
           this.bins = {};
-          this.dispatchEvent(new Event(EventType.MODELCHANGE,
+          this.dispatchEvent(new VegaEvent(EventType.MODELCHANGE,
               this.id, clone));
           return;
         }
@@ -294,7 +293,7 @@ class Model extends EventTarget {
       this.changes[key] = false;
     }
 
-    this.dispatchEvent(new Event(EventType.MODELCHANGE, this.id, clone));
+    this.dispatchEvent(new VegaEvent(EventType.MODELCHANGE, this.id, clone));
   }
 
   /**
@@ -326,7 +325,7 @@ class Model extends EventTarget {
     this.changes.data = true;
     this.alertChanges();
 
-    this.dispatchEvent(new Event(EventType.SOFTRESETVIEW, this.id));
+    this.dispatchEvent(new VegaEvent(EventType.SOFTRESETVIEW, this.id));
   }
 
   /**
@@ -346,7 +345,7 @@ class Model extends EventTarget {
       this.processDataDebounce.fire();
     }
 
-    this.dispatchEvent(new Event(EventType.RESETVIEW, this.id));
+    this.dispatchEvent(new VegaEvent(EventType.RESETVIEW, this.id));
   }
 
   /**
@@ -388,7 +387,7 @@ class Model extends EventTarget {
         this.processDataDebounce.fire();
       }
     }
-    this.dispatchEvent(new Event(EventType.OPTIONS, this.id, options));
+    this.dispatchEvent(new VegaEvent(EventType.OPTIONS, this.id, options));
   }
 
   /**
@@ -398,7 +397,7 @@ class Model extends EventTarget {
   pickColor() {
     if (this.colors.length < 1) {
       // skip red so we can use it for selection
-      this.colors = osColor.getHslGradient(this.maxSerieses, 30, 330, true);
+      this.colors = getHslGradient(this.maxSerieses, 30, 330, true);
     }
     return this.colors.splice(0, 1)[0];
   }
@@ -423,7 +422,7 @@ class Model extends EventTarget {
    */
   activateWindow() {
     const config = {'active': true};
-    const event = new Event(EventType.WINDOWACTIVE, this.id, config);
+    const event = new VegaEvent(EventType.WINDOWACTIVE, this.id, config);
     dispatcher.getInstance().dispatchEvent(event);
   }
 
@@ -432,13 +431,13 @@ class Model extends EventTarget {
    */
   deactivateWindow() {
     const config = {'active': false};
-    const event = new Event(EventType.WINDOWACTIVE, this.id, config);
+    const event = new VegaEvent(EventType.WINDOWACTIVE, this.id, config);
     dispatcher.getInstance().dispatchEvent(event);
   }
 
   /**
    * Listen for window activation
-   * @param {Event} event
+   * @param {VegaEvent} event
    */
   onWindow(event) {
     const id = event.getId();
@@ -467,7 +466,7 @@ class Model extends EventTarget {
    */
   addSeries(column, method) {
     const isCol = column instanceof ColumnDefinition;
-    const field = isCol ? column['field'] : (column ? Object.keys(column)[0] : osString.randomString());
+    const field = isCol ? column['field'] : (column ? Object.keys(column)[0] : randomString());
     if (this.seriesCount < this.maxSerieses) {
       const type = isCol ? column['type'] : (column ? Object.values(column)[0] : UniqueBinMethod.TYPE);
       const binType = method.getBinType();
@@ -739,7 +738,7 @@ class Model extends EventTarget {
       } else if (!opt_overwrite) {
         const l = temp.length;
         for (let i = 0; i < l; i++) {
-          osArray.binaryInsert(domain[domainKey], temp[i]);
+          binaryInsert(domain[domainKey], temp[i]);
         }
       }
     }
@@ -977,7 +976,7 @@ class Model extends EventTarget {
    * @return {!bitsx.chart.ChartStats}
    */
   getBinStats() {
-    return coreuiChartStats.getValueStats(this.getBins().map((bin) => bin['count']));
+    return getValueStats(this.getBins().map((bin) => bin['count']));
   }
 
   /**
@@ -987,10 +986,10 @@ class Model extends EventTarget {
   getDataStats() {
     // only single series is currently supported for data stats
     if (this.seriesKeys.length === 1) {
-      return coreuiChartStats.getDataStats(this.getData(), this.seriesKeys[0]);
+      return getDataStats(this.getData(), this.seriesKeys[0]);
     }
 
-    return coreuiChartStats.getDefaultStats();
+    return getDefaultStats();
   }
 
   /**
@@ -1231,18 +1230,14 @@ class Model extends EventTarget {
   static calculateInteractionTime(itemCount) {
     const minTime = 1;
     const maxTime = 100;
-    const maxCount = ogc.getMaxFeatures();
+    const maxCount = getMaxFeatures();
 
     // calculate on sinusoidal easing curve
-    return Math.ceil(easing.easeSinusoidal(itemCount, minTime, maxTime - minTime, maxCount)) || minTime;
+    return Math.ceil(easeSinusoidal(itemCount, minTime, maxTime - minTime, maxCount)) || minTime;
   }
 }
 
 /**
  * @type {Logger}
- * @const
  */
-Model.LOGGER_ = log.getLogger('coreui.chart.vega.data.Model');
-
-
-export default Model;
+const LOGGER = log.getLogger('coreui.chart.vega.data.Model');

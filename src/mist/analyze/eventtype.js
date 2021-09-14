@@ -1,4 +1,4 @@
-goog.module('mist.action.EventType');
+goog.declareModuleId('mist.analyze.EventType');
 
 const EventType = goog.require('os.action.EventType');
 
@@ -6,7 +6,7 @@ const EventType = goog.require('os.action.EventType');
 /**
  * @enum {string}
  */
-exports = {
+export const AnalyzeEventType = {
   // tools
   ADDCOLUMN: 'addColumn',
 

@@ -1,14 +1,15 @@
 goog.declareModuleId('coreui.chart.vega.interaction.Hover');
 
-import {default as SourceModel} from '../data/sourcemodel.js';
-import {default as AbstractInteraction} from './abstractinteraction.js';
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+import {SourceModel} from '../data/sourcemodel.js';
+import {AbstractInteraction} from './abstractinteraction.js';
+
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 const ColorBin = goog.requireType('os.data.histo.ColorBin');
 
 
 /**
  */
-class Hover extends AbstractInteraction {
+export class Hover extends AbstractInteraction {
   /**
    * Constructor.
    * @param {Model} model
@@ -60,5 +61,3 @@ class Hover extends AbstractInteraction {
     }
   }
 }
-
-export default Hover;

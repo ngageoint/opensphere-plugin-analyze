@@ -1,35 +1,36 @@
-goog.module('tools.ui.CountByUI');
+goog.declareModuleId('tools.ui.CountByUI');
 
-goog.require('mist.ui.widget');
 goog.require('os.ui.UISwitchUI');
 goog.require('os.ui.slick.SlickGridUI');
 
-const {isOSX} = goog.require('os');
-const {registerClass} = goog.require('os.classRegistry');
-const AbstractHistogramCtrl = goog.require('tools.ui.AbstractHistogramCtrl');
-const CountByContainerUI = goog.require('tools.ui.CountByContainerUI');
-const CountByMenu = goog.require('mist.menu.countBy');
+import {AbstractHistogramCtrl} from './abstracthistogramctrl.js';
+import * as CountByContainerUI from './countbycontainer.js';
+import {Module} from './module.js';
+import {CountByEventType} from './countbyremovecascade.js';
+import {ROOT} from '../tools.js';
+import {isActiveComponent} from '../../coreui/layout/layout.js';
+import * as CountByMenu from '../../mist/menu/countbymenu.js';
+import * as ListMenu from '../../mist/menu/listmenu.js';
+import * as metricsKeys from '../../mist/metrics/keys.js';
+
+import {isOSX} from 'opensphere/src/os/os.js';
+import {registerClass} from 'opensphere/src/os/classregistry.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {MODAL_SELECTOR, apply} from 'opensphere/src/os/ui/ui.js';
+
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const DateRangeBinType = goog.require('os.histo.DateRangeBinType');
-const Dispatcher = goog.require('os.Dispatcher');
 const KeyCodes = goog.require('goog.events.KeyCodes');
-const ListMenu = goog.require('mist.menu.list');
 const Metrics = goog.require('os.metrics.Metrics');
 const MenuEvent = goog.require('os.ui.menu.MenuEvent');
-const {Module} = goog.require('tools.ui.Module');
 const OSEventType = goog.require('os.action.EventType');
 const SlickGridEvent = goog.require('os.ui.slick.SlickGridEvent');
 const array = goog.require('goog.array');
 const asserts = goog.require('goog.asserts');
 const formatter = goog.require('os.ui.slick.formatter');
-const layout = goog.require('coreui.layout');
 const log = goog.require('goog.log');
-const metricsKeys = goog.require('mist.metrics.keys');
 const osUiMenuList = goog.require('os.ui.menu.list');
 const osUiSlickColumn = goog.require('os.ui.slick.column');
-const ui = goog.require('os.ui');
-const {CountByEventType} = goog.require('tools.ui.CountByRemoveCascadeUI');
-const {ROOT} = goog.require('tools');
 
 const ColorBin = goog.requireType('os.data.histo.ColorBin');
 const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
@@ -39,34 +40,29 @@ const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
  * The count by directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
-
   scope: {
     'container': '=',
     'source': '=',
     'parent': '=?'
   },
-
   templateUrl: ROOT + 'views/tools/countby.html',
   controller: Controller,
   controllerAs: 'countby'
 });
-
 
 /**
  * Add the directive to the tools module
  */
 Module.directive('countby', [directive]);
 
-
-
 /**
  * Controller class for the source switcher
  * @unrestricted
  */
-class Controller extends AbstractHistogramCtrl {
+export class Controller extends AbstractHistogramCtrl {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -75,7 +71,7 @@ class Controller extends AbstractHistogramCtrl {
    */
   constructor($scope, $element) {
     super($scope, $element);
-    this.log = LOGGER_;
+    this.log = LOGGER;
     this.contextMenu = CountByMenu.MENU || null;
 
     /**
@@ -436,7 +432,7 @@ class Controller extends AbstractHistogramCtrl {
     if (newVal && !this.inEvent && this.shouldResetSelection_(newVal, oldVal)) {
       this.inEvent = true;
 
-      if (this.userUpdated_ && this.source && layout.isActiveComponent(this.componentId)) {
+      if (this.userUpdated_ && this.source && isActiveComponent(this.componentId)) {
         // WORKAROUND: Sweet, sometimes the newVal set of bins doesnt contain items.
         // Thats why we have to fire the result delay and re-lookup the selected bins.
         // The real fix we need to figure out how do we get bins without items.
@@ -580,9 +576,9 @@ class Controller extends AbstractHistogramCtrl {
    */
   handleKeyEvent(event) {
     var ctrlOr = isOSX() ? event.metaKey : event.ctrlKey;
-    var applies = layout.isActiveComponent(this.componentId);
+    var applies = isActiveComponent(this.componentId);
 
-    if (!document.querySelector(ui.MODAL_SELECTOR) && applies) {
+    if (!document.querySelector(MODAL_SELECTOR) && applies) {
       switch (event.keyCode) {
         case KeyCodes.DELETE:
           // this is an internal event in the list tool, so sending via the generic Dispatcher
@@ -592,7 +588,7 @@ class Controller extends AbstractHistogramCtrl {
         case KeyCodes.A:
           if (ctrlOr) {
             this.selectAll();
-            ui.apply(this.scope);
+            apply(this.scope);
           }
           break;
         case KeyCodes.ESC:
@@ -603,7 +599,7 @@ class Controller extends AbstractHistogramCtrl {
           if (ctrlOr) {
             event.preventDefault();
             this.invertSelection();
-            ui.apply(this.scope);
+            apply(this.scope);
           }
           break;
         case KeyCodes.G:
@@ -636,37 +632,24 @@ class Controller extends AbstractHistogramCtrl {
 /**
  * Class name
  * @type {string}
- * @const
  */
-const NAME = 'tools.ui.CountByCtrl';
+export const NAME = 'tools.ui.CountByCtrl';
 registerClass(NAME, Controller);
 
-
 /**
- * Logger for tools.ui.CountByCtrl
+ * Logger.
  * @type {log.Logger}
- * @private
- * @const
  */
-const LOGGER_ = log.getLogger('tools.ui.CountByUI');
-
+const LOGGER = log.getLogger('tools.ui.CountByUI');
 
 /**
  * The HTML template used for cascaded rows.
  * @type {string}
- * @const
  */
-const CASCADE_TEMPLATE =
+export const CASCADE_TEMPLATE =
     '<div class="cascade-bin">' +
     '<cascaderemove></cascaderemove>' +
     '&nbsp;' +
     '<i class="fa fa-arrow-right text-success" ' +
         'title="This bin is being included in the next Count By and created filters"></i>' +
     '</div>';
-
-exports = {
-  Controller,
-  directive,
-  CASCADE_TEMPLATE,
-  NAME
-};

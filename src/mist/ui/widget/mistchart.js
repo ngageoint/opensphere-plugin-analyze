@@ -1,10 +1,10 @@
-goog.module('mist.chart');
+goog.declareModuleId('mist.chart');
 
+import {ChartRegistry} from '../../../coreui/chart/vega/chartregistry.js';
+import {ChartKeys} from '../../../coreui/chart/chart.js';
+import {Utils} from '../../../coreui/chart/vega/utils.js';
+import {ChartType} from '../../../coreui/chart/vega/charttype.js';
 
-const {default: ChartRegistry} = goog.require('coreui.chart.vega.ChartRegistry');
-const {default: ChartKeys} = goog.require('coreui.chart.keys');
-const {default: Utils} = goog.require('coreui.chart.vega.Utils');
-const {default: ChartType} = goog.require('coreui.chart.vega.ChartType');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
 
@@ -13,7 +13,7 @@ const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
  * Default options for a Vega bar chart.
  * @type {bitsx.vega.Options}
  */
-const BAR_OPTIONS = {
+export const BAR_OPTIONS = {
   type: ChartType.BAR,
   title: 'Bar Chart',
   icon: 'fa-bar-chart',
@@ -34,7 +34,7 @@ const BAR_OPTIONS = {
  * Default options for a Vega line chart.
  * @type {bitsx.vega.Options}
  */
-const LINE_OPTIONS = {
+export const LINE_OPTIONS = {
   type: ChartType.LINE,
   title: 'Line Chart',
   icon: 'fa-line-chart',
@@ -55,7 +55,7 @@ const LINE_OPTIONS = {
  * Default options for a Vega pie chart.
  * @type {bitsx.vega.Options}
  */
-const PIE_OPTIONS = {
+export const PIE_OPTIONS = {
   type: ChartType.PIE,
   title: 'Pie Chart',
   icon: 'fa-pie-chart',
@@ -69,7 +69,7 @@ const PIE_OPTIONS = {
  * Default options for a Vega scatter chart.
  * @type {bitsx.vega.Options}
  */
-const SCATTER_OPTIONS = {
+export const SCATTER_OPTIONS = {
   type: ChartType.SCATTER,
   title: 'Scatter Chart',
   icon: 'fa-th',
@@ -95,7 +95,7 @@ const SCATTER_OPTIONS = {
  * Default options for a Vega opsclock chart.
  * @type {bitsx.vega.Options}
  */
-const OPSCLOCK_OPTIONS = {
+export const OPSCLOCK_OPTIONS = {
   type: ChartType.OPSCLOCK,
   title: 'Ops Clock Chart',
   icon: 'fa-bullseye',
@@ -110,19 +110,10 @@ const OPSCLOCK_OPTIONS = {
 /**
  * Register supported Vega chart types in the application.
  */
-const registerVegaCharts = function() {
+export const registerVegaCharts = function() {
   ChartRegistry.getInstance().registerChartType(BAR_OPTIONS);
   ChartRegistry.getInstance().registerChartType(LINE_OPTIONS);
   ChartRegistry.getInstance().registerChartType(PIE_OPTIONS);
   ChartRegistry.getInstance().registerChartType(SCATTER_OPTIONS);
   ChartRegistry.getInstance().registerChartType(OPSCLOCK_OPTIONS);
-};
-
-exports = {
-  registerVegaCharts,
-  BAR_OPTIONS,
-  LINE_OPTIONS,
-  PIE_OPTIONS,
-  SCATTER_OPTIONS,
-  OPSCLOCK_OPTIONS
 };

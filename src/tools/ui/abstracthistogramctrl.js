@@ -1,9 +1,16 @@
-goog.module('tools.ui.AbstractHistogramCtrl');
+goog.declareModuleId('tools.ui.AbstractHistogramCtrl');
 
-goog.require('mist.ui.data.DateBinUI');
-goog.require('mist.ui.data.NumericBinUI');
+import * as DateBinUI from '../../mist/ui/data/datebin.js';// eslint-disable-line
+import * as NumericBinUI from '../../mist/ui/data/numericbin.js';// eslint-disable-line
 
-const AbstractComponentCtrl = goog.require('coreui.layout.AbstractComponentCtrl');
+import {ChartKeys} from '../../coreui/chart/chart.js';
+import {AbstractComponentCtrl} from '../../coreui/layout/abstractcomponentctrl.js';
+import * as ToolsMenu from '../../mist/menu/toolsmenu.js';
+import {Analyze as AnalyzeKeys} from '../../mist/metrics/keys.js';
+
+import {getField} from 'opensphere/src/os/feature/feature.js';
+import {apply} from 'opensphere/src/os/ui/ui.js';
+
 const BinMethod = goog.require('os.histo.BinMethod');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const DateRangeBinType = goog.require('os.histo.DateRangeBinType');
@@ -18,22 +25,14 @@ const PropertyChange = goog.require('os.source.PropertyChange');
 const SelectionType = goog.require('os.events.SelectionType');
 const Settings = goog.require('os.config.Settings');
 const SlickGridEvent = goog.require('os.ui.slick.SlickGridEvent');
-const ToolsMenu = goog.require('mist.menu.tools');
-
-const feature = goog.require('os.feature');
 const log = goog.require('goog.log');
-const slickColumn = goog.require('os.ui.slick.column');
-const ui = goog.require('os.ui');
+const {COLOR_ID, findByField, numerateNameCompare} = goog.require('os.ui.slick.column');
 const windowSelector = goog.require('os.ui.windowSelector');
-
-const {Analyze: AnalyzeKeys} = goog.require('mist.metrics.keys');
-const {default: ChartKeys} = goog.require('coreui.chart.keys');
 const {containsValue} = goog.require('goog.object');
 const {getDocument} = goog.require('goog.dom');
 const {listen: googListen, unlisten: googUnlisten} = goog.require('goog.events');
 const {listen: olListen, unlisten: olUnlisten} = goog.require('ol.events');
 const {OFFSET_KEY} = goog.require('os.time');
-
 const IHistogramUI = goog.require('os.ui.IHistogramUI'); // eslint-disable-line
 
 const BrowserEvent = goog.requireType('goog.events.BrowserEvent');
@@ -50,27 +49,21 @@ const VectorSource = goog.requireType('os.source.Vector');
 /**
  * Logger for tools.ui.AbstractHistogramCtrl
  * @type {log.Logger}
- * @private
- * @const
  */
-const LOGGER_ = log.getLogger('tools.ui.AbstractHistogramCtrl');
-
+const LOGGER = log.getLogger('tools.ui.AbstractHistogramCtrl');
 
 /**
  * Default bin method type.
  * @type {string}
- * @private
- * @const
  */
-const DEFAULT_METHOD_ = 'Unique';
-
+const DEFAULT_METHOD = 'Unique';
 
 /**
  * Abstract controller for directives backed by a source histogram.
  * @implements {IHistogramUI}
  * @unrestricted
  */
-class Controller extends AbstractComponentCtrl {
+export class AbstractHistogramCtrl extends AbstractComponentCtrl {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -85,7 +78,7 @@ class Controller extends AbstractComponentCtrl {
      * @type {log.Logger}
      * @protected
      */
-    this.log = LOGGER_;
+    this.log = LOGGER;
 
     /**
      * Map of configurations for each source.
@@ -214,7 +207,7 @@ class Controller extends AbstractComponentCtrl {
    * @protected
    */
   getBinValue(bin, col) {
-    if (col['id'] == slickColumn.COLOR_ID) {
+    if (col['id'] == COLOR_ID) {
       // special column mapping to the bin's color
       return bin.getColor();
     }
@@ -237,7 +230,7 @@ class Controller extends AbstractComponentCtrl {
    * @protected
    */
   getDefaultMethod() {
-    return DEFAULT_METHOD_;
+    return DEFAULT_METHOD;
   }
 
   /**
@@ -249,7 +242,7 @@ class Controller extends AbstractComponentCtrl {
   createMethod(type) {
     var methodConstructor = /** @type {function(new: IBinMethod)} */ (this.scope['methods'][type]);
     var method = new methodConstructor();
-    method.setValueFunction(feature.getField);
+    method.setValueFunction(getField);
 
     return method;
   }
@@ -312,7 +305,7 @@ class Controller extends AbstractComponentCtrl {
    * @inheritDoc
    */
   getParent() {
-    return this.scope ? /** @type {Controller|undefined} */ (this.scope['parent']) : undefined;
+    return this.scope ? /** @type {AbstractHistogramCtrl|undefined} */ (this.scope['parent']) : undefined;
   }
 
   /**
@@ -522,7 +515,7 @@ class Controller extends AbstractComponentCtrl {
     // restore bin cascade settings
     this.restoreCascadedBins();
 
-    ui.apply(this.scope);
+    apply(this.scope);
   }
 
   /**
@@ -559,7 +552,7 @@ class Controller extends AbstractComponentCtrl {
   clearSelection() {
     if (this.scope) {
       this.scope['selectedBins'] = [];
-      ui.apply(this.scope);
+      apply(this.scope);
     }
   }
 
@@ -637,13 +630,13 @@ class Controller extends AbstractComponentCtrl {
     if (!this.isDisposed()) {
       if (this.source) {
         var cols = this.source.getColumns();
-        cols.sort(slickColumn.numerateNameCompare);
+        cols.sort(numerateNameCompare);
         this.scope['columns'] = cols;
 
         // try to find a matching column by the user-facing name
         if (this.scope['column']) {
           // TODO: goog.array
-          this.scope['column'] = goog.array.find(cols, goog.partial(slickColumn.findByField, 'name',
+          this.scope['column'] = goog.array.find(cols, goog.partial(findByField, 'name',
               this.scope['column']['name']));
         }
       } else {
@@ -987,7 +980,7 @@ class Controller extends AbstractComponentCtrl {
       var methodType = config['type'] || this.getDefaultMethod();
       var method = this.createMethod(methodType);
       method.restore(config);
-      method.setValueFunction(feature.getField);
+      method.setValueFunction(getField);
 
       this.scope['methodType'] = methodType;
       this.scope['method'] = method;
@@ -1036,6 +1029,3 @@ class Controller extends AbstractComponentCtrl {
     return this.source.createHistogram(opt_parent);
   }
 }
-
-
-exports = Controller;

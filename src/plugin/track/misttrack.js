@@ -1,4 +1,8 @@
-goog.module('plugin.mist.track');
+goog.declareModuleId('plugin.mist.track');
+
+import {LAYER_TITLE} from './constants.js';
+import {MistTrackEventType} from './eventtype.js';
+import {getExports} from '../../mist/analyze/analyze.js';
 
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const AlertManager = goog.require('os.alert.AlertManager');
@@ -6,16 +10,13 @@ const cloneToContext = goog.require('os.filter.cloneToContext');
 const CommandProcessor = goog.require('os.command.CommandProcessor');
 const {createTrack} = goog.require('os.track');
 const DataManager = goog.require('os.data.DataManager');
-const {getExports} = goog.require('mist.analyze');
 const {getValueByKeys} = goog.require('goog.object');
 const {getWfsParams} = goog.require('os.ogc');
 const instanceOf = goog.require('os.instanceOf');
 const IOGCDescriptor = goog.require('os.ui.ogc.IOGCDescriptor');
 const KMLNodeAdd = goog.require('plugin.file.kml.cmd.KMLNodeAdd');
-const {LAYER_TITLE} = goog.require('plugin.mist.track.Constants');
 const log = goog.require('goog.log');
 const MapContainer = goog.require('os.MapContainer');
-const MistTrackEventType = goog.require('plugin.mist.track.EventType');
 const osImplements = goog.require('os.implements');
 const PlacesManager = goog.require('plugin.places.PlacesManager');
 const RecordField = goog.require('os.data.RecordField');
@@ -42,16 +43,13 @@ const TrackFeatureLike = goog.requireType('os.track.TrackFeatureLike');
 /**
  * Base logger for the track plugin.
  * @type {Logger}
- * @private
- * @const
  */
-const LOGGER_ = log.getLogger('plugin.mist.track');
-
+const LOGGER = log.getLogger('plugin.mist.track');
 
 /**
  * Restore exports from the main application.
  */
-exports.restoreExports = function() {
+export const restoreExports = function() {
   // find the main mist application
   const xports = getExports();
   if (xports) {
@@ -85,7 +83,7 @@ exports.restoreExports = function() {
  * Create tracks from histogram bins.
  * @param {!TrackEvent} event The track event.
  */
-exports.createFromBinEvent = function(event) {
+export const createFromBinEvent = function(event) {
   const bins = event.bins || [];
   if (!bins || bins.length <= 0) {
     AlertManager.getInstance().sendAlert('No data available to create tracks.', AlertEventSeverity.ERROR);
@@ -126,7 +124,7 @@ exports.createFromBinEvent = function(event) {
         if (filters.length == 1) {
           const entry = cloneToContext(filters[0]);
           if (entry && entry.getFilter() && sourceId) {
-            exports.setQueryOptions(track, sourceId, /** @type {string} */ (entry.getFilter()));
+            setQueryOptions(track, sourceId, /** @type {string} */ (entry.getFilter()));
           }
         }
 
@@ -157,7 +155,7 @@ exports.createFromBinEvent = function(event) {
 
           const entry = cloneToContext(filters[i]);
           if (entry && entry.getFilter() && sourceId) {
-            exports.setQueryOptions(track, sourceId, /** @type {string} */ (entry.getFilter()));
+            setQueryOptions(track, sourceId, /** @type {string} */ (entry.getFilter()));
           }
 
           const trackNode = updatePlacemark({
@@ -173,7 +171,7 @@ exports.createFromBinEvent = function(event) {
   if (trackNodes.length > 0) {
     const rootNode = PlacesManager.getInstance().getPlacesRoot();
     if (!rootNode) {
-      log.error(LOGGER_, 'Unable to create track: track layer missing');
+      log.error(LOGGER, 'Unable to create track: track layer missing');
       return;
     }
 
@@ -201,7 +199,7 @@ exports.createFromBinEvent = function(event) {
         ('Created ' + trackNodes.length + ' tracks and added them to the ' + LAYER_TITLE + ' layer.');
     AlertManager.getInstance().sendAlert(alertMessage, AlertEventSeverity.SUCCESS);
   } else {
-    log.error(LOGGER_, 'Unable to create tracks: no bins, or all bins were empty');
+    log.error(LOGGER, 'Unable to create tracks: no bins, or all bins were empty');
 
     const msg = 'Track creation failed. There were no valid features to create tracks from.';
     AlertManager.getInstance().sendAlert(msg, AlertEventSeverity.WARNING);
@@ -215,7 +213,7 @@ exports.createFromBinEvent = function(event) {
  * @param {string} sourceId The source id for the originating data.
  * @param {string} filter The filter used to create the track.
  */
-exports.setQueryOptions = function(track, sourceId, filter) {
+export const setQueryOptions = function(track, sourceId, filter) {
   track.set(TrackField.QUERY_OPTIONS, undefined);
 
   const layer = /** @type {ILayer} */ (MapContainer.getInstance().getLayer(sourceId));
@@ -230,7 +228,7 @@ exports.setQueryOptions = function(track, sourceId, filter) {
     });
 
     const layerOptions = layer.getLayerOptions();
-    const uri = exports.getQueryUri(source);
+    const uri = getQueryUri(source);
     if (layerOptions && layerOptions['featureType'] && uri) {
       const featureType = /** @type {IFeatureType} */ (layerOptions['featureType']);
       const startColumn = featureType.getStartDateColumnName();
@@ -259,7 +257,7 @@ exports.setQueryOptions = function(track, sourceId, filter) {
  * @param {!RequestSource} source The source.
  * @return {string} The URI.
  */
-exports.getQueryUri = function(source) {
+export const getQueryUri = function(source) {
   let result;
 
   const request = source.getRequest();

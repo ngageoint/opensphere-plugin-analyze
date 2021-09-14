@@ -1,22 +1,22 @@
 goog.declareModuleId('coreui.chart.vega.pie.Pie');
 
-import {default as ChartType} from '../charttype.js';
-import {default as AbstractChart} from '../base/abstractchart.js';
-import {default as SourceModel} from '../data/sourcemodel.js';
-import {default as BoxSelect} from '../interaction/boxselect.js';
-import {default as ClickContext} from '../interaction/clickcontext.js';
-import {default as ClickContextEventType} from '../interaction/clickcontexteventtype.js';
-import {default as ClickSelect} from '../interaction/clickselect.js';
-import {default as Hover} from '../interaction/hover.js';
-import {default as PieSpecHandler} from './piespec.js';
+import {ChartType} from '../charttype.js';
+import {AbstractChart} from '../base/abstractchart.js';
+import {SourceModel} from '../data/sourcemodel.js';
+import {BoxSelect} from '../interaction/boxselect.js';
+import {ClickContext} from '../interaction/clickcontext.js';
+import {ClickContextEventType} from '../interaction/clickcontexteventtype.js';
+import {ClickSelect} from '../interaction/clickselect.js';
+import {Hover} from '../interaction/hover.js';
+import {PieSpecHandler} from './piespec.js';
 
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
 /**
  * Vega implementation of a pie chart.
  */
-class Pie extends AbstractChart {
+export class Pie extends AbstractChart {
   /**
    * Constructor.
    * @param {string} id The chart ID.
@@ -146,5 +146,3 @@ class Pie extends AbstractChart {
     return 60;
   }
 }
-
-export default Pie;

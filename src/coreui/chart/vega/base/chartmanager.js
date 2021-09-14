@@ -1,22 +1,22 @@
 goog.declareModuleId('coreui.chart.vega.base.ChartManager');
 
-import {default as ChartType} from '../charttype.js';
-import {default as Bar} from '../bar/bar.js';
-import {default as Charts} from './charts.js';
-import {default as Line} from '../line/line';
-import {default as Opsclock} from '../opsclock/opsclock';
-import {default as Pie} from '../pie/pie';
-import {default as Scatter} from '../scatter/scatter';
-import {default as Symlog} from '../symlog/symlog';
+import {ChartType} from '../charttype.js';
+import {Bar} from '../bar/bar.js';
+import {Charts} from './charts.js';
+import {Line} from '../line/line';
+import {Opsclock} from '../opsclock/opsclock';
+import {Pie} from '../pie/pie';
+import {Scatter} from '../scatter/scatter';
+import {Symlog} from '../symlog/symlog';
 
-const {default: AbstractChart} = goog.requireType('coreui.chart.vega.base.AbstractChart');
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {AbstractChart} = goog.requireType('coreui.chart.vega.base.AbstractChart');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
 /**
  * Manager for different creating different Vega chart implementations.
  */
-class ChartManager {
+export class ChartManager {
   /**
    * Factory method
    * Defaults to scatter chart
@@ -79,6 +79,3 @@ class ChartManager {
  * @type {ChartManager|undefined}
  */
 let instance;
-
-
-export default ChartManager;

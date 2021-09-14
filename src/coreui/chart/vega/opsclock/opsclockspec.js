@@ -1,12 +1,12 @@
 goog.declareModuleId('coreui.chart.vega.opsclock.OpsclockSpecHandler');
 
-import {default as SpecHandler} from '../base/spechandler.js';
+import {SpecHandler} from '../base/spechandler.js';
 
 
 /**
  * The spec that will be used to partially overwrite the basic vega spec when a opsclock chart is required
  */
-class OpsclockSpecHandler extends SpecHandler {
+export class OpsclockSpecHandler extends SpecHandler {
   /**
    * Constructor.
    * @param {Object=} opt_spec A full spec to use override the default
@@ -246,6 +246,3 @@ class OpsclockSpecHandler extends SpecHandler {
  */
 OpsclockSpecHandler.colors = ['#111111', '#1122ee', '#22eeee', '#22ee22', '#eeaa11',
   '#ee1111'];
-
-
-export default OpsclockSpecHandler;

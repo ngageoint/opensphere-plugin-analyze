@@ -1,21 +1,16 @@
 goog.declareModuleId('coreui.chart.vega.interaction.WindowBrush');
 
-goog.require('goog.events.Event');
-goog.require('os.ui.menu.Menu');
-goog.require('os.ui.menu.MenuItem');
-goog.require('os.ui.menu.MenuItemType');
-
-import {default as EventType} from '../base/eventtype.js';
-import {default as AbstractInteraction} from './abstractinteraction.js';
+import {EventType} from '../base/eventtype.js';
+import {AbstractInteraction} from './abstractinteraction.js';
 
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
 /**
  */
-class WindowBrush extends AbstractInteraction {
+export class WindowBrush extends AbstractInteraction {
   /**
    * Constructor.
    * @param {Model} model
@@ -510,5 +505,3 @@ class WindowBrush extends AbstractInteraction {
     return (v2 == v1);
   }
 }
-
-export default WindowBrush;

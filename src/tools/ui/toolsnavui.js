@@ -1,21 +1,24 @@
-goog.module('tools.ui.nav.ToolsNavUI');
+goog.declareModuleId('tools.ui.nav.ToolsNavUI');
 
-goog.require('coreui.layout.LayoutTabsUI');
-goog.require('tools.ui.AllTimeCheckboxUI');
-goog.require('tools.ui.LayoutButtonUI');
-goog.require('tools.ui.SourceSwitcherUI');
+import * as AllTimeCheckboxUI from './alltimecheckbox.js'; // eslint-disable-line
+import * as LayoutButtonUI from './layoutbutton.js'; // eslint-disable-line
+import * as SourceSwitcherUI from './sourceswitcher.js'; // eslint-disable-line
+import * as LayoutTabsUI from '../../coreui/layout/layouttabs.js'; // eslint-disable-line
+
+import {ROOT} from '../tools.js';
+import {Module} from './module.js';
+import {Event as NavEvent, Location} from './toolsnav.js';
 
 const Disposable = goog.require('goog.Disposable');
-const list = goog.require('os.ui.list');
-const {ROOT} = goog.require('tools');
-const {Module} = goog.require('tools.ui.Module');
-const nav = goog.require('tools.ui.nav');
+const ISource = goog.requireType('os.source.ISource');
+const {add} = goog.require('os.ui.list');
+
 
 /**
  * The toolsnav directive.
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
 
@@ -33,12 +36,11 @@ const directive = () => ({
 
 Module.directive('toolsnav', [directive]);
 
-
 /**
  * Controller for the tools nav directive.
  * @unrestricted
  */
-class Controller extends Disposable {
+export class Controller extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -63,14 +65,14 @@ class Controller extends Disposable {
     this.element = $element;
 
     // add items to the left nav
-    list.add(nav.Location.LEFT, 'sourceswitcher', 2);
-    list.add(nav.Location.LEFT, 'alltimecheckbox', 3);
+    add(Location.LEFT, 'sourceswitcher', 2);
+    add(Location.LEFT, 'alltimecheckbox', 3);
 
     // add items to the right nav
-    list.add(nav.Location.RIGHT, 'layout-button', 1);
+    add(Location.RIGHT, 'layout-button', 1);
 
     // listen for events from the source switcher
-    $scope.$on(nav.Event.SOURCE, this.onSourceChange.bind(this));
+    $scope.$on(NavEvent.SOURCE, this.onSourceChange.bind(this));
 
     $scope.$on('$destroy', this.dispose.bind(this));
   }
@@ -88,7 +90,7 @@ class Controller extends Disposable {
   /**
    * Handle Angular source change events from the source switcher.
    * @param {angular.Scope.Event} event The event.
-   * @param {os.source.ISource|undefined} source The source.
+   * @param {ISource|undefined} source The source.
    * @protected
    */
   onSourceChange(event, source) {
@@ -97,8 +99,3 @@ class Controller extends Disposable {
     }
   }
 }
-
-exports = {
-  Controller,
-  directive
-};

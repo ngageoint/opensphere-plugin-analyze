@@ -1,11 +1,6 @@
-goog.module('coreui.milsym');
-
+goog.declareModuleId('coreui.milsym');
 
 /**
  * @type {string}
  */
-const settingsID = 'Iconmilsym.saved';
-
-exports = {
-  settingsID
-};
+export const settingsID = 'Iconmilsym.saved';

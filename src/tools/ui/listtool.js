@@ -1,37 +1,37 @@
-goog.module('tools.ui.ListToolUI');
+goog.declareModuleId('tools.ui.ListToolUI');
 
-goog.require('mist.ui.widget');
 goog.require('os.ui.SliderUI');
 goog.require('os.ui.SourceGridUI');
 
-const {isOSX} = goog.require('os');
-const AbstractComponentCtrl = goog.require('coreui.layout.AbstractComponentCtrl');
-const ActionEventType = goog.require('os.action.EventType');
-const ColumnEventType = goog.require('os.ui.slick.ColumnEventType');
+import {Module} from './module.js';
+import {ROOT} from '../tools.js';
+import {AbstractComponentCtrl} from '../../coreui/layout/abstractcomponentctrl.js';
+import {isActiveComponent} from '../../coreui/layout/layout.js';
+import * as ListMenu from '../../mist/menu/listmenu.js';
+import {Analyze as AnalyzeKeys} from '../../mist/metrics/keys.js';
+
+import {isOSX} from 'opensphere/src/os/os.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {MODAL_SELECTOR, apply} from 'opensphere/src/os/ui/ui.js';
+
 const Delay = goog.require('goog.async.Delay');
-const Dispatcher = goog.require('os.Dispatcher');
+const {getDocument} = goog.require('goog.dom');
 const GoogEventType = goog.require('goog.events.EventType');
 const KeyCodes = goog.require('goog.events.KeyCodes');
 const KeyEvent = goog.require('goog.events.KeyEvent');
 const KeyHandler = goog.require('goog.events.KeyHandler');
-const ListMenu = goog.require('mist.menu.list');
-const MenuEvent = goog.require('os.ui.menu.MenuEvent');
-const Metrics = goog.require('os.metrics.Metrics');
-const {Module} = goog.require('tools.ui.Module');
-const OsListMenu = goog.require('os.ui.menu.list');
-const PropertyChange = goog.require('os.source.PropertyChange');
-const SelectionType = goog.require('os.events.SelectionType');
-const {Analyze: AnalyzeKeys} = goog.require('mist.metrics.keys');
-
-const layout = goog.require('coreui.layout');
-const operator = goog.require('os.operator');
-const ui = goog.require('os.ui');
-
 const {containsValue} = goog.require('goog.object');
-const {getDocument} = goog.require('goog.dom');
-const {isPrimitive} = goog.require('os.object');
 const {listen: olListen, unlisten: olUnlisten} = goog.require('ol.events');
-const {ROOT} = goog.require('tools');
+
+const ActionEventType = goog.require('os.action.EventType');
+const SelectionType = goog.require('os.events.SelectionType');
+const Metrics = goog.require('os.metrics.Metrics');
+const {isPrimitive} = goog.require('os.object');
+const operator = goog.require('os.operator');
+const PropertyChange = goog.require('os.source.PropertyChange');
+const MenuEvent = goog.require('os.ui.menu.MenuEvent');
+const OsListMenu = goog.require('os.ui.menu.list');
+const ColumnEventType = goog.require('os.ui.slick.ColumnEventType');
 
 const GoogEvent = goog.requireType('goog.events.Event');
 const Menu = goog.requireType('os.ui.menu.Menu');
@@ -43,7 +43,7 @@ const VectorSource = goog.requireType('os.source.Vector');
  * The list tool directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
 
@@ -57,18 +57,16 @@ const directive = () => ({
   controllerAs: 'list'
 });
 
-
 /**
  * Add the directive to the tools module
  */
 Module.directive('listtool', [directive]);
 
-
 /**
  * Controller class for the list tool
  * @unrestricted
  */
-class Controller extends AbstractComponentCtrl {
+export class Controller extends AbstractComponentCtrl {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -199,7 +197,7 @@ class Controller extends AbstractComponentCtrl {
     if (p === PropertyChange.FEATURES || p === PropertyChange.FEATURE_VISIBILITY || containsValue(SelectionType, p)) {
       // refresh status if the features or selection changes
       // FIXME: the timeout is a workaround for the OL3 listener bug (removing listeners while handling that same event)
-      ui.apply(this.scope, 0);
+      apply(this.scope, 0);
     }
   }
 
@@ -210,9 +208,9 @@ class Controller extends AbstractComponentCtrl {
    */
   handleKeyEvent_(event) {
     var ctrlOr = isOSX() ? event.metaKey : event.ctrlKey;
-    var applies = layout.isActiveComponent(this.componentId);
+    var applies = isActiveComponent(this.componentId);
 
-    if (!document.querySelector(ui.MODAL_SELECTOR) && applies) {
+    if (!document.querySelector(MODAL_SELECTOR) && applies) {
       switch (event.keyCode) {
         case KeyCodes.DELETE:
           // this is an internal event in the list tool, so sending via the generic Dispatcher
@@ -290,7 +288,7 @@ class Controller extends AbstractComponentCtrl {
       var text = goog.string.trim(this['quickFilterTerm']);
 
       if (this.source_ != null && text !== null && text !== '') {
-        ui.apply(this.scope);
+        apply(this.scope);
         var features = this.source_.getFilteredFeatures();
 
         // is it a column comparison?
@@ -489,15 +487,8 @@ class Controller extends AbstractComponentCtrl {
   }
 }
 
-
 /**
  * The default row height (not including padding)
  * @type {number}
  */
 Controller.DEFAULT_ROW_HEIGHT = 21;
-
-
-exports = {
-  Controller,
-  directive
-};

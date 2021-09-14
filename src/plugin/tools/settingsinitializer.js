@@ -1,6 +1,7 @@
 goog.declareModuleId('plugin.tools.SettingsInitializer');
 
-const {getExports} = goog.require('mist.analyze');
+import {getExports} from '../../mist/analyze/analyze.js';
+
 const Settings = goog.require('os.config.Settings');
 const AngularAppSettingsInitializer = goog.require('os.ui.config.AngularAppSettingsInitializer');
 

@@ -1,15 +1,16 @@
-goog.module('tools.ui.LayoutButtonUI');
+goog.declareModuleId('tools.ui.LayoutButtonUI');
+
+import {Module} from './module.js';
+import {LayoutEvent} from '../../coreui/layout/layout.js';
 
 const Disposable = goog.require('goog.Disposable');
-const {Module} = goog.require('tools.ui.Module');
-const {LayoutEvent} = goog.require('coreui.layout');
 
 
 /**
  * The layout button directive
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'E',
   replace: true,
   controller: Controller,
@@ -22,18 +23,16 @@ const directive = () => ({
     '</button>'
 });
 
-
 /**
  * add the directive to the module
  */
 Module.directive('layoutButton', [directive]);
 
-
 /**
  * Controller function for the layout-button directive
  * @unrestricted
  */
-class Controller extends Disposable {
+export class Controller extends Disposable {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope The Angular scope.
@@ -70,8 +69,3 @@ class Controller extends Disposable {
     }
   }
 }
-
-exports = {
-  Controller,
-  directive
-};

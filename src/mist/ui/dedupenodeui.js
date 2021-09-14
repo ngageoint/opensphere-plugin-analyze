@@ -1,17 +1,19 @@
-goog.module('mist.ui.DedupeNodeUI');
+goog.declareModuleId('mist.ui.DedupeNodeUI');
 
-const keys = goog.require('mist.metrics.keys');
+import {Analyze} from '../metrics/keys.js';
+import {ROOT} from '../../tools/tools.js';
+
 const Module = goog.require('os.ui.Module');
 const AbstractNodeUICtrl = goog.require('os.ui.slick.AbstractNodeUICtrl');
-const {ROOT} = goog.require('tools');
 
-const dedupeNode = goog.requireType('mist.ui.DedupeNode');
+const {DedupeNode} = goog.requireType('mist.ui.DedupeNode');
+
 
 /**
  * The selected/highlighted node UI directive for dedupes
  * @return {angular.Directive}
  */
-const directive = () => ({
+export const directive = () => ({
   restrict: 'AE',
   replace: true,
   templateUrl: ROOT + 'views/tools/dedupenodeui.html',
@@ -19,19 +21,16 @@ const directive = () => ({
   controllerAs: 'nodeUi'
 });
 
-
 /**
  * Add the directive to the module
  */
 Module.directive('dedupenodeui', [directive]);
 
-
-
 /**
  * Controller for selected/highlighted node UI
  * @unrestricted
  */
-class Controller extends AbstractNodeUICtrl {
+export class Controller extends AbstractNodeUICtrl {
   /**
    * Constructor.
    * @param {!angular.Scope} $scope
@@ -45,14 +44,14 @@ class Controller extends AbstractNodeUICtrl {
 
   /**
    * Handle changes to columns on the scope.
-   * @param {dedupeNode=} opt_new The new node
-   * @param {dedupeNode=} opt_old The old node
+   * @param {DedupeNode=} opt_new The new node
+   * @param {DedupeNode=} opt_old The old node
    * @protected
    */
   select(opt_new, opt_old) {
     if (this.scope && this.scope['selected']) {
-      const dedupe = /** @type {dedupeNode} */ (this.scope['item']);
-      const selected = /** @type {dedupeNode} */ (this.scope['selected']);
+      const dedupe = /** @type {DedupeNode} */ (this.scope['item']);
+      const selected = /** @type {DedupeNode} */ (this.scope['selected']);
       if (selected === dedupe) {
         this.scope.$emit('dedupeActive', dedupe);
       }
@@ -64,9 +63,9 @@ class Controller extends AbstractNodeUICtrl {
    * @export
    */
   remove() {
-    const dedupe = /** @type {dedupeNode} */ (this.scope['item']);
+    const dedupe = /** @type {DedupeNode} */ (this.scope['item']);
     this.scope.$emit('dedupeRemove', dedupe);
-    os.metrics.Metrics.getInstance().updateMetric(keys.Analyze.DEDUPE_BY_REMOVE, 1);
+    os.metrics.Metrics.getInstance().updateMetric(Analyze.DEDUPE_BY_REMOVE, 1);
   }
 
   /**
@@ -74,9 +73,9 @@ class Controller extends AbstractNodeUICtrl {
    * @export
    */
   copy() {
-    const dedupe = /** @type {dedupeNode} */ (this.scope['item']);
+    const dedupe = /** @type {DedupeNode} */ (this.scope['item']);
     this.scope.$emit('dedupeCopy', dedupe.getItem());
-    os.metrics.Metrics.getInstance().updateMetric(keys.Analyze.DEDUPE_BY_COPY, 1);
+    os.metrics.Metrics.getInstance().updateMetric(Analyze.DEDUPE_BY_COPY, 1);
   }
 
   /**
@@ -85,7 +84,7 @@ class Controller extends AbstractNodeUICtrl {
    * @export
    */
   showInvalid() {
-    const dedupe = /** @type {dedupeNode} */ (this.scope['item']).getItem();
+    const dedupe = /** @type {DedupeNode} */ (this.scope['item']).getItem();
     return dedupe.invalid;
   }
 }
@@ -94,12 +93,6 @@ class Controller extends AbstractNodeUICtrl {
  * Return html used for the ui
  * @return {string}
  */
-const getNodeUi = function() {
+export const getNodeUi = function() {
   return '<dedupenodeui></dedupenodeui>';
-};
-
-exports = {
-  Controller,
-  directive,
-  getNodeUi
 };

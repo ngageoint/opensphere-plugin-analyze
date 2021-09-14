@@ -1,13 +1,12 @@
 goog.declareModuleId('coreui.chart.vega.base.SpecHandler');
 
-import {default as Utils} from '../utils.js';
-const googObject = goog.require('goog.object');
+import {Utils} from '../utils.js';
 
 
 /**
  * The vega spec is the JSON object that defines all of the values for the visualization
  */
-class SpecHandler {
+export class SpecHandler {
   /**
    * Constructor.
    * @param {Object=} opt_obj A spec that should be created, will check the keys and override only those keys
@@ -311,7 +310,7 @@ class SpecHandler {
     if (opt_obj != null) {
       this.applyOverride(opt_obj);
     } else {
-      this.spec = googObject.clone(this.defaultSpec);
+      this.spec = Object.assign({}, this.defaultSpec);
     }
   }
 
@@ -327,7 +326,7 @@ class SpecHandler {
    * @param {Object} obj
    */
   applyOverride(obj) {
-    const spec = googObject.clone(this.defaultSpec);
+    const spec = Object.assign({}, this.defaultSpec);
     if (obj != null) {
       for (const key in obj) {
         for (let j = 0; j < obj[key].length; j++) {
@@ -349,5 +348,3 @@ class SpecHandler {
     return '';
   }
 }
-
-export default SpecHandler;

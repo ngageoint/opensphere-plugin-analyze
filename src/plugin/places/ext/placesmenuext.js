@@ -1,7 +1,8 @@
-goog.module('plugin.places.ext.menu');
+goog.declareModuleId('plugin.places.ext.menu');
+
+import * as listMenu from '../../../mist/menu/listmenu.js';
 
 const {assert} = goog.require('goog.asserts');
-const listMenu = goog.require('mist.menu.list');
 const instanceOf = goog.require('os.instanceOf');
 const VectorSource = goog.require('os.source.Vector');
 const placesPlugin = goog.require('plugin.places');
@@ -15,7 +16,7 @@ const MenuItem = goog.requireType('os.ui.menu.MenuItem');
 /**
  * Set up places listeners in the list tool.
  */
-exports.listSetup = function() {
+export const listSetup = function() {
   if (!listMenu.MENU) {
     listMenu.setup();
   }
@@ -40,7 +41,7 @@ exports.listSetup = function() {
 /**
  * Clean up places listeners in the list tool.
  */
-exports.listDispose = function() {
+export const listDispose = function() {
   if (listMenu.MENU) {
     const group = listMenu.MENU.getRoot().find(listMenu.GroupLabel.TOOLS);
     if (group) {

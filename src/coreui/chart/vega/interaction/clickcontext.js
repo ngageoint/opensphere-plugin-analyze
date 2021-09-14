@@ -1,16 +1,16 @@
 goog.declareModuleId('coreui.chart.vega.interaction.ClickContext');
 
-import {default as ChartType} from '../charttype.js';
-import {default as Charts} from '../base/charts.js';
-import {default as Model} from '../data/model.js';
-import {default as SourceModel} from '../data/sourcemodel.js';
-import {default as AbstractInteraction} from './abstractinteraction.js';
-import {default as ClickContextEventType} from './clickcontexteventtype.js';
+import {ChartType} from '../charttype.js';
+import {Charts} from '../base/charts.js';
+import {Model} from '../data/model.js';
+import {SourceModel} from '../data/sourcemodel.js';
+import {AbstractInteraction} from './abstractinteraction.js';
+import {ClickContextEventType} from './clickcontexteventtype.js';
+import * as listMenu from '../../../menu/listmenu.js';
 
-import * as os from 'opensphere/src/os/os.js';
+import {inIframe} from 'opensphere/src/os/os.js';
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 
-const bitsCoreuiMenuList = goog.require('bits.coreui.menu.list');
 const dispose = goog.require('goog.dispose');
 const GoogEvent = goog.require('goog.events.Event');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
@@ -22,15 +22,15 @@ const {launchAddColumn} = goog.require('os.ui.data.AddColumnUI');
 const Menu = goog.require('os.ui.menu.Menu');
 const MenuItem = goog.require('os.ui.menu.MenuItem');
 const MenuItemType = goog.require('os.ui.menu.MenuItemType');
-const list = goog.require('os.ui.menu.list');
+const osListMenu = goog.require('os.ui.menu.list');
 
-const {default: Event} = goog.requireType('coreui.chart.vega.base.Event');
+const {VegaEvent} = goog.requireType('coreui.chart.vega.base.Event');
 const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
 
 
 /**
  */
-class ClickContext extends AbstractInteraction {
+export class ClickContext extends AbstractInteraction {
   /**
    * Constructor.
    * @param {Model} model
@@ -128,7 +128,7 @@ class ClickContext extends AbstractInteraction {
 
   /**
    * Menu selection was made, do the stuff
-   * @param {Event} event
+   * @param {VegaEvent} event
    * @protected
    */
   runSelection(event) {
@@ -238,7 +238,7 @@ class ClickContext extends AbstractInteraction {
         eventType: ClickContextEventType.ADD_CUSTOM_LABEL,
         tooltip: 'Adds a column to the selected records where custom data and labels can be provided',
         icons: ['<i class="fa fa-fw fa-plus"></i>'],
-        handler: os.inIframe() ? undefined : ClickContext.handleAddColumn,
+        handler: inIframe() ? undefined : ClickContext.handleAddColumn,
         beforeRender: ClickContext.chartActionAllowed,
         sort: 40
       }];
@@ -289,33 +289,33 @@ class ClickContext extends AbstractInteraction {
       }];
 
       const colorChildren = [{
-        label: list.Strings.COLOR_SELECTED_LABEL,
+        label: osListMenu.Strings.COLOR_SELECTED_LABEL,
         eventType: ClickContextEventType.COLOR_SELECTED,
-        tooltip: list.Strings.COLOR_SELECTED_TOOLTIP,
+        tooltip: osListMenu.Strings.COLOR_SELECTED_TOOLTIP,
         icons: ['<i class="fa fa-fw fa-tint"></i> '],
         handler: ClickContext.sendChartMenuEvent,
         beforeRender: ClickContext.chartActionAllowed,
         sort: 0
       }, {
-        label: bitsCoreuiMenuList.Strings.COLOR_SELECTED_BINS_LABEL,
+        label: listMenu.Strings.COLOR_SELECTED_BINS_LABEL,
         eventType: ClickContextEventType.COLOR_SELECTED_BINS,
-        tooltip: bitsCoreuiMenuList.Strings.COLOR_SELECTED_BINS_TOOLTIP,
+        tooltip: listMenu.Strings.COLOR_SELECTED_BINS_TOOLTIP,
         icons: ['<i class="fa fa-fw fa-tint"></i> '],
         handler: ClickContext.sendChartMenuEvent,
         beforeRender: ClickContext.chartActionAllowed,
         sort: 1
       }, {
-        label: bitsCoreuiMenuList.Strings.COLOR_AUTO_LABEL,
+        label: listMenu.Strings.COLOR_AUTO_LABEL,
         eventType: ClickContextEventType.AUTO_COLOR,
-        tooltip: bitsCoreuiMenuList.Strings.COLOR_AUTO_TOOLTIP,
+        tooltip: listMenu.Strings.COLOR_AUTO_TOOLTIP,
         icons: ['<i class="fa fa-fw fa-tint"></i> '],
         handler: ClickContext.sendChartMenuEvent,
         beforeRender: ClickContext.chartActionAllowed,
         sort: 10
       }, {
-        label: list.Strings.COLOR_RESET_LABEL,
+        label: osListMenu.Strings.COLOR_RESET_LABEL,
         eventType: ClickContextEventType.RESET_COLOR,
-        tooltip: list.Strings.COLOR_RESET_TOOLTIP,
+        tooltip: osListMenu.Strings.COLOR_RESET_TOOLTIP,
         icons: ['<i class="fa fa-fw fa-tint"></i> '],
         handler: ClickContext.sendChartMenuEvent,
         beforeRender: ClickContext.chartActionAllowed,
@@ -457,7 +457,7 @@ class ClickContext extends AbstractInteraction {
    * @param {MenuEvent} event
    */
   static handleAddColumn(event) {
-    if (event instanceof GoogEvent && !os.inIframe()) {
+    if (event instanceof GoogEvent && !inIframe()) {
       // handle the event
       event.preventDefault();
       event.stopPropagation();
@@ -479,6 +479,3 @@ class ClickContext extends AbstractInteraction {
  * @type {Menu|undefined}
  */
 ClickContext.MENU = undefined;
-
-
-export default ClickContext;

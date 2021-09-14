@@ -1,13 +1,14 @@
-goog.module('tools.util');
+goog.declareModuleId('tools.util');
 
-const ComponentManager = goog.require('coreui.layout.ComponentManager');
+import {OPS_CLOCK_DATE_BIN_TYPES} from '../coreui/chart/vega/utils.js';
+import * as vega from '../mist/ui/widget/mistchart.js';
+import {Type as WidgetType} from '../mist/ui/widget/widget.js';
+import {ComponentManager} from '../coreui/layout/componentmanager.js';
+
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
 const Settings = goog.require('os.config.Settings');
 const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
-const {OPS_CLOCK_DATE_BIN_TYPES} = goog.require('coreui.chart.vega.Utils');
-const vega = goog.require('mist.chart');
-const widget = goog.require('mist.ui.widget');
 const {unsafeClone} = goog.require('os.object');
 
 
@@ -15,8 +16,7 @@ const {unsafeClone} = goog.require('os.object');
  * Global reference of arrays for default analyze window tab config/layouts.
  * @type {Array<GoldenLayout.Config>}
  */
-const layoutConfigs = [];
-
+export const layoutConfigs = [];
 
 /**
  * Map of constant values from plugins; which may or may not be included in various builds of MIST.  At some
@@ -25,10 +25,10 @@ const layoutConfigs = [];
  *
  * @type {Object<string,Object>}
  */
-const constants = {
+export const constants = {
   infinity: {
-    VEGA: 'infinity_' + widget.Type.VEGA, // plugin.infinity.WidgetId.VEGA
-    CHART: 'infinity_' + widget.Type.CHART, // plugin.infinity.WidgetId.CHART
+    VEGA: 'infinity_' + WidgetType.VEGA, // plugin.infinity.WidgetId.VEGA
+    CHART: 'infinity_' + WidgetType.CHART, // plugin.infinity.WidgetId.CHART
     TAB_CLASS: 'c-lm-tab__infinity'
   },
   vega: {
@@ -57,24 +57,23 @@ const constants = {
   }
 };
 
-
 /**
  * Create the default Golden Layout content.
  * @return {!Array<!GoldenLayout.Config>}
  */
-const createDefaultContent = function() {
+export const createDefaultContent = function() {
   var wm = ComponentManager.getInstance();
 
-  var countBy = wm.createComponent(widget.Type.COUNT_BY);
+  var countBy = wm.createComponent(WidgetType.COUNT_BY);
   countBy.width = 25;
 
-  var list = wm.createComponent(widget.Type.LIST);
+  var list = wm.createComponent(WidgetType.LIST);
   list.height = 65;
 
-  var chart1 = wm.createComponent(widget.Type.VEGA);
+  var chart1 = wm.createComponent(WidgetType.VEGA);
   chart1.width = 40;
 
-  var chart2 = wm.createComponent(widget.Type.VEGA);
+  var chart2 = wm.createComponent(WidgetType.VEGA);
   chart2.width = 60;
 
   return [{
@@ -89,26 +88,24 @@ const createDefaultContent = function() {
   }];
 };
 
-
 /**
  * Get the default configs for the GoldenLayout tabs. This can be contributed to by plugins through the
  * {@code layoutConfigs} array.
  * @return {Array<GoldenLayout.Config>} The configs.
  */
-const getDefaultConfigs = function() {
+export const getDefaultConfigs = function() {
   var baseConfig = /** @type {!GoldenLayout.Config} */ (Settings.getInstance().get('toolsWindow.defaultConfig', {}));
   baseConfig['content'] = createDefaultContent();
   baseConfig['showClose'] = false;
   return [baseConfig].concat(layoutConfigs);
 };
 
-
 /**
  * If Vega plugin is available, convert Zing charts' GoldenConfig into a Vega GoldenConfig
  * @param {*=} config the GoldenConfig holder
  * @return {*} the GoldenConfig holder; possibly transformed
  */
-const transform = function(config) {
+export const transform = function(config) {
   /**
    * Recursively walk down the content arrays of the configs; transforming configs as needed
    *
@@ -122,7 +119,7 @@ const transform = function(config) {
     for (var i = 0, len = content.length; i < len; i++) {
       try {
         var updated = null;
-        if (content[i].id == widget.Type.CHART || content[i].id == constants.infinity.CHART) {
+        if (content[i].id == WidgetType.CHART || content[i].id == constants.infinity.CHART) {
           updated = toVega(content[i], source);
         }
 
@@ -146,7 +143,6 @@ const transform = function(config) {
   return config;
 };
 
-
 /**
  * Convert Zing to Vega.
  *
@@ -158,11 +154,11 @@ const transform = function(config) {
  * @param {string} source the Source's ID
  * @return {GoldenLayout.Component|null} the VegaChart config
  */
-const toVega = function(record, source) {
+export const toVega = function(record, source) {
   if (!record) return null;
 
   var isInfinity = (record.id == constants.infinity.CHART);
-  if ((record.id == widget.Type.CHART || isInfinity) &&
+  if ((record.id == WidgetType.CHART || isInfinity) &&
       record.componentState &&
       record.componentState['config'] &&
       record.componentState['config']['chartconfig'] &&
@@ -255,12 +251,12 @@ const toVega = function(record, source) {
 
     transform.id = (isInfinity) ?
       constants.infinity.VEGA :
-      widget.Type.VEGA;
+      WidgetType.VEGA;
 
     transform.componentState = {
       'type': (isInfinity) ?
         constants.infinity.VEGA :
-        widget.Type.VEGA,
+        WidgetType.VEGA,
       'template': (isInfinity) ?
         '<infinityvegachart source="source" container="container"></infinityvegachart>' :
         '<vegachart container="container" source="source"></vegachart>',
@@ -273,13 +269,4 @@ const toVega = function(record, source) {
   }
 
   return null;
-};
-
-exports = {
-  layoutConfigs,
-  constants,
-  createDefaultContent,
-  getDefaultConfigs,
-  transform,
-  toVega
 };

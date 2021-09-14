@@ -1,23 +1,24 @@
 goog.declareModuleId('coreui.chart.vega.bar.Bar');
 
-import {default as ChartType} from '../charttype.js';
-import {default as BarSpecHandler} from './barspec.js';
-import {default as AbstractChart} from '../base/abstractchart';
-import {default as SourceModel} from '../data/sourcemodel';
-import {default as BoxSelect} from '../interaction/boxselect';
-import {default as ClickContext} from '../interaction/clickcontext';
-import {default as ClickContextEventType} from '../interaction/clickcontexteventtype';
-import {default as ClickSelect} from '../interaction/clickselect';
-import {default as Hover} from '../interaction/hover';
+import {ChartType} from '../charttype.js';
+import {BarSpecHandler} from './barspec.js';
+import {AbstractChart} from '../base/abstractchart';
+import {SourceModel} from '../data/sourcemodel';
+import {BoxSelect} from '../interaction/boxselect';
+import {ClickContext} from '../interaction/clickcontext';
+import {ClickContextEventType} from '../interaction/clickcontexteventtype';
+import {ClickSelect} from '../interaction/clickselect';
+import {Hover} from '../interaction/hover';
+
 const osActionEventType = goog.require('os.action.EventType');
 
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
 /**
  * Vega implementation of a bar chart.
  */
-class Bar extends AbstractChart {
+export class Bar extends AbstractChart {
   /**
    * Constructor.
    * @param {string} id The chart ID.
@@ -153,5 +154,3 @@ class Bar extends AbstractChart {
     return 1250;
   }
 }
-
-export default Bar;

@@ -1,7 +1,7 @@
 goog.declareModuleId('coreui.selector.GeneralSelectorUI');
 
 import {Controller as SelectorController} from './selector.js';
-import generalSelectorSignal from './generalselectorsignal.js';
+import {GeneralSelectorSignal} from './generalselectorsignal.js';
 import {ROOT} from '../../tools/tools.js';
 
 import {apply} from 'opensphere/src/os/ui/ui.js';
@@ -57,7 +57,6 @@ const Module = goog.require('os.ui.Module');
 export const directive = () => ({
   restrict: 'E',
   replace: true,
-
   scope: {
     'generalValue': '=?',
     'isRequired': '=?',
@@ -72,7 +71,6 @@ export const directive = () => ({
     'onSelect': '=?', // Callback when an option is selected.
     'onUpdate': '=?' // Callback when the Select2 object is updated.
   },
-
   templateUrl: ROOT + 'views/selector/selector.html',
   controller: Controller,
   controllerAs: 'ctrl'
@@ -187,7 +185,7 @@ export class Controller extends SelectorController {
    * @override
    */
   handleUpdate() {
-    this.scope_.$emit(generalSelectorSignal.VALIDATION, this.scope_['generalValue']);
+    this.scope_.$emit(GeneralSelectorSignal.VALIDATION, this.scope_['generalValue']);
   }
 
   /**

@@ -1,27 +1,28 @@
 goog.declareModuleId('coreui.chart.vega.opsclock.Opsclock');
 
-import {default as ChartType} from '../charttype.js';
-import {default as Utils} from '../utils.js';
-import {default as AbstractChart} from '../base/abstractchart.js';
-import {default as SourceModel} from '../data/sourcemodel.js';
-import {default as ClickContext} from '../interaction/clickcontext.js';
-import {default as ClickContextEventType} from '../interaction/clickcontexteventtype.js';
-import {default as ClickSelect} from '../interaction/clickselect.js';
-import {default as DragSelect} from '../interaction/dragselect.js';
-import {default as Hover} from '../interaction/hover.js';
-import {default as OpsclockSpecHandler} from './opsclockspec.js';
+import {ChartType} from '../charttype.js';
+import {Utils} from '../utils.js';
+import {AbstractChart} from '../base/abstractchart.js';
+import {SourceModel} from '../data/sourcemodel.js';
+import {ClickContext} from '../interaction/clickcontext.js';
+import {ClickContextEventType} from '../interaction/clickcontexteventtype.js';
+import {ClickSelect} from '../interaction/clickselect.js';
+import {DragSelect} from '../interaction/dragselect.js';
+import {Hover} from '../interaction/hover.js';
+import {OpsclockSpecHandler} from './opsclockspec.js';
+
 const olObj = goog.require('ol.obj');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const DateBinType = goog.require('os.histo.DateBinType');
 const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
 
-const {default: Model} = goog.requireType('coreui.chart.vega.data.Model');
+const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 const ColorBin = goog.requireType('os.data.histo.ColorBin');
 
 
 /**
  */
-class Opsclock extends AbstractChart {
+export class Opsclock extends AbstractChart {
   /**
    * Constructor.
    * @param {string} id
@@ -240,6 +241,3 @@ class Opsclock extends AbstractChart {
     }
   }
 }
-
-
-export default Opsclock;
