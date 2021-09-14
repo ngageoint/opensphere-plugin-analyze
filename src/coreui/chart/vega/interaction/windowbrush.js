@@ -3,7 +3,7 @@ goog.declareModuleId('coreui.chart.vega.interaction.WindowBrush');
 import {EventType} from '../base/eventtype.js';
 import {AbstractInteraction} from './abstractinteraction.js';
 
-import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import {ChartDispatcher} from 'opensphere-plugin-analyze/src/coreui/chart/vega/chartdispatcher.js';
 
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
@@ -370,8 +370,7 @@ export class WindowBrush extends AbstractInteraction {
       this.model.deactivateWindow();
     }
 
-    dispatcher.getInstance().unlisten(EventType.WINDOWACTIVE, this
-        .deactivateWindow, false, this);
+    ChartDispatcher.unlisten(EventType.WINDOWACTIVE, this.deactivateWindow, false, this);
 
     super.disposeInternal();
   }
@@ -383,7 +382,7 @@ export class WindowBrush extends AbstractInteraction {
   addListener(view) {
     super.addListener(view);
 
-    dispatcher.getInstance().listen(EventType.WINDOWACTIVE, this.deactivateWindow, false, this);
+    ChartDispatcher.listen(EventType.WINDOWACTIVE, this.deactivateWindow, false, this);
   }
 
   /**

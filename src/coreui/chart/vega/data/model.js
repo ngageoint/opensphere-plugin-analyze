@@ -1,12 +1,12 @@
 goog.declareModuleId('coreui.chart.vega.data.Model');
 
-import {getDataStats, getDefaultStats, getValueStats} from '../../chartstats.js';
-import {Utils} from '../utils.js';
-import {VegaEvent} from '../base/event.js';
-import {EventType} from '../base/eventtype.js';
 import {Series} from './series.js';
 
-import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import {getDataStats, getDefaultStats, getValueStats} from 'opensphere-plugin-analyze/src/coreui/chart/chartstats.js';
+import {Utils} from 'opensphere-plugin-analyze/src/coreui/chart/vega/utils.js';
+import {ChartDispatcher} from 'opensphere-plugin-analyze/src/coreui/chart/vega/chartdispatcher.js';
+import {VegaEvent} from 'opensphere-plugin-analyze/src/coreui/chart/vega/base/event.js';
+import {EventType} from 'opensphere-plugin-analyze/src/coreui/chart/vega/base/eventtype.js';
 
 const Debouncer = goog.require('goog.async.Debouncer');
 const dispose = goog.require('goog.dispose');
@@ -240,7 +240,7 @@ export class Model extends EventTarget {
      */
     this.invalidCount = 0;
 
-    dispatcher.getInstance().listen(EventType.WINDOWACTIVE, this.onWindow, false, this);
+    ChartDispatcher.listen(EventType.WINDOWACTIVE, this.onWindow, false, this);
   }
 
   /**
@@ -249,7 +249,7 @@ export class Model extends EventTarget {
   disposeInternal() {
     super.disposeInternal();
 
-    dispatcher.getInstance().unlisten(EventType.WINDOWACTIVE, this.onWindow, false, this);
+    ChartDispatcher.unlisten(EventType.WINDOWACTIVE, this.onWindow, false, this);
 
     this.dumpSerieses();
 
@@ -282,8 +282,7 @@ export class Model extends EventTarget {
           this.currentDomain[this.seriesKeys[1]][this.currentDomain[this.seriesKeys[1]].length - 1]) {
           // first and last domain items are the same, hit the brakes, no valid data
           this.bins = {};
-          this.dispatchEvent(new VegaEvent(EventType.MODELCHANGE,
-              this.id, clone));
+          this.dispatchEvent(new VegaEvent(EventType.MODELCHANGE, this.id, clone));
           return;
         }
       }
@@ -423,7 +422,7 @@ export class Model extends EventTarget {
   activateWindow() {
     const config = {'active': true};
     const event = new VegaEvent(EventType.WINDOWACTIVE, this.id, config);
-    dispatcher.getInstance().dispatchEvent(event);
+    ChartDispatcher.dispatchEvent(event);
   }
 
   /**
@@ -432,7 +431,7 @@ export class Model extends EventTarget {
   deactivateWindow() {
     const config = {'active': false};
     const event = new VegaEvent(EventType.WINDOWACTIVE, this.id, config);
-    dispatcher.getInstance().dispatchEvent(event);
+    ChartDispatcher.dispatchEvent(event);
   }
 
   /**
