@@ -3,12 +3,12 @@ goog.declareModuleId('tools.ui.AbstractToolsMainCtrl');
 goog.require('os.style.StyleManager');
 goog.require('os.ui.column.ColumnManagerUI');
 
-import * as VegaChartUI from '../../coreui/chart/vega/base/vegachart.js'; // eslint-disable-line
-import * as LayoutPanelUI from '../../coreui/layout/layoutpanel.js'; // eslint-disable-line
-import * as CountByContainerUI from './countbycontainer.js'; // eslint-disable-line
-import * as CountByUI from './countby.js'; // eslint-disable-line
-import * as ListToolUI from './listtool.js'; // eslint-disable-line
-import * as ToolsNavUI from './toolsnavui.js'; // eslint-disable-line
+import '../../coreui/chart/vega/base/vegachart.js';
+import '../../coreui/layout/layoutpanel.js';
+import './countbycontainer.js';
+import './countby.js';
+import './listtool.js';
+import './toolsnavui.js';
 
 import {LAYOUT_CONTAINER_ID} from './toolsui.js';
 import {Event as NavEvent} from './toolsnav.js';

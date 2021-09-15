@@ -2,7 +2,7 @@ goog.declareModuleId('coreui.layout.LayoutPanelUI');
 
 goog.require('os.ui.util.AutoHeightUI');
 
-import * as DragComponentUI from './dragcomponent.js'; // eslint-disable-line
+import './dragcomponent.js';
 
 import {ROOT} from '../../tools/tools.js';
 import {LayoutEvent} from './layout.js';

@@ -1,8 +1,8 @@
 goog.declareModuleId('plugin.tools.ToolsPlugin');
 
-import * as ToolsMain from './toolsmain.js'; // eslint-disable-line
-import * as ButtonUI from '../../mist/analyze/analyzebutton.js'; // eslint-disable-line
-import * as PlacesMixin from '../../mist/mixin/placesmanager.js'; // eslint-disable-line
+import './toolsmain.js';
+import '../../mist/analyze/analyzebutton.js';
+import '../../mist/mixin/placesmanager.js';
 
 import {ToolsSettingsInitializer} from './settingsinitializer.js';
 import {FeatureActionPluginExt} from '../featureaction/featureactionpluginext.js';

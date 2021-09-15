@@ -1,7 +1,7 @@
 goog.declareModuleId('tools.ui.AbstractHistogramCtrl');
 
-import * as DateBinUI from '../../mist/ui/data/datebin.js';// eslint-disable-line
-import * as NumericBinUI from '../../mist/ui/data/numericbin.js';// eslint-disable-line
+import '../../mist/ui/data/datebin.js';
+import '../../mist/ui/data/numericbin.js';
 
 import {ChartKeys} from '../../coreui/chart/chart.js';
 import {AbstractComponentCtrl} from '../../coreui/layout/abstractcomponentctrl.js';

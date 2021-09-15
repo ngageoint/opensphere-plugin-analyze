@@ -1,11 +1,10 @@
 goog.declareModuleId('coreui.chart.vega.base.VegaChartUI');
 
-import * as VegaOptionsUI from './vegaoptions.js'; // eslint-disable-line
-import * as Opsclock from 'opensphere-plugin-analyze/src/coreui/chart/vega/opsclock/opsclock.js'; // eslint-disable-line
+import '../opsclock/opsclock.js';
+import './vegaoptions.js';
 
 import {ChartManager} from './chartmanager.js';
 import {EventType} from './eventtype.js';
-
 import {ChartDispatcher} from 'opensphere-plugin-analyze/src/coreui/chart/vega/chartdispatcher.js';
 import {ChartRegistry} from 'opensphere-plugin-analyze/src/coreui/chart/vega/chartregistry.js';
 import {DEFAULT_CHART} from 'opensphere-plugin-analyze/src/coreui/chart/vega/charttype.js';

@@ -1,6 +1,6 @@
 goog.declareModuleId('coreui.layout.LayoutTabsUI');
 
-import * as DragComponentUI from './dragcomponent.js'; // eslint-disable-line
+import './dragcomponent.js';
 
 import {ROOT} from '../../tools/tools.js';
 import {LayoutTabsEvent} from './layouttabsevent.js';
