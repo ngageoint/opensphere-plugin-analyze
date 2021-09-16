@@ -1,17 +1,19 @@
 goog.declareModuleId('coreui.chart.vega.base.VegaChartUI');
 
-import * as VegaOptionsUI from './vegaoptions.js';// eslint-disable-line
-import * as Opsclock from '../opsclock/opsclock.js';// eslint-disable-line
+import * as VegaOptionsUI from './vegaoptions.js'; // eslint-disable-line
+import * as Opsclock from 'opensphere-plugin-analyze/src/coreui/chart/vega/opsclock/opsclock.js'; // eslint-disable-line
 
-import {DEFAULT_CHART} from '../charttype.js';
-import {ChartRegistry} from '../chartregistry.js';
 import {ChartManager} from './chartmanager.js';
 import {EventType} from './eventtype.js';
-import {Model} from '../data/model';
-import {SourceModel} from '../data/sourcemodel';
-import {isActiveComponent} from '../../../layout/layout.js';
-import {AbstractComponentCtrl} from '../../../layout/abstractcomponentctrl.js';
-import {ROOT} from '../../../../tools/tools.js';
+
+import {ChartDispatcher} from 'opensphere-plugin-analyze/src/coreui/chart/vega/chartdispatcher.js';
+import {ChartRegistry} from 'opensphere-plugin-analyze/src/coreui/chart/vega/chartregistry.js';
+import {DEFAULT_CHART} from 'opensphere-plugin-analyze/src/coreui/chart/vega/charttype.js';
+import {Model} from 'opensphere-plugin-analyze/src/coreui/chart/vega/data/model';
+import {SourceModel} from 'opensphere-plugin-analyze/src/coreui/chart/vega/data/sourcemodel';
+import {isActiveComponent} from 'opensphere-plugin-analyze/src/coreui/layout/layout.js';
+import {AbstractComponentCtrl} from 'opensphere-plugin-analyze/src/coreui/layout/abstractcomponentctrl.js';
+import {ROOT} from 'opensphere-plugin-analyze/src/tools/tools.js';
 
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import {getField} from 'opensphere/src/os/feature/feature.js';
@@ -207,7 +209,7 @@ export class Controller extends AbstractComponentCtrl {
 
     this.restoreContainerState();
 
-    dispatcher.getInstance().listen(EventType.UPDATESCOPE, this.onScopeChange, false, this);
+    ChartDispatcher.listen(EventType.UPDATESCOPE, this.onScopeChange, false, this);
     dispatcher.getInstance().listen(ThemeSettingsChangeEvent, this.onThemeChange, false, this);
 
     this.scope.$watch('source', this.onSourceChange.bind(this));
@@ -236,7 +238,7 @@ export class Controller extends AbstractComponentCtrl {
     removeResize(this.element, this.resizeFn_);
     this.destroyChart();
 
-    dispatcher.getInstance().unlisten(EventType.UPDATESCOPE, this.onScopeChange, false, this);
+    ChartDispatcher.unlisten(EventType.UPDATESCOPE, this.onScopeChange, false, this);
     dispatcher.getInstance().unlisten(ThemeSettingsChangeEvent, this.onThemeChange, false, this);
     this.scope = null;
   }

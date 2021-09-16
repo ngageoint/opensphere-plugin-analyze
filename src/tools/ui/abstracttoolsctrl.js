@@ -480,9 +480,11 @@ export class AbstractToolsMainCtrl extends AbstractMainCtrl {
       }
 
       if (!this['layout']) {
+        const toolsScope = this.scope;
         this['layout'] = new GoldenLayout(this.layoutConfig_, layoutContainer);
-        this['layout'].registerComponent('angular',
-            (container, state) => new AngularComponent(this.scope, container, state));
+        this['layout'].registerComponent('angular', function(container, state) {
+          return new AngularComponent(toolsScope, container, state);
+        });
         this['layout'].on(GoldenLayoutEvent.STATE_CHANGED, function(event) {
           if (this.layoutStateDelay_) {
             this.layoutStateDelay_.start();

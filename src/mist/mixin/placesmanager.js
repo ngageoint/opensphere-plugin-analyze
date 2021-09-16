@@ -2,7 +2,6 @@ goog.declareModuleId('mist.mixin.places');
 
 import {ANALYZE_CONFIG_KEY} from './vectorsource.js';
 
-const Settings = goog.require('os.config.Settings');
 const PlacesManager = goog.require('plugin.places.PlacesManager');
 
 
@@ -21,13 +20,6 @@ const PlacesManager = goog.require('plugin.places.PlacesManager');
    */
   PlacesManager.prototype.getOptions = function() {
     const options = old.call(this);
-
-    // see if the user has this in the old setting
-    const oldSetting = Settings.getInstance().get(ANALYZE_CONFIG_KEY, false);
-    if (oldSetting) {
-      options[ANALYZE_CONFIG_KEY] = oldSetting;
-      Settings.getInstance().delete(ANALYZE_CONFIG_KEY);
-    }
 
     // ensure we default to false
     if (!(ANALYZE_CONFIG_KEY in options)) {
