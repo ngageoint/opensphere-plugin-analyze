@@ -3,6 +3,7 @@ goog.declareModuleId('mist.ui.DedupeNodeUI');
 import {Analyze} from '../metrics/keys.js';
 import {ROOT} from '../../tools/tools.js';
 
+const Metrics = goog.require('os.metrics.Metrics');
 const Module = goog.require('os.ui.Module');
 const AbstractNodeUICtrl = goog.require('os.ui.slick.AbstractNodeUICtrl');
 
@@ -65,7 +66,7 @@ export class Controller extends AbstractNodeUICtrl {
   remove() {
     const dedupe = /** @type {DedupeNode} */ (this.scope['item']);
     this.scope.$emit('dedupeRemove', dedupe);
-    os.metrics.Metrics.getInstance().updateMetric(Analyze.DEDUPE_BY_REMOVE, 1);
+    Metrics.getInstance().updateMetric(Analyze.DEDUPE_BY_REMOVE, 1);
   }
 
   /**
@@ -75,7 +76,7 @@ export class Controller extends AbstractNodeUICtrl {
   copy() {
     const dedupe = /** @type {DedupeNode} */ (this.scope['item']);
     this.scope.$emit('dedupeCopy', dedupe.getItem());
-    os.metrics.Metrics.getInstance().updateMetric(Analyze.DEDUPE_BY_COPY, 1);
+    Metrics.getInstance().updateMetric(Analyze.DEDUPE_BY_COPY, 1);
   }
 
   /**

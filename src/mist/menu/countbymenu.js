@@ -9,6 +9,7 @@ import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import {getFirstColor, removeFeatures} from 'opensphere/src/os/feature/feature.js';
 import {toRgbaString} from 'opensphere/src/os/style/style.js';
 
+const CommandProcessor = goog.require('os.command.CommandProcessor');
 const EventType = goog.require('os.action.EventType');
 const FeaturesVisibility = goog.require('os.command.FeaturesVisibility');
 const Menu = goog.require('os.ui.menu.Menu');
@@ -411,7 +412,7 @@ const handleInternalEvent = function(event) {
       }
 
       if (cmd) {
-        os.command.CommandProcessor.getInstance().addCommand(cmd);
+        CommandProcessor.getInstance().addCommand(cmd);
       }
     }
   }
