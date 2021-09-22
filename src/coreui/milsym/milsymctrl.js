@@ -1,7 +1,7 @@
 goog.declareModuleId('coreui.milsym.MilSymUI');
 
-import * as MilSymSaveUI from './milsymsave.js'; // eslint-disable-line
-import * as GeneralSelectorUI from '../selector/generalselector.js'; // eslint-disable-line
+import './milsymsave.js';
+import '../selector/generalselector.js';
 
 import {ROOT} from '../../tools/tools.js';
 import {MilSymEventType} from './milsymeventtype.js';

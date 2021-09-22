@@ -1,15 +1,14 @@
 goog.declareModuleId('tools.ui.AbstractHistogramCtrl');
 
-import * as DateBinUI from '../../mist/ui/data/datebin.js';// eslint-disable-line
-import * as NumericBinUI from '../../mist/ui/data/numericbin.js';// eslint-disable-line
+import '../../mist/ui/data/datebin.js';
+import '../../mist/ui/data/numericbin.js';
 
+import {getField} from 'opensphere/src/os/feature/feature.js';
+import {apply} from 'opensphere/src/os/ui/ui.js';
 import {ChartKeys} from '../../coreui/chart/chart.js';
 import {AbstractComponentCtrl} from '../../coreui/layout/abstractcomponentctrl.js';
 import * as ToolsMenu from '../../mist/menu/toolsmenu.js';
 import {Analyze as AnalyzeKeys} from '../../mist/metrics/keys.js';
-
-import {getField} from 'opensphere/src/os/feature/feature.js';
-import {apply} from 'opensphere/src/os/ui/ui.js';
 
 const BinMethod = goog.require('os.histo.BinMethod');
 const DateBinMethod = goog.require('os.histo.DateBinMethod');

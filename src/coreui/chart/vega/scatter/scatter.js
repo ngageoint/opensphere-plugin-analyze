@@ -1,8 +1,7 @@
 goog.declareModuleId('coreui.chart.vega.scatter.Scatter');
 
-import {Utils, NUMERIC_EMPTY_ID} from '../utils.js';
-import {ChartType} from '../charttype.js';
 import {AbstractChart} from '../base/abstractchart.js';
+import {ChartType} from '../charttype.js';
 import {BoxSelect} from '../interaction/boxselect.js';
 import {ClickContext} from '../interaction/clickcontext.js';
 import {ClickContextEventType} from '../interaction/clickcontexteventtype.js';
@@ -11,6 +10,7 @@ import {DragPan} from '../interaction/dragpan.js';
 import {Hover} from '../interaction/hover.js';
 import {ScrollZoom} from '../interaction/scrollzoom.js';
 import {WindowBrush} from '../interaction/windowbrush.js';
+import {Utils, NUMERIC_EMPTY_ID} from '../utils.js';
 import {ScatterSpecHandler} from './scatterspec.js';
 
 const DateBinMethod = goog.require('os.histo.DateBinMethod');

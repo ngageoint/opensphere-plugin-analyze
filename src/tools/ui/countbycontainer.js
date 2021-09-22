@@ -1,15 +1,14 @@
 goog.declareModuleId('tools.ui.CountByContainerUI');
 
-import {Module} from './module.js';
-import {ROOT} from '../tools.js';
-import {AnalyzeEventType} from '../../mist/analyze/eventtype.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {inIframe} from 'opensphere/src/os/os.js';
+import {getFilterColumns} from 'opensphere/src/os/source/source.js';
 import {EXPORT_PROPERTY} from '../../mist/analyze/analyze.js';
+import {AnalyzeEventType} from '../../mist/analyze/eventtype.js';
 import * as CountByMenu from '../../mist/menu/countbymenu.js';
 import * as ToolsMenu from '../../mist/menu/toolsmenu.js';
-
-import {inIframe} from 'opensphere/src/os/os.js';
-import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
-import {getFilterColumns} from 'opensphere/src/os/source/source.js';
+import {ROOT} from '../tools.js';
+import {Module} from './module.js';
 
 const Disposable = goog.require('goog.Disposable');
 const {getValueByKeys} = goog.require('goog.object');

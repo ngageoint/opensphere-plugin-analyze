@@ -2,8 +2,8 @@ goog.declareModuleId('plugin.mist.track.ExpandTrackUI');
 
 goog.require('os.ui.datetime.DateTimeUI');
 
-import {requestTrack} from './misttrackquery.js';
 import {ROOT} from '../../tools/tools.js';
+import {requestTrack} from './misttrackquery.js';
 
 const Module = goog.require('os.ui.Module');
 const osWindow = goog.require('os.ui.window');

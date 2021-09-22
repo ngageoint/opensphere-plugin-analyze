@@ -1,12 +1,11 @@
 goog.declareModuleId('mist.menu.tools');
 
-import {Analyze} from '../metrics/keys.js';
-import {AnalyzeEventType} from '../analyze/eventtype.js';
-
-import {inIframe} from 'opensphere/src/os/os.js';
 import {instanceOf} from 'opensphere/src/os/classregistry.js';
+import {inIframe} from 'opensphere/src/os/os.js';
 import {isFilterable} from 'opensphere/src/os/source/source.js';
 import {toRgbaString} from 'opensphere/src/os/style/style.js';
+import {AnalyzeEventType} from '../analyze/eventtype.js';
+import {Analyze} from '../metrics/keys.js';
 
 const EventType = goog.require('os.action.EventType');
 const ColorMethod = goog.require('os.data.histo.ColorMethod');

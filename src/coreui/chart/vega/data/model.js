@@ -1,12 +1,11 @@
 goog.declareModuleId('coreui.chart.vega.data.Model');
 
+import {getDataStats, getDefaultStats, getValueStats} from '../../chartstats.js';
+import {VegaEvent} from '../base/event.js';
+import {EventType} from '../base/eventtype.js';
+import {ChartDispatcher} from '../chartdispatcher.js';
+import {Utils} from '../utils.js';
 import {Series} from './series.js';
-
-import {getDataStats, getDefaultStats, getValueStats} from 'opensphere-plugin-analyze/src/coreui/chart/chartstats.js';
-import {Utils} from 'opensphere-plugin-analyze/src/coreui/chart/vega/utils.js';
-import {ChartDispatcher} from 'opensphere-plugin-analyze/src/coreui/chart/vega/chartdispatcher.js';
-import {VegaEvent} from 'opensphere-plugin-analyze/src/coreui/chart/vega/base/event.js';
-import {EventType} from 'opensphere-plugin-analyze/src/coreui/chart/vega/base/eventtype.js';
 
 const Debouncer = goog.require('goog.async.Debouncer');
 const dispose = goog.require('goog.dispose');

@@ -1,25 +1,24 @@
 goog.declareModuleId('plugin.tools.ToolsPlugin');
 
-import * as ToolsMain from './toolsmain.js'; // eslint-disable-line
-import * as ButtonUI from '../../mist/analyze/analyzebutton.js'; // eslint-disable-line
-import * as PlacesMixin from '../../mist/mixin/placesmanager.js'; // eslint-disable-line
+import './toolsmain.js';
+import '../../mist/analyze/analyzebutton.js';
+import '../../mist/mixin/placesmanager.js';
 
-import {ToolsSettingsInitializer} from './settingsinitializer.js';
-import {FeatureActionPluginExt} from '../featureaction/featureactionpluginext.js';
-import {MilSymPlugin} from '../milsym/milsymplugin.js';
-import {TrackPlugin} from '../track/misttrackplugin.js';
-import {PlacesPluginExt} from '../places/ext/placespluginext.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 import {ComponentManager} from '../../coreui/layout/componentmanager.js';
-import {AnalyzeEventType} from '../../mist/analyze/eventtype.js';
 import {closeExternal, initializeExports, isAnalyze} from '../../mist/analyze/analyze.js';
 import * as analyzeMenu from '../../mist/analyze/analyzemenu.js';
+import {AnalyzeEventType} from '../../mist/analyze/eventtype.js';
 import * as countByMenu from '../../mist/menu/countbymenu.js';
 import * as listMenu from '../../mist/menu/listmenu.js';
 import {handleAddColumn} from '../../mist/menu/toolsmenu.js';
 import * as layerMenu from '../../mist/ui/menu/layermenu.js';
 import * as widget from '../../mist/ui/widget/widget.js';
-
-import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {FeatureActionPluginExt} from '../featureaction/featureactionpluginext.js';
+import {MilSymPlugin} from '../milsym/milsymplugin.js';
+import {PlacesPluginExt} from '../places/ext/placespluginext.js';
+import {TrackPlugin} from '../track/misttrackplugin.js';
+import {ToolsSettingsInitializer} from './settingsinitializer.js';
 
 const GoogEventType = goog.require('goog.events.EventType');
 const ActionEventType = goog.require('os.action.EventType');

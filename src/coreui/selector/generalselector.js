@@ -1,10 +1,9 @@
 goog.declareModuleId('coreui.selector.GeneralSelectorUI');
 
-import {Controller as SelectorController} from './selector.js';
-import {GeneralSelectorSignal} from './generalselectorsignal.js';
-import {ROOT} from '../../tools/tools.js';
-
 import {apply} from 'opensphere/src/os/ui/ui.js';
+import {ROOT} from '../../tools/tools.js';
+import {GeneralSelectorSignal} from './generalselectorsignal.js';
+import {Controller as SelectorController} from './selector.js';
 
 const Module = goog.require('os.ui.Module');
 

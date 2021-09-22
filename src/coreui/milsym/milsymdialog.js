@@ -1,8 +1,8 @@
 goog.declareModuleId('coreui.milsym.MilSymDialogUI');
 
 import {ROOT} from '../../tools/tools.js';
-import {MilSymEventType} from './milsymeventtype.js';
 import {Controller as MilSymCtrl} from './milsymctrl.js';
+import {MilSymEventType} from './milsymeventtype.js';
 
 const Module = goog.require('os.ui.Module');
 

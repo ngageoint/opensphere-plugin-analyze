@@ -1,9 +1,9 @@
 goog.declareModuleId('plugin.places.PlacesPluginExt');
 
-import {listDispose, listSetup} from './placesmenuext.js';
-import {restoreExports} from './placesext.js';
-import {exportSymbol} from '../../../mist/analyze/analyze.js';
 import {isMainWindow} from 'opensphere/src/os/os.js';
+import {exportSymbol} from '../../../mist/analyze/analyze.js';
+import {restoreExports} from './placesext.js';
+import {listDispose, listSetup} from './placesmenuext.js';
 
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const {addFolder, addPlace, saveFromSource} = goog.require('plugin.places');

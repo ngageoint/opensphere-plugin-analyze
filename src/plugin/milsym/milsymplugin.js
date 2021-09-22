@@ -1,6 +1,6 @@
 goog.declareModuleId('plugin.milsym.MilSymPlugin');
 
-import * as MilSymDialogUI from '../../coreui/milsym/milsymdialog.js'; // eslint-disable-line
+import '../../coreui/milsym/milsymdialog.js';
 
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const IconSelectorManager = goog.require('os.ui.icon.IconSelectorManager');

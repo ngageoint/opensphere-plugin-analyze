@@ -1,9 +1,9 @@
 goog.declareModuleId('tools.ui.nav.ToolsNavUI');
 
-import * as AllTimeCheckboxUI from './alltimecheckbox.js'; // eslint-disable-line
-import * as LayoutButtonUI from './layoutbutton.js'; // eslint-disable-line
-import * as SourceSwitcherUI from './sourceswitcher.js'; // eslint-disable-line
-import * as LayoutTabsUI from '../../coreui/layout/layouttabs.js'; // eslint-disable-line
+import './alltimecheckbox.js';
+import './layoutbutton.js';
+import './sourceswitcher.js';
+import '../../coreui/layout/layouttabs.js';
 
 import {ROOT} from '../tools.js';
 import {Module} from './module.js';

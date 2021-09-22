@@ -1,7 +1,7 @@
 goog.declareModuleId('tools.ui.AllTimeCheckboxUI');
 
-import {Module} from './module.js';
 import {ROOT} from '../tools.js';
+import {Module} from './module.js';
 
 const DataManager = goog.require('os.data.DataManager');
 const Disposable = goog.require('goog.Disposable');

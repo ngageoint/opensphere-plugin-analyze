@@ -3,27 +3,26 @@ goog.declareModuleId('tools.ui.AbstractToolsMainCtrl');
 goog.require('os.style.StyleManager');
 goog.require('os.ui.column.ColumnManagerUI');
 
-import * as VegaChartUI from '../../coreui/chart/vega/base/vegachart.js'; // eslint-disable-line
-import * as LayoutPanelUI from '../../coreui/layout/layoutpanel.js'; // eslint-disable-line
-import * as CountByContainerUI from './countbycontainer.js'; // eslint-disable-line
-import * as CountByUI from './countby.js'; // eslint-disable-line
-import * as ListToolUI from './listtool.js'; // eslint-disable-line
-import * as ToolsNavUI from './toolsnavui.js'; // eslint-disable-line
+import '../../coreui/chart/vega/base/vegachart.js';
+import '../../coreui/layout/layoutpanel.js';
+import './countbycontainer.js';
+import './countby.js';
+import './listtool.js';
+import './toolsnavui.js';
 
-import {LAYOUT_CONTAINER_ID} from './toolsui.js';
-import {Event as NavEvent} from './toolsnav.js';
-import {ROOT} from '../tools.js';
-import {createDefaultContent, getDefaultConfigs, transform} from '../toolsutil.js';
-import {GoldenLayoutEvent, LayoutEvent, cleanConfig} from '../../coreui/layout/layout.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {inIframe, isOSX, setDataManager} from 'opensphere/src/os/os.js';
+import {MODAL_SELECTOR, apply, injector, waitForAngular} from 'opensphere/src/os/ui/ui.js';
 import {AngularComponent} from '../../coreui/layout/angularcomponent.js';
+import {GoldenLayoutEvent, LayoutEvent, cleanConfig} from '../../coreui/layout/layout.js';
 import {getExports, restoreSingletonsFromExports} from '../../mist/analyze/analyze.js';
-import {registerVegaCharts} from '../../mist/ui/widget/mistchart.js';
 import * as CountByMenu from '../../mist/menu/countbymenu.js';
 import * as ListMenu from '../../mist/menu/listmenu.js';
-
-import {inIframe, isOSX, setDataManager} from 'opensphere/src/os/os.js';
-import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
-import {MODAL_SELECTOR, apply, injector, waitForAngular} from 'opensphere/src/os/ui/ui.js';
+import {registerVegaCharts} from '../../mist/ui/widget/mistchart.js';
+import {ROOT} from '../tools.js';
+import {createDefaultContent, getDefaultConfigs, transform} from '../toolsutil.js';
+import {Event as NavEvent} from './toolsnav.js';
+import {LAYOUT_CONTAINER_ID} from './toolsui.js';
 
 const {peek, remove, removeDuplicates} = goog.require('goog.array');
 const Delay = goog.require('goog.async.Delay');

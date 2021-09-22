@@ -1,13 +1,13 @@
 goog.declareModuleId('coreui.chart.vega.base.ChartManager');
 
-import {ChartType} from '../charttype.js';
 import {Bar} from '../bar/bar.js';
-import {Charts} from './charts.js';
+import {ChartType} from '../charttype.js';
 import {Line} from '../line/line';
 import {Opsclock} from '../opsclock/opsclock';
 import {Pie} from '../pie/pie';
 import {Scatter} from '../scatter/scatter';
 import {Symlog} from '../symlog/symlog';
+import {Charts} from './charts.js';
 
 const {AbstractChart} = goog.requireType('coreui.chart.vega.base.AbstractChart');
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');

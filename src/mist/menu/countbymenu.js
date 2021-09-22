@@ -1,13 +1,12 @@
 goog.declareModuleId('mist.menu.countBy');
 
-import {AnalyzeEventType} from '../analyze/eventtype.js';
-import {addGenericItems, canCreateHistogramFilter, onColorChosen} from './toolsmenu.js';
-import {Analyze} from '../metrics/keys.js';
-import {Strings as BitsListStrings} from '../../coreui/menu/listmenu.js';
-
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import {getFirstColor, removeFeatures} from 'opensphere/src/os/feature/feature.js';
 import {toRgbaString} from 'opensphere/src/os/style/style.js';
+import {Strings as BitsListStrings} from '../../coreui/menu/listmenu.js';
+import {AnalyzeEventType} from '../analyze/eventtype.js';
+import {Analyze} from '../metrics/keys.js';
+import {addGenericItems, canCreateHistogramFilter, onColorChosen} from './toolsmenu.js';
 
 const CommandProcessor = goog.require('os.command.CommandProcessor');
 const EventType = goog.require('os.action.EventType');

@@ -1,9 +1,9 @@
 goog.declareModuleId('plugin.im.action.feature.FeatureActionPluginExt');
 
+import {isMainWindow} from 'opensphere/src/os/os.js';
+import {EXPORT_PROPERTY, exportSymbol} from '../../mist/analyze/analyze.js';
 import {ID} from './featureactionext.js';
 import {countByDispose, countBySetup} from './featureactionmenuext.js';
-import {EXPORT_PROPERTY, exportSymbol} from '../../mist/analyze/analyze.js';
-import {isMainWindow} from 'opensphere/src/os/os.js';
 
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const FeatureActionManager = goog.require('plugin.im.action.feature.Manager');

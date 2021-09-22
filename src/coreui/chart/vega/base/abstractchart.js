@@ -1,18 +1,17 @@
 goog.declareModuleId('coreui.chart.vega.base.AbstractChart');
 
+import {ChartDispatcher} from '../chartdispatcher.js';
+import {ChartType} from '../charttype.js';
+import {SourceModel} from '../data/sourcemodel';
+import {BoxSelect} from '../interaction/boxselect';
+import {ClickContextEventType} from '../interaction/clickcontexteventtype';
+import {DragSelect} from '../interaction/dragselect';
+import {Utils} from '../utils.js';
 import {Charts} from './charts.js';
 import {ConfigHandler} from './confighandler.js';
 import {VegaEvent} from './event.js';
 import {EventType} from './eventtype.js';
 import * as stats from './vegachartstats.js';
-
-import {Utils} from 'opensphere-plugin-analyze/src/coreui/chart/vega/utils.js';
-import {ChartType} from 'opensphere-plugin-analyze/src/coreui/chart/vega/charttype.js';
-import {ChartDispatcher} from 'opensphere-plugin-analyze/src/coreui/chart/vega/chartdispatcher.js';
-import {SourceModel} from 'opensphere-plugin-analyze/src/coreui/chart/vega/data/sourcemodel';
-import {BoxSelect} from 'opensphere-plugin-analyze/src/coreui/chart/vega/interaction/boxselect';
-import {ClickContextEventType} from 'opensphere-plugin-analyze/src/coreui/chart/vega/interaction/clickcontexteventtype';
-import {DragSelect} from 'opensphere-plugin-analyze/src/coreui/chart/vega/interaction/dragselect';
 
 const Debouncer = goog.require('goog.async.Debouncer');
 const EventTarget = goog.require('goog.events.EventTarget');

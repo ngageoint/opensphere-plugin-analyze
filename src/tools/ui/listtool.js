@@ -3,16 +3,15 @@ goog.declareModuleId('tools.ui.ListToolUI');
 goog.require('os.ui.SliderUI');
 goog.require('os.ui.SourceGridUI');
 
-import {Module} from './module.js';
-import {ROOT} from '../tools.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {isOSX} from 'opensphere/src/os/os.js';
+import {MODAL_SELECTOR, apply} from 'opensphere/src/os/ui/ui.js';
 import {AbstractComponentCtrl} from '../../coreui/layout/abstractcomponentctrl.js';
 import {isActiveComponent} from '../../coreui/layout/layout.js';
 import * as ListMenu from '../../mist/menu/listmenu.js';
 import {Analyze as AnalyzeKeys} from '../../mist/metrics/keys.js';
-
-import {isOSX} from 'opensphere/src/os/os.js';
-import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
-import {MODAL_SELECTOR, apply} from 'opensphere/src/os/ui/ui.js';
+import {ROOT} from '../tools.js';
+import {Module} from './module.js';
 
 const Delay = goog.require('goog.async.Delay');
 const {getDocument} = goog.require('goog.dom');

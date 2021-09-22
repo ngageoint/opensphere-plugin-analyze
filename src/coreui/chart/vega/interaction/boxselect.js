@@ -1,12 +1,11 @@
 goog.declareModuleId('coreui.chart.vega.interaction.BoxSelect');
 
-import {ChartType} from '../charttype.js';
-import {Utils} from '../utils.js';
-import {Charts} from '../base/charts.js';
-import {Model} from '../data/model.js';
-import {AbstractInteraction} from './abstractinteraction.js';
-
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import {Charts} from '../base/charts.js';
+import {ChartType} from '../charttype.js';
+import {Model} from '../data/model.js';
+import {Utils} from '../utils.js';
+import {AbstractInteraction} from './abstractinteraction.js';
 
 const dispose = goog.require('goog.dispose');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
