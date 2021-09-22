@@ -1,8 +1,8 @@
 goog.declareModuleId('mist.analyze.menu');
 
-import {AnalyzeEventType} from './eventtype.js';
-import {openExternal, openInternal} from './analyze.js';
 import {Analyze} from '../metrics/keys.js';
+import {openExternal, openInternal} from './analyze.js';
+import {AnalyzeEventType} from './eventtype.js';
 
 const Menu = goog.require('os.ui.menu.Menu');
 const MenuItem = goog.require('os.ui.menu.MenuItem');

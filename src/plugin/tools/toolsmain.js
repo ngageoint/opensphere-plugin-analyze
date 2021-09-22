@@ -3,15 +3,14 @@ goog.declareModuleId('plugin.tools.ToolsMain');
 goog.require('os.ui.NgRightClickUI');
 goog.require('os.ui.util.AutoHeightUI');
 
+import {PiwikPlugin} from 'opensphere-plugin-geoint-viewer/src/plugin/piwik/piwikplugin.js';
 import {ROOT} from '../../tools/tools.js';
-import {Module} from '../../tools/ui/module.js';
 import {AbstractToolsMainCtrl} from '../../tools/ui/abstracttoolsctrl.js';
+import {Module} from '../../tools/ui/module.js';
 import {FeatureActionPluginExt} from '../featureaction/featureactionpluginext.js';
 import {KMLPluginExt} from '../file/kml/kmlpluginext.js';
-import {TrackPlugin} from '../track/misttrackplugin.js';
 import {PlacesPluginExt} from '../places/ext/placespluginext.js';
-
-import {PiwikPlugin} from 'opensphere-plugin-geoint-viewer/src/plugin/piwik/piwikplugin.js';
+import {TrackPlugin} from '../track/misttrackplugin.js';
 
 const log = goog.require('goog.log');
 const PluginManager = goog.require('os.plugin.PluginManager');

@@ -1,10 +1,9 @@
 goog.declareModuleId('mist.analyze');
 
-import {ComponentManager} from '../../coreui/layout/componentmanager.js';
-
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 import {getParentWindow} from 'opensphere/src/os/os.js';
 import * as osStyle from 'opensphere/src/os/style/style.js';
+import {ComponentManager} from '../../coreui/layout/componentmanager.js';
 
 const googLog = goog.require('goog.log');
 const AlertManager = goog.require('os.alert.AlertManager');

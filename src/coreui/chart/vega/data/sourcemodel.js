@@ -1,10 +1,10 @@
 goog.declareModuleId('coreui.chart.vega.data.SourceModel');
 
-import {getDefaultStats, getFeatureStats} from '../../chartstats.js';
-import {Model} from './model.js';
-import {ClickContextEventType} from '../interaction/clickcontexteventtype';
 import {getField, getFirstColor} from 'opensphere/src/os/feature/feature.js';
 import {toRgbaString} from 'opensphere/src/os/style/style.js';
+import {getDefaultStats, getFeatureStats} from '../../chartstats.js';
+import {ClickContextEventType} from '../interaction/clickcontexteventtype';
+import {Model} from './model.js';
 
 const Debouncer = goog.require('goog.async.Debouncer');
 const Throttle = goog.require('goog.async.Throttle');

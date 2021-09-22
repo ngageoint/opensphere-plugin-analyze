@@ -2,14 +2,13 @@ goog.declareModuleId('coreui.chart.vega.base.VegaOptionsUI');
 
 goog.require('os.ui.UISwitchUI');
 
+import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import * as ui from 'opensphere/src/os/ui/ui.js';
+import {ROOT} from '../../../../tools/tools.js';
 import * as statsmenu from '../../chartstatsmenu.js';
 import {ChartType} from '../charttype.js';
 import {EventType} from './eventtype.js';
 import * as stats from './vegachartstats.js';
-import {ROOT} from '../../../../tools/tools.js';
-
-import * as dispatcher from 'opensphere/src/os/dispatcher.js';
-import * as ui from 'opensphere/src/os/ui/ui.js';
 
 const Disposable = goog.require('goog.Disposable');
 const dispose = goog.require('goog.dispose');

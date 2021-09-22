@@ -1,15 +1,14 @@
 goog.declareModuleId('coreui.chart.vega.interaction.ClickContext');
 
-import {ChartType} from '../charttype.js';
+import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import {inIframe} from 'opensphere/src/os/os.js';
+import * as listMenu from '../../../menu/listmenu.js';
 import {Charts} from '../base/charts.js';
+import {ChartType} from '../charttype.js';
 import {Model} from '../data/model.js';
 import {SourceModel} from '../data/sourcemodel.js';
 import {AbstractInteraction} from './abstractinteraction.js';
 import {ClickContextEventType} from './clickcontexteventtype.js';
-import * as listMenu from '../../../menu/listmenu.js';
-
-import {inIframe} from 'opensphere/src/os/os.js';
-import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 
 const dispose = goog.require('goog.dispose');
 const GoogEvent = goog.require('goog.events.Event');

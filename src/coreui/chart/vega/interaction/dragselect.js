@@ -1,10 +1,9 @@
 goog.declareModuleId('coreui.chart.vega.interaction.DragSelect');
 
+import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import {Charts} from '../base/charts.js';
 import {Model} from '../data/model.js';
 import {AbstractInteraction} from './abstractinteraction.js';
-
-import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 
 const dispose = goog.require('goog.dispose');
 const GlobalMenuEventType = goog.require('os.ui.GlobalMenuEventType');

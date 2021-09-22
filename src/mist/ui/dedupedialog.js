@@ -1,10 +1,9 @@
 goog.declareModuleId('mist.ui.MistDedupeUI');
 
+import {apply} from 'opensphere/src/os/ui/ui.js';
+import {ROOT} from '../../tools/tools.js';
 import {Analyze} from '../metrics/keys.js';
 import {DedupeNode} from './dedupenode.js';
-import {ROOT} from '../../tools/tools.js';
-
-import {apply} from 'opensphere/src/os/ui/ui.js';
 
 const settings = goog.require('os.config.Settings');
 const Disposable = goog.require('goog.Disposable');

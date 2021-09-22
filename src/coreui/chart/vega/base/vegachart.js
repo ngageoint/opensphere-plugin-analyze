@@ -3,20 +3,19 @@ goog.declareModuleId('coreui.chart.vega.base.VegaChartUI');
 import '../opsclock/opsclock.js';
 import './vegaoptions.js';
 
-import {ChartManager} from './chartmanager.js';
-import {EventType} from './eventtype.js';
-import {ChartDispatcher} from 'opensphere-plugin-analyze/src/coreui/chart/vega/chartdispatcher.js';
-import {ChartRegistry} from 'opensphere-plugin-analyze/src/coreui/chart/vega/chartregistry.js';
-import {DEFAULT_CHART} from 'opensphere-plugin-analyze/src/coreui/chart/vega/charttype.js';
-import {Model} from 'opensphere-plugin-analyze/src/coreui/chart/vega/data/model';
-import {SourceModel} from 'opensphere-plugin-analyze/src/coreui/chart/vega/data/sourcemodel';
-import {isActiveComponent} from 'opensphere-plugin-analyze/src/coreui/layout/layout.js';
-import {AbstractComponentCtrl} from 'opensphere-plugin-analyze/src/coreui/layout/abstractcomponentctrl.js';
-import {ROOT} from 'opensphere-plugin-analyze/src/tools/tools.js';
-
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import {getField} from 'opensphere/src/os/feature/feature.js';
 import {apply, removeResize, resize} from 'opensphere/src/os/ui/ui.js';
+import {ROOT} from '../../../../tools/tools.js';
+import {AbstractComponentCtrl} from '../../../layout/abstractcomponentctrl.js';
+import {isActiveComponent} from '../../../layout/layout.js';
+import {ChartDispatcher} from '../chartdispatcher.js';
+import {ChartRegistry} from '../chartregistry.js';
+import {DEFAULT_CHART} from '../charttype.js';
+import {Model} from '../data/model';
+import {SourceModel} from '../data/sourcemodel';
+import {ChartManager} from './chartmanager.js';
+import {EventType} from './eventtype.js';
 
 const Debouncer = goog.require('goog.async.Debouncer');
 const dispose = goog.require('goog.dispose');

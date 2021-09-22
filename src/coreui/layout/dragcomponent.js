@@ -1,8 +1,8 @@
 goog.declareModuleId('coreui.layout.DragComponentUI');
 
+import {apply} from 'opensphere/src/os/ui/ui.js';
 import {ROOT} from '../../tools/tools.js';
 import {GoldenLayoutEvent, LayoutEvent, minimizeAll} from './layout.js';
-import {apply} from 'opensphere/src/os/ui/ui.js';
 
 const Disposable = goog.require('goog.Disposable');
 const {isEmptyOrWhitespace} = goog.require('goog.string');

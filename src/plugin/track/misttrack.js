@@ -1,8 +1,8 @@
 goog.declareModuleId('plugin.mist.track');
 
+import {getExports} from '../../mist/analyze/analyze.js';
 import {LAYER_TITLE} from './constants.js';
 import {MistTrackEventType} from './eventtype.js';
-import {getExports} from '../../mist/analyze/analyze.js';
 
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const AlertManager = goog.require('os.alert.AlertManager');

@@ -1,13 +1,12 @@
 goog.declareModuleId('mist.menu.list');
 
-import {addGenericItems} from './toolsmenu.js';
-import {Analyze} from '../metrics/keys.js';
-import {launchDedupeUI} from '../ui/dedupedialog.js';
-import {AnalyzeEventType} from '../analyze/eventtype.js';
-
+import {instanceOf} from 'opensphere/src/os/classregistry.js';
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import {inIframe} from 'opensphere/src/os/os.js';
-import {instanceOf} from 'opensphere/src/os/classregistry.js';
+import {AnalyzeEventType} from '../analyze/eventtype.js';
+import {Analyze} from '../metrics/keys.js';
+import {launchDedupeUI} from '../ui/dedupedialog.js';
+import {addGenericItems} from './toolsmenu.js';
 
 const Event = goog.require('goog.events.Event');
 const EventType = goog.require('os.action.EventType');

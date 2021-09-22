@@ -1,14 +1,14 @@
 goog.declareModuleId('coreui.chart.vega.bar.Bar');
 
-import {ChartType} from '../charttype.js';
-import {BarSpecHandler} from './barspec.js';
 import {AbstractChart} from '../base/abstractchart';
+import {ChartType} from '../charttype.js';
 import {SourceModel} from '../data/sourcemodel';
 import {BoxSelect} from '../interaction/boxselect';
 import {ClickContext} from '../interaction/clickcontext';
 import {ClickContextEventType} from '../interaction/clickcontexteventtype';
 import {ClickSelect} from '../interaction/clickselect';
 import {Hover} from '../interaction/hover';
+import {BarSpecHandler} from './barspec.js';
 
 const osActionEventType = goog.require('os.action.EventType');
 

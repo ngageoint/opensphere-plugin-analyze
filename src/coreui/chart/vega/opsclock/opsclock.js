@@ -1,14 +1,14 @@
 goog.declareModuleId('coreui.chart.vega.opsclock.Opsclock');
 
-import {ChartType} from '../charttype.js';
-import {Utils} from '../utils.js';
 import {AbstractChart} from '../base/abstractchart.js';
+import {ChartType} from '../charttype.js';
 import {SourceModel} from '../data/sourcemodel.js';
 import {ClickContext} from '../interaction/clickcontext.js';
 import {ClickContextEventType} from '../interaction/clickcontexteventtype.js';
 import {ClickSelect} from '../interaction/clickselect.js';
 import {DragSelect} from '../interaction/dragselect.js';
 import {Hover} from '../interaction/hover.js';
+import {Utils} from '../utils.js';
 import {OpsclockSpecHandler} from './opsclockspec.js';
 
 const olObj = goog.require('ol.obj');

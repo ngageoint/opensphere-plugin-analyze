@@ -1,16 +1,15 @@
 goog.declareModuleId('plugin.mist.track.menu');
 
-import {createFromBinEvent} from './misttrack.js';
-import {ExpandTrackCtrl} from './misttrackexpand.js';
-import {LAYER_TITLE} from './constants.js';
-import {MistTrackEventType} from './eventtype.js';
-import {Keys} from './misttrackmetrics.js';
-import {checkQueryTrack, requestTrack} from './misttrackquery.js';
-import * as countByMenu from '../../mist/menu/countbymenu.js';
-import * as listMenu from '../../mist/menu/listmenu.js';
-
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 import {getFilterColumns} from 'opensphere/src/os/source/source.js';
+import * as countByMenu from '../../mist/menu/countbymenu.js';
+import * as listMenu from '../../mist/menu/listmenu.js';
+import {LAYER_TITLE} from './constants.js';
+import {MistTrackEventType} from './eventtype.js';
+import {createFromBinEvent} from './misttrack.js';
+import {ExpandTrackCtrl} from './misttrackexpand.js';
+import {Keys} from './misttrackmetrics.js';
+import {checkQueryTrack, requestTrack} from './misttrackquery.js';
 
 const {addToTrack, getSortField, isTrackFeature, promptForTitle} = goog.require('os.track');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');

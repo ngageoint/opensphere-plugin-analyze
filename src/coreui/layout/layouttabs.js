@@ -2,10 +2,10 @@ goog.declareModuleId('coreui.layout.LayoutTabsUI');
 
 import './dragcomponent.js';
 
+import {apply, measureText} from 'opensphere/src/os/ui/ui.js';
 import {ROOT} from '../../tools/tools.js';
 import {LayoutTabsEvent} from './layouttabsevent.js';
 import {TabParams} from './tabparams.js';
-import {apply, measureText} from 'opensphere/src/os/ui/ui.js';
 
 const Disposable = goog.require('goog.Disposable');
 const googArray = goog.require('goog.array');

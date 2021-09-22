@@ -1,7 +1,7 @@
 goog.declareModuleId('coreui.chart.vega.line.Line');
 
-import {ChartType} from '../charttype.js';
 import {AbstractChart} from '../base/abstractchart.js';
+import {ChartType} from '../charttype.js';
 import {SourceModel} from '../data/sourcemodel.js';
 import {BoxSelect} from '../interaction/boxselect.js';
 import {ClickContext} from '../interaction/clickcontext.js';

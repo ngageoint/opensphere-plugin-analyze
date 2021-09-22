@@ -1,13 +1,12 @@
 goog.declareModuleId('plugin.im.action.feature.ext.menu');
 
-import {EventType, Metrics} from './featureactionext.js';
-import {EXPORT_PROPERTY} from '../../mist/analyze/analyze.js';
-import * as countByMenu from '../../mist/menu/countbymenu.js';
-import * as CountByUI from '../../tools/ui/countby.js';
-
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import {inIframe} from 'opensphere/src/os/os.js';
 import {getFilterColumns} from 'opensphere/src/os/source/source.js';
+import {EXPORT_PROPERTY} from '../../mist/analyze/analyze.js';
+import * as countByMenu from '../../mist/menu/countbymenu.js';
+import * as CountByUI from '../../tools/ui/countby.js';
+import {EventType, Metrics} from './featureactionext.js';
 
 const action = goog.require('os.im.action');
 const AlertManager = goog.require('os.alert.AlertManager');

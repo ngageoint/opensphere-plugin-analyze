@@ -3,20 +3,19 @@ goog.declareModuleId('tools.ui.CountByUI');
 goog.require('os.ui.UISwitchUI');
 goog.require('os.ui.slick.SlickGridUI');
 
-import {AbstractHistogramCtrl} from './abstracthistogramctrl.js';
-import * as CountByContainerUI from './countbycontainer.js';
-import {Module} from './module.js';
-import {CountByEventType} from './countbyremovecascade.js';
-import {ROOT} from '../tools.js';
+import {registerClass} from 'opensphere/src/os/classregistry.js';
+import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {isOSX} from 'opensphere/src/os/os.js';
+import {MODAL_SELECTOR, apply} from 'opensphere/src/os/ui/ui.js';
 import {isActiveComponent} from '../../coreui/layout/layout.js';
 import * as CountByMenu from '../../mist/menu/countbymenu.js';
 import * as ListMenu from '../../mist/menu/listmenu.js';
 import * as metricsKeys from '../../mist/metrics/keys.js';
-
-import {isOSX} from 'opensphere/src/os/os.js';
-import {registerClass} from 'opensphere/src/os/classregistry.js';
-import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
-import {MODAL_SELECTOR, apply} from 'opensphere/src/os/ui/ui.js';
+import {ROOT} from '../tools.js';
+import {AbstractHistogramCtrl} from './abstracthistogramctrl.js';
+import * as CountByContainerUI from './countbycontainer.js';
+import {CountByEventType} from './countbyremovecascade.js';
+import {Module} from './module.js';
 
 const DateBinMethod = goog.require('os.histo.DateBinMethod');
 const DateRangeBinType = goog.require('os.histo.DateRangeBinType');

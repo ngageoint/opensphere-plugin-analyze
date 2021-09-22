@@ -1,9 +1,8 @@
 goog.declareModuleId('coreui.chart.vega.interaction.WindowBrush');
 
 import {EventType} from '../base/eventtype.js';
+import {ChartDispatcher} from '../chartdispatcher.js';
 import {AbstractInteraction} from './abstractinteraction.js';
-
-import {ChartDispatcher} from 'opensphere-plugin-analyze/src/coreui/chart/vega/chartdispatcher.js';
 
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
