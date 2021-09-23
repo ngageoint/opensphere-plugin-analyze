@@ -1,5 +1,11 @@
 goog.declareModuleId('plugin.mist.track');
 
+import KMLNodeAdd from 'opensphere/src/plugin/file/kml/cmd/kmlnodeaddcmd.js';
+import {updatePlacemark} from 'opensphere/src/plugin/file/kml/ui/kmlui.js';
+import PlacesManager from 'opensphere/src/plugin/places/placesmanager.js';
+import TrackEventType from 'opensphere/src/plugin/track/eventtype.js';
+import {setCreateAndAdd, updateTrackSource} from 'opensphere/src/plugin/track/track.js';
+import TrackManager from 'opensphere/src/plugin/track/trackmanager.js';
 import {getExports} from '../../mist/analyze/analyze.js';
 import {LAYER_TITLE} from './constants.js';
 import {MistTrackEventType} from './eventtype.js';
@@ -14,20 +20,14 @@ const {getValueByKeys} = goog.require('goog.object');
 const {getWfsParams} = goog.require('os.ogc');
 const instanceOf = goog.require('os.instanceOf');
 const IOGCDescriptor = goog.require('os.ui.ogc.IOGCDescriptor');
-const KMLNodeAdd = goog.require('plugin.file.kml.cmd.KMLNodeAdd');
 const log = goog.require('goog.log');
 const MapContainer = goog.require('os.MapContainer');
 const osImplements = goog.require('os.implements');
-const PlacesManager = goog.require('plugin.places.PlacesManager');
 const RecordField = goog.require('os.data.RecordField');
 const RequestSource = goog.require('os.source.Request');
 const SequenceCommand = goog.require('os.command.SequenceCommand');
 const {setAddToTrack, setCreateTrack} = goog.require('os.track');
-const TrackEventType = goog.require('plugin.track.EventType');
 const TrackField = goog.require('os.track.TrackField');
-const TrackManager = goog.require('plugin.track.TrackManager');
-const {updatePlacemark} = goog.require('plugin.file.kml.ui');
-const {updateTrackSource, setCreateAndAdd} = goog.require('plugin.track');
 const Uri = goog.require('goog.Uri');
 
 const AddOptions = goog.requireType('os.track.AddOptions');
@@ -36,7 +36,7 @@ const Feature = goog.requireType('ol.Feature');
 const IFeatureType = goog.requireType('os.ogc.IFeatureType');
 const ILayer = goog.requireType('os.layer.ILayer');
 const Logger = goog.requireType('goog.log.Logger');
-const TrackEvent = goog.requireType('plugin.track.Event');
+const {default: TrackEvent} = goog.requireType('plugin.track.Event');
 const TrackFeatureLike = goog.requireType('os.track.TrackFeatureLike');
 
 

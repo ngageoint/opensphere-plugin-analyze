@@ -20,7 +20,7 @@ const Metrics = goog.require('os.metrics.Metrics');
 const ColorMethod = goog.require('os.data.histo.ColorMethod');
 const {launchConfirmColor} = goog.require('os.ui.window.ConfirmColorUI');
 
-const CountByUI = goog.requireType('tools.ui.CountByUI');
+const {default: CountByUI} = goog.requireType('tools.ui.CountByUI');
 const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
 const IHistogramUI = goog.requireType('os.ui.IHistogramUI');
 const {Controller: CountByCtrl} = goog.requireType('tools.ui.CountByUI');

@@ -1,13 +1,13 @@
 goog.declareModuleId('plugin.places.ext.menu');
 
+import placesEventType from 'opensphere/src/plugin/places/eventtype.js';
+import * as placesPlugin from 'opensphere/src/plugin/places/places.js';
+import {launchSavePlaces} from 'opensphere/src/plugin/places/ui/launchsaveplaces.js';
 import * as listMenu from '../../../mist/menu/listmenu.js';
 
 const {assert} = goog.require('goog.asserts');
 const instanceOf = goog.require('os.instanceOf');
 const VectorSource = goog.require('os.source.Vector');
-const placesPlugin = goog.require('plugin.places');
-const placesEventType = goog.require('plugin.places.EventType');
-const {launchSavePlaces} = goog.require('plugin.places.ui.launchSavePlaces');
 
 const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
 const MenuItem = goog.requireType('os.ui.menu.MenuItem');
