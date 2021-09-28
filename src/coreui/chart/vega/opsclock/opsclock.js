@@ -1,5 +1,8 @@
 goog.declareModuleId('coreui.chart.vega.opsclock.Opsclock');
 
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import DateBinType from 'opensphere/src/os/histo/datebintype.js';
+import UniqueBinMethod from 'opensphere/src/os/histo/uniquebinmethod.js';
 import {AbstractChart} from '../base/abstractchart.js';
 import {ChartType} from '../charttype.js';
 import {SourceModel} from '../data/sourcemodel.js';
@@ -12,12 +15,9 @@ import {Utils} from '../utils.js';
 import {OpsclockSpecHandler} from './opsclockspec.js';
 
 const olObj = goog.require('ol.obj');
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const DateBinType = goog.require('os.histo.DateBinType');
-const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
 
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
-const ColorBin = goog.requireType('os.data.histo.ColorBin');
+const {default: ColorBin} = goog.requireType('os.data.histo.ColorBin');
 
 
 /**

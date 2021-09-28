@@ -2,47 +2,48 @@ goog.declareModuleId('tools.ui.AbstractHistogramCtrl');
 
 import '../../mist/ui/data/datebin.js';
 import '../../mist/ui/data/numericbin.js';
-
+import Settings from 'opensphere/src/os/config/settings.js';
+import {HistoEventType} from 'opensphere/src/os/data/histo/histogramutils.js';
+import SelectionType from 'opensphere/src/os/events/selectiontype.js';
 import {getField} from 'opensphere/src/os/feature/feature.js';
+import BinMethod from 'opensphere/src/os/histo/binmethod.js';
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import DateRangeBinType from 'opensphere/src/os/histo/daterangebintype.js';
+import NumericBinMethod from 'opensphere/src/os/histo/numericbinmethod.js';
+import Metrics from 'opensphere/src/os/metrics/metrics.js';
+import PropertyChange from 'opensphere/src/os/source/propertychange.js';
+import {OFFSET_KEY} from 'opensphere/src/os/time/time.js';
+import IHistogramUI from 'opensphere/src/os/ui/ihistogramctrl.js';// eslint-disable-line
+import {COLOR_ID, findByField, numerateNameCompare} from 'opensphere/src/os/ui/slick/column.js';
+import SlickGridEvent from 'opensphere/src/os/ui/slick/slickgridevent.js';
 import {apply} from 'opensphere/src/os/ui/ui.js';
+import windowSelector from 'opensphere/src/os/ui/windowselector.js';
 import {ChartKeys} from '../../coreui/chart/chart.js';
 import {AbstractComponentCtrl} from '../../coreui/layout/abstractcomponentctrl.js';
 import * as ToolsMenu from '../../mist/menu/toolsmenu.js';
 import {Analyze as AnalyzeKeys} from '../../mist/metrics/keys.js';
 
-const BinMethod = goog.require('os.histo.BinMethod');
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const DateRangeBinType = goog.require('os.histo.DateRangeBinType');
 const Delay = goog.require('goog.async.Delay');
-const EventType = goog.require('goog.events.EventType');
-const {HistoEventType} = goog.require('os.data.histo');
-const KeyEvent = goog.require('goog.events.KeyEvent');
-const KeyHandler = goog.require('goog.events.KeyHandler');
-const Metrics = goog.require('os.metrics.Metrics');
-const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
-const PropertyChange = goog.require('os.source.PropertyChange');
-const SelectionType = goog.require('os.events.SelectionType');
-const Settings = goog.require('os.config.Settings');
-const SlickGridEvent = goog.require('os.ui.slick.SlickGridEvent');
-const log = goog.require('goog.log');
-const {COLOR_ID, findByField, numerateNameCompare} = goog.require('os.ui.slick.column');
-const windowSelector = goog.require('os.ui.windowSelector');
-const {containsValue} = goog.require('goog.object');
 const {getDocument} = goog.require('goog.dom');
 const {listen: googListen, unlisten: googUnlisten} = goog.require('goog.events');
+const EventType = goog.require('goog.events.EventType');
+const KeyEvent = goog.require('goog.events.KeyEvent');
+const KeyHandler = goog.require('goog.events.KeyHandler');
+const log = goog.require('goog.log');
+const {containsValue} = goog.require('goog.object');
 const {listen: olListen, unlisten: olUnlisten} = goog.require('ol.events');
-const {OFFSET_KEY} = goog.require('os.time');
-const IHistogramUI = goog.require('os.ui.IHistogramUI'); // eslint-disable-line
 
 const BrowserEvent = goog.requireType('goog.events.BrowserEvent');
-const ColorBin = goog.requireType('os.data.histo.ColorBin');
-const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
 const Event = goog.requireType('goog.events.Event');
-const IBinMethod = goog.requireType('os.histo.IBinMethod');
-const Menu = goog.requireType('os.ui.menu.Menu');
-const PropertyChangeEvent = goog.requireType('os.events.PropertyChangeEvent');
-const SourceHistogram = goog.requireType('os.data.histo.SourceHistogram');
-const VectorSource = goog.requireType('os.source.Vector');
+const {default: ColumnDefinition} = goog.requireType('os.data.ColumnDefinition');
+const {default: ColorBin} = goog.requireType('os.data.histo.ColorBin');
+const {default: SourceHistogram} = goog.requireType('os.data.histo.SourceHistogram');
+const {default: PropertyChangeEvent} = goog.requireType('os.events.PropertyChangeEvent');
+const {default: IBinMethod} = goog.requireType('os.histo.IBinMethod');
+const {default: VectorSource} = goog.requireType('os.source.Vector');
+
+
+const {default: Menu} = goog.requireType('os.ui.menu.Menu');
 
 
 /**

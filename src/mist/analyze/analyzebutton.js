@@ -1,11 +1,10 @@
 goog.declareModuleId('mist.analyze.ButtonUI');
 
+import MenuButtonCtrl from 'opensphere/src/os/ui/menu/menubutton.js';
+import Module from 'opensphere/src/os/ui/module.js';
 import {Analyze} from '../metrics/keys.js';
 import {openExternal} from './analyze.js';
 import {MENU} from './analyzemenu.js';
-
-const Module = goog.require('os.ui.Module');
-const MenuButtonCtrl = goog.require('os.ui.menu.MenuButtonCtrl');
 
 
 /**

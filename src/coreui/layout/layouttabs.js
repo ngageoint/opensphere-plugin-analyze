@@ -1,8 +1,13 @@
 goog.declareModuleId('coreui.layout.LayoutTabsUI');
 
 import './dragcomponent.js';
-
+import {unsafeClone} from 'opensphere/src/os/object/object.js';
+import Menu from 'opensphere/src/os/ui/menu/menu.js';
+import MenuItem from 'opensphere/src/os/ui/menu/menuitem.js';
+import MenuItemType from 'opensphere/src/os/ui/menu/menuitemtype.js';
+import Module from 'opensphere/src/os/ui/module.js';
 import {apply, measureText} from 'opensphere/src/os/ui/ui.js';
+import * as ConfirmTextUI from 'opensphere/src/os/ui/window/confirmtext.js';
 import {ROOT} from '../../tools/tools.js';
 import {LayoutTabsEvent} from './layouttabsevent.js';
 import {TabParams} from './tabparams.js';
@@ -12,14 +17,8 @@ const googArray = goog.require('goog.array');
 const ViewportSizeMonitor = goog.require('goog.dom.ViewportSizeMonitor');
 const GoogEventType = goog.require('goog.events.EventType');
 const {getRandomString, truncate} = goog.require('goog.string');
-const {unsafeClone} = goog.require('os.object');
-const Module = goog.require('os.ui.Module');
-const Menu = goog.require('os.ui.menu.Menu');
-const MenuItem = goog.require('os.ui.menu.MenuItem');
-const MenuItemType = goog.require('os.ui.menu.MenuItemType');
-const ConfirmTextUI = goog.require('os.ui.window.ConfirmTextUI');
 
-const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
+const {default: MenuEvent} = goog.requireType('os.ui.menu.MenuEvent');
 
 
 /**

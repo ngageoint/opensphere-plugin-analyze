@@ -1,20 +1,20 @@
 goog.declareModuleId('coreui.chart.vega.interaction.DragSelect');
 
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import GlobalMenuEventType from 'opensphere/src/os/ui/globalmenueventtype.js';
+import Menu from 'opensphere/src/os/ui/menu/menu.js';
+import MenuItem from 'opensphere/src/os/ui/menu/menuitem.js';
+import MenuItemType from 'opensphere/src/os/ui/menu/menuitemtype.js';
 import {Charts} from '../base/charts.js';
 import {Model} from '../data/model.js';
 import {AbstractInteraction} from './abstractinteraction.js';
 
 const dispose = goog.require('goog.dispose');
-const GlobalMenuEventType = goog.require('os.ui.GlobalMenuEventType');
-const Menu = goog.require('os.ui.menu.Menu');
-const MenuItem = goog.require('os.ui.menu.MenuItem');
-const MenuItemType = goog.require('os.ui.menu.MenuItemType');
 const {VegaEvent} = goog.requireType('coreui.chart.vega.base.Event');
 
 const GoogEvent = goog.requireType('goog.events.Event');
-const ColorBin = goog.requireType('os.data.histo.ColorBin');
-const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
+const {default: ColorBin} = goog.requireType('os.data.histo.ColorBin');
+const {default: MenuEvent} = goog.requireType('os.ui.menu.MenuEvent');
 
 
 /**

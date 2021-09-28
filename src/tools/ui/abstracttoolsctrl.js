@@ -1,17 +1,36 @@
 goog.declareModuleId('tools.ui.AbstractToolsMainCtrl');
 
-goog.require('os.ui.column.ColumnManagerUI');
-
 import '../../coreui/chart/vega/base/vegachart.js';
 import '../../coreui/layout/layoutpanel.js';
-import './countbycontainer.js';
 import './countby.js';
+import './countbycontainer.js';
 import './listtool.js';
 import './toolsnavui.js';
+import 'opensphere/src/os/ui/column/columnmanager.js';
+import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
+import CommandProcessor from 'opensphere/src/os/command/commandprocessor.js';
+import FeaturesVisibility from 'opensphere/src/os/command/featuresvisibilitycmd.js';
+import Settings from 'opensphere/src/os/config/settings.js';
+import {Keys} from 'opensphere/src/os/config/theme.js';
+import DataManager from 'opensphere/src/os/data/datamanager.js';
 
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import {preventBrowserContextMenu} from 'opensphere/src/os/events/events.js';
+import FilePersistence from 'opensphere/src/os/file/persist/filepersistence.js';
+import BaseFilterManager from 'opensphere/src/os/filter/basefiltermanager.js';
+import Metrics from 'opensphere/src/os/metrics/metrics.js';
+import {Map as MapKeys} from 'opensphere/src/os/metrics/metricskeys.js';
+import addDefaultHandlers from 'opensphere/src/os/net/adddefaulthandlers.js';
+import {unsafeClone} from 'opensphere/src/os/object/object.js';
 import {inIframe, isOSX, setDataManager} from 'opensphere/src/os/os.js';
+import PluginManager from 'opensphere/src/os/plugin/pluginmanager.js';
+import {randomString} from 'opensphere/src/os/string/string.js';
+import {disposeOffset, initOffset} from 'opensphere/src/os/time/time.js';
 import AbstractMainCtrl from 'opensphere/src/os/ui/abstractmainctrl.js';
+import {setLaunchColumnManagerFn} from 'opensphere/src/os/ui/column/column.js';
+import ExportManager from 'opensphere/src/os/ui/file/exportmanager.js';
+import {setLaunchPropertyInfo} from 'opensphere/src/os/ui/propertyinfo.js';
+import ResizeEventType from 'opensphere/src/os/ui/resizeeventtype.js';
 import {MODAL_SELECTOR, apply, injector, waitForAngular} from 'opensphere/src/os/ui/ui.js';
 
 import {AngularComponent} from '../../coreui/layout/angularcomponent.js';
@@ -39,29 +58,8 @@ const log = goog.require('goog.log');
 const {getValueByKeys} = goog.require('goog.object');
 const {getRandomString} = goog.require('goog.string');
 
-const AlertManager = goog.require('os.alert.AlertManager');
-const CommandProcessor = goog.require('os.command.CommandProcessor');
-const FeaturesVisibility = goog.require('os.command.FeaturesVisibility');
-const Settings = goog.require('os.config.Settings');
-const {Keys} = goog.require('os.config.theme');
-const DataManager = goog.require('os.data.DataManager');
-const {preventBrowserContextMenu} = goog.require('os.events');
-const FilePersistence = goog.require('os.file.persist.FilePersistence');
-const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
-const Metrics = goog.require('os.metrics.Metrics');
-const {Map: MapKeys} = goog.require('os.metrics.keys');
-const addDefaultHandlers = goog.require('os.net.addDefaultHandlers');
-const {unsafeClone} = goog.require('os.object');
-const PluginManager = goog.require('os.plugin.PluginManager');
-const {randomString} = goog.require('os.string');
-const {disposeOffset, initOffset} = goog.require('os.time');
-const {setLaunchPropertyInfo} = goog.require('os.ui.PropertyInfoUI');
-const ResizeEventType = goog.require('os.ui.ResizeEventType');
-const {setLaunchColumnManagerFn} = goog.require('os.ui.column');
-const ExportManager = goog.require('os.ui.file.ExportManager');
-
 const Logger = goog.requireType('goog.log.Logger');
-const IPersistable = goog.requireType('os.IPersistable');
+const {default: IPersistable} = goog.requireType('os.IPersistable');
 const {LaunchPropertyInfoFn} = goog.requireType('os.ui.PropertyInfoUI');
 const {LaunchColumnManagerFn} = goog.requireType('os.ui.column');
 

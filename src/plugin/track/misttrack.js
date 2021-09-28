@@ -1,5 +1,21 @@
 goog.declareModuleId('plugin.mist.track');
 
+import AlertEventSeverity from 'opensphere/src/os/alert/alerteventseverity.js';
+import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
+import CommandProcessor from 'opensphere/src/os/command/commandprocessor.js';
+import SequenceCommand from 'opensphere/src/os/command/sequencecommand.js';
+import DataManager from 'opensphere/src/os/data/datamanager.js';
+import RecordField from 'opensphere/src/os/data/recordfield.js';
+import cloneToContext from 'opensphere/src/os/filter/clonetocontext.js';
+import osImplements from 'opensphere/src/os/implements.js';
+import instanceOf from 'opensphere/src/os/instanceof.js';
+import MapContainer from 'opensphere/src/os/mapcontainer.js';
+import {getWfsParams} from 'opensphere/src/os/ogc/ogc.js';
+import RequestSource from 'opensphere/src/os/source/requestsource.js';
+import {createTrack} from 'opensphere/src/os/track/track.js';
+import {setAddToTrack, setCreateTrack} from 'opensphere/src/os/track/track.js';
+import TrackField from 'opensphere/src/os/track/trackfield.js';
+import IOGCDescriptor from 'opensphere/src/os/ui/ogc/iogcdescriptor.js';
 import KMLNodeAdd from 'opensphere/src/plugin/file/kml/cmd/kmlnodeaddcmd.js';
 import {updatePlacemark} from 'opensphere/src/plugin/file/kml/ui/kmlui.js';
 import PlacesManager from 'opensphere/src/plugin/places/placesmanager.js';
@@ -10,34 +26,21 @@ import {getExports} from '../../mist/analyze/analyze.js';
 import {LAYER_TITLE} from './constants.js';
 import {MistTrackEventType} from './eventtype.js';
 
-const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
-const AlertManager = goog.require('os.alert.AlertManager');
-const cloneToContext = goog.require('os.filter.cloneToContext');
-const CommandProcessor = goog.require('os.command.CommandProcessor');
-const {createTrack} = goog.require('os.track');
-const DataManager = goog.require('os.data.DataManager');
-const {getValueByKeys} = goog.require('goog.object');
-const {getWfsParams} = goog.require('os.ogc');
-const instanceOf = goog.require('os.instanceOf');
-const IOGCDescriptor = goog.require('os.ui.ogc.IOGCDescriptor');
-const log = goog.require('goog.log');
-const MapContainer = goog.require('os.MapContainer');
-const osImplements = goog.require('os.implements');
-const RecordField = goog.require('os.data.RecordField');
-const RequestSource = goog.require('os.source.Request');
-const SequenceCommand = goog.require('os.command.SequenceCommand');
-const {setAddToTrack, setCreateTrack} = goog.require('os.track');
-const TrackField = goog.require('os.track.TrackField');
 const Uri = goog.require('goog.Uri');
 
-const AddOptions = goog.requireType('os.track.AddOptions');
-const CreateOptions = goog.requireType('os.track.CreateOptions');
-const Feature = goog.requireType('ol.Feature');
-const IFeatureType = goog.requireType('os.ogc.IFeatureType');
-const ILayer = goog.requireType('os.layer.ILayer');
+const log = goog.require('goog.log');
+const {getValueByKeys} = goog.require('goog.object');
 const Logger = goog.requireType('goog.log.Logger');
+const Feature = goog.requireType('ol.Feature');
+const {default: ILayer} = goog.requireType('os.layer.ILayer');
+const {default: IFeatureType} = goog.requireType('os.ogc.IFeatureType');
+
+const {default: AddOptions} = goog.requireType('os.track.AddOptions');
+const {default: CreateOptions} = goog.requireType('os.track.CreateOptions');
+const {default: TrackFeatureLike} = goog.requireType('os.track.TrackFeatureLike');
+
+
 const {default: TrackEvent} = goog.requireType('plugin.track.Event');
-const TrackFeatureLike = goog.requireType('os.track.TrackFeatureLike');
 
 
 /**

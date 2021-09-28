@@ -1,10 +1,16 @@
 goog.declareModuleId('plugin.tools.ToolsPlugin');
 
-import './toolsmain.js';
 import '../../mist/analyze/analyzebutton.js';
 import '../../mist/mixin/placesmanager.js';
+import './toolsmain.js';
+import ActionEventType from 'opensphere/src/os/action/eventtype.js';
 
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import AbstractPlugin from 'opensphere/src/os/plugin/abstractplugin.js';
+import PluginManager from 'opensphere/src/os/plugin/pluginmanager.js';
+import * as osList from 'opensphere/src/os/ui/list.js';
+import * as menuList from 'opensphere/src/os/ui/menu/listmenu.js';
+import NavLocation from 'opensphere/src/os/ui/nav/navlocation.js';
 import {ComponentManager} from '../../coreui/layout/componentmanager.js';
 import {closeExternal, initializeExports, isAnalyze} from '../../mist/analyze/analyze.js';
 import * as analyzeMenu from '../../mist/analyze/analyzemenu.js';
@@ -21,12 +27,6 @@ import {TrackPlugin} from '../track/misttrackplugin.js';
 import {ToolsSettingsInitializer} from './settingsinitializer.js';
 
 const GoogEventType = goog.require('goog.events.EventType');
-const ActionEventType = goog.require('os.action.EventType');
-const osList = goog.require('os.ui.list');
-const NavLocation = goog.require('os.ui.nav.Location');
-const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
-const PluginManager = goog.require('os.plugin.PluginManager');
-const menuList = goog.require('os.ui.menu.list');
 
 
 /**

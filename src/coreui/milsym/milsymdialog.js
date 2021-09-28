@@ -1,10 +1,9 @@
 goog.declareModuleId('coreui.milsym.MilSymDialogUI');
 
+import Module from 'opensphere/src/os/ui/module.js';
 import {ROOT} from '../../tools/tools.js';
 import {Controller as MilSymCtrl} from './milsymctrl.js';
 import {MilSymEventType} from './milsymeventtype.js';
-
-const Module = goog.require('os.ui.Module');
 
 
 /**

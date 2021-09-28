@@ -1,15 +1,14 @@
 goog.declareModuleId('tools.util');
 
+import Settings from 'opensphere/src/os/config/settings.js';
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import NumericBinMethod from 'opensphere/src/os/histo/numericbinmethod.js';
+import UniqueBinMethod from 'opensphere/src/os/histo/uniquebinmethod.js';
+import {unsafeClone} from 'opensphere/src/os/object/object.js';
 import {OPS_CLOCK_DATE_BIN_TYPES} from '../coreui/chart/vega/utils.js';
 import {ComponentManager} from '../coreui/layout/componentmanager.js';
 import * as vega from '../mist/ui/widget/mistchart.js';
 import {Type as WidgetType} from '../mist/ui/widget/widget.js';
-
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
-const Settings = goog.require('os.config.Settings');
-const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
-const {unsafeClone} = goog.require('os.object');
 
 
 /**

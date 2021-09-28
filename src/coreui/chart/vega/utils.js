@@ -1,7 +1,7 @@
 goog.declareModuleId('coreui.chart.vega.Utils');
 
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const DateBinType = goog.require('os.histo.DateBinType');
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import DateBinType from 'opensphere/src/os/histo/datebintype.js';
 
 
 /**

@@ -1,6 +1,6 @@
 goog.declareModuleId('coreui.chart.vega.ChartRegistry');
 
-const osObject = goog.require('os.object');
+import * as osObject from 'opensphere/src/os/object/object.js';
 
 const {ChartType} = goog.requireType('coreui.chart.vega.ChartType');
 

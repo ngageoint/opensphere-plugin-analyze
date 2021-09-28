@@ -1,7 +1,21 @@
 goog.declareModuleId('plugin.mist.track.menu');
 
+import AlertEventSeverity from 'opensphere/src/os/alert/alerteventseverity.js';
+import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
+import {createFilter, filterValidControllers} from 'opensphere/src/os/data/histo/histogramutils.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import BaseFilterManager from 'opensphere/src/os/filter/basefiltermanager.js';
+import FilterEntry from 'opensphere/src/os/filter/filterentry.js';
+import osInstanceOf from 'opensphere/src/os/instanceof.js';
+import MapContainer from 'opensphere/src/os/mapcontainer.js';
 import {getFilterColumns} from 'opensphere/src/os/source/source.js';
+import VectorSource from 'opensphere/src/os/source/vectorsource.js';
+import {addToTrack, getSortField, isTrackFeature, promptForTitle} from 'opensphere/src/os/track/track.js';
+import * as osFeatureMenu from 'opensphere/src/os/ui/menu/featuremenu.js';
+import * as osLayerMenu from 'opensphere/src/os/ui/menu/layermenu.js';
+import * as osListMenu from 'opensphere/src/os/ui/menu/listmenu.js';
+import MenuItemType from 'opensphere/src/os/ui/menu/menuitemtype.js';
+import * as osSpatialMenu from 'opensphere/src/os/ui/menu/spatial.js';
 import PlacesManager from 'opensphere/src/plugin/places/placesmanager.js';
 import TrackEventType from 'opensphere/src/plugin/track/eventtype.js';
 import * as TrackPlugin from 'opensphere/src/plugin/track/track.js';
@@ -18,31 +32,18 @@ import {ExpandTrackCtrl} from './misttrackexpand.js';
 import {Keys} from './misttrackmetrics.js';
 import {checkQueryTrack, requestTrack} from './misttrackquery.js';
 
-const {addToTrack, getSortField, isTrackFeature, promptForTitle} = goog.require('os.track');
-const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
-const AlertManager = goog.require('os.alert.AlertManager');
 const {assert} = goog.require('goog.asserts');
-const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
-const {createFilter, filterValidControllers} = goog.require('os.data.histo');
 const Feature = goog.require('ol.Feature');
-const FilterEntry = goog.require('os.filter.FilterEntry');
-const MapContainer = goog.require('os.MapContainer');
-const MenuItemType = goog.require('os.ui.menu.MenuItemType');
-const osFeatureMenu = goog.require('os.ui.menu.feature');
-const osInstanceOf = goog.require('os.instanceOf');
-const osLayerMenu = goog.require('os.ui.menu.layer');
-const osListMenu = goog.require('os.ui.menu.list');
-const osSpatialMenu = goog.require('os.ui.menu.spatial');
-const VectorSource = goog.require('os.source.Vector');
+const {default: ILayer} = goog.requireType('os.layer.ILayer');
+const {default: ISource} = goog.requireType('os.source.ISource');
+const {default: CreateOptions} = goog.requireType('os.track.CreateOptions');
+const {default: Menu} = goog.requireType('os.ui.menu.Menu');
+const {default: MenuEvent} = goog.requireType('os.ui.menu.MenuEvent');
+const {default: MenuItem} = goog.requireType('os.ui.menu.MenuItem');
+
 
 const CountByContainerUI = goog.requireType('tools.ui.CountByContainerUI');
 const CountByUI = goog.requireType('tools.ui.CountByUI');
-const CreateOptions = goog.requireType('os.track.CreateOptions');
-const ILayer = goog.requireType('os.layer.ILayer');
-const ISource = goog.requireType('os.source.ISource');
-const Menu = goog.requireType('os.ui.menu.Menu');
-const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
-const MenuItem = goog.requireType('os.ui.menu.MenuItem');
 
 
 /**

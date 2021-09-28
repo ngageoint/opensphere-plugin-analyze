@@ -1,6 +1,6 @@
 goog.declareModuleId('tools.ui.CountByRemoveCascadeUI');
 
-const Module = goog.require('os.ui.Module');
+import Module from 'opensphere/src/os/ui/module.js';
 
 
 /**

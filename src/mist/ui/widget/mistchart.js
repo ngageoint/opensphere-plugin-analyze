@@ -1,12 +1,11 @@
 goog.declareModuleId('mist.chart');
 
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import UniqueBinMethod from 'opensphere/src/os/histo/uniquebinmethod.js';
 import {ChartKeys} from '../../../coreui/chart/chart.js';
 import {ChartRegistry} from '../../../coreui/chart/vega/chartregistry.js';
 import {ChartType} from '../../../coreui/chart/vega/charttype.js';
 import {Utils} from '../../../coreui/chart/vega/utils.js';
-
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
 
 
 /**

@@ -1,11 +1,11 @@
 goog.declareModuleId('mist.ui.data.DateBinUI');
 
+import Module from 'opensphere/src/os/ui/module.js';
 import {ROOT} from '../../../tools/tools.js';
 
 const EventType = goog.require('goog.events.EventType');
-const Module = goog.require('os.ui.Module');
 
-const DateBinMethod = goog.requireType('os.histo.DateBinMethod');
+const {default: DateBinMethod} = goog.requireType('os.histo.DateBinMethod');
 
 
 /**

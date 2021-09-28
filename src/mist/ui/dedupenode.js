@@ -1,9 +1,9 @@
 goog.declareModuleId('mist.ui.DedupeNode');
 
+import SlickTreeNode from 'opensphere/src/os/ui/slick/slicktreenode.js';
 import {getNodeUi} from './dedupenodeui.js';
 
-const SlickTreeNode = goog.require('os.ui.slick.SlickTreeNode');
-const ISearchable = goog.requireType('os.data.ISearchable');
+const {default: ISearchable} = goog.requireType('os.data.ISearchable');
 
 
 /**

@@ -1,5 +1,7 @@
 goog.declareModuleId('coreui.chart.vega.scatter.Scatter');
 
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import NumericBinMethod from 'opensphere/src/os/histo/numericbinmethod.js';
 import {AbstractChart} from '../base/abstractchart.js';
 import {ChartType} from '../charttype.js';
 import {BoxSelect} from '../interaction/boxselect.js';
@@ -12,9 +14,6 @@ import {ScrollZoom} from '../interaction/scrollzoom.js';
 import {WindowBrush} from '../interaction/windowbrush.js';
 import {Utils, NUMERIC_EMPTY_ID} from '../utils.js';
 import {ScatterSpecHandler} from './scatterspec.js';
-
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
 
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 

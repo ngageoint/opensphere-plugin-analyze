@@ -1,5 +1,11 @@
 goog.declareModuleId('coreui.chart.vega.base.AbstractChart');
 
+import AlertEventSeverity from 'opensphere/src/os/alert/alerteventseverity.js';
+import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import NumericBinMethod from 'opensphere/src/os/histo/numericbinmethod.js';
+import UniqueBinMethod from 'opensphere/src/os/histo/uniquebinmethod.js';
+import * as osObject from 'opensphere/src/os/object/object.js';
 import {ChartDispatcher} from '../chartdispatcher.js';
 import {ChartType} from '../charttype.js';
 import {SourceModel} from '../data/sourcemodel';
@@ -16,18 +22,12 @@ import * as stats from './vegachartstats.js';
 const Debouncer = goog.require('goog.async.Debouncer');
 const EventTarget = goog.require('goog.events.EventTarget');
 const log = goog.require('goog.log');
-const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
-const AlertManager = goog.require('os.alert.AlertManager');
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
-const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
-const osObject = goog.require('os.object');
 
 const {SpecHandler} = goog.requireType('coreui.chart.vega.base.SpecHandler');
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 const {AbstractInteraction} = goog.requireType('coreui.chart.vega.interaction.AbstractInteraction');
 const Logger = goog.requireType('goog.log.Logger');
-const IBinMethod = goog.requireType('os.histo.IBinMethod');
+const {default: IBinMethod} = goog.requireType('os.histo.IBinMethod');
 
 
 /**

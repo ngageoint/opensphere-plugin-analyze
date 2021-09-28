@@ -1,27 +1,27 @@
 goog.declareModuleId('mist.menu.list');
 
+import EventType from 'opensphere/src/os/action/eventtype.js';
+import * as buffer from 'opensphere/src/os/buffer/buffer.js';
 import {instanceOf} from 'opensphere/src/os/classregistry.js';
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import {inIframe} from 'opensphere/src/os/os.js';
+import Vector from 'opensphere/src/os/source/vectorsource.js';
+import * as BufferDialogUI from 'opensphere/src/os/ui/buffer/bufferdialog.js';
+import {getSourcesFromContext} from 'opensphere/src/os/ui/menu/commonmenu.js';
+import {GroupLabel as FeatureGroupLabel} from 'opensphere/src/os/ui/menu/featuremenu.js';
+import * as osListMenu from 'opensphere/src/os/ui/menu/listmenu.js';
+import Menu from 'opensphere/src/os/ui/menu/menu.js';
+import MenuItem from 'opensphere/src/os/ui/menu/menuitem.js';
+import MenuItemType from 'opensphere/src/os/ui/menu/menuitemtype.js';
 import {AnalyzeEventType} from '../analyze/eventtype.js';
 import {Analyze} from '../metrics/keys.js';
 import {launchDedupeUI} from '../ui/dedupedialog.js';
 import {addGenericItems} from './toolsmenu.js';
 
 const Event = goog.require('goog.events.Event');
-const EventType = goog.require('os.action.EventType');
-const buffer = goog.require('os.buffer');
-const BufferDialogUI = goog.require('os.ui.buffer.BufferDialogUI');
-const Menu = goog.require('os.ui.menu.Menu');
-const MenuItem = goog.require('os.ui.menu.MenuItem');
-const MenuItemType = goog.require('os.ui.menu.MenuItemType');
-const {getSourcesFromContext} = goog.require('os.ui.menu.common');
-const {GroupLabel: FeatureGroupLabel} = goog.require('os.ui.menu.feature');
-const osListMenu = goog.require('os.ui.menu.list');
-const Vector = goog.require('os.source.Vector');
 
-const VectorSource = goog.requireType('os.source.Vector');
-const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
+const {default: VectorSource} = goog.requireType('os.source.Vector');
+const {default: MenuEvent} = goog.requireType('os.ui.menu.MenuEvent');
 const {Controller: SlickGridCtrl} = goog.requireType('os.ui.slick.SlickGridUI');
 
 

@@ -3,6 +3,7 @@ goog.declareModuleId('tools.ui.SourceSwitcherUI');
 goog.require('goog.events.EventType');
 goog.require('ol.events');
 
+import SourceManager from 'opensphere/src/os/data/sourcemanager.js';
 import {isEnabled, isVisible, titleCompare} from 'opensphere/src/os/source/source.js';
 import {apply} from 'opensphere/src/os/ui/ui.js';
 import {setActiveComponentId} from '../../coreui/layout/layout.js';
@@ -11,10 +12,9 @@ import {ROOT} from '../tools.js';
 import {Module} from './module.js';
 import {Event as NavEvent} from './toolsnav.js';
 
-const SourceManager = goog.require('os.data.SourceManager');
 const Timer = goog.require('goog.Timer');
 
-const ISource = goog.requireType('os.source.ISource');
+const {default: ISource} = goog.requireType('os.source.ISource');
 
 
 /**

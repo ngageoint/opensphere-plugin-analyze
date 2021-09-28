@@ -1,8 +1,9 @@
 goog.declareModuleId('coreui.layout.ComponentManager');
 
+import {unsafeClone} from 'opensphere/src/os/object/object.js';
+
 const EventTarget = goog.require('goog.events.EventTarget');
 const GoogEventType = goog.require('goog.events.EventType');
-const {unsafeClone} = goog.require('os.object');
 
 
 /**

@@ -1,13 +1,11 @@
 goog.declareModuleId('coreui.milsym.MilSymSaveUI');
 
 import '../selector/generalselector.js';
-
+import Settings from 'opensphere/src/os/config/settings.js';
+import Module from 'opensphere/src/os/ui/module.js';
 import {ROOT} from '../../tools/tools.js';
 import {settingsID} from './milsym.js';
 import {MilSymEventType} from './milsymeventtype.js';
-
-const Settings = goog.require('os.config.Settings');
-const Module = goog.require('os.ui.Module');
 
 
 /**

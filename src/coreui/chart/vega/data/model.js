@@ -1,5 +1,18 @@
 goog.declareModuleId('coreui.chart.vega.data.Model');
 
+import {binaryInsert} from 'opensphere/src/os/array/array.js';
+import {getHslGradient} from 'opensphere/src/os/color.js';
+import ColumnDefinition from 'opensphere/src/os/data/columndefinition.js';
+import ColorBin from 'opensphere/src/os/data/histo/colorbin.js';
+import DataModel from 'opensphere/src/os/data/xf/datamodel.js';
+import {easeSinusoidal} from 'opensphere/src/os/easing/easing.js';
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import NumericBinMethod from 'opensphere/src/os/histo/numericbinmethod.js';
+import UniqueBinMethod from 'opensphere/src/os/histo/uniquebinmethod.js';
+import {getMaxFeatures} from 'opensphere/src/os/ogc/ogc.js';
+import {randomString} from 'opensphere/src/os/string/string.js';
+import Duration from 'opensphere/src/os/time/duration.js';
+import * as time from 'opensphere/src/os/time/time.js';
 import {getDataStats, getDefaultStats, getValueStats} from '../../chartstats.js';
 import {VegaEvent} from '../base/event.js';
 import {EventType} from '../base/eventtype.js';
@@ -11,23 +24,10 @@ const Debouncer = goog.require('goog.async.Debouncer');
 const dispose = goog.require('goog.dispose');
 const EventTarget = goog.require('goog.events.EventTarget');
 const log = goog.require('goog.log');
-const {binaryInsert} = goog.require('os.array');
-const {getHslGradient} = goog.require('os.color');
-const ColumnDefinition = goog.require('os.data.ColumnDefinition');
-const ColorBin = goog.require('os.data.histo.ColorBin');
-const DataModel = goog.require('os.data.xf.DataModel');
-const {easeSinusoidal} = goog.require('os.easing');
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
-const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
-const {getMaxFeatures} = goog.require('os.ogc');
-const {randomString} = goog.require('os.string');
-const time = goog.require('os.time');
-const Duration = goog.require('os.time.Duration');
+const {SeriesLike} = goog.requireType('coreui.chart.vega.SeriesLike');
 
 const Logger = goog.requireType('goog.log.Logger');
-const {SeriesLike} = goog.requireType('coreui.chart.vega.SeriesLike');
-const IBinMethod = goog.requireType('os.histo.IBinMethod');
+const {default: IBinMethod} = goog.requireType('os.histo.IBinMethod');
 
 
 /**

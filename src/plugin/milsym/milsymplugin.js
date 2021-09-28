@@ -1,9 +1,8 @@
 goog.declareModuleId('plugin.milsym.MilSymPlugin');
 
 import '../../coreui/milsym/milsymdialog.js';
-
-const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
-const IconSelectorManager = goog.require('os.ui.icon.IconSelectorManager');
+import AbstractPlugin from 'opensphere/src/os/plugin/abstractplugin.js';
+import IconSelectorManager from 'opensphere/src/os/ui/icon/iconselectormanager.js';
 
 
 /**

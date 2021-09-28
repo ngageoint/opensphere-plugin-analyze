@@ -1,8 +1,8 @@
 goog.declareModuleId('mist.mixin.vectorsource');
 
-const PropertyChangeEvent = goog.require('os.events.PropertyChangeEvent');
-const instanceOf = goog.require('os.instanceOf');
-const Vector = goog.require('os.source.Vector');
+import PropertyChangeEvent from 'opensphere/src/os/events/propertychangeevent.js';
+import instanceOf from 'opensphere/src/os/instanceof.js';
+import Vector from 'opensphere/src/os/source/vectorsource.js';
 const OlFeature = goog.require('ol.Feature');
 const SimpleGeom = goog.require('ol.geom.SimpleGeometry');
 

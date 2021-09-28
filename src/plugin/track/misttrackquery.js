@@ -1,34 +1,36 @@
 goog.declareModuleId('plugin.mist.track.query');
 
+import AlertEventSeverity from 'opensphere/src/os/alert/alerteventseverity.js';
+import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
+import DataManager from 'opensphere/src/os/data/datamanager.js';
+import RecordField from 'opensphere/src/os/data/recordfield.js';
+import osEventType from 'opensphere/src/os/events/eventtype.js';
+import PropertyChangeEvent from 'opensphere/src/os/events/propertychangeevent.js';
+import BaseFilterManager from 'opensphere/src/os/filter/basefiltermanager.js';
+import {filterFalsey} from 'opensphere/src/os/fn/fn.js';
+import FeatureImporter from 'opensphere/src/os/im/featureimporter.js';
+import MappingManager from 'opensphere/src/os/im/mapping/mappingmanager.js';
+import instanceOf from 'opensphere/src/os/instanceof.js';
+import osRequest from 'opensphere/src/os/net/request.js';
+import OGCFilterCleaner from 'opensphere/src/os/ogc/filter/ogcfiltercleaner.js';
+import OGCFilterModifier from 'opensphere/src/os/ogc/filter/ogcfiltermodifier.js';
+import OGCFilterOverride from 'opensphere/src/os/ogc/filter/ogcfilteroverride.js';
+import {getException} from 'opensphere/src/os/ogc/ogc.js';
+import WFSFormatter from 'opensphere/src/os/ogc/wfs/wfsformatter.js';
+import VectorSource from 'opensphere/src/os/source/vectorsource.js';
+import TimeRange from 'opensphere/src/os/time/timerange.js';
+import {addToTrack} from 'opensphere/src/os/track/track.js';
+import TrackField from 'opensphere/src/os/track/trackfield.js';
 import GeoJSONParser from 'opensphere/src/plugin/file/geojson/geojsonparser.js';
 
-const {addToTrack} = goog.require('os.track');
-const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
-const AlertManager = goog.require('os.alert.AlertManager');
-const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
-const DataManager = goog.require('os.data.DataManager');
-const FeatureImporter = goog.require('os.im.FeatureImporter');
-const {filterFalsey} = goog.require('os.fn');
-const {getException} = goog.require('os.ogc');
 const googEventType = goog.require('goog.net.EventType');
-const instanceOf = goog.require('os.instanceOf');
-const MappingManager = goog.require('os.im.mapping.MappingManager');
-const osEventType = goog.require('os.events.EventType');
-const OGCFilterCleaner = goog.require('os.ogc.filter.OGCFilterCleaner');
-const OGCFilterModifier = goog.require('os.ogc.filter.OGCFilterModifier');
-const OGCFilterOverride = goog.require('os.ogc.filter.OGCFilterOverride');
-const osRequest = goog.require('os.net.Request');
-const PropertyChangeEvent = goog.require('os.events.PropertyChangeEvent');
-const RecordField = goog.require('os.data.RecordField');
-const TimeRange = goog.require('os.time.TimeRange');
-const TrackField = goog.require('os.track.TrackField');
-const VectorSource = goog.require('os.source.Vector');
-const WFSFormatter = goog.require('os.ogc.wfs.WFSFormatter');
+const googEvent = goog.requireType('goog.events.Event');
 
 const Feature = goog.requireType('ol.Feature');
-const googEvent = goog.requireType('goog.events.Event');
-const ITime = goog.requireType('os.time.ITime');
-const OGCFilterModifierOptions = goog.requireType('os.ogc.filter.OGCFilterModifierOptions');
+const {default: OGCFilterModifierOptions} = goog.requireType('os.ogc.filter.OGCFilterModifierOptions');
+
+
+const {default: ITime} = goog.requireType('os.time.ITime');
 
 
 /**
