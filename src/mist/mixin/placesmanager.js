@@ -1,9 +1,7 @@
 goog.declareModuleId('mist.mixin.places');
 
+import PlacesManager from 'opensphere/src/plugin/places/placesmanager.js';
 import {ANALYZE_CONFIG_KEY} from './vectorsource.js';
-
-const PlacesManager = goog.require('plugin.places.PlacesManager');
-
 
 /**
  * mixin to make saved places default to not show in analyze

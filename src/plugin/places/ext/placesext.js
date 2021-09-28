@@ -1,15 +1,15 @@
 goog.declareModuleId('plugin.places.ext');
 
 import {inIframe} from 'opensphere/src/os/os.js';
+import {setAddFolder, setAddPlace, setSaveFromSource} from 'opensphere/src/plugin/places/places.js';
+import PlacesManager from 'opensphere/src/plugin/places/placesmanager.js';
+import {setLaunchSavePlaces} from 'opensphere/src/plugin/places/ui/launchsaveplaces.js';
 import {getExports} from '../../../mist/analyze/analyze.js';
 
 const {getValueByKeys} = goog.require('goog.object');
-const {setAddFolder, setAddPlace, setSaveFromSource} = goog.require('plugin.places');
-const PlacesManager = goog.require('plugin.places.PlacesManager');
-const {setLaunchSavePlaces} = goog.require('plugin.places.ui.launchSavePlaces');
 
 const VectorSource = goog.requireType('os.source.Vector');
-const KMLNode = goog.requireType('plugin.file.kml.ui.KMLNode');
+const {default: KMLNode} = goog.requireType('plugin.file.kml.ui.KMLNode');
 const {FolderOptions, PlaceOptions} = goog.requireType('plugin.places');
 
 

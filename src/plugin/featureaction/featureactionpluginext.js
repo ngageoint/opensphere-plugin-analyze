@@ -1,14 +1,14 @@
 goog.declareModuleId('plugin.im.action.feature.FeatureActionPluginExt');
 
 import {isMainWindow} from 'opensphere/src/os/os.js';
+import FeatureActionManager from 'opensphere/src/plugin/featureaction/featureactionmanager.js';
+import {launchEditFeatureAction} from 'opensphere/src/plugin/featureaction/ui/index.js';
 import {EXPORT_PROPERTY, exportSymbol} from '../../mist/analyze/analyze.js';
 import {ID} from './featureactionext.js';
 import {countByDispose, countBySetup} from './featureactionmenuext.js';
 
 const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
-const FeatureActionManager = goog.require('plugin.im.action.feature.Manager');
 const googObject = goog.require('goog.object');
-const {launchEditFeatureAction} = goog.require('plugin.im.action.feature.ui');
 const osObject = goog.require('os.object');
 
 

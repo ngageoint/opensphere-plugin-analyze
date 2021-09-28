@@ -3,6 +3,8 @@ goog.declareModuleId('plugin.im.action.feature.ext.menu');
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import {inIframe} from 'opensphere/src/os/os.js';
 import {getFilterColumns} from 'opensphere/src/os/source/source.js';
+import {ENTRY_TITLE} from 'opensphere/src/plugin/featureaction/featureaction.js';
+import {launchEditFeatureAction} from 'opensphere/src/plugin/featureaction/ui/index.js';
 import {EXPORT_PROPERTY} from '../../mist/analyze/analyze.js';
 import * as countByMenu from '../../mist/menu/countbymenu.js';
 import * as CountByUI from '../../tools/ui/countby.js';
@@ -12,17 +14,15 @@ const action = goog.require('os.im.action');
 const AlertManager = goog.require('os.alert.AlertManager');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const {assert} = goog.require('goog.asserts');
-const featureAction = goog.require('plugin.im.action.feature');
 const googObject = goog.require('goog.object');
 const ImportActionEvent = goog.require('os.im.action.ImportActionEvent');
 const ImportActionEventType = goog.require('os.im.action.ImportActionEventType');
 const ImportActionManager = goog.require('os.im.action.ImportActionManager');
 const IImportSource = goog.require('os.source.IImportSource');
 const instanceOf = goog.require('os.instanceOf');
-const {launchEditFeatureAction} = goog.require('plugin.im.action.feature.ui');
 const osImplements = goog.require('os.implements');
 
-const Entry = goog.requireType('plugin.im.action.feature.Entry');
+const {default: Entry} = goog.requireType('plugin.im.action.feature.Entry');
 const IHistogramUI = goog.requireType('os.ui.IHistogramUI');
 const ISource = goog.requireType('os.source.ISource');
 const Menu = goog.requireType('os.ui.menu.Menu');
@@ -176,7 +176,7 @@ const onEntryReady = (source, entry) => {
 
     const layerName = source ? ('<strong>' + source.getTitle() + '</strong>') : 'the selected data source';
     AlertManager.getInstance().sendAlert(
-        'Created a new ' + featureAction.ENTRY_TITLE + ' for ' + layerName + '.',
+        'Created a new ' + ENTRY_TITLE + ' for ' + layerName + '.',
         AlertEventSeverity.SUCCESS);
   }
 };

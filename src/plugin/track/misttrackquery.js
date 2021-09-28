@@ -1,5 +1,7 @@
 goog.declareModuleId('plugin.mist.track.query');
 
+import GeoJSONParser from 'opensphere/src/plugin/file/geojson/geojsonparser.js';
+
 const {addToTrack} = goog.require('os.track');
 const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const AlertManager = goog.require('os.alert.AlertManager');
@@ -7,7 +9,6 @@ const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
 const DataManager = goog.require('os.data.DataManager');
 const FeatureImporter = goog.require('os.im.FeatureImporter');
 const {filterFalsey} = goog.require('os.fn');
-const GeoJSONParser = goog.require('plugin.file.geojson.GeoJSONParser');
 const {getException} = goog.require('os.ogc');
 const googEventType = goog.require('goog.net.EventType');
 const instanceOf = goog.require('os.instanceOf');

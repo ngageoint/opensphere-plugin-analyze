@@ -1,6 +1,5 @@
 goog.declareModuleId('tools.ui.AbstractToolsMainCtrl');
 
-goog.require('os.style.StyleManager');
 goog.require('os.ui.column.ColumnManagerUI');
 
 import '../../coreui/chart/vega/base/vegachart.js';
@@ -12,7 +11,9 @@ import './toolsnavui.js';
 
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 import {inIframe, isOSX, setDataManager} from 'opensphere/src/os/os.js';
+import AbstractMainCtrl from 'opensphere/src/os/ui/abstractmainctrl.js';
 import {MODAL_SELECTOR, apply, injector, waitForAngular} from 'opensphere/src/os/ui/ui.js';
+
 import {AngularComponent} from '../../coreui/layout/angularcomponent.js';
 import {GoldenLayoutEvent, LayoutEvent, cleanConfig} from '../../coreui/layout/layout.js';
 import {getExports, restoreSingletonsFromExports} from '../../mist/analyze/analyze.js';
@@ -54,7 +55,6 @@ const {unsafeClone} = goog.require('os.object');
 const PluginManager = goog.require('os.plugin.PluginManager');
 const {randomString} = goog.require('os.string');
 const {disposeOffset, initOffset} = goog.require('os.time');
-const AbstractMainCtrl = goog.require('os.ui.AbstractMainCtrl');
 const {setLaunchPropertyInfo} = goog.require('os.ui.PropertyInfoUI');
 const ResizeEventType = goog.require('os.ui.ResizeEventType');
 const {setLaunchColumnManagerFn} = goog.require('os.ui.column');
