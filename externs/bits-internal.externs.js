@@ -5,52 +5,17 @@
  * @externs
  */
 
-
 /**
  * Namespace.
  * @type {Object}
  */
 var bitsx = {};
 
-
 /**
  * Namespace.
  * @type {Object}
  */
 bitsx.chart = {};
-
-
-/**
- * Namespace.
- * @type {Object}
- */
-bitsx.mini = {};
-
-
-/**
- * Namespace.
- * @type {Object}
- */
-bitsx.vega = {};
-
-
-/**
- * @typedef {{
- *   id: string,
- *   priority: (number|undefined),
- *   types: !Array<string>,
- *   title: string,
- *   icon: string,
- *   ui: string,
- *   optionsUi: (string|undefined),
- *   modelFn: (Function|undefined),
- *   metricKey: string,
- *   supportsColors: (boolean|undefined),
- *   supportsColorModel: (boolean|undefined)
- * }}
- */
-bitsx.chart.ChartOptions;
-
 
 /**
  * @typedef {{
@@ -63,54 +28,11 @@ bitsx.chart.ChartOptions;
  */
 bitsx.chart.ChartStats;
 
-
 /**
- * @typedef {{
- *   column: os.data.ColumnDefinition,
- *   columns: Array<!os.data.ColumnDefinition>,
- *   config: !Object,
- *   method: os.histo.IBinMethod,
- *   methods: !Object<string, !function(new: os.histo.IBinMethod)>,
- *   methodType: ?string,
- *   model: !Object,
- *   select: !Array<string>,
- * }}
+ * Namespace.
+ * @type {Object}
  */
-bitsx.chart.ChartControllerOptions;
-
-
-/**
- * @typedef {{
- *   model: !Object,
- *   title: ?string,
- *   chartType: ?string,
- *   config: ?Object,
- *   selection: ?Array<string>
- * }}
- */
-bitsx.chart.Options;
-
-
-/**
- * @typedef {{
- *   file: (Array<string>|undefined),
- *   wms: (Array<string>|undefined),
- *   datepicker: (boolean|undefined),
- *   draw: (boolean|undefined),
- *   dragdrop: (boolean|undefined),
- *   height: (number|undefined)
- * }}
- */
-bitsx.mini.MapConfig;
-
-
-/**
- * @typedef {{
- *   date: string
- * }}
- */
-bitsx.vega.WatchboxDataDefinition;
-
+bitsx.vega = {};
 
 /**
  * // type - metrickey //
@@ -137,7 +59,7 @@ bitsx.vega.WatchboxDataDefinition;
  *   metricKey: string,
  *
  *   signals: (Object<string, *>|undefined),
- *   primary: (os.data.ColumnDefinition|bitsx.vega.WatchboxDataDefinition|undefined),
+ *   primary: (os.data.ColumnDefinition|undefined),
  *   primaryMethodType: (string|undefined),
  *   primaryMethod: (os.histo.IBinMethod|undefined),
  *   secondary: (os.data.ColumnDefinition|undefined),
