@@ -42,7 +42,7 @@ export class FeatureActionPluginExt extends AbstractPlugin {
     if (isMainWindow()) {
       // export for child windows
       exportSymbol('importActionManager', FeatureActionManager.getInstance());
-      osObject.set(window, [EXPORT_PROPERTY, 'functions', 'launchFeatureActionEdit'], launchEditFeatureAction);
+      osObject.setValue(window, [EXPORT_PROPERTY, 'functions', 'launchFeatureActionEdit'], launchEditFeatureAction);
     } else {
       const manager = /** @type {FeatureActionManager|undefined} */
           (googObject.getValueByKeys(window, EXPORT_PROPERTY, 'importActionManager'));
