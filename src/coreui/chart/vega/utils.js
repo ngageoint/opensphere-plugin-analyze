@@ -28,8 +28,8 @@ export const OPS_CLOCK_DATE_BIN_TYPES = [
 export const Utils = {
   /**
    * Gets the bin method for the opsclock. This method has a restricted set of available date bin types.
-   * @param {os.histo.DateBinMethod=} opt_method method on which to apply additional opsclock settings
-   * @return {!os.histo.DateBinMethod} The opsclock bin method instance.
+   * @param {DateBinMethod=} opt_method method on which to apply additional opsclock settings
+   * @return {!DateBinMethod} The opsclock bin method instance.
    */
   getOpsClockMethod(opt_method) {
     const method = opt_method || new DateBinMethod();
