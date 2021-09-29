@@ -1,7 +1,8 @@
 goog.declareModuleId('coreui.chart.vega.base.VegaChartUI');
 
 import '../opsclock/opsclock.js';
-import './vegaoptions.js';
+import './vegaoptionsui.js';
+
 import ThemeSettingsChangeEvent from 'opensphere/src/os/config/themesettingschangeevent.js';
 import RecordField from 'opensphere/src/os/data/recordfield.js';
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
@@ -36,6 +37,7 @@ const KeyEvent = goog.require('goog.events.KeyEvent');
 const KeyHandler = goog.require('goog.events.KeyHandler');
 const googObject = goog.require('goog.object');
 
+const {VegaOptions} = goog.requireType('coreui.chart.vega.VegaOptions');
 const {AbstractChart} = goog.requireType('coreui.chart.vega.base.AbstractChart');
 const {VegaEvent} = goog.requireType('coreui.chart.vega.base.Event');
 const {AbstractInteraction} = goog.requireType('coreui.chart.vega.interaction.AbstractInteraction');
@@ -139,7 +141,7 @@ export class Controller extends AbstractComponentCtrl {
     this.id = randomString();
 
     /**
-     * Map of chart configs by source ID. Note that these are NOT bitsx.vega.Options objects, but rather the results
+     * Map of chart configs by source ID. Note that these are NOT VegaOptions objects, but rather the results
      * of calling persist.
      * @type {Object<string, Object>}
      * @protected
@@ -163,7 +165,7 @@ export class Controller extends AbstractComponentCtrl {
 
     /**
      * The options for the chart.
-     * @type {bitsx.vega.Options}
+     * @type {VegaOptions}
      */
     this['options'] = null;
 
@@ -188,7 +190,7 @@ export class Controller extends AbstractComponentCtrl {
 
     /**
      * List of available chart types.
-     * @type {Array<bitsx.vega.Options>}
+     * @type {Array<VegaOptions>}
      */
     this['availableOptions'] = ChartRegistry.getInstance().getChartTypes().sort(ChartRegistry.sortOptionsByPriority);
 
@@ -326,7 +328,7 @@ export class Controller extends AbstractComponentCtrl {
   /**
    * Apply scope triggered outside of current scope
    * @param {?angular.Scope.Event} event
-   * @param {bitsx.vega.Options} options The new chart options.
+   * @param {VegaOptions} options The new chart options.
    */
   onChartChange(event, options) {
     this.destroyChart();

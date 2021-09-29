@@ -6,6 +6,7 @@ import {StatType} from '../../chartstats.js';
 import {ChartType} from '../charttype.js';
 import {Utils} from '../utils.js';
 
+const {VegaOptions} = goog.requireType('coreui.chart.vega.VegaOptions');
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
@@ -110,11 +111,11 @@ const nanLabel = 'Not a Number';
 
 /**
  * If a chart supports statistics.
- * @param {bitsx.vega.Options} options The chart options.
+ * @param {VegaOptions} options The chart options.
  * @return {boolean}
  */
-export const supportsStats = (options) => options && (options.type === ChartType.BAR || options.type === ChartType
-    .LINE);
+export const supportsStats = (options) => !!options &&
+    (options.type === ChartType.BAR || options.type === ChartType.LINE);
 
 
 

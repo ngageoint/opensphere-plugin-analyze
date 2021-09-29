@@ -10,6 +10,8 @@ import {ComponentManager} from '../coreui/layout/componentmanager.js';
 import * as vega from '../mist/ui/widget/mistchart.js';
 import {Type as WidgetType} from '../mist/ui/widget/widget.js';
 
+const {VegaOptions} = goog.requireType('coreui.chart.vega.VegaOptions');
+
 
 /**
  * Global reference of arrays for default analyze window tab config/layouts.
@@ -229,7 +231,7 @@ export const toVega = function(record, source) {
         'field': chartConfig['yColumn']['field']
       };
 
-      Object.assign(config[type], /** @type {bitsx.vega.Options} */ ({
+      Object.assign(config[type], /** @type {VegaOptions} */ ({
         primary: {'field': methodX['field']},
         primaryMethod: methodX,
         primaryMethodType: methodX['type'],
@@ -240,7 +242,7 @@ export const toVega = function(record, source) {
       }));
     } else {
       // Default Case: Just use "method" for the proper binning configs, etc
-      Object.assign(config[type], /** @type {bitsx.vega.Options} */ ({
+      Object.assign(config[type], /** @type {VegaOptions} */ ({
         primary: {'field': method['field']},
         primaryMethod: method,
         primaryMethodType: method['type'],

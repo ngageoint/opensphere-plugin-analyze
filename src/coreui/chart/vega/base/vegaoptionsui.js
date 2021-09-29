@@ -24,6 +24,7 @@ const dispose = goog.require('goog.dispose');
 const GoogEventType = goog.require('goog.events.EventType');
 
 const GoogEvent = goog.requireType('goog.events.EventType');
+const {VegaOptions} = goog.requireType('coreui.chart.vega.VegaOptions');
 const {default: IBinMethod} = goog.requireType('os.histo.IBinMethod');
 const {default: Menu} = goog.requireType('os.ui.menu.Menu');
 
@@ -164,8 +165,8 @@ class Controller extends Disposable {
 
   /**
    * Handle change to scope options.
-   * @param {bitsx.vega.Options} newVal The new options.
-   * @param {bitsx.vega.Options} oldVal The old options.
+   * @param {VegaOptions} newVal The new options.
+   * @param {VegaOptions} oldVal The old options.
    * @protected
    */
   onOptionsChange(newVal, oldVal) {
@@ -175,7 +176,7 @@ class Controller extends Disposable {
     this['binStatMenu'] = null;
     this['dataStatMenu'] = null;
 
-    const options = /** @type {bitsx.vega.Options} */ (newVal);
+    const options = /** @type {VegaOptions} */ (newVal);
     if (options) {
       if (stats.supportsStats(options)) {
         options.binStats = options.binStats || {};
@@ -205,7 +206,7 @@ class Controller extends Disposable {
   }
 
   /**
-   * @param {!bitsx.vega.Options} options The chart options.
+   * @param {!VegaOptions} options The chart options.
    * @export
    */
   setChart(options) {
@@ -381,7 +382,7 @@ class Controller extends Disposable {
     if (menu && !menu.isOpen() && event && event.target) {
       // determine the appropriate menu context
       let context;
-      const options = /** @type {bitsx.vega.Options} */ (this.scope['options']);
+      const options = /** @type {VegaOptions} */ (this.scope['options']);
       if (options) {
         if (menu === this['dataStatMenu']) {
           context = options.dataStats;

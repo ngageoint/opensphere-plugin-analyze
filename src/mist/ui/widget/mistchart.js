@@ -7,10 +7,12 @@ import {ChartRegistry} from '../../../coreui/chart/vega/chartregistry.js';
 import {ChartType} from '../../../coreui/chart/vega/charttype.js';
 import {Utils} from '../../../coreui/chart/vega/utils.js';
 
+const {VegaOptions} = goog.requireType('coreui.chart.vega.VegaOptions');
+
 
 /**
  * Default options for a Vega bar chart.
- * @type {bitsx.vega.Options}
+ * @type {!VegaOptions}
  */
 export const BAR_OPTIONS = {
   type: ChartType.BAR,
@@ -31,7 +33,7 @@ export const BAR_OPTIONS = {
 
 /**
  * Default options for a Vega line chart.
- * @type {bitsx.vega.Options}
+ * @type {!VegaOptions}
  */
 export const LINE_OPTIONS = {
   type: ChartType.LINE,
@@ -52,7 +54,7 @@ export const LINE_OPTIONS = {
 
 /**
  * Default options for a Vega pie chart.
- * @type {bitsx.vega.Options}
+ * @type {!VegaOptions}
  */
 export const PIE_OPTIONS = {
   type: ChartType.PIE,
@@ -66,7 +68,7 @@ export const PIE_OPTIONS = {
 
 /**
  * Default options for a Vega scatter chart.
- * @type {bitsx.vega.Options}
+ * @type {!VegaOptions}
  */
 export const SCATTER_OPTIONS = {
   type: ChartType.SCATTER,
@@ -92,7 +94,7 @@ export const SCATTER_OPTIONS = {
 
 /**
  * Default options for a Vega opsclock chart.
- * @type {bitsx.vega.Options}
+ * @type {!VegaOptions}
  */
 export const OPSCLOCK_OPTIONS = {
   type: ChartType.OPSCLOCK,

@@ -23,6 +23,7 @@ const Debouncer = goog.require('goog.async.Debouncer');
 const EventTarget = goog.require('goog.events.EventTarget');
 const log = goog.require('goog.log');
 
+const {VegaOptions} = goog.requireType('coreui.chart.vega.VegaOptions');
 const {SpecHandler} = goog.requireType('coreui.chart.vega.base.SpecHandler');
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 const {AbstractInteraction} = goog.requireType('coreui.chart.vega.interaction.AbstractInteraction');
@@ -565,7 +566,7 @@ export class AbstractChart extends EventTarget {
 
   /**
    * Apply changes to parts of the spec that can't handle signals
-   * @param {!bitsx.vega.Options} options
+   * @param {!VegaOptions} options
    */
   process(options) {
     const spec = this.spec;

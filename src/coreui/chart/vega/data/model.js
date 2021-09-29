@@ -27,6 +27,7 @@ const log = goog.require('goog.log');
 const {SeriesLike} = goog.requireType('coreui.chart.vega.SeriesLike');
 
 const Logger = goog.requireType('goog.log.Logger');
+const {VegaOptions} = goog.requireType('coreui.chart.vega.VegaOptions');
 const {default: IBinMethod} = goog.requireType('os.histo.IBinMethod');
 
 
@@ -348,7 +349,7 @@ export class Model extends EventTarget {
 
   /**
    * Handles updating the series based on an options change event.
-   * @param {bitsx.vega.Options} options The options to set.
+   * @param {VegaOptions} options The options to set.
    * @param {boolean=} opt_resetAllowed
    */
   setOptions(options, opt_resetAllowed) {
