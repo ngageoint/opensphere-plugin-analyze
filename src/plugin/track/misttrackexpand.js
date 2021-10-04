@@ -1,17 +1,15 @@
 goog.declareModuleId('plugin.mist.track.ExpandTrackUI');
 
-goog.require('os.ui.datetime.DateTimeUI');
-
+import 'opensphere/src/os/ui/datetime/datetime.js';
+import RecordField from 'opensphere/src/os/data/recordfield.js';
+import Module from 'opensphere/src/os/ui/module.js';
+import * as osWindow from 'opensphere/src/os/ui/window.js';
+import WindowEventType from 'opensphere/src/os/ui/windoweventtype.js';
 import {ROOT} from '../../tools/tools.js';
 import {requestTrack} from './misttrackquery.js';
 
-const Module = goog.require('os.ui.Module');
-const osWindow = goog.require('os.ui.window');
-const RecordField = goog.require('os.data.RecordField');
-const WindowEventType = goog.require('os.ui.WindowEventType');
-
 const Feature = goog.requireType('ol.Feature');
-const ITime = goog.requireType('os.time.ITime');
+const {default: ITime} = goog.requireType('os.time.ITime');
 
 
 /**

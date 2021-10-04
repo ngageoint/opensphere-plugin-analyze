@@ -1,8 +1,8 @@
 goog.declareModuleId('coreui.layout.LayoutPanelUI');
 
-goog.require('os.ui.util.AutoHeightUI');
-
 import './dragcomponent.js';
+import 'opensphere/src/os/ui/util/autoheight.js';
+import Module from 'opensphere/src/os/ui/module.js';
 
 import {apply} from 'opensphere/src/os/ui/ui.js';
 import {ROOT} from '../../tools/tools.js';
@@ -13,7 +13,6 @@ const Disposable = goog.require('goog.Disposable');
 const Delay = goog.require('goog.async.Delay');
 const dispose = goog.require('goog.dispose');
 const GoogEventType = goog.require('goog.events.EventType');
-const Module = goog.require('os.ui.Module');
 
 
 /**

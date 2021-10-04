@@ -1,16 +1,15 @@
 goog.declareModuleId('mist.ui.menu.layer');
 
+import instanceOf from 'opensphere/src/os/instanceof.js';
+import MapContainer from 'opensphere/src/os/mapcontainer.js';
+import Vector from 'opensphere/src/os/source/vectorsource.js';
+import * as layerMenu from 'opensphere/src/os/ui/menu/layermenu.js';
 import {AnalyzeEventType} from '../../analyze/eventtype.js';
 import {showInAnalyze} from '../../mixin/vectorsource.js';
 
-const MapContainer = goog.require('os.MapContainer');
-const instanceOf = goog.require('os.instanceOf');
-const Vector = goog.require('os.source.Vector');
-const layerMenu = goog.require('os.ui.menu.layer');
-
-const VectorLayer = goog.requireType('os.layer.Vector');
-const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
-const MenuItem = goog.requireType('os.ui.menu.MenuItem');
+const {default: VectorLayer} = goog.requireType('os.layer.Vector');
+const {default: MenuEvent} = goog.requireType('os.ui.menu.MenuEvent');
+const {default: MenuItem} = goog.requireType('os.ui.menu.MenuItem');
 
 
 /**

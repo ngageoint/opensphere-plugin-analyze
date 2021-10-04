@@ -4,7 +4,7 @@ import {SourceModel} from '../data/sourcemodel.js';
 import {AbstractInteraction} from './abstractinteraction.js';
 
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
-const ColorBin = goog.requireType('os.data.histo.ColorBin');
+const {default: ColorBin} = goog.requireType('os.data.histo.ColorBin');
 
 
 /**

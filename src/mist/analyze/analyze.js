@@ -1,45 +1,44 @@
 goog.declareModuleId('mist.analyze');
 
+import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
+import * as buffer from 'opensphere/src/os/buffer/buffer.js';
+import CommandProcessor from 'opensphere/src/os/command/commandprocessor.js';
+import settings from 'opensphere/src/os/config/settings.js';
+import DataManager from 'opensphere/src/os/data/datamanager.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import BaseFilterManager from 'opensphere/src/os/filter/basefiltermanager.js';
+import {setIMapContainer, setMapContainer} from 'opensphere/src/os/map/mapinstance.js';
+import MapContainer from 'opensphere/src/os/mapcontainer.js';
+import Metrics from 'opensphere/src/os/metrics/metrics.js';
+import {getCrossOrigin, setGetCrossOriginFn} from 'opensphere/src/os/net/net.js';
 import {getParentWindow} from 'opensphere/src/os/os.js';
+import AreaManager from 'opensphere/src/os/query/areamanager.js';
+import FilterManager from 'opensphere/src/os/query/filtermanager.js';
+import {setAreaManager, setFilterManager, setQueryManager} from 'opensphere/src/os/query/queryinstance.js';
+import QueryManager from 'opensphere/src/os/query/querymanager.js';
 import * as osStyle from 'opensphere/src/os/style/style.js';
+import {setStyleManager} from 'opensphere/src/os/style/styleinstance.js';
+import StyleManager from 'opensphere/src/os/style/stylemanager_shim.js';
+import TimelineController from 'opensphere/src/os/time/timelinecontroller.js';
+import * as column from 'opensphere/src/os/ui/column/column.js';
+import ColumnActionManager from 'opensphere/src/os/ui/columnactions/columnactionmanager.js';
+import SettingsManager from 'opensphere/src/os/ui/config/settingsmanager.js';
+import exportManager from 'opensphere/src/os/ui/file/uiexportmanager.js';
+import IconSelectorManager from 'opensphere/src/os/ui/icon/iconselectormanager.js';
+import ImportManager from 'opensphere/src/os/ui/im/importmanager.js';
+import MetricsManager from 'opensphere/src/os/ui/metrics/metricsmanager.js';
+import {launchPropertyInfo} from 'opensphere/src/os/ui/propertyinfo.js';
+import * as osWindow from 'opensphere/src/os/ui/window.js';
+import Peer from 'opensphere/src/os/xt/peer.js';
 import {ComponentManager} from '../../coreui/layout/componentmanager.js';
 
 const googLog = goog.require('goog.log');
-const AlertManager = goog.require('os.alert.AlertManager');
-const settings = goog.require('os.config.Settings');
-const MapContainer = goog.require('os.MapContainer');
-const {getCrossOrigin, setGetCrossOriginFn} = goog.require('os.net');
-const CommandProcessor = goog.require('os.command.CommandProcessor');
-const AreaManager = goog.require('os.query.AreaManager');
-const FilterManager = goog.require('os.query.FilterManager');
-const QueryManager = goog.require('os.query.QueryManager');
-const ImportManager = goog.require('os.ui.im.ImportManager');
-const ColumnActionManager = goog.require('os.ui.columnactions.ColumnActionManager');
-const exportManager = goog.require('os.ui.exportManager');
-const StyleManager = goog.require('os.style.StyleManager');
-const SettingsManager = goog.require('os.ui.config.SettingsManager');
-const MetricsManager = goog.require('os.ui.metrics.MetricsManager');
-const TimelineController = goog.require('os.time.TimelineController');
-const IconSelectorManager = goog.require('os.ui.icon.IconSelectorManager');
-
-const buffer = goog.require('os.buffer');
 const GeoJSON = goog.require('ol.format.GeoJSON');
-const DataManager = goog.require('os.data.DataManager');
-const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
-const {setIMapContainer, setMapContainer} = goog.require('os.map.instance');
-const Metrics = goog.require('os.metrics.Metrics');
-const {setAreaManager, setFilterManager, setQueryManager} = goog.require('os.query.instance');
-const {setStyleManager} = goog.require('os.style.instance');
-const {launchPropertyInfo} = goog.require('os.ui.PropertyInfoUI');
-const column = goog.require('os.ui.column');
-const osWindow = goog.require('os.ui.window');
-const Peer = goog.require('os.xt.Peer');
 
 const Uri = goog.requireType('goog.Uri');
 const EventTarget = goog.requireType('goog.events.EventTarget');
 const Feature = goog.requireType('ol.Feature');
-const CrossOrigin = goog.requireType('os.net.CrossOrigin');
+const {default: CrossOrigin} = goog.requireType('os.net.CrossOrigin');
 
 
 /**

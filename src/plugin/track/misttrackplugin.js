@@ -1,6 +1,9 @@
 goog.declareModuleId('plugin.mist.track.TrackPlugin');
 
 import {isMainWindow} from 'opensphere/src/os/os.js';
+import AbstractPlugin from 'opensphere/src/os/plugin/abstractplugin.js';
+import {createTrack, addToTrack} from 'opensphere/src/os/track/track.js';
+import TrackField from 'opensphere/src/os/track/trackfield.js';
 import JsonField from 'opensphere/src/plugin/file/kml/jsonfield.js';
 import * as places from 'opensphere/src/plugin/places/places.js';
 import {createAndAdd} from 'opensphere/src/plugin/track/track.js';
@@ -9,10 +12,6 @@ import {EXPORT_PROPERTY, exportSymbol} from '../../mist/analyze/analyze.js';
 import {ID} from './constants.js';
 import {restoreExports} from './misttrack.js';
 import * as trackMenu from './misttrackmenu.js';
-
-const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
-const {createTrack, addToTrack} = goog.require('os.track');
-const TrackField = goog.require('os.track.TrackField');
 
 
 

@@ -1,28 +1,28 @@
 goog.declareModuleId('mist.menu.countBy');
 
+import EventType from 'opensphere/src/os/action/eventtype.js';
+import CommandProcessor from 'opensphere/src/os/command/commandprocessor.js';
+import FeaturesVisibility from 'opensphere/src/os/command/featuresvisibilitycmd.js';
+import ColorMethod from 'opensphere/src/os/data/histo/colormethod.js';
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
 import {getFirstColor, removeFeatures} from 'opensphere/src/os/feature/feature.js';
+import Metrics from 'opensphere/src/os/metrics/metrics.js';
 import {toRgbaString} from 'opensphere/src/os/style/style.js';
+import {GroupLabel as FeatureGroupLabel} from 'opensphere/src/os/ui/menu/featuremenu.js';
+import {Strings as OSListStrings, hasSelected} from 'opensphere/src/os/ui/menu/listmenu.js';
+import Menu from 'opensphere/src/os/ui/menu/menu.js';
+import MenuItem from 'opensphere/src/os/ui/menu/menuitem.js';
+import MenuItemType from 'opensphere/src/os/ui/menu/menuitemtype.js';
+import {launchConfirmColor} from 'opensphere/src/os/ui/window/confirmcolor.js';
 import {Strings as BitsListStrings} from '../../coreui/menu/listmenu.js';
 import {AnalyzeEventType} from '../analyze/eventtype.js';
 import {Analyze} from '../metrics/keys.js';
 import {addGenericItems, canCreateHistogramFilter, onColorChosen} from './toolsmenu.js';
 
-const CommandProcessor = goog.require('os.command.CommandProcessor');
-const EventType = goog.require('os.action.EventType');
-const FeaturesVisibility = goog.require('os.command.FeaturesVisibility');
-const Menu = goog.require('os.ui.menu.Menu');
-const MenuItem = goog.require('os.ui.menu.MenuItem');
-const MenuItemType = goog.require('os.ui.menu.MenuItemType');
-const {GroupLabel: FeatureGroupLabel} = goog.require('os.ui.menu.feature');
-const {Strings: OSListStrings, hasSelected} = goog.require('os.ui.menu.list');
-const Metrics = goog.require('os.metrics.Metrics');
-const ColorMethod = goog.require('os.data.histo.ColorMethod');
-const {launchConfirmColor} = goog.require('os.ui.window.ConfirmColorUI');
+const {default: IHistogramUI} = goog.requireType('os.ui.IHistogramUI');
+const {default: MenuEvent} = goog.requireType('os.ui.menu.MenuEvent');
 
 const {default: CountByUI} = goog.requireType('tools.ui.CountByUI');
-const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
-const IHistogramUI = goog.requireType('os.ui.IHistogramUI');
 const {Controller: CountByCtrl} = goog.requireType('tools.ui.CountByUI');
 
 

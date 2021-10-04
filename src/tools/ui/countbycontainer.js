@@ -1,8 +1,17 @@
 goog.declareModuleId('tools.ui.CountByContainerUI');
 
+import AlertEventSeverity from 'opensphere/src/os/alert/alerteventseverity.js';
+import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
+import ColorMethod from 'opensphere/src/os/data/histo/colormethod.js';
+import {HistoEventType, createFilter} from 'opensphere/src/os/data/histo/histogramutils.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import PayloadEvent from 'opensphere/src/os/events/payloadevent.js';
+import BaseFilterManager from 'opensphere/src/os/filter/basefiltermanager.js';
+import MapContainer from 'opensphere/src/os/mapcontainer.js';
 import {inIframe} from 'opensphere/src/os/os.js';
 import {getFilterColumns} from 'opensphere/src/os/source/source.js';
+import FilterEvent from 'opensphere/src/os/ui/filter/filterevent.js';
+import FilterEventType from 'opensphere/src/os/ui/filter/filtereventtype.js';
 import {EXPORT_PROPERTY} from '../../mist/analyze/analyze.js';
 import {AnalyzeEventType} from '../../mist/analyze/eventtype.js';
 import * as CountByMenu from '../../mist/menu/countbymenu.js';
@@ -12,21 +21,14 @@ import {Module} from './module.js';
 
 const Disposable = goog.require('goog.Disposable');
 const {getValueByKeys} = goog.require('goog.object');
-const MapContainer = goog.require('os.MapContainer');
-const AlertManager = goog.require('os.alert.AlertManager');
-const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
-const {HistoEventType, createFilter} = goog.require('os.data.histo');
-const ColorMethod = goog.require('os.data.histo.ColorMethod');
-const PayloadEvent = goog.require('os.events.PayloadEvent');
-const BaseFilterManager = goog.require('os.filter.BaseFilterManager');
-const FilterEvent = goog.require('os.ui.filter.FilterEvent');
-const FilterEventType = goog.require('os.ui.filter.FilterEventType');
 
-const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
-const FilterEntry = goog.requireType('os.filter.FilterEntry');
-const IFilterable = goog.requireType('os.filter.IFilterable');
-const IHistogramUI = goog.requireType('os.ui.IHistogramUI');
-const ISource = goog.requireType('os.source.ISource');
+const {default: ColumnDefinition} = goog.requireType('os.data.ColumnDefinition');
+const {default: FilterEntry} = goog.requireType('os.filter.FilterEntry');
+const {default: IFilterable} = goog.requireType('os.filter.IFilterable');
+const {default: ISource} = goog.requireType('os.source.ISource');
+
+
+const {default: IHistogramUI} = goog.requireType('os.ui.IHistogramUI');
 
 
 /**

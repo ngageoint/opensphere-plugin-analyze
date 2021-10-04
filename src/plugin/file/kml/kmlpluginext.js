@@ -1,8 +1,7 @@
 goog.declareModuleId('plugin.file.kml.KMLPluginExt');
 
 import 'opensphere/src/plugin/file/kml/ui/kmlexportui.js';
-
-const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
+import AbstractPlugin from 'opensphere/src/os/plugin/abstractplugin.js';
 
 
 /**

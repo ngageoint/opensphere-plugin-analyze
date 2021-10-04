@@ -1,14 +1,14 @@
 goog.declareModuleId('tools.ui.AllTimeCheckboxUI');
 
+import DataManager from 'opensphere/src/os/data/datamanager.js';
+import PropertyChange from 'opensphere/src/os/data/propertychange.js';
 import {ROOT} from '../tools.js';
 import {Module} from './module.js';
 
-const DataManager = goog.require('os.data.DataManager');
 const Disposable = goog.require('goog.Disposable');
 const GoogEventType = goog.require('goog.events.EventType');
-const PropertyChange = goog.require('os.data.PropertyChange');
 
-const PropertyChangeEvent = goog.requireType('os.events.PropertyChangeEvent');
+const {default: PropertyChangeEvent} = goog.requireType('os.events.PropertyChangeEvent');
 
 
 /**

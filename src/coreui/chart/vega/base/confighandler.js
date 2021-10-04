@@ -1,6 +1,6 @@
 goog.declareModuleId('coreui.chart.vega.base.ConfigHandler');
 
-const {HEATMAP_GRADIENT_HEX} = goog.require('os.color');
+import {HEATMAP_GRADIENT_HEX} from 'opensphere/src/os/color.js';
 
 
 /**

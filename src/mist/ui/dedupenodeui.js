@@ -1,11 +1,10 @@
 goog.declareModuleId('mist.ui.DedupeNodeUI');
 
+import Metrics from 'opensphere/src/os/metrics/metrics.js';
+import Module from 'opensphere/src/os/ui/module.js';
+import AbstractNodeUICtrl from 'opensphere/src/os/ui/slick/abstractnodeui.js';
 import {ROOT} from '../../tools/tools.js';
 import {Analyze} from '../metrics/keys.js';
-
-const Metrics = goog.require('os.metrics.Metrics');
-const Module = goog.require('os.ui.Module');
-const AbstractNodeUICtrl = goog.require('os.ui.slick.AbstractNodeUICtrl');
 
 const {DedupeNode} = goog.requireType('mist.ui.DedupeNode');
 

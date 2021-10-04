@@ -1,24 +1,24 @@
 goog.declareModuleId('mist.ui.MistDedupeUI');
 
+import AlertEventSeverity from 'opensphere/src/os/alert/alerteventseverity.js';
+import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
+import settings from 'opensphere/src/os/config/settings.js';
+import osMetrics from 'opensphere/src/os/metrics/metrics.js';
+import Module from 'opensphere/src/os/ui/module.js';
+import {nameCompare} from 'opensphere/src/os/ui/slick/column.js';
+import SlickTreeNode from 'opensphere/src/os/ui/slick/slicktreenode.js';
 import {apply} from 'opensphere/src/os/ui/ui.js';
+import * as window from 'opensphere/src/os/ui/window.js';
+import * as ConfirmTextUI from 'opensphere/src/os/ui/window/confirmtext.js';
 import {ROOT} from '../../tools/tools.js';
 import {Analyze} from '../metrics/keys.js';
 import {DedupeNode} from './dedupenode.js';
 
-const settings = goog.require('os.config.Settings');
 const Disposable = goog.require('goog.Disposable');
 const array = goog.require('goog.array');
 const Delay = goog.require('goog.async.Delay');
-const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
-const AlertManager = goog.require('os.alert.AlertManager');
-const Module = goog.require('os.ui.Module');
-const SlickTreeNode = goog.require('os.ui.slick.SlickTreeNode');
-const {nameCompare} = goog.require('os.ui.slick.column');
-const window = goog.require('os.ui.window');
-const ConfirmTextUI = goog.require('os.ui.window.ConfirmTextUI');
-const osMetrics = goog.require('os.metrics.Metrics');
 
-const VectorSource = goog.requireType('os.source.Vector');
+const {default: VectorSource} = goog.requireType('os.source.Vector');
 
 
 /**

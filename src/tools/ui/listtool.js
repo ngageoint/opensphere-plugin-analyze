@@ -1,10 +1,18 @@
 goog.declareModuleId('tools.ui.ListToolUI');
 
-goog.require('os.ui.SliderUI');
-goog.require('os.ui.SourceGridUI');
-
+import 'opensphere/src/os/ui/slider.js';
+import 'opensphere/src/os/ui/sourcegrid.js';
+import ActionEventType from 'opensphere/src/os/action/eventtype.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import SelectionType from 'opensphere/src/os/events/selectiontype.js';
+import Metrics from 'opensphere/src/os/metrics/metrics.js';
+import {isPrimitive} from 'opensphere/src/os/object/object.js';
+import * as operator from 'opensphere/src/os/operator.js';
 import {isOSX} from 'opensphere/src/os/os.js';
+import PropertyChange from 'opensphere/src/os/source/propertychange.js';
+import * as OsListMenu from 'opensphere/src/os/ui/menu/listmenu.js';
+import MenuEvent from 'opensphere/src/os/ui/menu/menuevent.js';
+import ColumnEventType from 'opensphere/src/os/ui/slick/columneventtype.js';
 import {MODAL_SELECTOR, apply} from 'opensphere/src/os/ui/ui.js';
 import {AbstractComponentCtrl} from '../../coreui/layout/abstractcomponentctrl.js';
 import {isActiveComponent} from '../../coreui/layout/layout.js';
@@ -22,20 +30,12 @@ const KeyHandler = goog.require('goog.events.KeyHandler');
 const {containsValue} = goog.require('goog.object');
 const {listen: olListen, unlisten: olUnlisten} = goog.require('ol.events');
 
-const ActionEventType = goog.require('os.action.EventType');
-const SelectionType = goog.require('os.events.SelectionType');
-const Metrics = goog.require('os.metrics.Metrics');
-const {isPrimitive} = goog.require('os.object');
-const operator = goog.require('os.operator');
-const PropertyChange = goog.require('os.source.PropertyChange');
-const MenuEvent = goog.require('os.ui.menu.MenuEvent');
-const OsListMenu = goog.require('os.ui.menu.list');
-const ColumnEventType = goog.require('os.ui.slick.ColumnEventType');
-
 const GoogEvent = goog.requireType('goog.events.Event');
-const Menu = goog.requireType('os.ui.menu.Menu');
-const PropertyChangeEvent = goog.requireType('os.events.PropertyChangeEvent');
-const VectorSource = goog.requireType('os.source.Vector');
+const {default: PropertyChangeEvent} = goog.requireType('os.events.PropertyChangeEvent');
+const {default: VectorSource} = goog.requireType('os.source.Vector');
+
+
+const {default: Menu} = goog.requireType('os.ui.menu.Menu');
 
 
 /**

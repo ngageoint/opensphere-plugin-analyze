@@ -1,7 +1,8 @@
 goog.declareModuleId('coreui.chart.vega.interaction.AbstractInteraction');
 
+import {randomString} from 'opensphere/src/os/string/string.js';
+
 const Disposable = goog.require('goog.Disposable');
-const {randomString} = goog.require('os.string');
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 const GoogEvent = goog.requireType('goog.events.Event');

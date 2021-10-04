@@ -1,8 +1,9 @@
 goog.declareModuleId('coreui.chart.vega.ChartRegistry');
 
-const osObject = goog.require('os.object');
+import * as osObject from 'opensphere/src/os/object/object.js';
 
 const {ChartType} = goog.requireType('coreui.chart.vega.ChartType');
+const {VegaOptions} = goog.requireType('coreui.chart.vega.VegaOptions');
 
 
 /**
@@ -15,7 +16,7 @@ export class ChartRegistry {
   constructor() {
     /**
      * Object of registered Vega chart types.
-     * @type {Object<string, bitsx.vega.Options>}
+     * @type {Object<string, VegaOptions>}
      * @private
      */
     this.chartTypes_ = {};
@@ -31,7 +32,7 @@ export class ChartRegistry {
   /**
    * Get the a chart type registered in the application by id.
    * @param {string|undefined} id The chart options id.
-   * @return {bitsx.vega.Options|undefined} The chart options, if registered.
+   * @return {VegaOptions|undefined} The chart options, if registered.
    */
   getChartType(id) {
     return id ? osObject.unsafeClone(this.chartTypes_[id]) : undefined;
@@ -39,7 +40,7 @@ export class ChartRegistry {
 
   /**
    * Get the chart types registered in the application.
-   * @return {!Array<!bitsx.vega.Options>} The chart types.
+   * @return {!Array<!VegaOptions>} The chart types.
    */
   getChartTypes() {
     return (this.chartTypes_) ? Object.values(this.chartTypes_).map(osObject.unsafeClone) : [];
@@ -47,7 +48,7 @@ export class ChartRegistry {
 
   /**
    * Register a new chart type in the application.
-   * @param {!bitsx.vega.Options} options The chart options.
+   * @param {!VegaOptions} options The chart options.
    * @param {Object=} opt_config Default configuration overrides.
    */
   registerChartType(options, opt_config) {
@@ -74,8 +75,8 @@ export class ChartRegistry {
 
   /**
    * Sort chart options in order of ascending priority.
-   * @param {!bitsx.vega.Options} a First options object.
-   * @param {!bitsx.vega.Options} b Second options object.
+   * @param {!VegaOptions} a First options object.
+   * @param {!VegaOptions} b Second options object.
    * @return {number} The sort value.
    */
   static sortOptionsByPriority(a, b) {

@@ -7,7 +7,7 @@ const {listen, unlisten} = goog.require('goog.events');
 const GoogEventType = goog.require('goog.events.EventType');
 const {getRandomString} = goog.require('goog.string');
 
-const IPersistable = goog.requireType('os.IPersistable');
+const {default: IPersistable} = goog.requireType('os.IPersistable');
 
 
 /**

@@ -1,20 +1,21 @@
 goog.declareModuleId('coreui.chart.vega.data.Series');
 
+import ColorBin from 'opensphere/src/os/data/histo/colorbin.js';
 import {getField} from 'opensphere/src/os/feature/feature.js';
 
-const EventTarget = goog.require('goog.events.EventTarget');
-const osFields = goog.require('os.Fields');
-const ColorBin = goog.require('os.data.histo.ColorBin');
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const DateRangeBinType = goog.require('os.histo.DateRangeBinType');
-const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
-const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
-const DataType = goog.require('os.xsd.DataType');
+import osFields from 'opensphere/src/os/fields/fields.js';
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import DateRangeBinType from 'opensphere/src/os/histo/daterangebintype.js';
+import NumericBinMethod from 'opensphere/src/os/histo/numericbinmethod.js';
+import UniqueBinMethod from 'opensphere/src/os/histo/uniquebinmethod.js';
+import DataType from 'opensphere/src/os/xsd.js';
 
-const DataModel = goog.requireType('os.data.xf.DataModel');
-const IGroupable = goog.requireType('os.data.xf.IGroupable');
-const DateBinType = goog.requireType('os.histo.DateBinType');
-const IBinMethod = goog.requireType('os.histo.IBinMethod');
+const EventTarget = goog.require('goog.events.EventTarget');
+
+const {default: DataModel} = goog.requireType('os.data.xf.DataModel');
+const {default: IGroupable} = goog.requireType('os.data.xf.IGroupable');
+const {default: DateBinType} = goog.requireType('os.histo.DateBinType');
+const {default: IBinMethod} = goog.requireType('os.histo.IBinMethod');
 
 
 /**

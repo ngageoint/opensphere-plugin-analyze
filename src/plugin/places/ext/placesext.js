@@ -8,7 +8,7 @@ import {getExports} from '../../../mist/analyze/analyze.js';
 
 const {getValueByKeys} = goog.require('goog.object');
 
-const VectorSource = goog.requireType('os.source.Vector');
+const {default: VectorSource} = goog.requireType('os.source.Vector');
 const {default: KMLNode} = goog.requireType('plugin.file.kml.ui.KMLNode');
 const {FolderOptions, PlaceOptions} = goog.requireType('plugin.places');
 

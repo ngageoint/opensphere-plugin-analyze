@@ -1,6 +1,12 @@
 goog.declareModuleId('coreui.chart.vega.interaction.BoxSelect');
 
+import AlertEventSeverity from 'opensphere/src/os/alert/alerteventseverity.js';
+import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import GlobalMenuEventType from 'opensphere/src/os/ui/globalmenueventtype.js';
+import Menu from 'opensphere/src/os/ui/menu/menu.js';
+import MenuItem from 'opensphere/src/os/ui/menu/menuitem.js';
+import MenuItemType from 'opensphere/src/os/ui/menu/menuitemtype.js';
 import {Charts} from '../base/charts.js';
 import {ChartType} from '../charttype.js';
 import {Model} from '../data/model.js';
@@ -8,16 +14,10 @@ import {Utils} from '../utils.js';
 import {AbstractInteraction} from './abstractinteraction.js';
 
 const dispose = goog.require('goog.dispose');
-const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
-const AlertManager = goog.require('os.alert.AlertManager');
-const GlobalMenuEventType = goog.require('os.ui.GlobalMenuEventType');
-const Menu = goog.require('os.ui.menu.Menu');
-const MenuItem = goog.require('os.ui.menu.MenuItem');
-const MenuItemType = goog.require('os.ui.menu.MenuItemType');
 
 const {VegaEvent} = goog.requireType('coreui.chart.vega.base.Event');
-const ColorBin = goog.requireType('os.data.histo.ColorBin');
-const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
+const {default: ColorBin} = goog.requireType('os.data.histo.ColorBin');
+const {default: MenuEvent} = goog.requireType('os.ui.menu.MenuEvent');
 
 
 /**

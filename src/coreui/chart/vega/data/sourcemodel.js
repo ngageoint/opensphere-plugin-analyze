@@ -1,7 +1,18 @@
 goog.declareModuleId('coreui.chart.vega.data.SourceModel');
 
+import * as osArray from 'opensphere/src/os/array/array.js';
+import * as osColor from 'opensphere/src/os/color.js';
+import ColorMethod from 'opensphere/src/os/data/histo/colormethod.js';
+import * as histo from 'opensphere/src/os/data/histo/histogramutils.js';
+import SelectionType from 'opensphere/src/os/events/selectiontype.js';
 import {getField, getFirstColor} from 'opensphere/src/os/feature/feature.js';
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import DateRangeBinType from 'opensphere/src/os/histo/daterangebintype.js';
+import {cloneMethod} from 'opensphere/src/os/histo/histo.js';
+import NumericBinMethod from 'opensphere/src/os/histo/numericbinmethod.js';
+import PropertyChange from 'opensphere/src/os/source/propertychange.js';
 import {toRgbaString} from 'opensphere/src/os/style/style.js';
+import {launchConfirmColor} from 'opensphere/src/os/ui/window/confirmcolor.js';
 import {getDefaultStats, getFeatureStats} from '../../chartstats.js';
 import {ClickContextEventType} from '../interaction/clickcontexteventtype';
 import {Model} from './model.js';
@@ -13,25 +24,14 @@ const GoogEventType = goog.require('goog.events.EventType');
 const log = goog.require('goog.log');
 const olEvents = goog.require('ol.events');
 const olObj = goog.require('ol.obj');
-const osArray = goog.require('os.array');
-const osColor = goog.require('os.color');
-const histo = goog.require('os.data.histo');
-const ColorMethod = goog.require('os.data.histo.ColorMethod');
-const SelectionType = goog.require('os.events.SelectionType');
-const {cloneMethod} = goog.require('os.histo');
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const DateRangeBinType = goog.require('os.histo.DateRangeBinType');
-const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
-const PropertyChange = goog.require('os.source.PropertyChange');
-const {launchConfirmColor} = goog.require('os.ui.window.ConfirmColorUI');
 const GoogEvent = goog.requireType('goog.events.Event');
 const olFeature = goog.requireType('ol.Feature');
-const ColorBin = goog.requireType('os.data.histo.ColorBin');
-const SourceHistogram = goog.requireType('os.data.histo.SourceHistogram');
-const PropertyChangeEvent = goog.requireType('os.events.PropertyChangeEvent');
-const IBinMethod = goog.requireType('os.histo.IBinMethod');
-const UniqueBinMethod = goog.requireType('os.histo.UniqueBinMethod');
-const VectorSource = goog.requireType('os.source.Vector');
+const {default: ColorBin} = goog.requireType('os.data.histo.ColorBin');
+const {default: SourceHistogram} = goog.requireType('os.data.histo.SourceHistogram');
+const {default: PropertyChangeEvent} = goog.requireType('os.events.PropertyChangeEvent');
+const {default: IBinMethod} = goog.requireType('os.histo.IBinMethod');
+const {default: UniqueBinMethod} = goog.requireType('os.histo.UniqueBinMethod');
+const {default: VectorSource} = goog.requireType('os.source.Vector');
 
 
 /**

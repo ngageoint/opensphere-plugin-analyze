@@ -1,7 +1,16 @@
 goog.declareModuleId('plugin.im.action.feature.ext.menu');
 
+import AlertEventSeverity from 'opensphere/src/os/alert/alerteventseverity.js';
+import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import * as action from 'opensphere/src/os/im/action/importaction.js';
+import ImportActionEvent from 'opensphere/src/os/im/action/importactionevent.js';
+import ImportActionEventType from 'opensphere/src/os/im/action/importactioneventtype.js';
+import ImportActionManager from 'opensphere/src/os/im/action/importactionmanager.js';
+import osImplements from 'opensphere/src/os/implements.js';
+import instanceOf from 'opensphere/src/os/instanceof.js';
 import {inIframe} from 'opensphere/src/os/os.js';
+import IImportSource from 'opensphere/src/os/source/iimportsource.js';
 import {getFilterColumns} from 'opensphere/src/os/source/source.js';
 import {ENTRY_TITLE} from 'opensphere/src/plugin/featureaction/featureaction.js';
 import {launchEditFeatureAction} from 'opensphere/src/plugin/featureaction/ui/index.js';
@@ -10,24 +19,15 @@ import * as countByMenu from '../../mist/menu/countbymenu.js';
 import * as CountByUI from '../../tools/ui/countby.js';
 import {EventType, Metrics} from './featureactionext.js';
 
-const action = goog.require('os.im.action');
-const AlertManager = goog.require('os.alert.AlertManager');
-const AlertEventSeverity = goog.require('os.alert.AlertEventSeverity');
 const {assert} = goog.require('goog.asserts');
 const googObject = goog.require('goog.object');
-const ImportActionEvent = goog.require('os.im.action.ImportActionEvent');
-const ImportActionEventType = goog.require('os.im.action.ImportActionEventType');
-const ImportActionManager = goog.require('os.im.action.ImportActionManager');
-const IImportSource = goog.require('os.source.IImportSource');
-const instanceOf = goog.require('os.instanceOf');
-const osImplements = goog.require('os.implements');
 
+const {default: ISource} = goog.requireType('os.source.ISource');
+const {default: IHistogramUI} = goog.requireType('os.ui.IHistogramUI');
+const {default: Menu} = goog.requireType('os.ui.menu.Menu');
+const {default: MenuEvent} = goog.requireType('os.ui.menu.MenuEvent');
+const {default: MenuItem} = goog.requireType('os.ui.menu.MenuItem');
 const {default: Entry} = goog.requireType('plugin.im.action.feature.Entry');
-const IHistogramUI = goog.requireType('os.ui.IHistogramUI');
-const ISource = goog.requireType('os.source.ISource');
-const Menu = goog.requireType('os.ui.menu.Menu');
-const MenuItem = goog.requireType('os.ui.menu.MenuItem');
-const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
 
 
 /**

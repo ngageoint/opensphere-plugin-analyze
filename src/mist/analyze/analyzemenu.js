@@ -1,12 +1,11 @@
 goog.declareModuleId('mist.analyze.menu');
 
+import Menu from 'opensphere/src/os/ui/menu/menu.js';
+import MenuItem from 'opensphere/src/os/ui/menu/menuitem.js';
+import MenuItemType from 'opensphere/src/os/ui/menu/menuitemtype.js';
 import {Analyze} from '../metrics/keys.js';
 import {openExternal, openInternal} from './analyze.js';
 import {AnalyzeEventType} from './eventtype.js';
-
-const Menu = goog.require('os.ui.menu.Menu');
-const MenuItem = goog.require('os.ui.menu.MenuItem');
-const MenuItemType = goog.require('os.ui.menu.MenuItemType');
 
 
 /**

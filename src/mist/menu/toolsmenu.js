@@ -1,28 +1,31 @@
 goog.declareModuleId('mist.menu.tools');
 
+import EventType from 'opensphere/src/os/action/eventtype.js';
 import {instanceOf} from 'opensphere/src/os/classregistry.js';
+import ColorMethod from 'opensphere/src/os/data/histo/colormethod.js';
 import {inIframe} from 'opensphere/src/os/os.js';
 import {isFilterable} from 'opensphere/src/os/source/source.js';
+import Vector from 'opensphere/src/os/source/vectorsource.js';
 import {toRgbaString} from 'opensphere/src/os/style/style.js';
+import {launchAddColumn} from 'opensphere/src/os/ui/data/addcolumn.js';
+import * as feature from 'opensphere/src/os/ui/menu/featuremenu.js';
 import {AnalyzeEventType} from '../analyze/eventtype.js';
 import {Analyze} from '../metrics/keys.js';
 
-const EventType = goog.require('os.action.EventType');
-const ColorMethod = goog.require('os.data.histo.ColorMethod');
-const {launchAddColumn} = goog.require('os.ui.data.AddColumnUI');
-const feature = goog.require('os.ui.menu.feature');
-const Vector = goog.require('os.source.Vector');
 const GoogEvent = goog.require('goog.events.Event');
 
-const Menu = goog.requireType('os.ui.menu.Menu');
-const MenuItem = goog.requireType('os.ui.menu.MenuItem');
-const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
-const IHistogramUI = goog.requireType('os.ui.IHistogramUI');
-const ColorBin = goog.requireType('os.data.histo.ColorBin');
-const OlFeature = goog.requireType('ol.Feature');
-const SourceHistogram = goog.requireType('os.data.histo.SourceHistogram');
-const {AbstractHistogramCtrl} = goog.requireType('tools.ui.AbstractHistogramCtrl');
 const {SourceModel} = goog.requireType('coreui.chart.vega.data.SourceModel');
+
+
+const OlFeature = goog.requireType('ol.Feature');
+const {default: ColorBin} = goog.requireType('os.data.histo.ColorBin');
+const {default: SourceHistogram} = goog.requireType('os.data.histo.SourceHistogram');
+const {default: IHistogramUI} = goog.requireType('os.ui.IHistogramUI');
+
+const {default: Menu} = goog.requireType('os.ui.menu.Menu');
+const {default: MenuEvent} = goog.requireType('os.ui.menu.MenuEvent');
+const {default: MenuItem} = goog.requireType('os.ui.menu.MenuItem');
+const {AbstractHistogramCtrl} = goog.requireType('tools.ui.AbstractHistogramCtrl');
 
 
 /**

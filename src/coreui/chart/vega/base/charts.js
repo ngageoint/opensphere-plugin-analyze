@@ -2,7 +2,7 @@ goog.declareModuleId('coreui.chart.vega.base.Charts');
 
 const {AbstractChart} = goog.requireType('coreui.chart.vega.base.AbstractChart');
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
-const MenuItem = goog.requireType('os.ui.menu.MenuItem');
+const {default: MenuItem} = goog.requireType('os.ui.menu.MenuItem');
 
 
 /**

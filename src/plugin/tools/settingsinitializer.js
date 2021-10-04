@@ -1,9 +1,8 @@
 goog.declareModuleId('plugin.tools.SettingsInitializer');
 
+import Settings from 'opensphere/src/os/config/settings.js';
+import AngularAppSettingsInitializer from 'opensphere/src/os/ui/config/angularappsettingsinitializer.js';
 import {getExports} from '../../mist/analyze/analyze.js';
-
-const Settings = goog.require('os.config.Settings');
-const AngularAppSettingsInitializer = goog.require('os.ui.config.AngularAppSettingsInitializer');
 
 
 /**

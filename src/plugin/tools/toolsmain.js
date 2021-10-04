@@ -1,9 +1,9 @@
 goog.declareModuleId('plugin.tools.ToolsMain');
 
-goog.require('os.ui.NgRightClickUI');
-goog.require('os.ui.util.AutoHeightUI');
-
+import 'opensphere/src/os/ui/ngrightclick.js';
+import 'opensphere/src/os/ui/util/autoheight.js';
 import {PiwikPlugin} from 'opensphere-plugin-geoint-viewer/src/plugin/piwik/piwikplugin.js';
+import PluginManager from 'opensphere/src/os/plugin/pluginmanager.js';
 import {ROOT} from '../../tools/tools.js';
 import {AbstractToolsMainCtrl} from '../../tools/ui/abstracttoolsctrl.js';
 import {Module} from '../../tools/ui/module.js';
@@ -13,7 +13,6 @@ import {PlacesPluginExt} from '../places/ext/placespluginext.js';
 import {TrackPlugin} from '../track/misttrackplugin.js';
 
 const log = goog.require('goog.log');
-const PluginManager = goog.require('os.plugin.PluginManager');
 
 const Logger = goog.requireType('goog.log.Logger');
 

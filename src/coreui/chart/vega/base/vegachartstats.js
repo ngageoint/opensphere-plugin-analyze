@@ -1,12 +1,12 @@
 goog.declareModuleId('coreui.chart.vega.base.stats');
 
+import {roundWithPrecision} from 'opensphere/src/os/math/math.js';
 import {measureText} from 'opensphere/src/os/ui/ui.js';
 import {StatType} from '../../chartstats.js';
 import {ChartType} from '../charttype.js';
 import {Utils} from '../utils.js';
 
-const {roundWithPrecision} = goog.require('os.math');
-
+const {VegaOptions} = goog.requireType('coreui.chart.vega.VegaOptions');
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 
 
@@ -111,11 +111,11 @@ const nanLabel = 'Not a Number';
 
 /**
  * If a chart supports statistics.
- * @param {bitsx.vega.Options} options The chart options.
+ * @param {VegaOptions} options The chart options.
  * @return {boolean}
  */
-export const supportsStats = (options) => options && (options.type === ChartType.BAR || options.type === ChartType
-    .LINE);
+export const supportsStats = (options) => !!options &&
+    (options.type === ChartType.BAR || options.type === ChartType.LINE);
 
 
 

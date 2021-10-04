@@ -1,17 +1,16 @@
 goog.declareModuleId('tools.ui.nav.ToolsNavUI');
 
+import '../../coreui/layout/layouttabs.js';
 import './alltimecheckbox.js';
 import './layoutbutton.js';
 import './sourceswitcher.js';
-import '../../coreui/layout/layouttabs.js';
-
+import {add} from 'opensphere/src/os/ui/list.js';
 import {ROOT} from '../tools.js';
 import {Module} from './module.js';
 import {Event as NavEvent, Location} from './toolsnav.js';
 
 const Disposable = goog.require('goog.Disposable');
-const ISource = goog.requireType('os.source.ISource');
-const {add} = goog.require('os.ui.list');
+const {default: ISource} = goog.requireType('os.source.ISource');
 
 
 /**

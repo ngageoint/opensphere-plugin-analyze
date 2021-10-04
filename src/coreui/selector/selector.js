@@ -1,8 +1,7 @@
 goog.declareModuleId('coreui.selector.SelectorUI');
 
+import Module from 'opensphere/src/os/ui/module.js';
 import {ROOT} from '../../tools/tools.js';
-
-const Module = goog.require('os.ui.Module');
 
 
 /**

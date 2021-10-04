@@ -1,11 +1,19 @@
 goog.declareModuleId('tools.ui.CountByUI');
 
-goog.require('os.ui.UISwitchUI');
-goog.require('os.ui.slick.SlickGridUI');
-
+import 'opensphere/src/os/ui/slick/slickgrid.js';
+import 'opensphere/src/os/ui/uiswitch.js';
+import OSEventType from 'opensphere/src/os/action/eventtype.js';
 import {registerClass} from 'opensphere/src/os/classregistry.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import DateRangeBinType from 'opensphere/src/os/histo/daterangebintype.js';
+import Metrics from 'opensphere/src/os/metrics/metrics.js';
 import {isOSX} from 'opensphere/src/os/os.js';
+import * as osUiMenuList from 'opensphere/src/os/ui/menu/listmenu.js';
+import MenuEvent from 'opensphere/src/os/ui/menu/menuevent.js';
+import * as osUiSlickColumn from 'opensphere/src/os/ui/slick/column.js';
+import * as formatter from 'opensphere/src/os/ui/slick/formatter.js';
+import SlickGridEvent from 'opensphere/src/os/ui/slick/slickgridevent.js';
 import {MODAL_SELECTOR, apply} from 'opensphere/src/os/ui/ui.js';
 import {isActiveComponent} from '../../coreui/layout/layout.js';
 import * as CountByMenu from '../../mist/menu/countbymenu.js';
@@ -17,22 +25,14 @@ import * as CountByContainerUI from './countbycontainer.js';
 import {CountByEventType} from './countbyremovecascade.js';
 import {Module} from './module.js';
 
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const DateRangeBinType = goog.require('os.histo.DateRangeBinType');
-const KeyCodes = goog.require('goog.events.KeyCodes');
-const Metrics = goog.require('os.metrics.Metrics');
-const MenuEvent = goog.require('os.ui.menu.MenuEvent');
-const OSEventType = goog.require('os.action.EventType');
-const SlickGridEvent = goog.require('os.ui.slick.SlickGridEvent');
 const array = goog.require('goog.array');
 const asserts = goog.require('goog.asserts');
-const formatter = goog.require('os.ui.slick.formatter');
+const KeyCodes = goog.require('goog.events.KeyCodes');
 const log = goog.require('goog.log');
-const osUiMenuList = goog.require('os.ui.menu.list');
-const osUiSlickColumn = goog.require('os.ui.slick.column');
+const {default: ColumnDefinition} = goog.requireType('os.data.ColumnDefinition');
 
-const ColorBin = goog.requireType('os.data.histo.ColorBin');
-const ColumnDefinition = goog.requireType('os.data.ColumnDefinition');
+
+const {default: ColorBin} = goog.requireType('os.data.histo.ColorBin');
 
 
 /**

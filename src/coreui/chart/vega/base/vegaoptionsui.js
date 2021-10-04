@@ -1,9 +1,18 @@
 goog.declareModuleId('coreui.chart.vega.base.VegaOptionsUI');
 
-goog.require('os.ui.UISwitchUI');
-
+import 'opensphere/src/os/ui/uiswitch.js';
+import RecordField from 'opensphere/src/os/data/recordfield.js';
 import * as dispatcher from 'opensphere/src/os/dispatcher.js';
+import BinMethod from 'opensphere/src/os/histo/binmethod.js';
+import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
+import NumericBinMethod from 'opensphere/src/os/histo/numericbinmethod.js';
+import UniqueBinMethod from 'opensphere/src/os/histo/uniquebinmethod.js';
+import Metrics from 'opensphere/src/os/metrics/metrics.js';
+import GlobalMenuEventType from 'opensphere/src/os/ui/globalmenueventtype.js';
+import Module from 'opensphere/src/os/ui/module.js';
 import * as ui from 'opensphere/src/os/ui/ui.js';
+import UISwitchEventType from 'opensphere/src/os/ui/uiswitcheventtype.js';
+import DataType from 'opensphere/src/os/xsd.js';
 import {ROOT} from '../../../../tools/tools.js';
 import * as statsmenu from '../../chartstatsmenu.js';
 import {ChartType} from '../charttype.js';
@@ -13,20 +22,11 @@ import * as stats from './vegachartstats.js';
 const Disposable = goog.require('goog.Disposable');
 const dispose = goog.require('goog.dispose');
 const GoogEventType = goog.require('goog.events.EventType');
-const RecordField = goog.require('os.data.RecordField');
-const BinMethod = goog.require('os.histo.BinMethod');
-const DateBinMethod = goog.require('os.histo.DateBinMethod');
-const NumericBinMethod = goog.require('os.histo.NumericBinMethod');
-const UniqueBinMethod = goog.require('os.histo.UniqueBinMethod');
-const Metrics = goog.require('os.metrics.Metrics');
-const GlobalMenuEventType = goog.require('os.ui.GlobalMenuEventType');
-const Module = goog.require('os.ui.Module');
-const UISwitchEventType = goog.require('os.ui.UISwitchEventType');
-const DataType = goog.require('os.xsd.DataType');
 
 const GoogEvent = goog.requireType('goog.events.EventType');
-const IBinMethod = goog.requireType('os.histo.IBinMethod');
-const Menu = goog.requireType('os.ui.menu.Menu');
+const {VegaOptions} = goog.requireType('coreui.chart.vega.VegaOptions');
+const {default: IBinMethod} = goog.requireType('os.histo.IBinMethod');
+const {default: Menu} = goog.requireType('os.ui.menu.Menu');
 
 
 /**
@@ -165,8 +165,8 @@ class Controller extends Disposable {
 
   /**
    * Handle change to scope options.
-   * @param {bitsx.vega.Options} newVal The new options.
-   * @param {bitsx.vega.Options} oldVal The old options.
+   * @param {VegaOptions} newVal The new options.
+   * @param {VegaOptions} oldVal The old options.
    * @protected
    */
   onOptionsChange(newVal, oldVal) {
@@ -176,7 +176,7 @@ class Controller extends Disposable {
     this['binStatMenu'] = null;
     this['dataStatMenu'] = null;
 
-    const options = /** @type {bitsx.vega.Options} */ (newVal);
+    const options = /** @type {VegaOptions} */ (newVal);
     if (options) {
       if (stats.supportsStats(options)) {
         options.binStats = options.binStats || {};
@@ -206,7 +206,7 @@ class Controller extends Disposable {
   }
 
   /**
-   * @param {!bitsx.vega.Options} options The chart options.
+   * @param {!VegaOptions} options The chart options.
    * @export
    */
   setChart(options) {
@@ -382,7 +382,7 @@ class Controller extends Disposable {
     if (menu && !menu.isOpen() && event && event.target) {
       // determine the appropriate menu context
       let context;
-      const options = /** @type {bitsx.vega.Options} */ (this.scope['options']);
+      const options = /** @type {VegaOptions} */ (this.scope['options']);
       if (options) {
         if (menu === this['dataStatMenu']) {
           context = options.dataStats;

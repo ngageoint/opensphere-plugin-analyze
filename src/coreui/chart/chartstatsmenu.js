@@ -1,12 +1,11 @@
 goog.declareModuleId('coreui.chart.statsmenu');
 
+import Menu from 'opensphere/src/os/ui/menu/menu.js';
+import MenuItem from 'opensphere/src/os/ui/menu/menuitem.js';
+import MenuItemType from 'opensphere/src/os/ui/menu/menuitemtype.js';
 import {StatType, StatTitle} from './chartstats.js';
 
-const Menu = goog.require('os.ui.menu.Menu');
-const MenuItem = goog.require('os.ui.menu.MenuItem');
-const MenuItemType = goog.require('os.ui.menu.MenuItemType');
-
-const MenuEvent = goog.requireType('os.ui.menu.MenuEvent');
+const {default: MenuEvent} = goog.requireType('os.ui.menu.MenuEvent');
 
 
 /**

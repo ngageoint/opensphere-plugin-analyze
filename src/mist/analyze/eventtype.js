@@ -1,6 +1,6 @@
 goog.declareModuleId('mist.analyze.EventType');
 
-const EventType = goog.require('os.action.EventType');
+import EventType from 'opensphere/src/os/action/eventtype.js';
 
 
 /**

@@ -1,6 +1,7 @@
 goog.declareModuleId('plugin.places.PlacesPluginExt');
 
 import {isMainWindow} from 'opensphere/src/os/os.js';
+import AbstractPlugin from 'opensphere/src/os/plugin/abstractplugin.js';
 import {addFolder, addPlace, saveFromSource} from 'opensphere/src/plugin/places/places.js';
 import PlacesManager from 'opensphere/src/plugin/places/placesmanager.js';
 import {launchSavePlaces} from 'opensphere/src/plugin/places/ui/launchsaveplaces.js';
@@ -8,7 +9,6 @@ import {exportSymbol} from '../../../mist/analyze/analyze.js';
 import {restoreExports} from './placesext.js';
 import {listDispose, listSetup} from './placesmenuext.js';
 
-const AbstractPlugin = goog.require('os.plugin.AbstractPlugin');
 const log = goog.require('goog.log');
 
 const Logger = goog.requireType('goog.log.Logger');
