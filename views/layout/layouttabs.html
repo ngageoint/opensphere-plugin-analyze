@@ -2,7 +2,7 @@
   <div class="d-flex ml-1 flex-fill js-layout-tabs">
     <ul class="nav nav-tabs border-0 flex-shrink-0">
       <li class="nav-item c-layout-tab js-layout-tab" ng-repeat="config in layoutTabsCtrl.tabs" title="{{config.title}}">
-        <a href class="nav-link d-flex c-layout-tab-link" ng-class="(config.active ? 'active' : '') + ' ' + config.tabClass" ng-click="layoutTabsCtrl.setTab(config)" ng-right-click="layoutTabsCtrl.openMenu($event, config)">
+        <a href="" class="nav-link d-flex c-layout-tab-link" ng-class="(config.active ? 'active' : '') + ' ' + config.tabClass" ng-click="layoutTabsCtrl.setTab(config)" ng-right-click="layoutTabsCtrl.openMenu($event, config)">
           <div class="text-truncate flex-fill">
             {{config.title}}
           </div>
