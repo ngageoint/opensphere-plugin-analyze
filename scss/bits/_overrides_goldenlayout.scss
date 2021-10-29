@@ -2,13 +2,11 @@ $goldenlayout-control-font-size: .75rem !default;
 $goldenlayout-hidden-tabs-opacity: .98;
 $goldenlayout-hidden-tabs-height: 19px;
 
-
 // Allows the compontents to be full size and the header is inside the layout rather than on top of
 // Requirements: set headerHeight to 0
 // Only tested with no tab support
 .c-goldenlayout__simple-drag .lm_dragProxy,
 .c-goldenlayout__hidden-tabs {
-
   .lm_item.lm_stack {
     position: relative;
 
@@ -88,7 +86,6 @@ $goldenlayout-hidden-tabs-height: 19px;
     }
   }
 }
-
 
 // Override the drag proxy to be better
 .c-goldenlayout__simple-drag .lm_dragProxy {
