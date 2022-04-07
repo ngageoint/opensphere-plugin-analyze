@@ -26,7 +26,6 @@ import GeoJSONParser from 'opensphere/src/plugin/file/geojson/geojsonparser.js';
 const googEventType = goog.require('goog.net.EventType');
 const googEvent = goog.requireType('goog.events.Event');
 
-const Feature = goog.requireType('ol.Feature');
 const {default: OGCFilterModifierOptions} = goog.requireType('os.ogc.filter.OGCFilterModifierOptions');
 
 

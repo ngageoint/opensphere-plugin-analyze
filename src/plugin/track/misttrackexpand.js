@@ -8,7 +8,6 @@ import WindowEventType from 'opensphere/src/os/ui/windoweventtype.js';
 import {ROOT} from '../../tools/tools.js';
 import {requestTrack} from './misttrackquery.js';
 
-const Feature = goog.requireType('ol.Feature');
 const {default: ITime} = goog.requireType('os.time.ITime');
 
 

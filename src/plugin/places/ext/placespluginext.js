@@ -12,8 +12,6 @@ import {listDispose, listSetup} from './placesmenuext.js';
 const log = goog.require('goog.log');
 
 const Logger = goog.requireType('goog.log.Logger');
-const OlFeature = goog.requireType('ol.Feature');
-
 
 /**
  * Logger.

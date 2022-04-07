@@ -16,8 +16,6 @@ const GoogEvent = goog.require('goog.events.Event');
 
 const {SourceModel} = goog.requireType('coreui.chart.vega.data.SourceModel');
 
-
-const OlFeature = goog.requireType('ol.Feature');
 const {default: ColorBin} = goog.requireType('os.data.histo.ColorBin');
 const {default: SourceHistogram} = goog.requireType('os.data.histo.SourceHistogram');
 const {default: IHistogramUI} = goog.requireType('os.ui.IHistogramUI');

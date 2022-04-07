@@ -30,7 +30,6 @@ const Uri = goog.require('goog.Uri');
 const log = goog.require('goog.log');
 const {getValueByKeys} = goog.require('goog.object');
 const Logger = goog.requireType('goog.log.Logger');
-const Feature = goog.requireType('ol.Feature');
 const {default: ILayer} = goog.requireType('os.layer.ILayer');
 const {default: IFeatureType} = goog.requireType('os.ogc.IFeatureType');
 
