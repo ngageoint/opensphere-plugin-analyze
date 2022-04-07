@@ -2,6 +2,8 @@ goog.declareModuleId('tools.ui.AbstractHistogramCtrl');
 
 import '../../mist/ui/data/datebin.js';
 import '../../mist/ui/data/numericbin.js';
+
+import {listen as olListen, unlistenByKey as olUnlistenByKey} from 'ol/src/events';
 import Settings from 'opensphere/src/os/config/settings.js';
 import {HistoEventType} from 'opensphere/src/os/data/histo/histogramutils.js';
 import SelectionType from 'opensphere/src/os/events/selectiontype.js';
@@ -13,7 +15,6 @@ import NumericBinMethod from 'opensphere/src/os/histo/numericbinmethod.js';
 import Metrics from 'opensphere/src/os/metrics/metrics.js';
 import PropertyChange from 'opensphere/src/os/source/propertychange.js';
 import {OFFSET_KEY} from 'opensphere/src/os/time/time.js';
-import IHistogramUI from 'opensphere/src/os/ui/ihistogramctrl.js';// eslint-disable-line
 import {COLOR_ID, findByField, numerateNameCompare} from 'opensphere/src/os/ui/slick/column.js';
 import SlickGridEvent from 'opensphere/src/os/ui/slick/slickgridevent.js';
 import {apply} from 'opensphere/src/os/ui/ui.js';
@@ -23,6 +24,8 @@ import {AbstractComponentCtrl} from '../../coreui/layout/abstractcomponentctrl.j
 import * as ToolsMenu from '../../mist/menu/toolsmenu.js';
 import {Analyze as AnalyzeKeys} from '../../mist/metrics/keys.js';
 
+// eslint-disable-line
+
 const Delay = goog.require('goog.async.Delay');
 const {getDocument} = goog.require('goog.dom');
 const {listen: googListen, unlisten: googUnlisten} = goog.require('goog.events');
@@ -31,7 +34,7 @@ const KeyEvent = goog.require('goog.events.KeyEvent');
 const KeyHandler = goog.require('goog.events.KeyHandler');
 const log = goog.require('goog.log');
 const {containsValue} = goog.require('goog.object');
-const {listen: olListen, unlisten: olUnlisten} = goog.require('ol.events');
+
 
 const BrowserEvent = goog.requireType('goog.events.BrowserEvent');
 const Event = goog.requireType('goog.events.Event');
@@ -127,6 +130,8 @@ export class AbstractHistogramCtrl extends AbstractComponentCtrl {
      * @protected
      */
     this.cascades = {};
+
+    this.listenKey = null;
 
     /**
      * Keyboard event handler.
@@ -573,7 +578,9 @@ export class AbstractHistogramCtrl extends AbstractComponentCtrl {
   onSourceSwitch(newVal, oldVal) {
     // oldVal === newVal on directive initialization, so none of this will be set up yet
     if (oldVal && oldVal !== newVal) {
-      olUnlisten(oldVal, EventType.PROPERTYCHANGE, this.onSourceChange, this);
+      if (this.listenKey != null) {
+        olUnlistenByKey(this.listenKey);
+      }
 
       // cache settings for each source so they're remembered across source changes
       this.configMap[this.source.getId()] = this.persist();
@@ -586,7 +593,7 @@ export class AbstractHistogramCtrl extends AbstractComponentCtrl {
     this.updateColumns();
 
     if (newVal && !this.isDisposed()) {
-      olListen(newVal, EventType.PROPERTYCHANGE, this.onSourceChange, this);
+      this.listenKey = olListen(newVal, EventType.PROPERTYCHANGE, this.onSourceChange, this);
 
       var parent = this.getParent();
       if (parent) {

@@ -1,5 +1,6 @@
 goog.declareModuleId('coreui.chart.vega.opsclock.Opsclock');
 
+import {isEmpty} from 'ol/src/obj.js';
 import DateBinMethod from 'opensphere/src/os/histo/datebinmethod.js';
 import DateBinType from 'opensphere/src/os/histo/datebintype.js';
 import UniqueBinMethod from 'opensphere/src/os/histo/uniquebinmethod.js';
@@ -13,8 +14,6 @@ import {DragSelect} from '../interaction/dragselect.js';
 import {Hover} from '../interaction/hover.js';
 import {Utils} from '../utils.js';
 import {OpsclockSpecHandler} from './opsclockspec.js';
-
-const olObj = goog.require('ol.obj');
 
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
 const {default: ColorBin} = goog.requireType('os.data.histo.ColorBin');
@@ -152,7 +151,7 @@ export class Opsclock extends AbstractChart {
    * @inheritDoc
    */
   updateData() {
-    if (this.view != null && !olObj.isEmpty(this.model.series)) {
+    if (this.view != null && !isEmpty(this.model.series)) {
       this.data = this.model.getBins().sort(function(a, b) {
         return a['key'] - b['key'];
       });

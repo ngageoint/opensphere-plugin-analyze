@@ -1,5 +1,6 @@
 goog.declareModuleId('plugin.mist.track.menu');
 
+import Feature from 'ol/src/Feature.js';
 import AlertEventSeverity from 'opensphere/src/os/alert/alerteventseverity.js';
 import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
 import {createFilter, filterValidControllers} from 'opensphere/src/os/data/histo/histogramutils.js';
@@ -33,7 +34,6 @@ import {Keys} from './misttrackmetrics.js';
 import {checkQueryTrack, requestTrack} from './misttrackquery.js';
 
 const {assert} = goog.require('goog.asserts');
-const Feature = goog.require('ol.Feature');
 const {default: ILayer} = goog.requireType('os.layer.ILayer');
 const {default: ISource} = goog.requireType('os.source.ISource');
 const {default: CreateOptions} = goog.requireType('os.track.CreateOptions');

@@ -2,6 +2,8 @@ goog.declareModuleId('tools.ui.ListToolUI');
 
 import 'opensphere/src/os/ui/slider.js';
 import 'opensphere/src/os/ui/sourcegrid.js';
+
+import {listen as olListen, unlistenByKey as olUnlistenByKey} from 'ol/src/events';
 import ActionEventType from 'opensphere/src/os/action/eventtype.js';
 import * as Dispatcher from 'opensphere/src/os/dispatcher.js';
 import SelectionType from 'opensphere/src/os/events/selectiontype.js';
@@ -28,7 +30,6 @@ const KeyCodes = goog.require('goog.events.KeyCodes');
 const KeyEvent = goog.require('goog.events.KeyEvent');
 const KeyHandler = goog.require('goog.events.KeyHandler');
 const {containsValue} = goog.require('goog.object');
-const {listen: olListen, unlisten: olUnlisten} = goog.require('ol.events');
 
 const GoogEvent = goog.requireType('goog.events.Event');
 const {default: PropertyChangeEvent} = goog.requireType('os.events.PropertyChangeEvent');
@@ -120,6 +121,8 @@ export class Controller extends AbstractComponentCtrl {
      */
     this.searchDelay_ = new Delay(this.onSearch_, 100, this);
 
+    this.listenKey = null;
+
     /**
      * Keyboard event handler.
      * @type {KeyHandler|undefined}
@@ -175,14 +178,14 @@ export class Controller extends AbstractComponentCtrl {
    * @param {VectorSource} oldVal
    */
   onSourceSwitch(newVal, oldVal) {
-    if (oldVal && newVal !== oldVal) {
-      olUnlisten(oldVal, GoogEventType.PROPERTYCHANGE, this.onSourceChange_, this);
+    if (oldVal && newVal !== oldVal && this.listenKey != null) {
+      olUnlistenByKey(this.listenKey);
     }
 
     this.source_ = newVal;
 
     if (newVal) {
-      olListen(newVal, GoogEventType.PROPERTYCHANGE, this.onSourceChange_, this);
+      this.listenKey = olListen(newVal, GoogEventType.PROPERTYCHANGE, this.onSourceChange_, this);
     }
   }
 

@@ -1,11 +1,10 @@
 goog.declareModuleId('mist.mixin.vectorsource');
 
+import OlFeature from 'ol/src/Feature.js';
+import SimpleGeom from 'ol/src/geom/SimpleGeometry.js';
 import PropertyChangeEvent from 'opensphere/src/os/events/propertychangeevent.js';
 import instanceOf from 'opensphere/src/os/instanceof.js';
 import Vector from 'opensphere/src/os/source/vectorsource.js';
-const OlFeature = goog.require('ol.Feature');
-const SimpleGeom = goog.require('ol.geom.SimpleGeometry');
-
 
 /**
  * Key used to save the show in analyze state to layer config.

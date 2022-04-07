@@ -1,7 +1,6 @@
 goog.declareModuleId('tools.ui.SourceSwitcherUI');
 
 goog.require('goog.events.EventType');
-goog.require('ol.events');
 
 import SourceManager from 'opensphere/src/os/data/sourcemanager.js';
 import {isEnabled, isVisible, titleCompare} from 'opensphere/src/os/source/source.js';

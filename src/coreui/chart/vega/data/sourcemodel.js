@@ -1,5 +1,7 @@
 goog.declareModuleId('coreui.chart.vega.data.SourceModel');
 
+import {listen, unlistenByKey} from 'ol/src/events.js';
+import {isEmpty} from 'ol/src/obj.js';
 import * as osArray from 'opensphere/src/os/array/array.js';
 import * as osColor from 'opensphere/src/os/color.js';
 import ColorMethod from 'opensphere/src/os/data/histo/colormethod.js';
@@ -22,10 +24,7 @@ const Throttle = goog.require('goog.async.Throttle');
 const dispose = goog.require('goog.dispose');
 const GoogEventType = goog.require('goog.events.EventType');
 const log = goog.require('goog.log');
-const olEvents = goog.require('ol.events');
-const olObj = goog.require('ol.obj');
 const GoogEvent = goog.requireType('goog.events.Event');
-const olFeature = goog.requireType('ol.Feature');
 const {default: ColorBin} = goog.requireType('os.data.histo.ColorBin');
 const {default: SourceHistogram} = goog.requireType('os.data.histo.SourceHistogram');
 const {default: PropertyChangeEvent} = goog.requireType('os.events.PropertyChangeEvent');
@@ -114,7 +113,7 @@ export class SourceModel extends Model {
       }.bind(this);
     }
 
-    olEvents.listen(this.source, GoogEventType.PROPERTYCHANGE, this.onSourceChange_, this);
+    this.listenKey = listen(this.source, GoogEventType.PROPERTYCHANGE, this.onSourceChange_, this);
   }
 
   /**
@@ -128,7 +127,7 @@ export class SourceModel extends Model {
     dispose(this.highlightItemsDelay_);
     dispose(this.rebuildBinsDelay_);
 
-    olEvents.unlisten(this.source, GoogEventType.PROPERTYCHANGE, this.onSourceChange_, this);
+    unlistenByKey(this.listenKey);
     this.source = null;
   }
 
@@ -477,7 +476,7 @@ export class SourceModel extends Model {
       const bin = this.bins[key];
       if (!bin) continue; // skip this iteration
 
-      const series = (!olObj.isEmpty(this.series)) ?
+      const series = (!isEmpty(this.series)) ?
         this.series[key] :
         null;
       const method = (series) /** @type {UniqueBinMethod} */ ?
@@ -527,7 +526,7 @@ export class SourceModel extends Model {
    * @suppress {accessControls, checkTypes} To allow direct access to feature metadata.
    */
   collectSourceBins_(mapEm, opt_features) {
-    if (!olObj.isEmpty(this.series)) {
+    if (!isEmpty(this.series)) {
       // create a map of bin key to bin
       const binMap = /** @type {Map<number|string, ColorBin>} */ (new Map());
       const series = this.series[this.seriesKeys[0]];
@@ -615,7 +614,7 @@ export class SourceModel extends Model {
    * @private
    */
   highlightItems_(bins) {
-    if (!olObj.isEmpty(this.bins)) {
+    if (!isEmpty(this.bins)) {
       // remove all highlight
       const len = this.bins[this.seriesKeys[0]] ? this.bins[this.seriesKeys[0]].length : 0;
 

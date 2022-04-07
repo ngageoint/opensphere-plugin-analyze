@@ -1,5 +1,6 @@
 goog.declareModuleId('mist.analyze');
 
+import GeoJSON from 'ol/src/format/GeoJSON.js';
 import AlertManager from 'opensphere/src/os/alert/alertmanager.js';
 import * as buffer from 'opensphere/src/os/buffer/buffer.js';
 import CommandProcessor from 'opensphere/src/os/command/commandprocessor.js';
@@ -33,11 +34,9 @@ import Peer from 'opensphere/src/os/xt/peer.js';
 import {ComponentManager} from '../../coreui/layout/componentmanager.js';
 
 const googLog = goog.require('goog.log');
-const GeoJSON = goog.require('ol.format.GeoJSON');
 
 const Uri = goog.requireType('goog.Uri');
 const EventTarget = goog.requireType('goog.events.EventTarget');
-const Feature = goog.requireType('ol.Feature');
 const {default: CrossOrigin} = goog.requireType('os.net.CrossOrigin');
 
 
