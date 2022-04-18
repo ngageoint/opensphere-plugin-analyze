@@ -12,7 +12,7 @@ import {setIMapContainer, setMapContainer} from 'opensphere/src/os/map/mapinstan
 import MapContainer from 'opensphere/src/os/mapcontainer.js';
 import Metrics from 'opensphere/src/os/metrics/metrics.js';
 import {getCrossOrigin, setGetCrossOriginFn} from 'opensphere/src/os/net/net.js';
-import {getParentWindow} from 'opensphere/src/os/os.js';
+import {getParentWindow, ROOT as osROOT, APP_ROOT} from 'opensphere/src/os/os.js';
 import AreaManager from 'opensphere/src/os/query/areamanager.js';
 import FilterManager from 'opensphere/src/os/query/filtermanager.js';
 import {setAreaManager, setFilterManager, setQueryManager} from 'opensphere/src/os/query/queryinstance.js';
@@ -46,10 +46,17 @@ const {default: CrossOrigin} = goog.requireType('os.net.CrossOrigin');
  */
 export const EXPORT_PROPERTY = '_mistExports';
 
+let appRoot = osROOT;
+if (appRoot == '../opensphere/') {
+  appRoot = '../opensphere-plugin-analyze/';
+} else {
+  appRoot = APP_ROOT;
+}
+
 /**
  * @define {string} The base path to tools.html.
  */
-export const TOOLS_PATH = goog.define('mist.analyze.TOOLS_PATH', '../opensphere-plugin-analyze/');
+export const TOOLS_PATH = appRoot;
 
 /**
  * Selector for the Analyze app.
