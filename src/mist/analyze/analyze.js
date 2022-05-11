@@ -50,7 +50,7 @@ let appRoot = osROOT;
 if (appRoot == '../opensphere/') {
   appRoot = '../opensphere-plugin-analyze/';
 } else {
-  appRoot = APP_ROOT;
+  appRoot = APP_ROOT + '../';
 }
 
 /**
