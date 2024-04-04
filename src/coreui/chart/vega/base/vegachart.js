@@ -24,8 +24,8 @@ import {isActiveComponent} from '../../../layout/layout.js';
 import {ChartDispatcher} from '../chartdispatcher.js';
 import {ChartRegistry} from '../chartregistry.js';
 import {DEFAULT_CHART} from '../charttype.js';
-import {Model} from '../data/model';
-import {SourceModel} from '../data/sourcemodel';
+import {Model} from '../data/model.js';
+import {SourceModel} from '../data/sourcemodel.js';
 import {ChartManager} from './chartmanager.js';
 import {EventType} from './eventtype.js';
 

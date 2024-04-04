@@ -14,7 +14,7 @@ import PropertyChange from 'opensphere/src/os/source/propertychange.js';
 import {toRgbaString} from 'opensphere/src/os/style/style.js';
 import {launchConfirmColor} from 'opensphere/src/os/ui/window/confirmcolor.js';
 import {getDefaultStats, getFeatureStats} from '../../chartstats.js';
-import {ClickContextEventType} from '../interaction/clickcontexteventtype';
+import {ClickContextEventType} from '../interaction/clickcontexteventtype.js';
 import {Model} from './model.js';
 
 const Debouncer = goog.require('goog.async.Debouncer');

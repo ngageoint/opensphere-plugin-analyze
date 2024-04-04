@@ -1,6 +1,6 @@
 goog.declareModuleId('coreui.chart.vega.bar.BarSpecHandler');
 
-import {SpecHandler} from '../base/spechandler';
+import {SpecHandler} from '../base/spechandler.js';
 
 
 /**
