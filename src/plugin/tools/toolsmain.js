@@ -2,8 +2,8 @@ goog.declareModuleId('plugin.tools.ToolsMain');
 
 import 'opensphere/src/os/ui/ngrightclick.js';
 import 'opensphere/src/os/ui/util/autoheight.js';
-import {PiwikPlugin} from 'opensphere-plugin-geoint-viewer/src/plugin/piwik/piwikplugin.js';
 import PluginManager from 'opensphere/src/os/plugin/pluginmanager.js';
+import {PiwikPlugin} from 'opensphere-plugin-geoint-viewer/src/plugin/piwik/piwikplugin.js';
 import {ROOT} from '../../tools/tools.js';
 import {AbstractToolsMainCtrl} from '../../tools/ui/abstracttoolsctrl.js';
 import {Module} from '../../tools/ui/module.js';

@@ -1,14 +1,14 @@
 goog.declareModuleId('coreui.chart.vega.bar.Bar');
 
 import osActionEventType from 'opensphere/src/os/action/eventtype.js';
-import {AbstractChart} from '../base/abstractchart';
+import {AbstractChart} from '../base/abstractchart.js';
 import {ChartType} from '../charttype.js';
-import {SourceModel} from '../data/sourcemodel';
-import {BoxSelect} from '../interaction/boxselect';
-import {ClickContext} from '../interaction/clickcontext';
-import {ClickContextEventType} from '../interaction/clickcontexteventtype';
-import {ClickSelect} from '../interaction/clickselect';
-import {Hover} from '../interaction/hover';
+import {SourceModel} from '../data/sourcemodel.js';
+import {BoxSelect} from '../interaction/boxselect.js';
+import {ClickContext} from '../interaction/clickcontext.js';
+import {ClickContextEventType} from '../interaction/clickcontexteventtype.js';
+import {ClickSelect} from '../interaction/clickselect.js';
+import {Hover} from '../interaction/hover.js';
 import {BarSpecHandler} from './barspec.js';
 
 const {Model} = goog.requireType('coreui.chart.vega.data.Model');
